@@ -14,6 +14,7 @@ var reactions: Array[ReactionRule] = []
 var memories: Dictionary = {}         # StringName -> MemorySceneData
 var messages: Array[IncomingMessage] = []
 var upgrades: Dictionary = {}         # StringName -> UpgradeData
+var scopes: Dictionary = {}           # StringName -> ScopeData
 
 
 func _ready() -> void:
@@ -28,6 +29,7 @@ func _load_all() -> void:
 	_load_dir("touch_spots", touch_spots, "id")
 	_load_dir("memories", memories, "id")
 	_load_dir("upgrades", upgrades, "id")
+	_load_dir("scopes", scopes, "id")
 	_load_dir_array("reactions", reactions)
 	_load_dir_array("messages", messages)
 
@@ -102,6 +104,9 @@ func get_memory(id: StringName) -> MemorySceneData:
 
 func get_upgrade(id: StringName) -> UpgradeData:
 	return upgrades.get(id)
+
+func get_scope(id: StringName) -> ScopeData:
+	return scopes.get(id)
 
 func get_all_operators() -> Array:
 	return operators.values()

@@ -36,5 +36,7 @@ TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…
 TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s
 TOAST_TOUCH_GATED,まだ無理だ…,Not yet…
 TOAST_INSPECTION_COOLDOWN,検査は時間を置く必要がある,Inspection is on cooldown
+TOAST_SCOPE_NO_BATTERY,眼鏡のバッテリーが切れている,Scope battery depleted
 ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection
 ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s)
+ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope

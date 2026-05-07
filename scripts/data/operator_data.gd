@@ -12,3 +12,4 @@ extends Resource
 @export var unlock_cost: int = 0
 @export var portrait_idle: Texture2D
 @export var portrait_expressions: Dictionary = {}
+@export var xray_detection_rate: float = 1.0   # 紳士眼鏡で気付かれる速度倍率
