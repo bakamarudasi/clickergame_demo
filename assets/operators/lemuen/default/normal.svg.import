@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lemuendefpose00"
-path="res://.godot/imported/lemuen_default_pose.svg-default.ctex"
+uid="uid://lemuendefault00"
+path="res://.godot/imported/normal.svg-lemuen_default.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/operators/lemuen_default_pose.svg"
-dest_files=["res://.godot/imported/lemuen_default_pose.svg-default.ctex"]
+source_file="res://assets/operators/lemuen/default/normal.svg"
+dest_files=["res://.godot/imported/normal.svg-lemuen_default.ctex"]
 
 [params]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/data/operator_data.gd" id="1_op"]
 [ext_resource type="Script" path="res://scripts/data/trust_stage_data.gd" id="2_stage"]
-[ext_resource type="Texture2D" uid="uid://lemuendefault00" path="res://assets/operators/lemuen_default.svg" id="3_idle"]
+[ext_resource type="Texture2D" uid="uid://lemuendefault00" path="res://assets/operators/lemuen/default/normal.svg" id="3_idle"]
 
 [sub_resource type="Resource" id="stage_0"]
 script = ExtResource("2_stage")
