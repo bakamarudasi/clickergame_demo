@@ -40,13 +40,17 @@ func _load_dir(subdir: String, dict: Dictionary, id_prop: String) -> void:
 	if dir == null:
 		return
 	dir.list_dir_begin()
-	var name := dir.get_next()
-	while name != "":
-		if not dir.current_is_dir() and name.ends_with(".tres"):
-			var res: Resource = load("%s/%s" % [path, name])
-			if res != null and res.get(id_prop) != null:
-				dict[res.get(id_prop)] = res
-		name = dir.get_next()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".tres"):
+			var res: Resource = load("%s/%s" % [path, file_name])
+			if res != null:
+				var id_value: Variant = res.get(id_prop)
+				if id_value != null and not _is_empty_string_id(id_value):
+					dict[id_value] = res
+				else:
+					push_warning("DataRegistry: %s/%s has empty %s, skipped" % [subdir, file_name, id_prop])
+		file_name = dir.get_next()
 	dir.list_dir_end()
 
 
@@ -58,14 +62,22 @@ func _load_dir_array(subdir: String, arr: Array) -> void:
 	if dir == null:
 		return
 	dir.list_dir_begin()
-	var name := dir.get_next()
-	while name != "":
-		if not dir.current_is_dir() and name.ends_with(".tres"):
-			var res: Resource = load("%s/%s" % [path, name])
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".tres"):
+			var res: Resource = load("%s/%s" % [path, file_name])
 			if res != null:
 				arr.append(res)
-		name = dir.get_next()
+		file_name = dir.get_next()
 	dir.list_dir_end()
+
+
+static func _is_empty_string_id(v: Variant) -> bool:
+	if v is StringName:
+		return v == &""
+	if v is String:
+		return v == ""
+	return false
 
 
 # --- 便利ルックアップ --------------------------------------------------

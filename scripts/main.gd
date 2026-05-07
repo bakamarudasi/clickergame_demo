@@ -23,6 +23,8 @@ const TAB_SHOP := &"shop"
 @onready var auto_timer: Timer = %AutoTimer
 @onready var toast_label: Label = %ToastLabel
 
+var _toast_tween: Tween
+
 
 func _ready() -> void:
 	EventBus.currency_changed.connect(_on_currency_changed)
@@ -70,8 +72,10 @@ func _on_auto_tick() -> void:
 
 
 func _show_toast(text: String) -> void:
+	if _toast_tween != null and _toast_tween.is_valid():
+		_toast_tween.kill()
 	toast_label.text = text
 	toast_label.modulate.a = 1.0
-	var tw := create_tween()
-	tw.tween_interval(1.4)
-	tw.tween_property(toast_label, "modulate:a", 0.0, 0.6)
+	_toast_tween = create_tween()
+	_toast_tween.tween_interval(1.4)
+	_toast_tween.tween_property(toast_label, "modulate:a", 0.0, 0.6)

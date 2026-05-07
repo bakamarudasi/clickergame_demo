@@ -1,5 +1,5 @@
 class_name ShopService
-extends RefCounted
+extends Object
 
 # Shopタブ UI が呼ぶ唯一の入り口。
 # 購入 → 通貨減算 → インベントリ加算 or 永続効果適用。

@@ -1,5 +1,5 @@
 class_name ReactionResolver
-extends RefCounted
+extends Object
 
 # trigger_kind / trigger_id / 信頼度 / 連投回数 から最適な ReactionRule を1件選ぶ。
 # UI も Service もここを介してリアクションを取得する。

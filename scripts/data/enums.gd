@@ -1,5 +1,5 @@
 class_name Enums
-extends RefCounted
+extends Object
 
 enum Personality {
 	SAINTLY_DUAL,

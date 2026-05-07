@@ -1,5 +1,5 @@
 class_name GiftService
-extends RefCounted
+extends Object
 
 # Roomタブ UI が「ギフトを渡す」ときに呼ぶ唯一の入り口。
 

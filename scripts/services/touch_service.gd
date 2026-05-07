@@ -1,5 +1,5 @@
 class_name TouchService
-extends RefCounted
+extends Object
 
 # 通常タッチもセクハラタッチも全部ここを通す。
 # is_harassment フラグで分岐し、ロック判定もここで処理。

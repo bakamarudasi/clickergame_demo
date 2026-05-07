@@ -1,5 +1,5 @@
 class_name EconomyService
-extends RefCounted
+extends Object
 
 # クリック・自動収益・アップグレード購入。
 # Workタブ UI が呼ぶ唯一の入り口。
