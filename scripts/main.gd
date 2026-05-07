@@ -1,56 +1,77 @@
 extends Control
 
-var score: int = 0
-var click_power: int = 1
-var per_second: int = 0
+# L字レイアウトの「枠」だけを管理する。タブの中身には触れない（疎結合）。
+# タブの切替も、現在ロード中のタブの可視状態だけ操作する。
 
-var click_upgrade_cost: int = 10
-var auto_cost: int = 25
+const TAB_WORK := &"work"
+const TAB_ROOM := &"room"
+const TAB_SHOP := &"shop"
 
-@onready var score_label: Label = %ScoreLabel
-@onready var per_second_label: Label = %PerSecondLabel
-@onready var upgrade_click_button: Button = %UpgradeClick
-@onready var buy_auto_button: Button = %BuyAuto
+@onready var currency_label: Label = %CurrencyLabel
+@onready var per_sec_label: Label = %PerSecLabel
+@onready var click_power_label: Label = %ClickPowerLabel
+
+@onready var tab_work_button: Button = %TabWork
+@onready var tab_room_button: Button = %TabRoom
+@onready var tab_shop_button: Button = %TabShop
+
+@onready var tab_holder: Control = %TabHolder
+@onready var work_tab: Control = %WorkTab
+@onready var room_tab: Control = %RoomTab
+@onready var shop_tab: Control = %ShopTab
+
+@onready var auto_timer: Timer = %AutoTimer
+@onready var toast_label: Label = %ToastLabel
 
 
 func _ready() -> void:
-	_refresh_ui()
+	EventBus.currency_changed.connect(_on_currency_changed)
+	EventBus.per_second_changed.connect(_on_per_second_changed)
+	EventBus.click_power_changed.connect(_on_click_power_changed)
+	EventBus.toast_requested.connect(_show_toast)
+
+	tab_work_button.pressed.connect(_switch_to.bind(TAB_WORK))
+	tab_room_button.pressed.connect(_switch_to.bind(TAB_ROOM))
+	tab_shop_button.pressed.connect(_switch_to.bind(TAB_SHOP))
+
+	auto_timer.timeout.connect(_on_auto_tick)
+
+	_refresh_status_bar()
+	_switch_to(TAB_WORK)
 
 
-func _on_click_pressed() -> void:
-	score += click_power
-	_refresh_ui()
+func _switch_to(tab_id: StringName) -> void:
+	work_tab.visible = (tab_id == TAB_WORK)
+	room_tab.visible = (tab_id == TAB_ROOM)
+	shop_tab.visible = (tab_id == TAB_SHOP)
+	tab_work_button.button_pressed = (tab_id == TAB_WORK)
+	tab_room_button.button_pressed = (tab_id == TAB_ROOM)
+	tab_shop_button.button_pressed = (tab_id == TAB_SHOP)
 
 
-func _on_upgrade_click_pressed() -> void:
-	if score < click_upgrade_cost:
-		return
-	score -= click_upgrade_cost
-	click_power += 1
-	click_upgrade_cost = int(click_upgrade_cost * 1.5) + 1
-	_refresh_ui()
+func _refresh_status_bar() -> void:
+	currency_label.text = "¥ %d" % GameState.currency
+	per_sec_label.text = "%d / sec" % GameState.per_second
+	click_power_label.text = "+%d / click" % GameState.click_power
 
 
-func _on_buy_auto_pressed() -> void:
-	if score < auto_cost:
-		return
-	score -= auto_cost
-	per_second += 1
-	auto_cost = int(auto_cost * 1.6) + 1
-	_refresh_ui()
+func _on_currency_changed(_v: int) -> void:
+	_refresh_status_bar()
+
+func _on_per_second_changed(_v: int) -> void:
+	_refresh_status_bar()
+
+func _on_click_power_changed(_v: int) -> void:
+	_refresh_status_bar()
 
 
-func _on_auto_timer_timeout() -> void:
-	if per_second <= 0:
-		return
-	score += per_second
-	_refresh_ui()
+func _on_auto_tick() -> void:
+	EconomyService.tick(1.0)
 
 
-func _refresh_ui() -> void:
-	score_label.text = str(score)
-	per_second_label.text = "%d / sec" % per_second
-	upgrade_click_button.text = "Upgrade Click (+1) — Cost: %d" % click_upgrade_cost
-	buy_auto_button.text = "Buy Auto-Clicker (+1/sec) — Cost: %d" % auto_cost
-	upgrade_click_button.disabled = score < click_upgrade_cost
-	buy_auto_button.disabled = score < auto_cost
+func _show_toast(text: String) -> void:
+	toast_label.text = text
+	toast_label.modulate.a = 1.0
+	var tw := create_tween()
+	tw.tween_interval(1.4)
+	tw.tween_property(toast_label, "modulate:a", 0.0, 0.6)

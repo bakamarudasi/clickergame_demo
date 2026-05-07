@@ -1,0 +1,66 @@
+class_name Enums
+extends RefCounted
+
+enum Personality {
+	SAINTLY_DUAL,
+	ANCIENT_FREE,
+	SISTERLY_TEASE,
+}
+
+enum ItemCategory {
+	DAILY,
+	HOBBY,
+	BODY_CARE,
+	ROMANCE,
+	DIRECT_TOY,
+	DIRECT_DRUG,
+	DIRECT_BIND,
+	DIRECT_PROT,
+	COS_OUTFIT,
+	COS_PARTS,
+	INVITATION,
+}
+
+enum Reaction {
+	DELIGHTED,
+	HAPPY,
+	SHY,
+	CONFUSED,
+	REJECTED,
+	SLAPPED,
+	DOMINATED,
+	GUILT_BREAK,
+	UNSHAKEN,
+	LOCKED_OUT,
+}
+
+enum EffectKind {
+	TRUST_ADD,
+	CG_UNLOCK,
+	OPERATOR_UNLOCK,
+	COSTUME_UNLOCK,
+	HARASSMENT_LOCK,
+}
+
+enum TriggerKind {
+	ITEM,
+	TOUCH,
+	HARASSMENT,
+}
+
+enum UpgradeEffectKind {
+	ADD_CLICK,
+	ADD_PER_SEC,
+	MULT_CLICK,
+}
+
+enum UnlockTrigger {
+	AUTO_ON_STAGE,
+	ITEM_USE,
+	TIME_OF_DAY,
+}
+
+enum CostumeUnlockVia {
+	STAGE,
+	SHOP_PURCHASE,
+}
