@@ -27,11 +27,11 @@ ITEM_SCOPE_BATTERY_NAME,眼鏡用電池,Scope Battery
 ITEM_SCOPE_BATTERY_DESC,眼鏡を30秒使える,30 seconds of scope use
 SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
 SCOPE_BASIC_DESC,下着まで透ける標準枠,Standard frame: shows underwear
-DIALOGUE_LEMUEN_GIFT_TEA,…ありがとう、ドクター。良い香りね,…Thank you, doctor. Lovely aroma.
-DIALOGUE_LEMUEN_INSP_REJECT,ドクター…これは、何の検査ですか？,Doctor… what kind of inspection is this?
-DIALOGUE_LEMUEN_INSP_COMPLIANT,…命令通りです。確認なさいますか…？,…As ordered. Please confirm if you must.
-DIALOGUE_LEMUEN_XRAY_LOW,…ドクター。何を、見てらっしゃる？,…Doctor. What exactly are you looking at?
-DIALOGUE_LEMUEN_XRAY_HIGH,…そんなに見たいのね。仕方のない人。,…You really wanted to see. Hopeless.
+DIALOGUE_LEMUEN_GIFT_TEA,"あら、気が利くじゃない。……ふふっ、上等な香りね。お客さん、見る目あるわ","Oh, how considerate. ...Hmph, a fine aroma. You've got a good eye, dear customer."
+DIALOGUE_LEMUEN_INSP_REJECT,"ドクター、それ以上踏み込むつもり？　……一発、贈ってあげましょうか。銃弾を、ね","Doctor. Care to step any closer? ...I could gift you something. A bullet, that is."
+DIALOGUE_LEMUEN_INSP_COMPLIANT,"規則どおりよ、ドクター。……お確かめになる？　ふふっ、ご自分の出した命令、ちゃんと覚えてらっしゃるわよね","All within regulations, Doctor. ...Care to verify? Hmph—you did issue this order yourself, didn't you?"
+DIALOGUE_LEMUEN_XRAY_LOW,"……ドクター。次にその眼で私を見たら、銃弾を一発お返しするわ。覚悟なさい","...Doctor. Should those eyes find me again, I'll return the favor in lead. Be ready."
+DIALOGUE_LEMUEN_XRAY_HIGH,"ふふっ……そんなに見たかったのね、お客さん。……いいわ、見せてあげる。瞬きは、許さないわよ","Hmph... so you wanted to see that badly. ...Very well. Watch carefully—blinking is forbidden."
 ROOM_OPERATOR_TITLE,オペレータ,Operators
 ROOM_DETAIL_PLACEHOLDER,—,—
 ROOM_TRUST_FMT,信頼度 %d,Trust %d
