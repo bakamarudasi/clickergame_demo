@@ -16,6 +16,30 @@ Godot 4.6+ で作るシンプルなクリッカーゲームの雛形。
 3. `CLICK!` を押してスコアを稼ぐ
 4. アップグレードでクリック威力 / 自動収益（1秒ごと）を強化
 
+## UI 共通定数
+
+UI関連のハードコーディングを `scripts/ui/ui_constants.gd` に集約。
+
+- フォントサイズ・余白・色・アニメーション時間 → `UIConstants.*`
+- Theme は `ThemeFactory.build_default()` が `UIConstants` を読んで動的生成し、`Main` の `theme` に設定 → 子全部に伝播
+- `.tscn` 側は `theme_override_font_sizes/font_size = 64` ではなく `theme_type_variation = &"DisplayButton"` で参照
+
+```
+DisplayButton  → CLICKボタン等
+TabButton      → サイドバー
+DisplayLabel   → オペ名（特大）
+LargeLabel     → 通貨バー
+TitleLabel     → セクション見出し
+SubtitleLabel  → トースト・タブ見出し
+```
+
+`.gd` 側はトースト時間や色を `UIConstants.TOAST_HOLD_SEC` / `UIConstants.COLOR_BG` のように直接参照。
+
+新しい semantic スタイルを足したいときは：
+1. `UIConstants` に `FONT_X` と `VAR_X_LABEL` を追加
+2. `ThemeFactory` に `_add_label_variation` の行を1つ追加
+3. `.tscn` で `theme_type_variation` に名前を書く
+
 ## 翻訳（i18n）
 
 `translations/strings.csv` に key + 言語列を追加するだけで多言語化できる。

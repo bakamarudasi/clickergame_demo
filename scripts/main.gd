@@ -22,11 +22,15 @@ const TAB_SHOP := &"shop"
 
 @onready var auto_timer: Timer = %AutoTimer
 @onready var toast_label: Label = %ToastLabel
+@onready var background: ColorRect = $Background
 
 var _toast_tween: Tween
 
 
 func _ready() -> void:
+	theme = ThemeFactory.build_default()
+	background.color = UIConstants.COLOR_BG
+
 	EventBus.currency_changed.connect(_on_currency_changed)
 	EventBus.per_second_changed.connect(_on_per_second_changed)
 	EventBus.click_power_changed.connect(_on_click_power_changed)
@@ -82,5 +86,5 @@ func _show_toast(text: String) -> void:
 	toast_label.text = text
 	toast_label.modulate.a = 1.0
 	_toast_tween = create_tween()
-	_toast_tween.tween_interval(1.4)
-	_toast_tween.tween_property(toast_label, "modulate:a", 0.0, 0.6)
+	_toast_tween.tween_interval(UIConstants.TOAST_HOLD_SEC)
+	_toast_tween.tween_property(toast_label, "modulate:a", 0.0, UIConstants.TOAST_FADE_SEC)

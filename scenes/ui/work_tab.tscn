@@ -26,13 +26,13 @@ theme_override_constants/separation = 16
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+theme_type_variation = &"DisplayButton"
 text = "WORK_CLICK_BUTTON"
-theme_override_font_sizes/font_size = 64
 
 [node name="UpgradesTitle" type="Label" parent="VBox"]
 layout_mode = 2
+theme_type_variation = &"TitleLabel"
 text = "WORK_UPGRADE_TITLE"
-theme_override_font_sizes/font_size = 24
 
 [node name="UpgradeList" type="VBoxContainer" parent="VBox"]
 unique_name_in_owner = true
