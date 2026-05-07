@@ -55,10 +55,25 @@ assets/operators/<op_id>/
 ### ファイル名のテンプレ
 
 ```
-assets/operators/<op_id>/<costume_id>/<variant>.<ext>
+assets/operators/<op_id>/<costume_id>/<variant>[_<state>]*.<ext>
 
 variant ∈ {normal, pose_seductive, xray_<view_kind>, portrait_idle}
+state   ∈ {wet, torn, dirty, ...}      ← 任意。複数も可（例: xray_underwear_wet）
 ```
+
+#### state（状態モディファイア）について
+
+`wet` `torn` `dirty` などは **costume と直交する状態**。基本的には variant の末尾に `_<state>` を付ける。
+
+```
+swimsuit/normal.png              ← 通常
+swimsuit/normal_wet.png          ← 濡れ
+swimsuit/xray_underwear_wet.png  ← 透視＋濡れ
+```
+
+**実装方針（推奨）**：state は当面実装しない。必要になったら**別 Costume として独立**させる（例：`swimsuit_wet`）のが一番シンプル。state コンビネーションを Dictionary で持つよりデータ重複の方が運用ラク。
+
+ファイル命名だけ `_<state>` サフィックス可にしておくことで forward compat。
 
 ### 言語表記
 
