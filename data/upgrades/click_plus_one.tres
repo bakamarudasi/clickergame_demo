@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://upgradeclickplus1"]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"click_plus_one"
+display_name = "UPGRADE_CLICK_PLUS_ONE_NAME"
+base_cost = 10
+cost_growth = 1.5
+effect_kind = 0
+effect_amount = 1.0
+max_level = -1
+description = "UPGRADE_CLICK_PLUS_ONE_DESC"

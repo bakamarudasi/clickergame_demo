@@ -1,0 +1,64 @@
+keys,ja,en
+UI_TAB_WORK,Work,Work
+UI_TAB_ROOM,Room,Room
+UI_TAB_SHOP,Shop,Shop
+UI_CURRENCY_FMT,¥ %d,¥ %d
+UI_PER_SEC_FMT,%d / sec,%d / sec
+UI_CLICK_POWER_FMT,+%d / click,+%d / click
+WORK_CLICK_BUTTON,CLICK!,CLICK!
+WORK_UPGRADE_TITLE,アップグレード,Upgrades
+WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
+UPGRADE_CLICK_PLUS_ONE_NAME,クリック +1,Click +1
+UPGRADE_CLICK_PLUS_ONE_DESC,クリック1回あたり通貨+1,+1 currency per click
+OPERATOR_LEMUEN_NAME,レミュアン,Lemuen
+COSTUME_LEMUEN_DEFAULT,聖衣,Robe
+STAGE_LEMUEN_0,警戒,Wary
+STAGE_LEMUEN_1,様子見,Observing
+STAGE_LEMUEN_2,打ち解け,Open
+STAGE_LEMUEN_3,親密,Intimate
+STAGE_LEMUEN_4,陥落,Fallen
+ITEM_TEA_PREMIUM_NAME,高級紅茶,Premium Tea
+ITEM_TEA_PREMIUM_DESC,信頼度+5,+5 trust
+ITEM_RULE_UNDERWEAR_MANDATE_NAME,下着義務化命令,Underwear Mandate
+ITEM_RULE_UNDERWEAR_MANDATE_DESC,検査の建前を成立させる規則,Justifies inspections
+ITEM_SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
+ITEM_SCOPE_BASIC_DESC,装備で透視可能。電池が必要,Equip for X-ray view. Needs battery.
+ITEM_SCOPE_BATTERY_NAME,眼鏡用電池,Scope Battery
+ITEM_SCOPE_BATTERY_DESC,眼鏡を30秒使える,30 seconds of scope use
+SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
+SCOPE_BASIC_DESC,下着まで透ける標準枠,Standard frame: shows underwear
+DIALOGUE_LEMUEN_GIFT_TEA,"あら、私の好みを調べたの、ドクター？……ふふっ、観察癖はお互い様ってわけね。お礼に、今度あなたの好みも当ててあげるわ","Oh? Did you study my preferences, Doctor? ...Hmph, seems we both have an observation habit. As thanks, I'll guess yours next time."
+DIALOGUE_LEMUEN_INSP_REJECT,"あら、検査？　……ねえドクター、私の身だしなみと、あなたの本音、どっちを先に確認すればいいのかしら？　はっきりしてくれないと、こちらもどう協力すればいいか困るのよ","Oh, an inspection? ...Tell me, Doctor—should I verify my appearance first, or your real intentions? You'll need to be clearer, or I won't know how to cooperate."
+DIALOGUE_LEMUEN_INSP_COMPLIANT,"ご自分の通達、お忘れじゃないわよね、ドクター。……規則通り、ちゃんと身に着けているわ。確認するなら、目を逸らさずどうぞ。後で『見えなかった』なんて言わせないから","You haven't forgotten your own decree, have you, Doctor? ...All according to regulations. If you're going to verify, don't look away. I won't accept ""I didn't see"" later."
+DIALOGUE_LEMUEN_XRAY_LOW,"ねえドクター、覚えてる？　船上にあなたを狙撃できる場所が一ヶ所あるって話。……ちょうど今、その視線で同じことが私に起きてるのよ。次の瞬きでやめないと、お仕置き、考えるかしら","Remember, Doctor? That spot on the ship where someone could pick you off? ...Your gaze is doing the same to me right now. If you don't stop by your next blink, I might have to consider a punishment."
+DIALOGUE_LEMUEN_XRAY_HIGH,"ふふっ、観察熱心ね、ドクター。私のクセが移ったの？　……いいわ、好きなだけ見ていって。但し、目を逸らしたら――次は私が観察する番だから、覚悟しなさい","Hmph, what dedication, Doctor. Did my habit rub off on you? ...Fine. Look as much as you like. But if you look away—then it's my turn to observe. Brace yourself."
+ROOM_OPERATOR_TITLE,オペレータ,Operators
+ROOM_DETAIL_PLACEHOLDER,—,—
+ROOM_TRUST_FMT,信頼度 %d,Trust %d
+ROOM_STAGE_FMT,段階 %d  %s,Stage %d  %s
+ROOM_GIVE_BUTTON,渡す,Give
+ROOM_TOUCH_TITLE,触れる,Touch
+ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)"
+ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining
+ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d
+SHOP_TITLE,ショップ,Shop
+SHOP_ITEM_FMT,%s — ¥%d,%s — ¥%d
+CATEGORY_DAILY,日常,Daily
+CATEGORY_HOBBY,趣味,Hobby
+CATEGORY_BODY_CARE,ボディケア,Body Care
+CATEGORY_ROMANCE,ロマン,Romance
+CATEGORY_DIRECT_TOY,玩具,Toys
+CATEGORY_DIRECT_DRUG,薬品,Drugs
+CATEGORY_DIRECT_BIND,拘束,Restraints
+CATEGORY_DIRECT_PROT,保護,Protection
+CATEGORY_COS_OUTFIT,衣装,Outfits
+CATEGORY_COS_PARTS,パーツ,Parts
+CATEGORY_INVITATION,招待状,Invitations
+TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…
+TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s
+TOAST_TOUCH_GATED,まだ無理だ…,Not yet…
+TOAST_INSPECTION_COOLDOWN,検査は時間を置く必要がある,Inspection is on cooldown
+TOAST_SCOPE_NO_BATTERY,眼鏡のバッテリーが切れている,Scope battery depleted
+ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection
+ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s)
+ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope

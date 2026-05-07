@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://itemscopebasic0"]
+
+[ext_resource type="Script" path="res://scripts/data/item_data.gd" id="1_item"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("2_eff")
+kind = 7
+amount = 0
+target_id = &"scope_basic"
+
+[resource]
+script = ExtResource("1_item")
+id = &"scope_basic_item"
+display_name = "ITEM_SCOPE_BASIC_NAME"
+category = 12
+price = 1500
+is_consumable = false
+description = "ITEM_SCOPE_BASIC_DESC"
+effects = Array[Resource]([SubResource("effect_1")])
+trust_gate_min = 0

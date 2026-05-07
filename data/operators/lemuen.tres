@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="OperatorData" load_steps=8 format=3 uid="uid://opdatalemuen00"]
+
+[ext_resource type="Script" path="res://scripts/data/operator_data.gd" id="1_op"]
+[ext_resource type="Script" path="res://scripts/data/trust_stage_data.gd" id="2_stage"]
+[ext_resource type="Texture2D" uid="uid://lemuendefault00" path="res://assets/operators/lemuen/default/normal.svg" id="3_idle"]
+
+[sub_resource type="Resource" id="stage_0"]
+script = ExtResource("2_stage")
+stage_index = 0
+threshold = 0
+title = "STAGE_LEMUEN_0"
+costume_unlocks = []
+cg_unlocks = []
+flavor_line = ""
+
+[sub_resource type="Resource" id="stage_1"]
+script = ExtResource("2_stage")
+stage_index = 1
+threshold = 30
+title = "STAGE_LEMUEN_1"
+costume_unlocks = []
+cg_unlocks = []
+flavor_line = ""
+
+[sub_resource type="Resource" id="stage_2"]
+script = ExtResource("2_stage")
+stage_index = 2
+threshold = 80
+title = "STAGE_LEMUEN_2"
+costume_unlocks = []
+cg_unlocks = []
+flavor_line = ""
+
+[sub_resource type="Resource" id="stage_3"]
+script = ExtResource("2_stage")
+stage_index = 3
+threshold = 160
+title = "STAGE_LEMUEN_3"
+costume_unlocks = []
+cg_unlocks = []
+flavor_line = ""
+
+[sub_resource type="Resource" id="stage_4"]
+script = ExtResource("2_stage")
+stage_index = 4
+threshold = 280
+title = "STAGE_LEMUEN_4"
+costume_unlocks = []
+cg_unlocks = []
+flavor_line = ""
+
+[resource]
+script = ExtResource("1_op")
+id = &"lemuen"
+display_name = "OPERATOR_LEMUEN_NAME"
+personality = 0
+origin = &"laterano"
+liked_items = Array[StringName]([&"tea_premium"])
+disliked_items = Array[StringName]([])
+default_costume_id = &"lemuen_default"
+stages = Array[Resource]([SubResource("stage_0"), SubResource("stage_1"), SubResource("stage_2"), SubResource("stage_3"), SubResource("stage_4")])
+unlock_cost = 0
+portrait_idle = ExtResource("3_idle")
+portrait_expressions = {}
+xray_detection_rate = 1.5

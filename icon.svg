@@ -1,0 +1,5 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="20" fill="#2d6cdf"/>
+  <circle cx="64" cy="64" r="36" fill="#ffd23f" stroke="#1a1a1a" stroke-width="4"/>
+  <text x="64" y="76" font-family="Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle" fill="#1a1a1a">¥</text>
+</svg>

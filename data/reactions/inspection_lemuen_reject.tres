@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://ruleinspreject0"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 3
+trigger_id = &""
+operator_id = &"lemuen"
+match_category = false
+min_trust = 0
+max_trust = 99999
+consecutive_count_min = 0
+consecutive_count_max = 9999
+requires_active_rule = &""
+reaction = 4
+trust_delta = -15
+expression = &"angry"
+dialogue = "DIALOGUE_LEMUEN_INSP_REJECT"
+priority = 1

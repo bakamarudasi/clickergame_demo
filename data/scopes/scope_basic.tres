@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ScopeData" load_steps=2 format=3 uid="uid://scopebasic0000"]
+
+[ext_resource type="Script" path="res://scripts/data/scope_data.gd" id="1_scope"]
+
+[resource]
+script = ExtResource("1_scope")
+id = &"scope_basic"
+display_name = "SCOPE_BASIC_NAME"
+price = 1500
+view_kind = &"underwear"
+battery_max_sec = 30.0
+resolution_level = 1
+suspicion_rate = 1.0
+description = "SCOPE_BASIC_DESC"

@@ -1,0 +1,135 @@
+[gd_scene load_steps=5 format=3 uid="uid://clickergamemain0"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://clickergameworktab0" path="res://scenes/ui/work_tab.tscn" id="2_work"]
+[ext_resource type="PackedScene" uid="uid://clickergameroomtab0" path="res://scenes/ui/room_tab.tscn" id="3_room"]
+[ext_resource type="PackedScene" uid="uid://clickergameshoptab0" path="res://scenes/ui/shop_tab.tscn" id="4_shop"]
+
+[node name="Main" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.12, 0.14, 0.2, 1)
+
+[node name="Root" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="StatusBar" type="PanelContainer" parent="Root"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="StatusHBox" type="HBoxContainer" parent="Root/StatusBar"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="CurrencyLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"LargeLabel"
+text = "¥ 0"
+vertical_alignment = 1
+
+[node name="PerSecLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / sec"
+vertical_alignment = 1
+
+[node name="ClickPowerLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+1 / click"
+vertical_alignment = 1
+
+[node name="Body" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Sidebar" type="PanelContainer" parent="Root/Body"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+
+[node name="SidebarVBox" type="VBoxContainer" parent="Root/Body/Sidebar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TabWork" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TabButton"
+toggle_mode = true
+text = "UI_TAB_WORK"
+
+[node name="TabRoom" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TabButton"
+toggle_mode = true
+text = "UI_TAB_ROOM"
+
+[node name="TabShop" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TabButton"
+toggle_mode = true
+text = "UI_TAB_SHOP"
+
+[node name="TabHolder" type="Control" parent="Root/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WorkTab" parent="Root/Body/TabHolder" instance=ExtResource("2_work")]
+unique_name_in_owner = true
+
+[node name="RoomTab" parent="Root/Body/TabHolder" instance=ExtResource("3_room")]
+unique_name_in_owner = true
+visible = false
+
+[node name="ShopTab" parent="Root/Body/TabHolder" instance=ExtResource("4_shop")]
+unique_name_in_owner = true
+visible = false
+
+[node name="ToastLabel" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -120.0
+offset_right = 200.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"SubtitleLabel"
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AutoTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 1.0
+autostart = true
