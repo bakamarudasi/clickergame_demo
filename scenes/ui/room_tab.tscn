@@ -16,16 +16,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-offset_left = 16.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = -16.0
-theme_override_constants/separation = 16
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+theme_override_constants/separation = 8
 
 [node name="LeftPanel" type="VBoxContainer" parent="HBox"]
-custom_minimum_size = Vector2(160, 0)
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="OperatorTitle" type="Label" parent="HBox/LeftPanel"]
 layout_mode = 2
@@ -36,100 +36,105 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="CenterPanel" type="VBoxContainer" parent="HBox"]
+[node name="MainColumn" type="VBoxContainer" parent="HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
-[node name="PortraitArea" type="CenterContainer" parent="HBox/CenterPanel"]
+[node name="StatsRow" type="HBoxContainer" parent="HBox/MainColumn"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="OpNameLabel" type="Label" parent="HBox/MainColumn/StatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"DisplayLabel"
+text = "ROOM_DETAIL_PLACEHOLDER"
+
+[node name="TrustLabel" type="Label" parent="HBox/MainColumn/StatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+
+[node name="StageLabel" type="Label" parent="HBox/MainColumn/StatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+
+[node name="DetailPanel" type="VBoxContainer" parent="HBox/MainColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="PortraitArea" type="CenterContainer" parent="HBox/MainColumn/DetailPanel"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PortraitView" type="TextureRect" parent="HBox/CenterPanel/PortraitArea"]
+[node name="PortraitView" type="TextureRect" parent="HBox/MainColumn/DetailPanel/PortraitArea"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 380)
+custom_minimum_size = Vector2(540, 720)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ScopeRow" type="HBoxContainer" parent="HBox/CenterPanel"]
+[node name="ScopeRow" type="HBoxContainer" parent="HBox/MainColumn/DetailPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ScopeToggle" type="Button" parent="HBox/CenterPanel/ScopeRow"]
+[node name="ScopeToggle" type="Button" parent="HBox/MainColumn/DetailPanel/ScopeRow"]
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
 text = "ROOM_SCOPE_TOGGLE"
 
-[node name="BatteryBar" type="ProgressBar" parent="HBox/CenterPanel/ScopeRow"]
+[node name="BatteryBar" type="ProgressBar" parent="HBox/MainColumn/DetailPanel/ScopeRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
 step = 0.01
 
-[node name="SuspicionBar" type="ProgressBar" parent="HBox/CenterPanel"]
+[node name="SuspicionBar" type="ProgressBar" parent="HBox/MainColumn/DetailPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 show_percentage = false
 
-[node name="DetailPanel" type="VBoxContainer" parent="HBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 12
-
-[node name="OpNameLabel" type="Label" parent="HBox/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"DisplayLabel"
-text = "ROOM_DETAIL_PLACEHOLDER"
-
-[node name="TrustLabel" type="Label" parent="HBox/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-text = ""
-
-[node name="StageLabel" type="Label" parent="HBox/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-text = ""
-
-[node name="ReactionLabel" type="Label" parent="HBox/DetailPanel"]
+[node name="ReactionLabel" type="Label" parent="HBox/MainColumn/DetailPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 text = ""
 autowrap_mode = 2
 
-[node name="GiftHBox" type="HBoxContainer" parent="HBox/DetailPanel"]
+[node name="GiftHBox" type="HBoxContainer" parent="HBox/MainColumn/DetailPanel"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="GiftSelect" type="OptionButton" parent="HBox/DetailPanel/GiftHBox"]
+[node name="GiftSelect" type="OptionButton" parent="HBox/MainColumn/DetailPanel/GiftHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GiveButton" type="Button" parent="HBox/DetailPanel/GiftHBox"]
+[node name="GiveButton" type="Button" parent="HBox/MainColumn/DetailPanel/GiftHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "ROOM_GIVE_BUTTON"
 
-[node name="InspectionButton" type="Button" parent="HBox/DetailPanel"]
+[node name="InspectionButton" type="Button" parent="HBox/MainColumn/DetailPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "ROOM_INSPECTION_BUTTON"
 
-[node name="TouchTitle" type="Label" parent="HBox/DetailPanel"]
+[node name="TouchTitle" type="Label" parent="HBox/MainColumn/DetailPanel"]
 layout_mode = 2
 text = "ROOM_TOUCH_TITLE"
 
-[node name="TouchList" type="VBoxContainer" parent="HBox/DetailPanel"]
+[node name="TouchList" type="VBoxContainer" parent="HBox/MainColumn/DetailPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 4
