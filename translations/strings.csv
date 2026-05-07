@@ -8,6 +8,8 @@ UI_CLICK_POWER_FMT,+%d / click,+%d / click
 WORK_CLICK_BUTTON,CLICK!,CLICK!
 WORK_UPGRADE_TITLE,アップグレード,Upgrades
 WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
+UPGRADE_CLICK_PLUS_ONE_NAME,クリック +1,Click +1
+UPGRADE_CLICK_PLUS_ONE_DESC,クリック1回あたり通貨+1,+1 currency per click
 ROOM_OPERATOR_TITLE,オペレータ,Operators
 ROOM_DETAIL_PLACEHOLDER,—,—
 ROOM_TRUST_FMT,信頼度 %d,Trust %d

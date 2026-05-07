@@ -3,12 +3,14 @@ extends Control
 # Workタブ。クリックでの通貨生成と強化購入のみを担当。
 # 他タブを直接参照しない。EconomyService 経由でのみ状態を変える。
 
-@onready var click_button: Button = %ClickButton
+@onready var document_button: TextureButton = %DocumentButton
 @onready var upgrade_list: VBoxContainer = %UpgradeList
+
+var _click_tween: Tween
 
 
 func _ready() -> void:
-	click_button.pressed.connect(_on_click_pressed)
+	document_button.pressed.connect(_on_click_pressed)
 	EventBus.currency_changed.connect(_refresh_upgrade_buttons)
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
 	_build_upgrade_buttons()
@@ -16,6 +18,19 @@ func _ready() -> void:
 
 func _on_click_pressed() -> void:
 	EconomyService.click()
+	_animate_click_squash()
+
+
+func _animate_click_squash() -> void:
+	if _click_tween != null and _click_tween.is_valid():
+		_click_tween.kill()
+	document_button.pivot_offset = document_button.size / 2.0
+	document_button.scale = Vector2.ONE
+	var dur := UIConstants.PORTRAIT_CLICK_DURATION
+	var squashed := Vector2.ONE * (1.0 - UIConstants.PORTRAIT_CLICK_SQUASH)
+	_click_tween = create_tween()
+	_click_tween.tween_property(document_button, "scale", squashed, dur)
+	_click_tween.tween_property(document_button, "scale", Vector2.ONE, dur)
 
 
 func _build_upgrade_buttons() -> void:
