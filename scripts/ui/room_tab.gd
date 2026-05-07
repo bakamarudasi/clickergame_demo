@@ -12,6 +12,7 @@ extends Control
 @onready var give_button: Button = %GiveButton
 @onready var touch_list: VBoxContainer = %TouchList
 @onready var reaction_label: Label = %ReactionLabel
+@onready var inspection_button: Button = %InspectionButton
 
 var _current_op: StringName = &""
 
@@ -22,7 +23,10 @@ func _ready() -> void:
 	EventBus.inventory_changed.connect(_on_inventory_changed)
 	EventBus.reaction_played.connect(_on_reaction_played)
 	EventBus.operator_locked.connect(_on_operator_locked)
+	EventBus.inspection_performed.connect(_on_inspection_performed)
 	give_button.pressed.connect(_on_give_pressed)
+	inspection_button.pressed.connect(_on_inspection_pressed)
+	set_process(true)
 
 	_rebuild_operator_list()
 	detail_panel.visible = false
@@ -47,6 +51,39 @@ func _select_operator(op_id: StringName) -> void:
 	_refresh_detail()
 	_rebuild_gift_select()
 	_rebuild_touch_list()
+	_refresh_inspection_button()
+
+
+func _process(_delta: float) -> void:
+	if _current_op == &"" or not visible:
+		return
+	if not InspectionService.can_inspect(_current_op):
+		_refresh_inspection_button()
+
+
+func _refresh_inspection_button() -> void:
+	if _current_op == &"":
+		inspection_button.disabled = true
+		inspection_button.text = TranslationServer.translate("ROOM_INSPECTION_BUTTON")
+		return
+	var remaining := InspectionService.cooldown_remaining_sec(_current_op)
+	if remaining <= 0.0:
+		inspection_button.disabled = false
+		inspection_button.text = TranslationServer.translate("ROOM_INSPECTION_BUTTON")
+	else:
+		inspection_button.disabled = true
+		inspection_button.text = TranslationServer.translate("ROOM_INSPECTION_COOLDOWN_FMT") % int(ceil(remaining))
+
+
+func _on_inspection_pressed() -> void:
+	if _current_op == &"":
+		return
+	InspectionService.inspect(_current_op)
+
+
+func _on_inspection_performed(op_id: StringName) -> void:
+	if op_id == _current_op:
+		_refresh_inspection_button()
 
 
 func _refresh_detail() -> void:
@@ -137,3 +174,4 @@ func _notification(what: int) -> void:
 		_refresh_detail()
 		_rebuild_gift_select()
 		_rebuild_touch_list()
+		_refresh_inspection_button()

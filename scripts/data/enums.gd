@@ -19,6 +19,8 @@ enum ItemCategory {
 	COS_OUTFIT,
 	COS_PARTS,
 	INVITATION,
+	RULE,
+	SCOPE,
 }
 
 enum Reaction {
@@ -40,12 +42,17 @@ enum EffectKind {
 	OPERATOR_UNLOCK,
 	COSTUME_UNLOCK,
 	HARASSMENT_LOCK,
+	RULE_ACTIVATE,
+	SCOPE_BATTERY_REFILL,
+	SCOPE_GRANT,
 }
 
 enum TriggerKind {
 	ITEM,
 	TOUCH,
 	HARASSMENT,
+	INSPECTION,
+	XRAY_CAUGHT,
 }
 
 enum UpgradeEffectKind {

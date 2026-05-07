@@ -29,6 +29,8 @@ static func resolve(
 			continue
 		if consecutive < rule.consecutive_count_min or consecutive > rule.consecutive_count_max:
 			continue
+		if rule.requires_active_rule != &"" and not GameState.has_rule(rule.requires_active_rule):
+			continue
 		if rule.priority > best_priority:
 			best = rule
 			best_priority = rule.priority

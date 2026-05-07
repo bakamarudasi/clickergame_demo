@@ -40,6 +40,12 @@ const TOAST_FADE_SEC := 0.6
 const PORTRAIT_CLICK_SQUASH := 0.05
 const PORTRAIT_CLICK_DURATION := 0.08
 
+# --- ゲームバランス --------------------------------------------------------
+const INSPECTION_COOLDOWN_SEC := 300.0       # 検査クールダウン（実時間秒、テスト時は短く）
+const XRAY_SUSPICION_PER_SEC := 1.0          # 眼鏡ON中の suspicion 加算/秒
+const XRAY_SUSPICION_THRESHOLD := 30.0       # この値で発覚
+const XRAY_POSE_SHOW_SEC := 4.0              # 高信頼バレ時に見せつけポーズを表示する時間
+
 # --- Theme variation 名（.tscn の theme_type_variation で使う） --------
 const VAR_DISPLAY_BUTTON := &"DisplayButton"   # FONT_DISPLAY
 const VAR_TAB_BUTTON := &"TabButton"           # FONT_SUBTITLE

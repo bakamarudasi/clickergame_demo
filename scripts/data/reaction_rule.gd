@@ -11,6 +11,7 @@ extends Resource
 @export var max_trust: int = 99999
 @export var consecutive_count_min: int = 0
 @export var consecutive_count_max: int = 9999
+@export var requires_active_rule: StringName = &""   # 空ならゲートなし
 
 @export var reaction: Enums.Reaction = Enums.Reaction.HAPPY
 @export var trust_delta: int = 0

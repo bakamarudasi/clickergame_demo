@@ -26,7 +26,7 @@ static func buy(item_id: StringName) -> bool:
 
 
 static func _apply_permanent_effects(it: ItemData) -> void:
-	# 招待状＝オペ解放、衣装購入＝衣装解放など、永続効果はここで一括処理
+	# 永続/即時効果はここで一括処理。インベントリには入らない
 	for eff: ItemEffect in it.effects:
 		match eff.kind:
 			Enums.EffectKind.OPERATOR_UNLOCK:
@@ -36,6 +36,11 @@ static func _apply_permanent_effects(it: ItemData) -> void:
 				var c := DataRegistry.get_costume(eff.target_id)
 				if c != null:
 					GameState.unlock_costume(c.operator_id, c.id)
+			Enums.EffectKind.RULE_ACTIVATE:
+				GameState.add_rule(eff.target_id)
+			Enums.EffectKind.SCOPE_GRANT:
+				GameState.grant_scope(eff.target_id)
+			Enums.EffectKind.SCOPE_BATTERY_REFILL:
+				GameState.add_scope_battery(float(eff.amount))
 			_:
-				# 永続でもインベントリにキープしたい物は派生で実装
 				pass

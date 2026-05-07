@@ -17,6 +17,15 @@ var inventory: Dictionary = {}               # item_id -> count
 var seen_cgs: Array[StringName] = []
 var unlocked_memories: Array[StringName] = []
 
+# 永続的に有効なルール（ショップ購入で増える）
+var active_rules: Array[StringName] = []
+
+# 紳士眼鏡（Scope）の状態
+var owned_scopes: Array[StringName] = []
+var equipped_scope_id: StringName = &""
+var scope_battery_seconds: float = 0.0
+var xray_active: bool = false
+
 
 func _ready() -> void:
 	# project.godot の autoload 順序により、ここに来る時点で DataRegistry はロード済み。
@@ -186,3 +195,76 @@ func record_gift(op_id: StringName, item_id: StringName) -> void:
 	if rt == null:
 		return
 	rt.gift_history[item_id] = rt.gift_history.get(item_id, 0) + 1
+
+
+# --- ルール ---------------------------------------------------------------
+
+func has_rule(rule_id: StringName) -> bool:
+	return rule_id in active_rules
+
+func add_rule(rule_id: StringName) -> void:
+	if rule_id == &"" or rule_id in active_rules:
+		return
+	active_rules.append(rule_id)
+	EventBus.rule_activated.emit(rule_id)
+
+func remove_rule(rule_id: StringName) -> void:
+	if not (rule_id in active_rules):
+		return
+	active_rules.erase(rule_id)
+	EventBus.rule_deactivated.emit(rule_id)
+
+
+# --- 検査 -----------------------------------------------------------------
+
+func mark_inspected(op_id: StringName) -> void:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return
+	rt.last_inspection_unix = Time.get_unix_time_from_system()
+	EventBus.inspection_performed.emit(op_id)
+
+
+# --- 紳士眼鏡 -------------------------------------------------------------
+
+func grant_scope(scope_id: StringName) -> void:
+	if scope_id == &"" or scope_id in owned_scopes:
+		return
+	owned_scopes.append(scope_id)
+	if equipped_scope_id == &"":
+		equip_scope(scope_id)
+	EventBus.scope_equipped.emit(equipped_scope_id)
+
+func equip_scope(scope_id: StringName) -> void:
+	if not (scope_id in owned_scopes):
+		return
+	equipped_scope_id = scope_id
+	EventBus.scope_equipped.emit(scope_id)
+
+func add_scope_battery(seconds: float) -> void:
+	scope_battery_seconds = max(0.0, scope_battery_seconds + seconds)
+	EventBus.scope_battery_changed.emit(scope_battery_seconds)
+
+func consume_scope_battery(seconds: float) -> void:
+	scope_battery_seconds = max(0.0, scope_battery_seconds - seconds)
+	EventBus.scope_battery_changed.emit(scope_battery_seconds)
+
+func set_xray_active(active: bool) -> void:
+	if xray_active == active:
+		return
+	xray_active = active
+	EventBus.xray_changed.emit(active)
+
+func add_xray_suspicion(op_id: StringName, delta: float) -> void:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return
+	rt.xray_suspicion = max(0.0, rt.xray_suspicion + delta)
+	EventBus.xray_suspicion_changed.emit(op_id, rt.xray_suspicion)
+
+func reset_xray_suspicion(op_id: StringName) -> void:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return
+	rt.xray_suspicion = 0.0
+	EventBus.xray_suspicion_changed.emit(op_id, 0.0)
