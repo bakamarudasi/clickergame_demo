@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=3 format=3 uid="uid://rulexraylow000"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="lock_effect"]
+script = ExtResource("2_eff")
+kind = 4
+amount = 5
+target_id = &""
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 4
+trigger_id = &""
+operator_id = &"lemuen"
+match_category = false
+min_trust = 0
+max_trust = 79
+consecutive_count_min = 0
+consecutive_count_max = 9999
+requires_active_rule = &""
+reaction = 4
+trust_delta = -25
+expression = &"angry"
+dialogue = "DIALOGUE_LEMUEN_XRAY_LOW"
+side_effects = Array[Resource]([SubResource("lock_effect")])
+priority = 1

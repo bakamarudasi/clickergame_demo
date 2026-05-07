@@ -10,6 +10,28 @@ WORK_UPGRADE_TITLE,アップグレード,Upgrades
 WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
 UPGRADE_CLICK_PLUS_ONE_NAME,クリック +1,Click +1
 UPGRADE_CLICK_PLUS_ONE_DESC,クリック1回あたり通貨+1,+1 currency per click
+OPERATOR_LEMUEN_NAME,レミュアン,Lemuen
+COSTUME_LEMUEN_DEFAULT,聖衣,Robe
+STAGE_LEMUEN_0,警戒,Wary
+STAGE_LEMUEN_1,様子見,Observing
+STAGE_LEMUEN_2,打ち解け,Open
+STAGE_LEMUEN_3,親密,Intimate
+STAGE_LEMUEN_4,陥落,Fallen
+ITEM_TEA_PREMIUM_NAME,高級紅茶,Premium Tea
+ITEM_TEA_PREMIUM_DESC,信頼度+5,+5 trust
+ITEM_RULE_UNDERWEAR_MANDATE_NAME,下着義務化命令,Underwear Mandate
+ITEM_RULE_UNDERWEAR_MANDATE_DESC,検査の建前を成立させる規則,Justifies inspections
+ITEM_SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
+ITEM_SCOPE_BASIC_DESC,装備で透視可能。電池が必要,Equip for X-ray view. Needs battery.
+ITEM_SCOPE_BATTERY_NAME,眼鏡用電池,Scope Battery
+ITEM_SCOPE_BATTERY_DESC,眼鏡を30秒使える,30 seconds of scope use
+SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
+SCOPE_BASIC_DESC,下着まで透ける標準枠,Standard frame: shows underwear
+DIALOGUE_LEMUEN_GIFT_TEA,…ありがとう、ドクター。良い香りね,…Thank you, doctor. Lovely aroma.
+DIALOGUE_LEMUEN_INSP_REJECT,ドクター…これは、何の検査ですか？,Doctor… what kind of inspection is this?
+DIALOGUE_LEMUEN_INSP_COMPLIANT,…命令通りです。確認なさいますか…？,…As ordered. Please confirm if you must.
+DIALOGUE_LEMUEN_XRAY_LOW,…ドクター。何を、見てらっしゃる？,…Doctor. What exactly are you looking at?
+DIALOGUE_LEMUEN_XRAY_HIGH,…そんなに見たいのね。仕方のない人。,…You really wanted to see. Hopeless.
 ROOM_OPERATOR_TITLE,オペレータ,Operators
 ROOM_DETAIL_PLACEHOLDER,—,—
 ROOM_TRUST_FMT,信頼度 %d,Trust %d

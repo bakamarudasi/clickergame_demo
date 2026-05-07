@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CostumeData" load_steps=5 format=3 uid="uid://costlemuendef0"]
+
+[ext_resource type="Script" path="res://scripts/data/costume_data.gd" id="1_cos"]
+[ext_resource type="Texture2D" uid="uid://lemuendefault00" path="res://assets/operators/lemuen_default.svg" id="2_normal"]
+[ext_resource type="Texture2D" uid="uid://lemuenxrayund00" path="res://assets/operators/lemuen_default_xray_underwear.svg" id="3_xray"]
+[ext_resource type="Texture2D" uid="uid://lemuendefpose00" path="res://assets/operators/lemuen_default_pose.svg" id="4_pose"]
+
+[resource]
+script = ExtResource("1_cos")
+id = &"lemuen_default"
+operator_id = &"lemuen"
+display_name = "COSTUME_LEMUEN_DEFAULT"
+sprite = ExtResource("2_normal")
+sprite_pose_seductive = ExtResource("4_pose")
+sprite_xray_variants = {
+&"underwear": ExtResource("3_xray")
+}
+unlock_via = 0
+shop_price = 0
