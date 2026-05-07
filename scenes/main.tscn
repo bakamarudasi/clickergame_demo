@@ -77,21 +77,21 @@ theme_override_constants/separation = 8
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
-text = "Work"
+text = "UI_TAB_WORK"
 theme_override_font_sizes/font_size = 22
 
 [node name="TabRoom" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
-text = "Room"
+text = "UI_TAB_ROOM"
 theme_override_font_sizes/font_size = 22
 
 [node name="TabShop" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
-text = "Shop"
+text = "UI_TAB_SHOP"
 theme_override_font_sizes/font_size = 22
 
 [node name="TabHolder" type="Control" parent="Root/Body"]

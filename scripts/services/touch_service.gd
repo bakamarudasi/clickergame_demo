@@ -6,7 +6,7 @@ extends Object
 
 static func touch(op_id: StringName, spot_id: StringName) -> ReactionRule:
 	if GameState.is_operator_locked(op_id):
-		EventBus.toast_requested.emit("今は会ってくれない…")
+		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_OPERATOR_LOCKED"))
 		return null
 	var spot := DataRegistry.get_touch_spot(spot_id)
 	if spot == null:
@@ -18,7 +18,7 @@ static func touch(op_id: StringName, spot_id: StringName) -> ReactionRule:
 
 	# 段階解放ゲート
 	if rt.current_stage < spot.unlock_at_stage:
-		EventBus.toast_requested.emit("まだ無理だ…")
+		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_TOUCH_GATED"))
 		return null
 
 	var trigger_kind := (

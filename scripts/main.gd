@@ -52,9 +52,9 @@ func _switch_to(tab_id: StringName) -> void:
 
 
 func _refresh_status_bar() -> void:
-	currency_label.text = "¥ %d" % GameState.currency
-	per_sec_label.text = "%d / sec" % GameState.per_second
-	click_power_label.text = "+%d / click" % GameState.click_power
+	currency_label.text = tr("UI_CURRENCY_FMT") % GameState.currency
+	per_sec_label.text = tr("UI_PER_SEC_FMT") % GameState.per_second
+	click_power_label.text = tr("UI_CLICK_POWER_FMT") % GameState.click_power
 
 
 func _on_currency_changed(_v: int) -> void:
@@ -69,6 +69,11 @@ func _on_click_power_changed(_v: int) -> void:
 
 func _on_auto_tick() -> void:
 	EconomyService.tick(1.0)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		_refresh_status_bar()
 
 
 func _show_toast(text: String) -> void:

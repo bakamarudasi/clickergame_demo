@@ -5,13 +5,14 @@ extends Object
 
 static func give(op_id: StringName, item_id: StringName) -> ReactionRule:
 	if GameState.is_operator_locked(op_id):
-		EventBus.toast_requested.emit("今は会ってくれない…")
+		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_OPERATOR_LOCKED"))
 		return null
 	var it := DataRegistry.get_item(item_id)
 	if it == null:
 		return null
 	if not GameState.consume_item(item_id, 1):
-		EventBus.toast_requested.emit("%s が足りない" % it.display_name)
+		var name := TranslationServer.translate(it.display_name)
+		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_ITEM_EMPTY_FMT") % name)
 		return null
 
 	var rt := GameState.get_runtime(op_id)

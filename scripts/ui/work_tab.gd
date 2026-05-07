@@ -48,4 +48,9 @@ func _on_upgrade_purchased(_id: StringName, _lv: int) -> void:
 func _format_upgrade(u: UpgradeData) -> String:
 	var lv := GameState.get_upgrade_level(u.id)
 	var cost := EconomyService.current_cost(u.id)
-	return "%s  Lv.%d — Cost %d" % [u.display_name, lv, cost]
+	return tr("WORK_UPGRADE_FMT") % [tr(u.display_name), lv, cost]
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		_refresh_upgrade_buttons()

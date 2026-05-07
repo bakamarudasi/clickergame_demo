@@ -56,14 +56,14 @@ func _refresh_detail() -> void:
 	var rt := GameState.get_runtime(_current_op)
 	if op == null or rt == null:
 		return
-	op_name_label.text = op.display_name
-	trust_label.text = "信頼度 %d" % rt.trust
+	op_name_label.text = tr(op.display_name)
+	trust_label.text = tr("ROOM_TRUST_FMT") % rt.trust
 	var stage_title := ""
 	for s in op.stages:
 		if s.stage_index == rt.current_stage:
-			stage_title = s.title
+			stage_title = tr(s.title)
 			break
-	stage_label.text = "段階 %d  %s" % [rt.current_stage, stage_title]
+	stage_label.text = tr("ROOM_STAGE_FMT") % [rt.current_stage, stage_title]
 
 
 func _rebuild_gift_select() -> void:
@@ -75,7 +75,7 @@ func _rebuild_gift_select() -> void:
 		var n := GameState.item_count(it.id)
 		if n <= 0:
 			continue
-		gift_select.add_item("%s ×%d" % [it.display_name, n], idx)
+		gift_select.add_item(tr("ROOM_GIFT_INV_FMT") % [tr(it.display_name), n], idx)
 		gift_select.set_item_metadata(idx, it.id)
 		idx += 1
 
@@ -89,7 +89,7 @@ func _rebuild_touch_list() -> void:
 	for spot: TouchSpotData in DataRegistry.get_touch_spots_for(_current_op):
 		var b := Button.new()
 		var prefix := "⚠ " if spot.is_harassment else ""
-		b.text = "%s%s" % [prefix, spot.display_name]
+		b.text = "%s%s" % [prefix, tr(spot.display_name)]
 		b.disabled = rt == null or rt.current_stage < spot.unlock_at_stage
 		b.pressed.connect(TouchService.touch.bind(_current_op, spot.id))
 		touch_list.add_child(b)
@@ -122,10 +122,18 @@ func _on_inventory_changed(_id: StringName, _n: int) -> void:
 func _on_reaction_played(op_id: StringName, rule: ReactionRule) -> void:
 	if op_id != _current_op:
 		return
-	reaction_label.text = "「%s」  (信頼度 %+d)" % [rule.dialogue, rule.trust_delta]
+	reaction_label.text = tr("ROOM_REACTION_FMT") % [tr(rule.dialogue), rule.trust_delta]
 
 
 func _on_operator_locked(op_id: StringName, until_unix: float) -> void:
 	if op_id == _current_op:
 		var sec := int(until_unix - Time.get_unix_time_from_system())
-		reaction_label.text = "ロック中… 残り %d 秒" % max(0, sec)
+		reaction_label.text = tr("ROOM_LOCK_FMT") % max(0, sec)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		_rebuild_operator_list()
+		_refresh_detail()
+		_rebuild_gift_select()
+		_rebuild_touch_list()

@@ -7,17 +7,17 @@ extends Control
 @onready var item_list: VBoxContainer = %ItemList
 
 const CATEGORY_ENTRIES := [
-	{ "label": "日常", "value": Enums.ItemCategory.DAILY },
-	{ "label": "趣味", "value": Enums.ItemCategory.HOBBY },
-	{ "label": "ボディケア", "value": Enums.ItemCategory.BODY_CARE },
-	{ "label": "ロマン", "value": Enums.ItemCategory.ROMANCE },
-	{ "label": "玩具", "value": Enums.ItemCategory.DIRECT_TOY },
-	{ "label": "薬品", "value": Enums.ItemCategory.DIRECT_DRUG },
-	{ "label": "拘束", "value": Enums.ItemCategory.DIRECT_BIND },
-	{ "label": "保護", "value": Enums.ItemCategory.DIRECT_PROT },
-	{ "label": "衣装", "value": Enums.ItemCategory.COS_OUTFIT },
-	{ "label": "パーツ", "value": Enums.ItemCategory.COS_PARTS },
-	{ "label": "招待状", "value": Enums.ItemCategory.INVITATION },
+	{ "label_key": "CATEGORY_DAILY", "value": Enums.ItemCategory.DAILY },
+	{ "label_key": "CATEGORY_HOBBY", "value": Enums.ItemCategory.HOBBY },
+	{ "label_key": "CATEGORY_BODY_CARE", "value": Enums.ItemCategory.BODY_CARE },
+	{ "label_key": "CATEGORY_ROMANCE", "value": Enums.ItemCategory.ROMANCE },
+	{ "label_key": "CATEGORY_DIRECT_TOY", "value": Enums.ItemCategory.DIRECT_TOY },
+	{ "label_key": "CATEGORY_DIRECT_DRUG", "value": Enums.ItemCategory.DIRECT_DRUG },
+	{ "label_key": "CATEGORY_DIRECT_BIND", "value": Enums.ItemCategory.DIRECT_BIND },
+	{ "label_key": "CATEGORY_DIRECT_PROT", "value": Enums.ItemCategory.DIRECT_PROT },
+	{ "label_key": "CATEGORY_COS_OUTFIT", "value": Enums.ItemCategory.COS_OUTFIT },
+	{ "label_key": "CATEGORY_COS_PARTS", "value": Enums.ItemCategory.COS_PARTS },
+	{ "label_key": "CATEGORY_INVITATION", "value": Enums.ItemCategory.INVITATION },
 ]
 
 
@@ -32,7 +32,7 @@ func _ready() -> void:
 func _populate_categories() -> void:
 	category_select.clear()
 	for i in CATEGORY_ENTRIES.size():
-		category_select.add_item(CATEGORY_ENTRIES[i].label, i)
+		category_select.add_item(tr(CATEGORY_ENTRIES[i].label_key), i)
 
 
 func _selected_category() -> int:
@@ -51,11 +51,17 @@ func _rebuild_item_list() -> void:
 		child.queue_free()
 	for it: ItemData in DataRegistry.get_items_by_category(_selected_category()):
 		var b := Button.new()
-		b.text = "%s — ¥%d" % [it.display_name, it.price]
+		b.text = tr("SHOP_ITEM_FMT") % [tr(it.display_name), it.price]
 		b.set_meta("item_id", it.id)
 		b.pressed.connect(ShopService.buy.bind(it.id))
 		item_list.add_child(b)
 	_refresh_buttons(0)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		_populate_categories()
+		_rebuild_item_list()
 
 
 func _refresh_buttons(_v: int = 0) -> void:

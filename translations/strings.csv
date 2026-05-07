@@ -1,0 +1,35 @@
+keys,ja,en
+UI_TAB_WORK,Work,Work
+UI_TAB_ROOM,Room,Room
+UI_TAB_SHOP,Shop,Shop
+UI_CURRENCY_FMT,¥ %d,¥ %d
+UI_PER_SEC_FMT,%d / sec,%d / sec
+UI_CLICK_POWER_FMT,+%d / click,+%d / click
+WORK_CLICK_BUTTON,CLICK!,CLICK!
+WORK_UPGRADE_TITLE,アップグレード,Upgrades
+WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
+ROOM_OPERATOR_TITLE,オペレータ,Operators
+ROOM_DETAIL_PLACEHOLDER,—,—
+ROOM_TRUST_FMT,信頼度 %d,Trust %d
+ROOM_STAGE_FMT,段階 %d  %s,Stage %d  %s
+ROOM_GIVE_BUTTON,渡す,Give
+ROOM_TOUCH_TITLE,触れる,Touch
+ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)"
+ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining
+ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d
+SHOP_TITLE,ショップ,Shop
+SHOP_ITEM_FMT,%s — ¥%d,%s — ¥%d
+CATEGORY_DAILY,日常,Daily
+CATEGORY_HOBBY,趣味,Hobby
+CATEGORY_BODY_CARE,ボディケア,Body Care
+CATEGORY_ROMANCE,ロマン,Romance
+CATEGORY_DIRECT_TOY,玩具,Toys
+CATEGORY_DIRECT_DRUG,薬品,Drugs
+CATEGORY_DIRECT_BIND,拘束,Restraints
+CATEGORY_DIRECT_PROT,保護,Protection
+CATEGORY_COS_OUTFIT,衣装,Outfits
+CATEGORY_COS_PARTS,パーツ,Parts
+CATEGORY_INVITATION,招待状,Invitations
+TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…
+TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s
+TOAST_TOUCH_GATED,まだ無理だ…,Not yet…
