@@ -8,6 +8,9 @@ UI_CLICK_POWER_FMT,+%d / click,+%d / click
 WORK_CLICK_BUTTON,CLICK!,CLICK!
 WORK_UPGRADE_TITLE,アップグレード,Upgrades
 WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
+WORK_UPGRADE_DETAIL_NONE,強化を選んでください,Select an upgrade to see details
+WORK_UPGRADE_DETAIL_FMT,Lv.%d   ¥ %d,Lv.%d   ¥ %d
+WORK_UPGRADE_BUY_BUTTON,購入する,Purchase
 UPGRADE_CLICK_PLUS_ONE_NAME,予備のペン,Spare Pen
 UPGRADE_CLICK_PLUS_ONE_DESC,机に予備のペンを常備。一筆ごとの処理量+1。,Keep a spare pen on the desk. +1 per click.
 UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アミヤの清書補助,Amiya's Transcription

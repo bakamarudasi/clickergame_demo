@@ -5,15 +5,24 @@ extends Control
 
 @onready var document_button: TextureButton = %DocumentButton
 @onready var upgrade_list: VBoxContainer = %UpgradeList
+@onready var detail_name: Label = %DetailName
+@onready var detail_desc: Label = %DetailDesc
+@onready var detail_meta: Label = %DetailMeta
+@onready var buy_button: Button = %BuyButton
 
 var _click_tween: Tween
+var _selected_id: StringName = &""
+var _button_group: ButtonGroup
 
 
 func _ready() -> void:
+	_button_group = ButtonGroup.new()
 	document_button.pressed.connect(_on_click_pressed)
+	buy_button.pressed.connect(_on_buy_pressed)
 	EventBus.currency_changed.connect(_refresh_upgrade_buttons)
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
 	_build_upgrade_buttons()
+	_refresh_detail()
 
 
 func _on_click_pressed() -> void:
@@ -38,11 +47,18 @@ func _build_upgrade_buttons() -> void:
 		child.queue_free()
 	for u: UpgradeData in DataRegistry.upgrades.values():
 		var b := Button.new()
+		b.toggle_mode = true
+		b.button_group = _button_group
 		b.text = _format_upgrade(u)
-		b.pressed.connect(EconomyService.buy_upgrade.bind(u.id))
 		b.set_meta("upgrade_id", u.id)
+		b.pressed.connect(_on_upgrade_selected.bind(u.id))
 		upgrade_list.add_child(b)
 	_refresh_upgrade_buttons(0)
+
+
+func _on_upgrade_selected(id: StringName) -> void:
+	_selected_id = id
+	_refresh_detail()
 
 
 func _refresh_upgrade_buttons(_v: int = 0) -> void:
@@ -53,7 +69,33 @@ func _refresh_upgrade_buttons(_v: int = 0) -> void:
 			if u == null:
 				continue
 			child.text = _format_upgrade(u)
-			child.disabled = not EconomyService.can_buy_upgrade(id)
+	_refresh_detail()
+
+
+func _refresh_detail() -> void:
+	if _selected_id == &"":
+		detail_name.text = ""
+		detail_desc.text = tr("WORK_UPGRADE_DETAIL_NONE")
+		detail_meta.text = ""
+		buy_button.disabled = true
+		return
+	var u := DataRegistry.get_upgrade(_selected_id)
+	if u == null:
+		_selected_id = &""
+		_refresh_detail()
+		return
+	var lv := GameState.get_upgrade_level(_selected_id)
+	var cost := EconomyService.current_cost(_selected_id)
+	detail_name.text = tr(u.display_name)
+	detail_desc.text = tr(u.description)
+	detail_meta.text = tr("WORK_UPGRADE_DETAIL_FMT") % [lv, cost]
+	buy_button.disabled = not EconomyService.can_buy_upgrade(_selected_id)
+
+
+func _on_buy_pressed() -> void:
+	if _selected_id == &"":
+		return
+	EconomyService.buy_upgrade(_selected_id)
 
 
 func _on_upgrade_purchased(_id: StringName, _lv: int) -> void:
