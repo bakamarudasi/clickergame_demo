@@ -7,6 +7,8 @@ enum Personality {
 	SISTERLY_TEASE,
 }
 
+# この13カテゴリで確定。新コンテンツは「既存カテゴリのどれかに入る」前提で考え、
+# 増やしたくなったら PROGRESSION.md §1.2 を見直してから議論する。
 enum ItemCategory {
 	DAILY,
 	HOBBY,
