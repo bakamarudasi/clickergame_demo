@@ -122,3 +122,18 @@ TOAST_GOLDEN_BONUS,ゴールデン書類！ +¥%s,Golden Paperwork! +¥%s,黄金
 ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection,🔍 仪容检查
 ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s),检查 (剩余 %d 秒)
 ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope,👓 绅士眼镜
+TOUCH_LEMUEN_HAIR,髪を撫でる,Stroke her hair,抚摸她的头发
+TOUCH_LEMUEN_HAND,手を取る,Take her hand,牵起她的手
+TOUCH_LEMUEN_PAT,頭をぽんぽん,Pat her head,摸摸头
+TOUCH_LEMUEN_NECK,肩・首筋,Shoulder & nape,肩颈
+TOUCH_LEMUEN_EAR,耳元で囁く,Whisper in her ear,在她耳边低语
+TOUCH_LEMUEN_HUG,抱きしめる,Embrace her,拥抱她
+TOUCH_LEMUEN_THIGH,太もも,Thigh,大腿
+TOUCH_LEMUEN_WAIST,腰,Waist,腰
+TOUCH_LEMUEN_CHEST_CLOTHED,胸（服越し）,Chest (over clothes),胸（隔衣）
+TOUCH_LEMUEN_KISS,唇,Kiss,亲吻
+TOUCH_LEMUEN_CHEST_DIRECT,胸（直接）,Chest (direct),胸（直接）
+TOUCH_LEMUEN_KISS_DEEP,唇（深く）,Deep kiss,深吻
+TOUCH_LEMUEN_LOWER,下半身,Lower body,下身
+TOUCH_LEMUEN_FORCE_CLOSE,強引に距離を詰める,Force close approach,强行靠近
+TOUCH_LEMUEN_GROPE_CHEST,いきなり胸を触る,Sudden grope,突然摸胸

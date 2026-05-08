@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TouchSpotData" load_steps=2 format=3 uid="uid://tslem02"]
+
+[ext_resource type="Script" path="res://scripts/data/touch_spot_data.gd" id="1_ts"]
+
+[resource]
+script = ExtResource("1_ts")
+id = &"lemuen_touch_hand"
+operator_id = &"lemuen"
+display_name = "TOUCH_LEMUEN_HAND"
+trust_gate_min = 0
+cooldown_sec = 0.5
+trust_delta_base = 1
+expression_on_use = &""
+is_harassment = false
+harassment_weight = 0
+trust_penalty_low = 0
+unlock_at_stage = 1
