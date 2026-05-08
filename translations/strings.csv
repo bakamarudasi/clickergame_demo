@@ -2,14 +2,14 @@ keys,ja,en,zh_CN
 UI_TAB_WORK,Work,Work,工作
 UI_TAB_ROOM,Room,Room,房间
 UI_TAB_SHOP,Shop,Shop,商店
-UI_CURRENCY_FMT,¥ %d,¥ %d,¥ %d
-UI_PER_SEC_FMT,%d / sec,%d / sec,%d / 秒
-UI_CLICK_POWER_FMT,+%d / click,+%d / click,+%d / 点击
+UI_CURRENCY_FMT,¥ %s,¥ %s,¥ %s
+UI_PER_SEC_FMT,%s / sec,%s / sec,%s / 秒
+UI_CLICK_POWER_FMT,+%s / click,+%s / click,+%s / 点击
 WORK_CLICK_BUTTON,CLICK!,CLICK!,点击！
 WORK_UPGRADE_TITLE,アップグレード,Upgrades,强化
-WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d,%s  Lv.%d — 费用 %d
+WORK_UPGRADE_FMT,%s  Lv.%d — Cost %s,%s  Lv.%d — Cost %s,%s  Lv.%d — 费用 %s
 WORK_UPGRADE_DETAIL_NONE,強化を選んでください,Select an upgrade to see details,请选择强化查看详情
-WORK_UPGRADE_DETAIL_FMT,Lv.%d   ¥ %d,Lv.%d   ¥ %d,Lv.%d   ¥ %d
+WORK_UPGRADE_DETAIL_FMT,Lv.%d   ¥ %s,Lv.%d   ¥ %s,Lv.%d   ¥ %s
 WORK_UPGRADE_BUY_BUTTON,購入する,Purchase,购买
 UPGRADE_CLICK_PLUS_ONE_NAME,ケルシーの無言の圧力,Kal'tsit's Silent Pressure,凯尔希的无言压力
 UPGRADE_CLICK_PLUS_ONE_DESC,「……。」背後に立つ彼女の冷ややかな視線を感じるだけで、ペンの走りが少しだけ速くなる。背筋は凍る。,"""…"" Just feeling her icy gaze from behind speeds up your pen a little. Your spine, on the other hand, freezes.",“……。”仅仅感受到站在身后的她那冰冷的视线，笔尖的速度便会稍稍加快。而脊背则瞬间冻住。
@@ -57,7 +57,7 @@ ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)",“%s”  (信
 ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining,锁定中… 剩余 %d 秒
 ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d,%s ×%d
 SHOP_TITLE,ショップ,Shop,商店
-SHOP_ITEM_FMT,%s — ¥%d,%s — ¥%d,%s — ¥%d
+SHOP_ITEM_FMT,%s — ¥%s,%s — ¥%s,%s — ¥%s
 CATEGORY_DAILY,日常,Daily,日常
 CATEGORY_HOBBY,趣味,Hobby,兴趣
 CATEGORY_BODY_CARE,ボディケア,Body Care,身体护理

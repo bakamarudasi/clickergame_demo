@@ -51,7 +51,7 @@ func _rebuild_item_list() -> void:
 		child.queue_free()
 	for it: ItemData in DataRegistry.get_items_by_category(_selected_category()):
 		var b := Button.new()
-		b.text = tr("SHOP_ITEM_FMT") % [tr(it.display_name), it.price]
+		b.text = tr("SHOP_ITEM_FMT") % [tr(it.display_name), FormatUtils.short(it.price)]
 		b.set_meta("item_id", it.id)
 		b.pressed.connect(ShopService.buy.bind(it.id))
 		item_list.add_child(b)

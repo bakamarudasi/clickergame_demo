@@ -51,7 +51,7 @@ func _spawn_click_popup(amount: int) -> void:
 	if amount <= 0:
 		return
 	var popup := Label.new()
-	popup.text = "+%d" % amount
+	popup.text = "+%s" % FormatUtils.short(amount)
 	popup.theme_type_variation = UIConstants.VAR_TITLE_LABEL
 	popup.modulate = UIConstants.COLOR_ACCENT
 	popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -118,7 +118,7 @@ func _refresh_detail() -> void:
 	var cost := EconomyService.current_cost(_selected_id)
 	detail_name.text = tr(u.display_name)
 	detail_desc.text = tr(u.description)
-	detail_meta.text = tr("WORK_UPGRADE_DETAIL_FMT") % [lv, cost]
+	detail_meta.text = tr("WORK_UPGRADE_DETAIL_FMT") % [lv, FormatUtils.short(cost)]
 	buy_button.disabled = not EconomyService.can_buy_upgrade(_selected_id)
 
 
@@ -135,7 +135,7 @@ func _on_upgrade_purchased(_id: StringName, _lv: int) -> void:
 func _format_upgrade(u: UpgradeData) -> String:
 	var lv := GameState.get_upgrade_level(u.id)
 	var cost := EconomyService.current_cost(u.id)
-	return tr("WORK_UPGRADE_FMT") % [tr(u.display_name), lv, cost]
+	return tr("WORK_UPGRADE_FMT") % [tr(u.display_name), lv, FormatUtils.short(cost)]
 
 
 func _notification(what: int) -> void:
