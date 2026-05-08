@@ -27,6 +27,7 @@ const TAB_STATUS := &"status"
 @onready var auto_timer: Timer = %AutoTimer
 @onready var toast_label: Label = %ToastLabel
 @onready var background: ColorRect = $Background
+@onready var cg_viewer: Control = %CGViewer
 
 var _toast_tween: Tween
 var _currency_pop_tween: Tween
@@ -41,6 +42,7 @@ func _ready() -> void:
 	EventBus.click_power_changed.connect(_on_click_power_changed)
 	EventBus.prestige_currency_changed.connect(_on_prestige_currency_changed)
 	EventBus.toast_requested.connect(_show_toast)
+	EventBus.cg_unlocked.connect(_on_cg_unlocked)
 
 	tab_work_button.pressed.connect(_switch_to.bind(TAB_WORK))
 	tab_room_button.pressed.connect(_switch_to.bind(TAB_ROOM))
@@ -114,3 +116,14 @@ func _show_toast(text: String) -> void:
 	_toast_tween = create_tween()
 	_toast_tween.tween_interval(UIConstants.TOAST_HOLD_SEC)
 	_toast_tween.tween_property(toast_label, "modulate:a", 0.0, UIConstants.TOAST_FADE_SEC)
+
+
+# CG が解放された瞬間に CGViewer をフルスクリーンで開く。
+# 同じ CG を二重に開かないようガード。閉じたあとはギャラリー（Status タブ）から再生可能。
+func _on_cg_unlocked(cg_id: StringName) -> void:
+	if cg_viewer.visible:
+		return
+	var cg := DataRegistry.get_cg(cg_id)
+	if cg == null:
+		return
+	cg_viewer.play(cg)

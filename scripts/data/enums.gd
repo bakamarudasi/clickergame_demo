@@ -65,6 +65,12 @@ enum TriggerKind {
 	IDLE,             # アイドルフレーバー。trigger_id は &"stage_1" / &"stage_2" / &"stage_3" / &"fire"
 }
 
+# CG ビューアの 1 ステップ表示モード。
+enum CGStepMode {
+	PORTRAIT,    # 立ち絵 + 台詞ボックス（Room と同じ画面構成）
+	FULL_CG,     # 全画面イラスト + 台詞ボックス
+}
+
 enum UpgradeEffectKind {
 	ADD_CLICK,
 	ADD_PER_SEC,

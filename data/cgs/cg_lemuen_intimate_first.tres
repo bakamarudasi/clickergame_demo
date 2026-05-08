@@ -1,6 +1,97 @@
-[gd_resource type="Resource" script_class="CGData" load_steps=2 format=3 uid="uid://cglemintfirst00"]
+[gd_resource type="Resource" script_class="CGData" load_steps=12 format=3 uid="uid://cglemintfirst00"]
 
 [ext_resource type="Script" path="res://scripts/data/cg_data.gd" id="1_cg"]
+[ext_resource type="Script" path="res://scripts/data/cg_step.gd" id="2_step"]
+
+[sub_resource type="Resource" id="step_1"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_01"
+sfx = null
+
+[sub_resource type="Resource" id="step_2"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"blush"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_02"
+sfx = null
+
+[sub_resource type="Resource" id="step_3"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"blush"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_03"
+sfx = null
+
+[sub_resource type="Resource" id="step_4"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_01.png"
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_04"
+sfx = null
+
+[sub_resource type="Resource" id="step_5"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_01.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_05"
+sfx = null
+
+[sub_resource type="Resource" id="step_6"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_02.png"
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_06"
+sfx = null
+
+[sub_resource type="Resource" id="step_7"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_02.png"
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_07"
+sfx = null
+
+[sub_resource type="Resource" id="step_8"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_03_after.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_08"
+sfx = null
+
+[sub_resource type="Resource" id="step_9"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FIRST_09"
+sfx = null
 
 [resource]
 script = ExtResource("1_cg")
@@ -9,3 +100,4 @@ operator_id = &"lemuen"
 stage_required = 3
 trigger_item_id = &"medical_protector"
 caption = "CG_LEMUEN_INTIMATE_FIRST_CAPTION"
+steps = Array[Resource]([SubResource("step_1"), SubResource("step_2"), SubResource("step_3"), SubResource("step_4"), SubResource("step_5"), SubResource("step_6"), SubResource("step_7"), SubResource("step_8"), SubResource("step_9")])

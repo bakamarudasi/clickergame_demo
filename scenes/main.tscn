@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://clickergamemain0"]
+[gd_scene load_steps=7 format=3 uid="uid://clickergamemain0"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://clickergameworktab0" path="res://scenes/ui/work_tab.tscn" id="2_work"]
 [ext_resource type="PackedScene" uid="uid://clickergameroomtab0" path="res://scenes/ui/room_tab.tscn" id="3_room"]
 [ext_resource type="PackedScene" uid="uid://clickergameshoptab0" path="res://scenes/ui/shop_tab.tscn" id="4_shop"]
 [ext_resource type="PackedScene" uid="uid://clickergamestatustab0" path="res://scenes/ui/status_tab.tscn" id="5_status"]
+[ext_resource type="PackedScene" uid="uid://cgviewer000000" path="res://scenes/ui/cg_viewer.tscn" id="6_cgv"]
 
 [node name="Main" type="Control"]
 anchors_preset = 15
@@ -152,3 +153,6 @@ vertical_alignment = 1
 unique_name_in_owner = true
 wait_time = 1.0
 autostart = true
+
+[node name="CGViewer" parent="." instance=ExtResource("6_cgv")]
+unique_name_in_owner = true
