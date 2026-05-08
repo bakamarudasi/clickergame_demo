@@ -14,6 +14,7 @@ extends Resource
 @export var requires_active_rule: StringName = &""   # 空ならゲートなし
 @export var min_tier: int = 0                         # GameState.prestige_count がこの値以上で発火
 @export var min_bond: int = 0                         # GameState.get_bond(op_id) がこの値以上で発火
+@export var min_arousal: float = 0.0                  # GameState.get_arousal(op_id) がこの値以上で発火
 
 @export var reaction: Enums.Reaction = Enums.Reaction.HAPPY
 @export var trust_delta: int = 0

@@ -148,6 +148,48 @@ func _compute_stage(op_id: StringName, trust: int) -> int:
 	return stage
 
 
+# --- 親密度・発情度 -------------------------------------------------------
+
+func add_intimacy(op_id: StringName, delta: int) -> void:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return
+	rt.intimacy = max(0, rt.intimacy + delta)
+	EventBus.intimacy_changed.emit(op_id, rt.intimacy)
+
+
+# 発情度の取得は必ずこの関数経由で。前回 set/get からの経過時間ぶんを
+# その場で減衰させてから返す（lazy decay）。
+func get_arousal(op_id: StringName) -> float:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return 0.0
+	_decay_arousal_to_now(rt)
+	return rt.arousal
+
+
+# 発情度を加算する。親密度に応じた加算ブーストがかかる（B案連動）。
+# 親密度 100 ごとに +AROUSAL_INTIMACY_BOOST_PER_100 倍（既定で +100% / ×2.0）。
+func add_arousal(op_id: StringName, delta: float) -> void:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return
+	_decay_arousal_to_now(rt)
+	var boost := 1.0 + (float(rt.intimacy) / 100.0) * UIConstants.AROUSAL_INTIMACY_BOOST_PER_100
+	rt.arousal = clampf(rt.arousal + delta * boost, 0.0, UIConstants.AROUSAL_MAX)
+	if rt.arousal > rt.arousal_peak:
+		rt.arousal_peak = rt.arousal
+	EventBus.arousal_changed.emit(op_id, rt.arousal)
+
+
+func _decay_arousal_to_now(rt: OperatorRuntime) -> void:
+	var now := Time.get_unix_time_from_system()
+	if rt.arousal_last_unix > 0.0 and rt.arousal > 0.0:
+		var elapsed := max(0.0, now - rt.arousal_last_unix)
+		rt.arousal = max(0.0, rt.arousal - elapsed * UIConstants.AROUSAL_DECAY_PER_SEC)
+	rt.arousal_last_unix = now
+
+
 # --- ハラスメント ---------------------------------------------------------
 
 func add_harassment(op_id: StringName, weight: int) -> void:

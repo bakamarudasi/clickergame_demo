@@ -47,6 +47,8 @@ enum EffectKind {
 	RULE_ACTIVATE,
 	SCOPE_BATTERY_REFILL,
 	SCOPE_GRANT,
+	INTIMACY_ADD,        # 親密度（永続・上昇のみ）
+	AROUSAL_ADD,         # 発情度（時間で減衰、親密度で増加補正）
 }
 
 enum TriggerKind {

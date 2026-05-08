@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://clickergamemain0"]
+[gd_scene load_steps=6 format=3 uid="uid://clickergamemain0"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://clickergameworktab0" path="res://scenes/ui/work_tab.tscn" id="2_work"]
 [ext_resource type="PackedScene" uid="uid://clickergameroomtab0" path="res://scenes/ui/room_tab.tscn" id="3_room"]
 [ext_resource type="PackedScene" uid="uid://clickergameshoptab0" path="res://scenes/ui/shop_tab.tscn" id="4_shop"]
+[ext_resource type="PackedScene" uid="uid://clickergamestatustab0" path="res://scenes/ui/status_tab.tscn" id="5_status"]
 
 [node name="Main" type="Control"]
 anchors_preset = 15
@@ -44,6 +45,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"LargeLabel"
 text = "¥ 0"
+vertical_alignment = 1
+
+[node name="PrestigeLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"LargeLabel"
+text = "💎 0"
 vertical_alignment = 1
 
 [node name="PerSecLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
@@ -92,6 +100,13 @@ theme_type_variation = &"TabButton"
 toggle_mode = true
 text = "UI_TAB_SHOP"
 
+[node name="TabStatus" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TabButton"
+toggle_mode = true
+text = "UI_TAB_STATUS"
+
 [node name="TabHolder" type="Control" parent="Root/Body"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -106,6 +121,10 @@ unique_name_in_owner = true
 visible = false
 
 [node name="ShopTab" parent="Root/Body/TabHolder" instance=ExtResource("4_shop")]
+unique_name_in_owner = true
+visible = false
+
+[node name="StatusTab" parent="Root/Body/TabHolder" instance=ExtResource("5_status")]
 unique_name_in_owner = true
 visible = false
 

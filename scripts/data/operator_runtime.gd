@@ -13,6 +13,17 @@ extends Resource
 @export var last_inspection_unix: float = 0.0
 @export var xray_suspicion: float = 0.0
 
+# 親密度（永続・上昇のみ）。trust とは別軸の長期指標で、
+# arousal の増加補正に使う（B案連動）。
+@export var intimacy: int = 0
+
+# 発情度。0..UIConstants.AROUSAL_MAX の float。
+# 時間で UIConstants.AROUSAL_DECAY_PER_SEC ずつ減衰。
+# arousal_last_unix は lazy decay 計算の基準時刻。
+@export var arousal: float = 0.0
+@export var arousal_last_unix: float = 0.0
+@export var arousal_peak: float = 0.0
+
 func is_locked() -> bool:
 	return Time.get_unix_time_from_system() < locked_until
 

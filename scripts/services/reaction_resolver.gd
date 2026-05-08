@@ -35,9 +35,11 @@ static func resolve(
 			continue
 		if GameState.get_bond(op_id) < rule.min_bond:
 			continue
-		# priority を主軸に、tier+bond の specificity をタイブレークに使う。
-		# これで「同じ priority なら、より厳しい条件を満たした上位バリアント」が選ばれる。
-		var score := rule.priority * 1000 + rule.min_tier * 10 + rule.min_bond
+		if rule.min_arousal > 0.0 and GameState.get_arousal(op_id) < rule.min_arousal:
+			continue
+		# priority を主軸に、tier+bond+arousal の specificity をタイブレークに使う。
+		# 同じ priority なら、より厳しい条件を満たした上位バリアントが勝つ。
+		var score := rule.priority * 10000 + rule.min_tier * 100 + rule.min_bond * 10 + int(rule.min_arousal)
 		if score > best_score:
 			best = rule
 			best_score = score
@@ -57,3 +59,7 @@ static func apply_side_effects(rule: ReactionRule, op_id: StringName) -> void:
 				GameState.unlock_costume(op_id, eff.target_id)
 			Enums.EffectKind.HARASSMENT_LOCK:
 				GameState.add_harassment(op_id, eff.amount)
+			Enums.EffectKind.INTIMACY_ADD:
+				GameState.add_intimacy(op_id, eff.amount)
+			Enums.EffectKind.AROUSAL_ADD:
+				GameState.add_arousal(op_id, float(eff.amount))

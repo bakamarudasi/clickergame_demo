@@ -12,6 +12,8 @@ signal operator_unlocked(operator_id: StringName)
 signal trust_changed(operator_id: StringName, new_trust: int, new_stage: int)
 signal stage_advanced(operator_id: StringName, new_stage: int)
 signal operator_locked(operator_id: StringName, until_unix: float)
+signal intimacy_changed(operator_id: StringName, new_value: int)
+signal arousal_changed(operator_id: StringName, new_value: float)
 
 # インベントリ・ショップ
 signal inventory_changed(item_id: StringName, new_count: int)

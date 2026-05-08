@@ -2,9 +2,15 @@ keys,ja,en,zh_CN
 UI_TAB_WORK,Work,Work,工作
 UI_TAB_ROOM,Room,Room,房间
 UI_TAB_SHOP,Shop,Shop,商店
+UI_TAB_STATUS,Status,Status,状态
 UI_CURRENCY_FMT,¥ %s,¥ %s,¥ %s
+UI_PRESTIGE_FMT,💎 %s,💎 %s,💎 %s
 UI_PER_SEC_FMT,%s / sec,%s / sec,%s / 秒
 UI_CLICK_POWER_FMT,+%s / click,+%s / click,+%s / 点击
+STATUS_TITLE,ステータス,Status,状态
+STATUS_TRUST_FMT,信頼度 %d,Trust %d,信赖度 %d
+STATUS_INTIMACY_FMT,親密度 %d,Intimacy %d,亲密度 %d
+STATUS_AROUSAL_FMT,発情度 %d,Arousal %d,兴奋度 %d
 WORK_CLICK_BUTTON,CLICK!,CLICK!,点击！
 WORK_UPGRADE_TITLE,アップグレード,Upgrades,强化
 WORK_UPGRADE_FMT,%s  Lv.%d — Cost %s,%s  Lv.%d — Cost %s,%s  Lv.%d — 费用 %s

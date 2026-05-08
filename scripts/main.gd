@@ -6,19 +6,23 @@ extends Control
 const TAB_WORK := &"work"
 const TAB_ROOM := &"room"
 const TAB_SHOP := &"shop"
+const TAB_STATUS := &"status"
 
 @onready var currency_label: Label = %CurrencyLabel
+@onready var prestige_label: Label = %PrestigeLabel
 @onready var per_sec_label: Label = %PerSecLabel
 @onready var click_power_label: Label = %ClickPowerLabel
 
 @onready var tab_work_button: Button = %TabWork
 @onready var tab_room_button: Button = %TabRoom
 @onready var tab_shop_button: Button = %TabShop
+@onready var tab_status_button: Button = %TabStatus
 
 @onready var tab_holder: Control = %TabHolder
 @onready var work_tab: Control = %WorkTab
 @onready var room_tab: Control = %RoomTab
 @onready var shop_tab: Control = %ShopTab
+@onready var status_tab: Control = %StatusTab
 
 @onready var auto_timer: Timer = %AutoTimer
 @onready var toast_label: Label = %ToastLabel
@@ -35,11 +39,13 @@ func _ready() -> void:
 	EventBus.currency_changed.connect(_on_currency_changed)
 	EventBus.per_second_changed.connect(_on_per_second_changed)
 	EventBus.click_power_changed.connect(_on_click_power_changed)
+	EventBus.prestige_currency_changed.connect(_on_prestige_currency_changed)
 	EventBus.toast_requested.connect(_show_toast)
 
 	tab_work_button.pressed.connect(_switch_to.bind(TAB_WORK))
 	tab_room_button.pressed.connect(_switch_to.bind(TAB_ROOM))
 	tab_shop_button.pressed.connect(_switch_to.bind(TAB_SHOP))
+	tab_status_button.pressed.connect(_switch_to.bind(TAB_STATUS))
 
 	auto_timer.timeout.connect(_on_auto_tick)
 
@@ -51,13 +57,16 @@ func _switch_to(tab_id: StringName) -> void:
 	work_tab.visible = (tab_id == TAB_WORK)
 	room_tab.visible = (tab_id == TAB_ROOM)
 	shop_tab.visible = (tab_id == TAB_SHOP)
+	status_tab.visible = (tab_id == TAB_STATUS)
 	tab_work_button.button_pressed = (tab_id == TAB_WORK)
 	tab_room_button.button_pressed = (tab_id == TAB_ROOM)
 	tab_shop_button.button_pressed = (tab_id == TAB_SHOP)
+	tab_status_button.button_pressed = (tab_id == TAB_STATUS)
 
 
 func _refresh_status_bar() -> void:
 	currency_label.text = tr("UI_CURRENCY_FMT") % FormatUtils.short(GameState.currency)
+	prestige_label.text = tr("UI_PRESTIGE_FMT") % FormatUtils.short(GameState.prestige_currency)
 	per_sec_label.text = tr("UI_PER_SEC_FMT") % FormatUtils.short(GameState.per_second)
 	click_power_label.text = tr("UI_CLICK_POWER_FMT") % FormatUtils.short(GameState.click_power)
 
@@ -82,6 +91,9 @@ func _on_per_second_changed(_v: int) -> void:
 	_refresh_status_bar()
 
 func _on_click_power_changed(_v: int) -> void:
+	_refresh_status_bar()
+
+func _on_prestige_currency_changed(_v: int) -> void:
 	_refresh_status_bar()
 
 
