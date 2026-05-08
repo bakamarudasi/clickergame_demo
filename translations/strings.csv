@@ -8,8 +8,20 @@ UI_CLICK_POWER_FMT,+%d / click,+%d / click
 WORK_CLICK_BUTTON,CLICK!,CLICK!
 WORK_UPGRADE_TITLE,アップグレード,Upgrades
 WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
-UPGRADE_CLICK_PLUS_ONE_NAME,クリック +1,Click +1
-UPGRADE_CLICK_PLUS_ONE_DESC,クリック1回あたり通貨+1,+1 currency per click
+UPGRADE_CLICK_PLUS_ONE_NAME,予備のペン,Spare Pen
+UPGRADE_CLICK_PLUS_ONE_DESC,机に予備のペンを常備。一筆ごとの処理量+1。,Keep a spare pen on the desk. +1 per click.
+UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アミヤの清書補助,Amiya's Transcription
+UPGRADE_PAPERWORK_DOUBLE_CHECK_DESC,副官アミヤが書類のミスを直してくれる。クリックあたり+5。,Amiya proofreads each form for you. +5 per click.
+UPGRADE_COMMAND_FOCUS_NAME,指揮席の集中,Command Focus
+UPGRADE_COMMAND_FOCUS_DESC,戦術指揮室で一筆に作戦の重みが乗る。クリックあたり+25。,At the command desk each stroke carries the weight of strategy. +25 per click.
+UPGRADE_FIELD_CLERK_NAME,事務オペレーター配属,Field Clerk Assigned
+UPGRADE_FIELD_CLERK_DESC,ロドス事務班から1名配属。あなたが休んでいる間も書類が片付く。毎秒+1。,A Rhodes Island clerk is assigned to your desk. Forms move even while you rest. +1 per second.
+UPGRADE_LOGISTICS_TEAM_NAME,後方支援班の拡充,Logistics Team Expanded
+UPGRADE_LOGISTICS_TEAM_DESC,後方支援班を強化。報告書が連続で処理されていく。毎秒+5。,Logistics team reinforced. Reports clear in a steady stream. +5 per second.
+UPGRADE_ORIGINIUM_ARTS_NAME,源石技芸による複製,Originium Arts: Replication
+UPGRADE_ORIGINIUM_ARTS_DESC,術師の力で書類が机の上で勝手に増えていく。毎秒+20。,Casters duplicate paperwork in mid-air over your desk. +20 per second.
+UPGRADE_DOCTOR_AWAKENING_NAME,ドクターの覚醒,Doctor's Awakening
+UPGRADE_DOCTOR_AWAKENING_DESC,失われた記憶の片鱗が蘇る。クリック威力が2倍に（最大3段階）。,Fragments of lost memory return. Click power x2 (max 3 stages).
 OPERATOR_LEMUEN_NAME,レミュアン,Lemuen
 COSTUME_LEMUEN_DEFAULT,聖衣,Robe
 STAGE_LEMUEN_0,警戒,Wary
