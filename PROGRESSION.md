@@ -135,36 +135,73 @@ prestige_currency_gained = floor(sqrt(total_earned_this_run / 1_000_000))
 - 累計獲得 ≥ 1M（最初）
 - 以後ロック無し（いつでもリセット可）
 
-### 2.5 メタ強化（プレステージショップ）
+### 2.5 メタショップの3本柱
 
-`data/meta_upgrades/*.tres` として持つ。`MetaUpgradeData` を新規定義。
+メタショップは UI 上 **3 タブ** に分割する。何を伸ばしたいかが選びやすく、進行軸の意図も明確になる。
 
-**例:**
+```
+┌──────────────┬──────────────┬──────────────┐
+│  💞 親愛     │  💰 効率     │  🎁 開放      │
+│  オペとの絆   │  お金の生産   │  ショップ充実 │
+└──────────────┴──────────────┴──────────────┘
+```
+
+データは `data/meta_upgrades/*.tres` に置き、`MetaUpgradeData` に `pillar: Enums.MetaPillar` を持たせて分類する。
+
+#### 💞 親愛度系（Affinity）
+
+オペレーターとの関係を深めるメタ強化。Tier/Bond の駆動源。
 
 | ID | 名前 | 効果 | コスト |
 |---|---|---|---|
-| `meta_starter_funds` | 初期資金 | 開始時に通貨 +N（レベルで増加） | 1 / 3 / 6 / 10 ... |
+| `meta_bond_lemuen` | レミュアンとの絆 | レミュアン専用 reaction の bond 段階を +1 | 5 / 10 / 20 ... |
+| `meta_bond_amiya` | アーミヤとの絆 | 同上 | 5 / 10 / 20 ... |
+| `meta_bond_<op>` | 各オペ別の絆 | 同上 | （以下省略） |
+| `meta_global_affection` | 全オペ親愛度ボーナス | trust 増加量に永続 +X% | 4 / 9 / 16 ... |
+| `meta_room_buff_to_work` | 信頼度→Workバフ | 信頼度ステージ × N% を click_power に加算 | 6（段階） |
+| `meta_unlock_op_<id>` | オペレーター解放 | 新キャラを Roomで会えるようにする | 大（1回） |
+
+#### 💰 お金効率系（Economy）
+
+通貨生成と Workタブの強化群を伸ばす軸。
+
+| ID | 名前 | 効果 | コスト |
+|---|---|---|---|
+| `meta_starter_funds` | 初期資金 | 開始時に通貨 +N | 1 / 3 / 6 ... |
 | `meta_click_perm_mult` | 永続クリック倍率 | click_power に ×1.05^level | 2 / 5 / 10 ... |
 | `meta_per_sec_perm_mult` | 永続自動収益倍率 | per_second に ×1.05^level | 2 / 5 / 10 ... |
-| `meta_unlock_doctrine` | ドクトリン強化解放 | Workタブに新カテゴリの強化群が出現 | 5（1回購入） |
-| `meta_unlock_originium` | 源石技芸強化解放 | 同上、別カテゴリ | 15（1回購入） |
-| `meta_unlock_autoclick` | 自動クリック解放 | クリック自動化、`auto_click_per_sec` 追加 | 30（1回購入） |
-| `meta_bond_lemuen` | レミュアンとの絆 | レミュアン専用 reaction tier 解放 | 8（段階) |
-| `meta_bond_amiya` | アーミヤとの絆 | 同上 | 8 |
-| ... | （オペ別） | ... | ... |
+| `meta_unlock_doctrine` | ドクトリン強化解放 | Workタブに新カテゴリの強化群が出現 | 5（1回） |
+| `meta_unlock_originium` | 源石技芸強化解放 | 同上、別カテゴリ | 15（1回） |
+| `meta_unlock_autoclick` | 自動クリック解放 | `auto_click_per_sec` 追加（ハンズフリー化） | 30（1回） |
 
-### 2.6 新カテゴリ強化の解放例
+#### 🎁 ショップ開放系（Catalog）
 
-**ドクトリン強化**（`meta_unlock_doctrine` 解放後に Workタブに出現）:
+ショップに並ぶアイテムや、新しいカテゴリの解放。
+
+| ID | 名前 | 効果 | コスト |
+|---|---|---|---|
+| `meta_unlock_cat_direct_drug` | 薬品カテゴリ解放 | DIRECT_DRUG がショップに陳列されるようになる | 8（1回） |
+| `meta_unlock_cat_direct_bind` | 拘束カテゴリ解放 | DIRECT_BIND 同上 | 12（1回） |
+| `meta_unlock_invitation_pool` | 招待状の選択肢拡張 | 高位 INVITATION（夜の散歩等）が陳列 | 6（段階） |
+| `meta_unlock_costume_set_<id>` | 衣装セット解放 | 衣装系商品が解放（メイド服/水着/拘束衣など） | 8 / 12 / 20 |
+| `meta_shop_discount` | 取引交渉 | 全アイテム価格 -X% | 4（段階、上限あり） |
+| `meta_invitation_refund` | 招待状の写し | INVITATION 使用後に確率で消費されない | 10（段階） |
+
+→ **「アイテムが買えるかどうか」が Catalog 柱、「使ったときの反応」が Affinity 柱、「お金を稼ぐ手段」が Economy 柱。** 役割が独立しており、3軸独立に投資できる。
+
+### 2.6 新カテゴリ強化の解放例（💰の中身）
+
+**ドクトリン強化**（`meta_unlock_doctrine` 購入後に Workタブに出現）:
 - `crit_chance` クリック時に確率で大ヒット
 - `combo_window` コンボ持続時間延長
 - `streak_bonus` 連続購入で割引
 
-**源石技芸強化**（`meta_unlock_originium` 解放後）:
+**源石技芸強化**（`meta_unlock_originium` 購入後）:
 - `exponential_per_sec` 自動収益が指数的に増加
 - `originium_burst` 一定時間ごとに大量入金
 
-`UpgradeData` に `requires_meta: StringName = &""` を追加して、メタ未解放のアップグレードは Workタブに表示しない、という gating で実装。
+`UpgradeData` に `requires_meta: StringName = &""` を追加して、メタ未解放のアップグレードは Workタブに表示しない gating で実装。
+同じ仕組みで `ItemData` にも `requires_meta` を足せば、Catalog 柱で買ったメタ強化が Shop の品揃えを変える形になる。
 
 ---
 
