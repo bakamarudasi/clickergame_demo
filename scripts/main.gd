@@ -25,6 +25,7 @@ const TAB_SHOP := &"shop"
 @onready var background: ColorRect = $Background
 
 var _toast_tween: Tween
+var _currency_pop_tween: Tween
 
 
 func _ready() -> void:
@@ -63,6 +64,19 @@ func _refresh_status_bar() -> void:
 
 func _on_currency_changed(_v: int) -> void:
 	_refresh_status_bar()
+	_pop_currency_label()
+
+
+func _pop_currency_label() -> void:
+	if _currency_pop_tween != null and _currency_pop_tween.is_valid():
+		_currency_pop_tween.kill()
+	currency_label.pivot_offset = currency_label.size * 0.5
+	currency_label.scale = Vector2.ONE
+	var peak := Vector2.ONE * UIConstants.CURRENCY_POP_SCALE
+	var dur := UIConstants.CURRENCY_POP_DURATION
+	_currency_pop_tween = create_tween()
+	_currency_pop_tween.tween_property(currency_label, "scale", peak, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_currency_pop_tween.tween_property(currency_label, "scale", Vector2.ONE, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 func _on_per_second_changed(_v: int) -> void:
 	_refresh_status_bar()

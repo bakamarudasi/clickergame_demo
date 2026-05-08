@@ -26,8 +26,10 @@ func _ready() -> void:
 
 
 func _on_click_pressed() -> void:
+	var gained := GameState.click_power
 	EconomyService.click()
 	_animate_click_squash()
+	_spawn_click_popup(gained)
 
 
 func _animate_click_squash() -> void:
@@ -37,9 +39,37 @@ func _animate_click_squash() -> void:
 	document_button.scale = Vector2.ONE
 	var dur := UIConstants.PORTRAIT_CLICK_DURATION
 	var squashed := Vector2.ONE * (1.0 - UIConstants.PORTRAIT_CLICK_SQUASH)
-	_click_tween = create_tween()
+	var wiggle := deg_to_rad(randf_range(-UIConstants.CLICK_WIGGLE_DEG, UIConstants.CLICK_WIGGLE_DEG))
+	_click_tween = create_tween().set_parallel(true)
 	_click_tween.tween_property(document_button, "scale", squashed, dur)
-	_click_tween.tween_property(document_button, "scale", Vector2.ONE, dur)
+	_click_tween.chain().tween_property(document_button, "scale", Vector2.ONE, dur)
+	_click_tween.tween_property(document_button, "rotation", wiggle, dur)
+	_click_tween.chain().tween_property(document_button, "rotation", 0.0, dur * 1.5)
+
+
+func _spawn_click_popup(amount: int) -> void:
+	if amount <= 0:
+		return
+	var popup := Label.new()
+	popup.text = "+%d" % amount
+	popup.theme_type_variation = UIConstants.VAR_TITLE_LABEL
+	popup.modulate = UIConstants.COLOR_ACCENT
+	popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	popup.z_index = 100
+	add_child(popup)
+	var btn_rect := document_button.get_global_rect()
+	var local_origin := btn_rect.position - global_position
+	var jitter := Vector2(randf_range(-30.0, 30.0), randf_range(-10.0, 10.0))
+	var start_pos := local_origin + Vector2(btn_rect.size.x * 0.5, btn_rect.size.y * 0.35) + jitter
+	popup.position = start_pos
+	popup.pivot_offset = popup.size * 0.5
+	var end_pos := start_pos + Vector2(0, -UIConstants.CLICK_POPUP_RISE_PX)
+	var dur := UIConstants.CLICK_POPUP_DURATION
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(popup, "position", end_pos, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(popup, "modulate:a", 0.0, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.tween_property(popup, "scale", Vector2(1.25, 1.25), dur * 0.3).from(Vector2.ONE)
+	tw.chain().tween_callback(popup.queue_free)
 
 
 func _build_upgrade_buttons() -> void:
