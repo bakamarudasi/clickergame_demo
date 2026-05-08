@@ -2,30 +2,47 @@ extends Control
 
 # Roomタブ。オペ選択 → ギフト/タッチ/メッセージ/メモリー操作を担当。
 # 他タブを直接参照しない。GiftService / TouchService 経由でのみ状態を変える。
+# 立ち絵は (1) 反応時に rule.expression を一定時間表示、
+# (2) 発情度に応じて modulate に桜色 tint をかける、の二重制御。
+
+const MAX_DIALOGUE_ENTRIES := 10
+const EXPRESSION_FLASH_SEC := 2.5
+const AROUSAL_TINT_COLOR := Color(1.0, 0.85, 0.88)   # 発情MAX時に乗せる桜色
+const AROUSAL_TINT_BLEND_MAX := 0.3                   # 桜色をブレンドする最大比率
+const INTIMACY_BAR_DISPLAY_MAX := 200                 # 親密度バーの目盛上限（実値はラベルで表示）
 
 @onready var operator_list: VBoxContainer = %OperatorList
 @onready var detail_panel: Control = %DetailPanel
 @onready var op_name_label: Label = %OpNameLabel
 @onready var trust_label: Label = %TrustLabel
 @onready var stage_label: Label = %StageLabel
+@onready var intimacy_label: Label = %IntimacyLabel
+@onready var intimacy_bar: ProgressBar = %IntimacyBar
+@onready var arousal_label: Label = %ArousalLabel
+@onready var arousal_bar: ProgressBar = %ArousalBar
 @onready var gift_select: OptionButton = %GiftSelect
 @onready var give_button: Button = %GiveButton
 @onready var touch_list: VBoxContainer = %TouchList
-@onready var reaction_label: Label = %ReactionLabel
 @onready var inspection_button: Button = %InspectionButton
 @onready var portrait_view: TextureRect = %PortraitView
 @onready var scope_toggle: Button = %ScopeToggle
 @onready var battery_bar: ProgressBar = %BatteryBar
 @onready var suspicion_bar: ProgressBar = %SuspicionBar
 @onready var scope_row: HBoxContainer = %ScopeRow
+@onready var dialogue_scroll: ScrollContainer = %DialogueScroll
+@onready var dialogue_log: VBoxContainer = %DialogueLog
 
 var _current_op: StringName = &""
 var _pose_show_until_unix: float = 0.0
+var _expression_show_until_unix: float = 0.0
+var _active_expression: StringName = &""
 
 
 func _ready() -> void:
 	EventBus.operator_unlocked.connect(_on_operator_unlocked)
 	EventBus.trust_changed.connect(_on_trust_changed)
+	EventBus.intimacy_changed.connect(_on_intimacy_changed)
+	EventBus.arousal_changed.connect(_on_arousal_changed)
 	EventBus.inventory_changed.connect(_on_inventory_changed)
 	EventBus.reaction_played.connect(_on_reaction_played)
 	EventBus.operator_locked.connect(_on_operator_locked)
@@ -62,6 +79,9 @@ func _rebuild_operator_list() -> void:
 
 func _select_operator(op_id: StringName) -> void:
 	_current_op = op_id
+	_active_expression = &""
+	_expression_show_until_unix = 0.0
+	_clear_dialogue_log()
 	detail_panel.visible = true
 	_refresh_detail()
 	_rebuild_gift_select()
@@ -74,17 +94,19 @@ func _select_operator(op_id: StringName) -> void:
 func _process(delta: float) -> void:
 	if not visible:
 		return
-	# 眼鏡ON中は毎フレーム ScopeService に進行を任せる
 	if GameState.xray_active and _current_op != &"":
 		ScopeService.tick(delta, _current_op)
 	if _current_op == &"":
 		return
-	# 検査クールダウン残量
 	if not InspectionService.can_inspect(_current_op):
 		_refresh_inspection_button()
-	# 見せつけポーズの解除タイマ
-	if _pose_show_until_unix > 0.0 and Time.get_unix_time_from_system() >= _pose_show_until_unix:
+	var now := Time.get_unix_time_from_system()
+	if _pose_show_until_unix > 0.0 and now >= _pose_show_until_unix:
 		_pose_show_until_unix = 0.0
+		_refresh_portrait()
+	if _expression_show_until_unix > 0.0 and now >= _expression_show_until_unix:
+		_expression_show_until_unix = 0.0
+		_active_expression = &""
 		_refresh_portrait()
 
 
@@ -128,6 +150,24 @@ func _refresh_detail() -> void:
 			stage_title = tr(s.title)
 			break
 	stage_label.text = tr("ROOM_STAGE_FMT") % [rt.current_stage, stage_title]
+	_refresh_gauges()
+
+
+func _refresh_gauges() -> void:
+	if _current_op == &"":
+		intimacy_label.text = ""
+		arousal_label.text = ""
+		intimacy_bar.value = 0.0
+		arousal_bar.value = 0.0
+		return
+	var rt := GameState.get_runtime(_current_op)
+	if rt == null:
+		return
+	intimacy_label.text = tr("STATUS_INTIMACY_FMT") % rt.intimacy
+	intimacy_bar.value = clampf(float(rt.intimacy), 0.0, float(INTIMACY_BAR_DISPLAY_MAX))
+	var a := GameState.get_arousal(_current_op)
+	arousal_label.text = tr("STATUS_AROUSAL_FMT") % int(a)
+	arousal_bar.value = clampf(a, 0.0, UIConstants.AROUSAL_MAX)
 
 
 func _rebuild_gift_select() -> void:
@@ -179,6 +219,17 @@ func _on_trust_changed(op_id: StringName, _trust: int, _stage: int) -> void:
 		_rebuild_touch_list()
 
 
+func _on_intimacy_changed(op_id: StringName, _v: int) -> void:
+	if op_id == _current_op:
+		_refresh_gauges()
+
+
+func _on_arousal_changed(op_id: StringName, _v: float) -> void:
+	if op_id == _current_op:
+		_refresh_gauges()
+		_apply_arousal_tint()
+
+
 func _on_inventory_changed(_id: StringName, _n: int) -> void:
 	_rebuild_gift_select()
 
@@ -186,13 +237,41 @@ func _on_inventory_changed(_id: StringName, _n: int) -> void:
 func _on_reaction_played(op_id: StringName, rule: ReactionRule) -> void:
 	if op_id != _current_op:
 		return
-	reaction_label.text = tr("ROOM_REACTION_FMT") % [tr(rule.dialogue), rule.trust_delta]
+	_append_dialogue(tr("ROOM_REACTION_FMT") % [tr(rule.dialogue), rule.trust_delta])
+	_flash_expression(rule.expression)
 
 
 func _on_operator_locked(op_id: StringName, until_unix: float) -> void:
 	if op_id == _current_op:
 		var sec := int(until_unix - Time.get_unix_time_from_system())
-		reaction_label.text = tr("ROOM_LOCK_FMT") % max(0, sec)
+		_append_dialogue(tr("ROOM_LOCK_FMT") % max(0, sec))
+
+
+# --- 会話ログ ------------------------------------------------------------
+
+func _clear_dialogue_log() -> void:
+	for child in dialogue_log.get_children():
+		child.queue_free()
+
+
+func _append_dialogue(text: String) -> void:
+	var l := Label.new()
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD
+	l.text = text
+	dialogue_log.add_child(l)
+	while dialogue_log.get_child_count() > MAX_DIALOGUE_ENTRIES:
+		dialogue_log.get_child(0).queue_free()
+	_scroll_dialogue_to_bottom()
+
+
+func _scroll_dialogue_to_bottom() -> void:
+	# scroll bar の max は次フレームで反映されるので待つ
+	await get_tree().process_frame
+	if not is_instance_valid(dialogue_scroll):
+		return
+	var bar := dialogue_scroll.get_v_scroll_bar()
+	if bar != null:
+		dialogue_scroll.scroll_vertical = int(bar.max_value)
 
 
 # --- 立ち絵表示 ----------------------------------------------------------
@@ -200,6 +279,7 @@ func _on_operator_locked(op_id: StringName, until_unix: float) -> void:
 func _refresh_portrait() -> void:
 	if _current_op == &"":
 		portrait_view.texture = null
+		portrait_view.modulate = Color.WHITE
 		return
 	var rt := GameState.get_runtime(_current_op)
 	if rt == null:
@@ -209,12 +289,50 @@ func _refresh_portrait() -> void:
 	if costume == null:
 		portrait_view.texture = null
 		return
+	# 表情フラッシュ中はそれを最優先
+	if _expression_show_until_unix > Time.get_unix_time_from_system() and _active_expression != &"":
+		var flash_tex := _expression_texture(_active_expression)
+		if flash_tex != null:
+			portrait_view.texture = flash_tex
+			_apply_arousal_tint()
+			return
 	if _pose_show_until_unix > Time.get_unix_time_from_system():
 		portrait_view.texture = costume.sprite_pose_seductive if costume.sprite_pose_seductive != null else costume.sprite
 	elif GameState.xray_active:
 		portrait_view.texture = costume.get_xray_sprite(ScopeService.current_view_kind())
 	else:
 		portrait_view.texture = costume.sprite
+	_apply_arousal_tint()
+
+
+func _flash_expression(expr: StringName) -> void:
+	if expr == &"" or _current_op == &"":
+		return
+	if _expression_texture(expr) == null:
+		# データ未整備でも黙って素通り（既存挙動を壊さない）
+		return
+	_active_expression = expr
+	_expression_show_until_unix = Time.get_unix_time_from_system() + EXPRESSION_FLASH_SEC
+	_refresh_portrait()
+
+
+func _expression_texture(expr: StringName) -> Texture2D:
+	if expr == &"" or _current_op == &"":
+		return null
+	var op := DataRegistry.get_operator(_current_op)
+	if op == null or not op.portrait_expressions.has(expr):
+		return null
+	return op.portrait_expressions[expr]
+
+
+# 発情度に応じた modulate tint を立ち絵に適用する。
+# arousal=0 → 真っ白、arousal=AROUSAL_MAX → AROUSAL_TINT_COLOR を AROUSAL_TINT_BLEND_MAX 比率でブレンド。
+func _apply_arousal_tint() -> void:
+	if _current_op == &"":
+		portrait_view.modulate = Color.WHITE
+		return
+	var t := clampf(GameState.get_arousal(_current_op) / UIConstants.AROUSAL_MAX, 0.0, 1.0)
+	portrait_view.modulate = Color.WHITE.lerp(AROUSAL_TINT_COLOR, t * AROUSAL_TINT_BLEND_MAX)
 
 
 func _on_costume_equipped(op_id: StringName, _costume_id: StringName) -> void:
@@ -276,8 +394,6 @@ func _on_xray_suspicion_changed(op_id: StringName, _v: float) -> void:
 func _on_xray_caught(op_id: StringName) -> void:
 	if op_id != _current_op:
 		return
-	# 高信頼ルートで sprite_pose_seductive を表示する反応の場合だけ pose を出す
-	# 簡易判定：直近の reaction が DOMINATED の時に pose を一定時間表示
 	var rt := GameState.get_runtime(op_id)
 	if rt != null and rt.trust > 0:
 		_pose_show_until_unix = Time.get_unix_time_from_system() + UIConstants.XRAY_POSE_SHOW_SEC
