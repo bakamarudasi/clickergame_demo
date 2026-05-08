@@ -19,7 +19,6 @@ min_trust = 0
 max_trust = 79
 consecutive_count_min = 0
 consecutive_count_max = 9999
-requires_active_rule = &""
 reaction = 4
 trust_delta = -25
 expression = &"angry"

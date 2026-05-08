@@ -49,6 +49,7 @@ enum EffectKind {
 	SCOPE_GRANT,
 	INTIMACY_ADD,        # 親密度（永続・上昇のみ）
 	AROUSAL_ADD,         # 発情度（時間で減衰、親密度で増加補正）
+	MEMORY_UNLOCK,       # GameState.unlock_memory(target_id) を呼ぶ
 }
 
 enum TriggerKind {
