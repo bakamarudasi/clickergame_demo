@@ -10,6 +10,12 @@ var currency: int = 0
 var click_power: int = 1
 var per_second: int = 0
 
+# 一時バフ（アイドル発火・将来のイベント等から付与される）。
+# unix 時刻 < click_buff_until_unix の間 click_power に乗算が乗る。
+# 切れたら effective_click_power() が自動で素の click_power に戻す。
+var click_buff_multiplier: float = 1.0
+var click_buff_until_unix: float = 0.0
+
 var owned_upgrades: Dictionary = {}          # upgrade_id -> level
 var unlocked_operators: Array[StringName] = []
 var operator_runtime: Dictionary = {}        # operator_id -> OperatorRuntime
@@ -25,6 +31,16 @@ var owned_scopes: Array[StringName] = []
 var equipped_scope_id: StringName = &""
 var scope_battery_seconds: float = 0.0
 var xray_active: bool = false
+
+# プレステージ・メタ進行
+# prestige_count は ReactionRule.min_tier の比較対象（Tier軸）。
+# bond は キャラごとの絆。ReactionRule.min_bond の比較対象。
+# meta_upgrade_levels は data/meta_upgrades/*.tres の id -> 取得Lv。
+# 詳細設計は PROGRESSION.md を参照。
+var prestige_count: int = 0
+var prestige_currency: int = 0
+var bond: Dictionary = {}                    # StringName -> int
+var meta_upgrade_levels: Dictionary = {}     # StringName -> int
 
 
 func _ready() -> void:
@@ -53,6 +69,21 @@ func try_spend(amount: int) -> bool:
 func set_click_power(v: int) -> void:
 	click_power = v
 	EventBus.click_power_changed.emit(click_power)
+
+
+# 一時 click 倍率バフ。多重発動時は新しい方で上書き（より強い／長いバフが
+# 来た時の挙動を考えるなら max を取るが、現状は素直に上書き）。
+func apply_click_buff(multiplier: float, duration_sec: float) -> void:
+	click_buff_multiplier = max(1.0, multiplier)
+	click_buff_until_unix = Time.get_unix_time_from_system() + max(0.0, duration_sec)
+	EventBus.click_power_changed.emit(click_power)
+
+
+# バフ込みの実効 click_power。EconomyService.click() などはこれを使う。
+func effective_click_power() -> int:
+	if Time.get_unix_time_from_system() < click_buff_until_unix:
+		return int(click_power * click_buff_multiplier)
+	return click_power
 
 func set_per_second(v: int) -> void:
 	per_second = v
@@ -126,6 +157,23 @@ func add_trust(op_id: StringName, delta: int) -> void:
 	EventBus.trust_changed.emit(op_id, rt.trust, rt.current_stage)
 	if advanced:
 		EventBus.stage_advanced.emit(op_id, rt.current_stage)
+		_fire_stage_up_reaction(op_id, rt.current_stage)
+
+
+# ステージ昇格時に STAGE_UP 反応を引いて reaction_played を流す。
+# 反応が定義されてないオペは黙って素通り（既存挙動を壊さない）。
+func _fire_stage_up_reaction(op_id: StringName, new_stage: int) -> void:
+	var rule := ReactionResolver.resolve(
+		Enums.TriggerKind.STAGE_UP,
+		StringName(str(new_stage)),
+		op_id,
+		get_runtime(op_id).trust,
+		1,
+		-1
+	)
+	if rule != null:
+		ReactionResolver.apply_side_effects(rule, op_id)
+		EventBus.reaction_played.emit(op_id, rule)
 
 func _compute_stage(op_id: StringName, trust: int) -> int:
 	var op := DataRegistry.get_operator(op_id)
@@ -136,6 +184,68 @@ func _compute_stage(op_id: StringName, trust: int) -> int:
 		if trust >= s.threshold:
 			stage = s.stage_index
 	return stage
+
+
+# --- 親密度・発情度 -------------------------------------------------------
+
+func add_intimacy(op_id: StringName, delta: int) -> void:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return
+	rt.intimacy = max(0, rt.intimacy + delta)
+	EventBus.intimacy_changed.emit(op_id, rt.intimacy)
+
+
+# 発情度の取得は必ずこの関数経由で。前回 set/get からの経過時間ぶんを
+# その場で減衰させてから返す（lazy decay）。
+func get_arousal(op_id: StringName) -> float:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return 0.0
+	_decay_arousal_to_now(rt)
+	return rt.arousal
+
+
+# 発情度を加算する。親密度に応じた加算ブーストがかかる（B案連動）。
+# 親密度 100 ごとに +AROUSAL_INTIMACY_BOOST_PER_100 倍（既定で +100% / ×2.0）。
+func add_arousal(op_id: StringName, delta: float) -> void:
+	var rt := get_runtime(op_id)
+	if rt == null:
+		return
+	_decay_arousal_to_now(rt)
+	var boost := 1.0 + (float(rt.intimacy) / 100.0) * UIConstants.AROUSAL_INTIMACY_BOOST_PER_100
+	rt.arousal = clampf(rt.arousal + delta * boost, 0.0, UIConstants.AROUSAL_MAX)
+	if rt.arousal > rt.arousal_peak:
+		rt.arousal_peak = rt.arousal
+	EventBus.arousal_changed.emit(op_id, rt.arousal)
+	# AROUSAL_MAX 到達時に 1 度だけ反応を出す。80% 以下に落ちたらフラグリセット。
+	if rt.arousal >= UIConstants.AROUSAL_MAX and not rt.arousal_max_announced:
+		rt.arousal_max_announced = true
+		_fire_arousal_max_reaction(op_id)
+	elif rt.arousal < UIConstants.AROUSAL_MAX * 0.8:
+		rt.arousal_max_announced = false
+
+
+func _fire_arousal_max_reaction(op_id: StringName) -> void:
+	var rule := ReactionResolver.resolve(
+		Enums.TriggerKind.AROUSAL_MAX,
+		&"",
+		op_id,
+		get_runtime(op_id).trust,
+		1,
+		-1
+	)
+	if rule != null:
+		ReactionResolver.apply_side_effects(rule, op_id)
+		EventBus.reaction_played.emit(op_id, rule)
+
+
+func _decay_arousal_to_now(rt: OperatorRuntime) -> void:
+	var now := Time.get_unix_time_from_system()
+	if rt.arousal_last_unix > 0.0 and rt.arousal > 0.0:
+		var elapsed := max(0.0, now - rt.arousal_last_unix)
+		rt.arousal = max(0.0, rt.arousal - elapsed * UIConstants.AROUSAL_DECAY_PER_SEC)
+	rt.arousal_last_unix = now
 
 
 # --- ハラスメント ---------------------------------------------------------
@@ -268,3 +378,74 @@ func reset_xray_suspicion(op_id: StringName) -> void:
 		return
 	rt.xray_suspicion = 0.0
 	EventBus.xray_suspicion_changed.emit(op_id, 0.0)
+
+
+# --- プレステージ・メタ進行 ----------------------------------------------
+
+func add_prestige_count(delta: int = 1) -> void:
+	prestige_count = max(0, prestige_count + delta)
+	EventBus.prestige_count_changed.emit(prestige_count)
+	# 全アンロック済みオペに「次回再会で挨拶台詞」フラグを立てる。
+	# Room でそのオペを選んだ瞬間に PRESTIGE 反応が 1 度だけ流れる。
+	for op_id in unlocked_operators:
+		var rt := get_runtime(op_id)
+		if rt != null:
+			rt.pending_prestige_greet = true
+
+
+# ロック中のオペにアクション試行された時、LOCKED_REVISIT 反応を引いて流す。
+# 該当反応が定義されてれば true を返し、呼び出し元はそこで処理を中断する。
+# 反応が無ければ従来通りトーストを出して true を返す。
+# 戻り値が true なら「ロック処理済み（呼出側は通常処理に進まない）」。
+func try_locked_revisit(op_id: StringName) -> bool:
+	if not is_operator_locked(op_id):
+		return false
+	var rt := get_runtime(op_id)
+	var trust := rt.trust if rt != null else 0
+	var rule := ReactionResolver.resolve(
+		Enums.TriggerKind.LOCKED_REVISIT,
+		&"",
+		op_id,
+		trust,
+		1,
+		-1
+	)
+	if rule != null:
+		ReactionResolver.apply_side_effects(rule, op_id)
+		EventBus.reaction_played.emit(op_id, rule)
+	else:
+		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_OPERATOR_LOCKED"))
+	return true
+
+func add_prestige_currency(amount: int) -> void:
+	prestige_currency = max(0, prestige_currency + amount)
+	EventBus.prestige_currency_changed.emit(prestige_currency)
+
+func try_spend_prestige(amount: int) -> bool:
+	if prestige_currency < amount:
+		return false
+	prestige_currency -= amount
+	EventBus.prestige_currency_changed.emit(prestige_currency)
+	return true
+
+func get_bond(op_id: StringName) -> int:
+	return bond.get(op_id, 0)
+
+func add_bond(op_id: StringName, delta: int = 1) -> void:
+	var new_value: int = max(0, get_bond(op_id) + delta)
+	bond[op_id] = new_value
+	EventBus.bond_changed.emit(op_id, new_value)
+
+func get_meta_level(meta_id: StringName) -> int:
+	return meta_upgrade_levels.get(meta_id, 0)
+
+func set_meta_level(meta_id: StringName, level: int) -> void:
+	meta_upgrade_levels[meta_id] = level
+	EventBus.meta_upgrade_purchased.emit(meta_id, level)
+
+func has_meta_unlock(meta_id: StringName) -> bool:
+	# requires_meta フィールドの判定用ユーティリティ。
+	# 空文字は「要件なし」、それ以外は当該 meta が Lv1 以上で解放扱い。
+	if meta_id == &"":
+		return true
+	return get_meta_level(meta_id) >= 1

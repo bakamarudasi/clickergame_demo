@@ -15,6 +15,7 @@ var memories: Dictionary = {}         # StringName -> MemorySceneData
 var messages: Array[IncomingMessage] = []
 var upgrades: Dictionary = {}         # StringName -> UpgradeData
 var scopes: Dictionary = {}           # StringName -> ScopeData
+var meta_upgrades: Dictionary = {}    # StringName -> MetaUpgradeData
 
 
 func _ready() -> void:
@@ -30,6 +31,7 @@ func _load_all() -> void:
 	_load_dir("memories", memories, "id")
 	_load_dir("upgrades", upgrades, "id")
 	_load_dir("scopes", scopes, "id")
+	_load_dir("meta_upgrades", meta_upgrades, "id")
 	_load_dir_array("reactions", reactions)
 	_load_dir_array("messages", messages)
 
@@ -107,6 +109,9 @@ func get_upgrade(id: StringName) -> UpgradeData:
 
 func get_scope(id: StringName) -> ScopeData:
 	return scopes.get(id)
+
+func get_meta_upgrade(id: StringName) -> MetaUpgradeData:
+	return meta_upgrades.get(id)
 
 func get_all_operators() -> Array:
 	return operators.values()

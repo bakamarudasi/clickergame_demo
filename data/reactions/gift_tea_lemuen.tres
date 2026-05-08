@@ -12,7 +12,6 @@ min_trust = 0
 max_trust = 99999
 consecutive_count_min = 1
 consecutive_count_max = 9999
-requires_active_rule = &""
 reaction = 1
 trust_delta = 6
 expression = &"smile"

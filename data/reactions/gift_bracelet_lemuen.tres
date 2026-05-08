@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://rrgift16"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &"titanium_bracelet"
+operator_id = &"lemuen"
+match_category = false
+min_trust = 0
+max_trust = 99999
+min_tier = 0
+reaction = 2
+trust_delta = 8
+expression = &"blush"
+dialogue = "DIALOGUE_LEMUEN_GIFT_BRACE_T0"
+priority = 10

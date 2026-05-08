@@ -24,14 +24,14 @@ LocaleService="*res://scripts/autoload/locale_service.gd"
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://translations/strings.en.translation", "res://translations/strings.ja.translation")
+locale/translations=PackedStringArray("res://translations/strings.en.translation", "res://translations/strings.ja.translation", "res://translations/strings.zh_CN.translation", "res://translations/dialogues/lemuen.en.translation", "res://translations/dialogues/lemuen.ja.translation", "res://translations/dialogues/lemuen.zh_CN.translation")
 locale/fallback="ja"
 locale/test=""
 
 [display]
 
-window/size/viewport_width=720
-window/size/viewport_height=1280
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
 

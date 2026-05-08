@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3 uid="uid://upgradefieldclerk"]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"field_clerk"
+display_name = "UPGRADE_FIELD_CLERK_NAME"
+base_cost = 50
+cost_growth = 1.5
+effect_kind = 1
+effect_amount = 1.0
+max_level = -1
+description = "UPGRADE_FIELD_CLERK_DESC"

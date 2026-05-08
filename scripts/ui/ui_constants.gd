@@ -39,12 +39,40 @@ const TOAST_HOLD_SEC := 1.4
 const TOAST_FADE_SEC := 0.6
 const PORTRAIT_CLICK_SQUASH := 0.05
 const PORTRAIT_CLICK_DURATION := 0.08
+const CLICK_WIGGLE_DEG := 2.5                # クリック時のランダム回転幅（±度）
+const CLICK_POPUP_RISE_PX := 90.0            # +N ポップアップの上昇量
+const CLICK_POPUP_DURATION := 0.7            # +N ポップアップの寿命（秒）
+const CURRENCY_POP_SCALE := 1.18             # 通貨ラベル弾みの最大倍率
+const CURRENCY_POP_DURATION := 0.10          # 通貨ラベル弾みの片道時間
 
 # --- ゲームバランス --------------------------------------------------------
 const INSPECTION_COOLDOWN_SEC := 300.0       # 検査クールダウン（実時間秒、テスト時は短く）
 const XRAY_SUSPICION_PER_SEC := 1.0          # 眼鏡ON中の suspicion 加算/秒
 const XRAY_SUSPICION_THRESHOLD := 30.0       # この値で発覚
 const XRAY_POSE_SHOW_SEC := 4.0              # 高信頼バレ時に見せつけポーズを表示する時間
+
+# 発情度（arousal）まわり。詳細設計は OperatorRuntime と GameState.add_arousal を参照。
+const AROUSAL_MAX := 100.0                   # 0..この値の範囲でクランプ
+const AROUSAL_DECAY_PER_SEC := 1.0           # 何もしないと毎秒これだけ減る
+const AROUSAL_INTIMACY_BOOST_PER_100 := 1.0  # 親密度100ごとに増加量+100% (×2倍)
+
+# ゴールデン書類（Workタブのランダムボーナス）
+const GOLDEN_INTERVAL_MIN_SEC := 180.0       # 出現間隔の下限（3分）
+const GOLDEN_INTERVAL_MAX_SEC := 420.0       # 出現間隔の上限（7分）
+const GOLDEN_LIFETIME_SEC := 12.0            # 画面横断にかける時間（=見逃し許容秒数）
+const GOLDEN_BONUS_PER_CLICK := 25           # click_power 比例ボーナスの倍率
+const GOLDEN_BONUS_PCT_OF_PILE := 0.07       # 現在通貨の何%をボーナスにするか
+const GOLDEN_BONUS_FLOOR := 50               # 最低保証ボーナス
+const GOLDEN_SIZE_PX := 96.0
+const GOLDEN_TINT_COLOR := Color(1.4, 1.15, 0.4)
+
+# Room タブのアイドルフレーバー段階タイマー（最後の操作から経過秒）
+const IDLE_STAGE_1_SEC := 60.0      # 1分：軽い独り言
+const IDLE_STAGE_2_SEC := 180.0     # 3分：牽制
+const IDLE_STAGE_3_SEC := 300.0     # 5分：ロックオン
+const IDLE_FIRE_SEC := 360.0        # 6分：発火（バフ付与）
+const IDLE_BUFF_MULT := 2.0         # 発火時の click 倍率
+const IDLE_BUFF_DURATION_SEC := 60.0  # バフ持続秒
 
 # --- Theme variation 名（.tscn の theme_type_variation で使う） --------
 const VAR_DISPLAY_BUTTON := &"DisplayButton"   # FONT_DISPLAY

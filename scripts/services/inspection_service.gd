@@ -21,8 +21,7 @@ static func cooldown_remaining_sec(op_id: StringName) -> float:
 
 
 static func inspect(op_id: StringName) -> ReactionRule:
-	if GameState.is_operator_locked(op_id):
-		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_OPERATOR_LOCKED"))
+	if GameState.try_locked_revisit(op_id):
 		return null
 	if not can_inspect(op_id):
 		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_INSPECTION_COOLDOWN"))

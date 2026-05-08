@@ -1,0 +1,293 @@
+[gd_resource type="Resource" script_class="CGData" load_steps=30 format=3 uid="uid://cglembreak0000"]
+
+[ext_resource type="Script" path="res://scripts/data/cg_data.gd" id="1_cg"]
+[ext_resource type="Script" path="res://scripts/data/cg_step.gd" id="2_step"]
+
+[sub_resource type="Resource" id="step_01"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_01"
+sfx = null
+
+[sub_resource type="Resource" id="step_02"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_1000_a_morning.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_02"
+sfx = null
+
+[sub_resource type="Resource" id="step_03"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_1000_b_bracelet.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_03"
+sfx = null
+
+[sub_resource type="Resource" id="step_04"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_04"
+sfx = null
+
+[sub_resource type="Resource" id="step_05"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_05"
+sfx = null
+
+[sub_resource type="Resource" id="step_06"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_06"
+sfx = null
+
+[sub_resource type="Resource" id="step_07"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_07"
+sfx = null
+
+[sub_resource type="Resource" id="step_08"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_1000_c_kiss.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_08"
+sfx = null
+
+[sub_resource type="Resource" id="step_09"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_1000_d_intense.png"
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_09"
+sfx = null
+
+[sub_resource type="Resource" id="step_10"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_10"
+sfx = null
+
+[sub_resource type="Resource" id="step_11"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_11"
+sfx = null
+
+[sub_resource type="Resource" id="step_12"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_12"
+sfx = null
+
+[sub_resource type="Resource" id="step_13"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_13"
+sfx = null
+
+[sub_resource type="Resource" id="step_14"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_1000_e_tears.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_14"
+sfx = null
+
+[sub_resource type="Resource" id="step_15"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_15"
+sfx = null
+
+[sub_resource type="Resource" id="step_16"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_16"
+sfx = null
+
+[sub_resource type="Resource" id="step_17"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_17"
+sfx = null
+
+[sub_resource type="Resource" id="step_18"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_18"
+sfx = null
+
+[sub_resource type="Resource" id="step_19"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_19"
+sfx = null
+
+[sub_resource type="Resource" id="step_20"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_20"
+sfx = null
+
+[sub_resource type="Resource" id="step_21"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_21"
+sfx = null
+
+[sub_resource type="Resource" id="step_22"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_1000_f_heartbeat.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_22"
+sfx = null
+
+[sub_resource type="Resource" id="step_23"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_23"
+sfx = null
+
+[sub_resource type="Resource" id="step_24"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_24"
+sfx = null
+
+[sub_resource type="Resource" id="step_25"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_25"
+sfx = null
+
+[sub_resource type="Resource" id="step_26"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_26"
+sfx = null
+
+[sub_resource type="Resource" id="step_27"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_27"
+sfx = null
+
+[sub_resource type="Resource" id="step_28"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BREAK_28"
+sfx = null
+
+[resource]
+script = ExtResource("1_cg")
+id = &"cg_lemuen_intimate_break"
+operator_id = &"lemuen"
+stage_required = 4
+trigger_item_id = &"medical_protector"
+caption = "CG_LEMUEN_INTIMATE_BREAK_CAPTION"
+steps = Array[Resource]([SubResource("step_01"), SubResource("step_02"), SubResource("step_03"), SubResource("step_04"), SubResource("step_05"), SubResource("step_06"), SubResource("step_07"), SubResource("step_08"), SubResource("step_09"), SubResource("step_10"), SubResource("step_11"), SubResource("step_12"), SubResource("step_13"), SubResource("step_14"), SubResource("step_15"), SubResource("step_16"), SubResource("step_17"), SubResource("step_18"), SubResource("step_19"), SubResource("step_20"), SubResource("step_21"), SubResource("step_22"), SubResource("step_23"), SubResource("step_24"), SubResource("step_25"), SubResource("step_26"), SubResource("step_27"), SubResource("step_28")])

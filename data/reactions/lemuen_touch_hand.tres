@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://rrlem02"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 1
+trigger_id = &"lemuen_touch_hand"
+operator_id = &"lemuen"
+match_category = false
+min_trust = 0
+max_trust = 99999
+reaction = 1
+trust_delta = 0
+expression = &"smile"
+dialogue = "DIALOGUE_LEMUEN_TOUCH_HAND"
+dialogue_alternates = Array[String](["DIALOGUE_LEMUEN_TOUCH_HAND_ALT2", "DIALOGUE_LEMUEN_TOUCH_HAND_ALT3"])
+priority = 10

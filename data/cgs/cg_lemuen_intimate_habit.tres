@@ -1,0 +1,263 @@
+[gd_resource type="Resource" script_class="CGData" load_steps=27 format=3 uid="uid://cglemhabit0000"]
+
+[ext_resource type="Script" path="res://scripts/data/cg_data.gd" id="1_cg"]
+[ext_resource type="Script" path="res://scripts/data/cg_step.gd" id="2_step"]
+
+[sub_resource type="Resource" id="step_01"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_01"
+sfx = null
+
+[sub_resource type="Resource" id="step_02"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_02"
+sfx = null
+
+[sub_resource type="Resource" id="step_03"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_03"
+sfx = null
+
+[sub_resource type="Resource" id="step_04"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smug"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_04"
+sfx = null
+
+[sub_resource type="Resource" id="step_05"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smug"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_05"
+sfx = null
+
+[sub_resource type="Resource" id="step_06"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"blush"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_06"
+sfx = null
+
+[sub_resource type="Resource" id="step_07"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"blush"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_07"
+sfx = null
+
+[sub_resource type="Resource" id="step_08"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"blush"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_08"
+sfx = null
+
+[sub_resource type="Resource" id="step_09"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_100_a_room.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_09"
+sfx = null
+
+[sub_resource type="Resource" id="step_10"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_10"
+sfx = null
+
+[sub_resource type="Resource" id="step_11"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_intimate_100_b_bed.png"
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_11"
+sfx = null
+
+[sub_resource type="Resource" id="step_12"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_12"
+sfx = null
+
+[sub_resource type="Resource" id="step_13"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_13"
+sfx = null
+
+[sub_resource type="Resource" id="step_14"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_14"
+sfx = null
+
+[sub_resource type="Resource" id="step_15"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_15"
+sfx = null
+
+[sub_resource type="Resource" id="step_16"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_16"
+sfx = null
+
+[sub_resource type="Resource" id="step_17"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_17"
+sfx = null
+
+[sub_resource type="Resource" id="step_18"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_18"
+sfx = null
+
+[sub_resource type="Resource" id="step_19"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_19"
+sfx = null
+
+[sub_resource type="Resource" id="step_20"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_20"
+sfx = null
+
+[sub_resource type="Resource" id="step_21"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = ""
+expression = &""
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_21"
+sfx = null
+
+[sub_resource type="Resource" id="step_22"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"aroused"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_22"
+sfx = null
+
+[sub_resource type="Resource" id="step_23"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"aroused"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_23"
+sfx = null
+
+[sub_resource type="Resource" id="step_24"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_24"
+sfx = null
+
+[sub_resource type="Resource" id="step_25"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_HABIT_25"
+sfx = null
+
+[resource]
+script = ExtResource("1_cg")
+id = &"cg_lemuen_intimate_habit"
+operator_id = &"lemuen"
+stage_required = 3
+trigger_item_id = &"medical_protector"
+caption = "CG_LEMUEN_INTIMATE_HABIT_CAPTION"
+steps = Array[Resource]([SubResource("step_01"), SubResource("step_02"), SubResource("step_03"), SubResource("step_04"), SubResource("step_05"), SubResource("step_06"), SubResource("step_07"), SubResource("step_08"), SubResource("step_09"), SubResource("step_10"), SubResource("step_11"), SubResource("step_12"), SubResource("step_13"), SubResource("step_14"), SubResource("step_15"), SubResource("step_16"), SubResource("step_17"), SubResource("step_18"), SubResource("step_19"), SubResource("step_20"), SubResource("step_21"), SubResource("step_22"), SubResource("step_23"), SubResource("step_24"), SubResource("step_25")])

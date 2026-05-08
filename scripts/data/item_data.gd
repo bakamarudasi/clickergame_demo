@@ -10,3 +10,4 @@ extends Resource
 @export_multiline var description: String = ""
 @export var effects: Array[ItemEffect] = []
 @export var trust_gate_min: int = 0
+@export var requires_meta: StringName = &""          # 空でない場合、当該メタ強化が解放されている時だけ Shop に陳列

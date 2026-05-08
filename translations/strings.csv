@@ -1,64 +1,148 @@
-keys,ja,en
-UI_TAB_WORK,Work,Work
-UI_TAB_ROOM,Room,Room
-UI_TAB_SHOP,Shop,Shop
-UI_CURRENCY_FMT,¥ %d,¥ %d
-UI_PER_SEC_FMT,%d / sec,%d / sec
-UI_CLICK_POWER_FMT,+%d / click,+%d / click
-WORK_CLICK_BUTTON,CLICK!,CLICK!
-WORK_UPGRADE_TITLE,アップグレード,Upgrades
-WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
-UPGRADE_CLICK_PLUS_ONE_NAME,クリック +1,Click +1
-UPGRADE_CLICK_PLUS_ONE_DESC,クリック1回あたり通貨+1,+1 currency per click
-OPERATOR_LEMUEN_NAME,レミュアン,Lemuen
-COSTUME_LEMUEN_DEFAULT,聖衣,Robe
-STAGE_LEMUEN_0,警戒,Wary
-STAGE_LEMUEN_1,様子見,Observing
-STAGE_LEMUEN_2,打ち解け,Open
-STAGE_LEMUEN_3,親密,Intimate
-STAGE_LEMUEN_4,陥落,Fallen
-ITEM_TEA_PREMIUM_NAME,高級紅茶,Premium Tea
-ITEM_TEA_PREMIUM_DESC,信頼度+5,+5 trust
-ITEM_RULE_UNDERWEAR_MANDATE_NAME,下着義務化命令,Underwear Mandate
-ITEM_RULE_UNDERWEAR_MANDATE_DESC,検査の建前を成立させる規則,Justifies inspections
-ITEM_SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
-ITEM_SCOPE_BASIC_DESC,装備で透視可能。電池が必要,Equip for X-ray view. Needs battery.
-ITEM_SCOPE_BATTERY_NAME,眼鏡用電池,Scope Battery
-ITEM_SCOPE_BATTERY_DESC,眼鏡を30秒使える,30 seconds of scope use
-SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
-SCOPE_BASIC_DESC,下着まで透ける標準枠,Standard frame: shows underwear
-DIALOGUE_LEMUEN_GIFT_TEA,"あら、私の好みを調べたの、ドクター？……ふふっ、観察癖はお互い様ってわけね。お礼に、今度あなたの好みも当ててあげるわ","Oh? Did you study my preferences, Doctor? ...Hmph, seems we both have an observation habit. As thanks, I'll guess yours next time."
-DIALOGUE_LEMUEN_INSP_REJECT,"あら、検査？　……ねえドクター、私の身だしなみと、あなたの本音、どっちを先に確認すればいいのかしら？　はっきりしてくれないと、こちらもどう協力すればいいか困るのよ","Oh, an inspection? ...Tell me, Doctor—should I verify my appearance first, or your real intentions? You'll need to be clearer, or I won't know how to cooperate."
-DIALOGUE_LEMUEN_INSP_COMPLIANT,"ご自分の通達、お忘れじゃないわよね、ドクター。……規則通り、ちゃんと身に着けているわ。確認するなら、目を逸らさずどうぞ。後で『見えなかった』なんて言わせないから","You haven't forgotten your own decree, have you, Doctor? ...All according to regulations. If you're going to verify, don't look away. I won't accept ""I didn't see"" later."
-DIALOGUE_LEMUEN_XRAY_LOW,"ねえドクター、覚えてる？　船上にあなたを狙撃できる場所が一ヶ所あるって話。……ちょうど今、その視線で同じことが私に起きてるのよ。次の瞬きでやめないと、お仕置き、考えるかしら","Remember, Doctor? That spot on the ship where someone could pick you off? ...Your gaze is doing the same to me right now. If you don't stop by your next blink, I might have to consider a punishment."
-DIALOGUE_LEMUEN_XRAY_HIGH,"ふふっ、観察熱心ね、ドクター。私のクセが移ったの？　……いいわ、好きなだけ見ていって。但し、目を逸らしたら――次は私が観察する番だから、覚悟しなさい","Hmph, what dedication, Doctor. Did my habit rub off on you? ...Fine. Look as much as you like. But if you look away—then it's my turn to observe. Brace yourself."
-ROOM_OPERATOR_TITLE,オペレータ,Operators
-ROOM_DETAIL_PLACEHOLDER,—,—
-ROOM_TRUST_FMT,信頼度 %d,Trust %d
-ROOM_STAGE_FMT,段階 %d  %s,Stage %d  %s
-ROOM_GIVE_BUTTON,渡す,Give
-ROOM_TOUCH_TITLE,触れる,Touch
-ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)"
-ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining
-ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d
-SHOP_TITLE,ショップ,Shop
-SHOP_ITEM_FMT,%s — ¥%d,%s — ¥%d
-CATEGORY_DAILY,日常,Daily
-CATEGORY_HOBBY,趣味,Hobby
-CATEGORY_BODY_CARE,ボディケア,Body Care
-CATEGORY_ROMANCE,ロマン,Romance
-CATEGORY_DIRECT_TOY,玩具,Toys
-CATEGORY_DIRECT_DRUG,薬品,Drugs
-CATEGORY_DIRECT_BIND,拘束,Restraints
-CATEGORY_DIRECT_PROT,保護,Protection
-CATEGORY_COS_OUTFIT,衣装,Outfits
-CATEGORY_COS_PARTS,パーツ,Parts
-CATEGORY_INVITATION,招待状,Invitations
-TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…
-TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s
-TOAST_TOUCH_GATED,まだ無理だ…,Not yet…
-TOAST_INSPECTION_COOLDOWN,検査は時間を置く必要がある,Inspection is on cooldown
-TOAST_SCOPE_NO_BATTERY,眼鏡のバッテリーが切れている,Scope battery depleted
-ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection
-ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s)
-ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope
+keys,ja,en,zh_CN
+UI_TAB_WORK,Work,Work,工作
+UI_TAB_ROOM,Room,Room,房间
+UI_TAB_SHOP,Shop,Shop,商店
+UI_TAB_STATUS,Status,Status,状态
+UI_CURRENCY_FMT,¥ %s,¥ %s,¥ %s
+UI_PRESTIGE_FMT,💎 %s,💎 %s,💎 %s
+UI_PER_SEC_FMT,%s / sec,%s / sec,%s / 秒
+UI_CLICK_POWER_FMT,+%s / click,+%s / click,+%s / 点击
+STATUS_TITLE,ステータス,Status,状态
+STATUS_TRUST_FMT,信頼度 %d,Trust %d,信赖度 %d
+STATUS_INTIMACY_FMT,親密度 %d,Intimacy %d,亲密度 %d
+STATUS_AROUSAL_FMT,発情度 %d,Arousal %d,兴奋度 %d
+WORK_CLICK_BUTTON,CLICK!,CLICK!,点击！
+WORK_UPGRADE_TITLE,アップグレード,Upgrades,强化
+WORK_UPGRADE_FMT,%s  Lv.%d — Cost %s,%s  Lv.%d — Cost %s,%s  Lv.%d — 费用 %s
+WORK_UPGRADE_DETAIL_NONE,強化を選んでください,Select an upgrade to see details,请选择强化查看详情
+WORK_UPGRADE_DETAIL_FMT,Lv.%d   ¥ %s,Lv.%d   ¥ %s,Lv.%d   ¥ %s
+WORK_UPGRADE_BUY_BUTTON,購入する,Purchase,购买
+UPGRADE_CLICK_PLUS_ONE_NAME,ケルシーの無言の圧力,Kal'tsit's Silent Pressure,凯尔希的无言压力
+UPGRADE_CLICK_PLUS_ONE_DESC,「……。」背後に立つ彼女の冷ややかな視線を感じるだけで、ペンの走りが少しだけ速くなる。背筋は凍る。,"""…"" Just feeling her icy gaze from behind speeds up your pen a little. Your spine, on the other hand, freezes.",“……。”仅仅感受到站在身后的她那冰冷的视线，笔尖的速度便会稍稍加快。而脊背则瞬间冻住。
+UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アーミヤの「まだ休んじゃダメですよ」,"Amiya — ""You Can't Rest Yet""",阿米娅的“现在还不能休息哦”
+UPGRADE_PAPERWORK_DOUBLE_CHECK_DESC,「ドクター、終わってない仕事がたくさんありますからね。」その純粋な笑顔と優しさが、ドクターの心を縛る最大の原動力。,"""Doctor, there's still plenty of work left, you know."" Her pure smile and kindness are the greatest force binding the Doctor's heart.",“博士，还有很多没完成的工作呢。”她那纯粹的笑容与温柔，正是束缚博士之心最大的原动力。
+UPGRADE_COMMAND_FOCUS_NAME,純正オリジニウムの丸呑み,Pure Originium Gulped Whole,纯正源石整颗吞下
+UPGRADE_COMMAND_FOCUS_DESC,理性がマイナスを振り切ったドクターの奇行。バリバリという咀嚼音と共に、未知の活力が湧いてくる（※医療部から厳しく禁じられています）。,"An eccentric feat by a Doctor whose Sanity has long since gone negative. Crunch by crunch, an unknown vitality wells up. (*Strictly forbidden by the Medical Department.)",理智早已突破负值的博士的奇行。伴随着嘎嘣嘎嘣的咀嚼声，未知的活力从体内涌出（※医疗部已严令禁止）。
+UPGRADE_FIELD_CLERK_NAME,テンニンカのテーブルクロス振り,Honeyberry's Tablecloth Flourish,桃金娘的桌布挥舞
+UPGRADE_FIELD_CLERK_DESC,「りんごちゃーん！」彼女が楽しげにクロスを振るたびに、どこからともなく謎の推進力（とコスト）が湧き出してくる。,"""Apple-chaaan!"" Every cheerful flick of her cloth conjures mysterious momentum (and costs) out of nowhere.",“苹果酱～！”每当她欢快地挥舞桌布，便会从某处涌出神秘的推进力（与费用）。
+UPGRADE_LOGISTICS_TEAM_NAME,クロージャの怪しい自動化ツール,Closure's Suspicious Automation Tool,可露希尔的可疑自动化工具
+UPGRADE_LOGISTICS_TEAM_DESC,「特別価格で提供するよ！」と売りつけられた怪しいUSBメモリ。たまに勝手に通販サイトを開くが、仕事はちゃんとする。,"""Special price, just for you!"" — a shady USB stick she pushed on you. It opens shopping sites on its own now and then, but it gets the job done.",“特别价格，限时奉上！”被强行兜售的可疑U盘。偶尔会擅自打开购物网站，但工作倒是会好好完成。
+UPGRADE_ORIGINIUM_ARTS_NAME,シーの絵巻からのブラック労働力,Sweatshop Labor from Lin's Scroll,见之画卷召出的黑心劳力
+UPGRADE_ORIGINIUM_ARTS_DESC,「面倒くさい…」とぼやく彼女から無理やり引き出した墨の化身たち。24時間、文句も言わずに無限の作業をこなしてくれる。,"Ink avatars wrenched from her despite her muttered ""what a pain..."" Twenty-four hours a day, no complaints, infinite labor.",从嘟囔着“真麻烦……”的她那里强行拽出的墨之化身们。24小时无休、毫无怨言地承担无尽的作业。
+UPGRADE_DOCTOR_AWAKENING_NAME,理性0ドクターの口内カップ麺調理,Sanity-Zero Doctor's In-Mouth Cup Noodle Prep,理智为0的博士口腔泡面术
+UPGRADE_DOCTOR_AWAKENING_DESC,乾麺を砕いて口に入れ、粉末スープを流し込み、熱湯を含んで3分保持する究極の時短術。もはや人を超越した集中力を発揮する。,"Crush dry noodles into your mouth, pour in the seasoning, then hold hot water for three minutes. The ultimate time-saver, channeling focus beyond human.",将干面饼捏碎送入口中，倒入调味粉，再含一口热水保持三分钟——堪称究极的省时之术。展现出已然超越人类的专注力。
+OPERATOR_LEMUEN_NAME,レミュアン,Lemuen,雷缪安
+COSTUME_LEMUEN_DEFAULT,聖衣,Robe,圣衣
+STAGE_LEMUEN_0,警戒,Wary,警戒
+STAGE_LEMUEN_1,様子見,Observing,观望
+STAGE_LEMUEN_2,打ち解け,Open,敞开心扉
+STAGE_LEMUEN_3,親密,Intimate,亲密
+STAGE_LEMUEN_4,陥落,Fallen,沦陷
+ITEM_TEA_PREMIUM_NAME,高級紅茶,Premium Tea,高级红茶
+ITEM_TEA_PREMIUM_DESC,信頼度+5,+5 trust,信赖度+5
+ITEM_COOKIE_NAME,ラテラーノ風クッキー,Laterano Cookies,拉特兰风曲奇
+ITEM_COOKIE_DESC,ラテラーノ仕込みの素朴な焼き菓子。気軽に渡せる定番ギフト。信頼度+2。,Humble baked treats made the Laterano way. An easy go-to gift. Trust +2.,以拉特兰手法烘制的素朴点心。是能轻松送出的常备礼物。信赖度+2。
+ITEM_COFFEE_NAME,ブラックコーヒー,Black Coffee,黑咖啡
+ITEM_COFFEE_DESC,ロドス事務班ご用達のブラックコーヒー。眠気覚ましには十分。信頼度+3。,The Rhodes Island staff's go-to black coffee. Plenty enough to chase off drowsiness. Trust +3.,罗德岛事务班常备的黑咖啡。提神已绰绰有余。信赖度+3。
+ITEM_SANDWICH_NAME,クルビアサンド,Columbia Sandwich,哥伦比亚三明治
+ITEM_SANDWICH_DESC,クルビア式の片手で食べられる昼食。栄養もそこそこ。信頼度+4。,A Columbian one-handed lunch — surprisingly balanced. Trust +4.,哥伦比亚式可单手取食的午餐，营养也尚可。信赖度+4。
+ITEM_ENERGY_DRINK_NAME,源石抜きエナドリ,Originium-Free Energy Drink,无源石能量饮料
+ITEM_ENERGY_DRINK_DESC,「源石不使用」と書かれた怪しいエナドリ。理性が戻る気がする（気のせい）。信頼度+5。,"A suspicious energy drink labelled ""Originium-free."" You feel your Sanity returning (you do not). Trust +5.","贴着""不含源石""标签的可疑能量饮料。感觉理智回来了（其实没有）。信赖度+5。"
+ITEM_BENTO_NAME,ヴィクトリア風弁当,Victorian Bento,维多利亚风便当
+ITEM_BENTO_DESC,ヴィクトリア式の栄養バランスの取れた弁当。手作り感あり。信頼度+7。,A Victorian-style balanced bento with a homemade touch. Trust +7.,维多利亚风的营养均衡便当，带着手作的温度。信赖度+7。
+ITEM_CHOCOLATE_NAME,龍門高級チョコ,Lungmen Premium Chocolate,龙门高级巧克力
+ITEM_CHOCOLATE_DESC,龍門の高級チョコレート。心遣いが伝わる甘味。信頼度+12。,Lungmen premium chocolate — a sweet that says you cared enough. Trust +12.,龙门的高级巧克力，是能让心意传达到的甜。信赖度+12。
+ITEM_BLEND_TEA_NAME,ロドス艦内食堂の特製ブレンドティー,Rhodes Island Mess Hall Special Blend,罗德岛舰内食堂特调茶
+ITEM_BLEND_TEA_DESC,「ハイビスカスが関与していない」と確約された、安心と信頼の紅茶。ちょっとした休憩の誘いに最適。信頼度+5。,"A reassuring blend with the explicit guarantee that ""no Hibiscus was involved."" Perfect for a casual break invitation. Trust +5.","附有""与海帕提亚（赫蓓）无关""保证书的安心红茶。最适合用作小憩的邀约。信赖度+5。"
+ITEM_KASHMIR_NOVEL_NAME,年代物のカシミア騎士小説,Vintage Kashmiri Knight Novel,年代久远的卡西米尔骑士小说
+ITEM_KASHMIR_NOVEL_DESC,絶版となった貴重な騎士文学の初版。特定のオペレーターの目を輝かせるには十分すぎる品。信頼度+15。,A first-edition of long-out-of-print knight literature. More than enough to make a certain operator's eyes light up. Trust +15.,已绝版的珍贵骑士文学的初版。要让某位干员两眼放光绰绰有余。信赖度+15。
+ITEM_RELIEF_OIL_NAME,医療部開発・源石疲労緩和オイル,"Medical Dept. Originium-Strain Relief Oil",医疗部研制·源石疲劳缓解油
+ITEM_RELIEF_OIL_DESC,「鉱石病による筋肉の強張りをほぐすため」という完璧な建前のもと、素肌への直接的な接触を可能にする魔法のオイル。信頼度+8。,"A magical oil that, under the perfect pretext of ""easing oripathy-related muscle tension,"" enables direct contact with bare skin. Trust +8.","顶着""舒缓矿石病引起的肌肉僵硬""这一完美名义、得以直接接触素肌的魔法油剂。信赖度+8。"
+ITEM_TITANIUM_BRACELET_NAME,カスタムメイドのチタン製ブレスレット,Custom-Made Titanium Bracelet,定制款钛金属手镯
+ITEM_TITANIUM_BRACELET_DESC,戦場でも壊れない頑丈さと、繊細な意匠を併せ持つ装飾品。これを贈るということは、単なる上司と部下以上の関係を意味する。信頼度+30。,"A piece of jewelry that pairs battlefield-grade durability with a delicate design. Giving this means more than a mere superior-subordinate relationship. Trust +30.","兼具战场也无法破坏的坚固与精致意匠的饰品。送出这份礼物，意味着已经超越了单纯的上下级关系。信赖度+30。"
+ITEM_CLOSURE_VIBRATOR_NAME,クロージャ製・高周波小型振動デバイス,Closure-Brand High-Freq Compact Vibrator,可露希尔牌·高频小型振动装置
+ITEM_CLOSURE_VIBRATOR_DESC,表向きは「局所的な肩こり解消ツール」。しかし、その形状と無駄に細かく設定できる振動パターンは明らかに別の目的を想定している。,"Officially a ""localized stiff-shoulder relief tool."" But the shape and the absurdly granular vibration patterns clearly assume a different purpose entirely.","名义上是""局部肩颈放松工具""。可那形状与多到没必要的振动模式设定，分明是冲着另一个用途去的。"
+ITEM_PINK_GAS_NAME,ワルファリン秘蔵『特別採血用』試薬,"Warfarin's Hoarded ""Special Sampling"" Reagent","华法琳秘藏的""特殊采血用""试剂"
+ITEM_PINK_GAS_DESC,わずかな吸入で理性を溶かし、体の奥底を熱くさせるピンク色のガス。「あくまで医学的興味だ」と彼女は言い張るが、使用には多大なリスク（と事後のバレ）を伴う。,"A pink gas that, in tiny inhalations, dissolves reason and heats the body to its core. ""Purely medical curiosity,"" she insists — but use carries significant risk (and post-event exposure).","只需吸入少许便能瓦解理智、令身体深处发热的粉色气体。她坚称""不过是医学上的兴趣""，但使用伴随极大的风险（与事后的败露）。"
+ITEM_RHODES_ROPE_NAME,ロドス警備隊用・源石繊維ロープ,Rhodes Security Originium-Fiber Rope,罗德岛警备队用·源石纤维绳
+ITEM_RHODES_ROPE_DESC,本来は暴走した感染者や敵兵を無力化するための超高強度ロープ。これを執務室に持ち込んだ時点で、ドクターの目的は一つしかない。,"Originally an ultra-high-strength rope for subduing rampaging Infected and enemy troops. The moment this enters your office, your purpose can only be one thing.","本应用于制服失控感染者与敌兵的超高强度绳索。当它被带进办公室那一刻，博士的目的便只剩一个。"
+ITEM_MED_PROTECTOR_NAME,医療部支給・特用ラバープロテクター,Medical Dept.-Issued Special-Use Rubber Protector,医疗部配发·特用乳胶防护具
+ITEM_MED_PROTECTOR_DESC,感染リスクを最小限に抑え、後始末の証拠を残さないための必須アイテム。「これがあるから大丈夫」という言い訳にもなる。,"Essential gear that minimizes infection risk and leaves no trace to clean up after. Doubles as the excuse: ""we have these, so it's fine.""","将感染风险压到最低、且不留事后证据的必需品。同时也能成为""有这个就没问题""的借口。"
+ITEM_CORAL_SWIMSUIT_NAME,コーラルコースト・未発表プロトタイプ,Coral Coast Unreleased Prototype,珊瑚海岸·未发布原型
+ITEM_CORAL_SWIMSUIT_DESC,「データ収集のため」と称して試着を促す水着。布面積が極端に少なく、水辺での着用すら躊躇われるデザイン。,"A swimsuit pushed for try-on under the guise of ""data collection."" The fabric area is extreme enough that even waterside wear feels questionable.","以""收集数据""为名怂恿试穿的泳装。布料面积极少，连在水边穿都让人犹豫的设计。"
+ITEM_FELINE_CATEARS_NAME,レム・ビリトン製・超精密猫耳カチューシャ,Lem Biliton Super-Precision Catear Headband,莱姆比尔顿制·超精密猫耳发箍
+ITEM_FELINE_CATEARS_DESC,脳波に連動して本物のようにピコピコ動くフェリーン偽装用アイテム。「任務に必要」と言いくるめて着けさせよう。,"A Feline-disguise piece whose ears twitch in sync with brainwaves like the real thing. Talk her into it as ""mission-essential.""","随脑波联动、像真品一样灵动抖动的菲林族伪装道具。用""任务需要""哄她戴上即可。"
+ITEM_MIDNIGHT_EXAM_NAME,【機密】深夜の特別健康診断通達,[Classified] Late-Night Special Examination Notice,【机密】深夜特别体检通告
+ITEM_MIDNIGHT_EXAM_DESC,ドクターの権限で発行された、深夜の執務室への呼び出し状。この時間帯、廊下に他のオペレーターの姿はない。,"A summons to the late-night office, issued by the Doctor's own authority. At this hour, the corridor holds no other operators.","以博士本人权限签发的深夜办公室召见状。在这个时间段，走廊上不会出现其他干员的身影。"
+ITEM_RULE_UNDERWEAR_MANDATE_NAME,艦内通達：指定アンダーウェアの着用義務化,"Ship-Wide Notice: Mandatory Designated Underwear",舰内通告：指定内衣穿着义务化
+ITEM_RULE_UNDERWEAR_MANDATE_DESC,「感染状況の即時確認を阻害しないため」というもっともらしい理由で、全艦に布告された恐るべき命令。これにより普段の装備の下が劇的に変化する。,"A dreadful directive issued ship-wide under the plausible reason of ""not obstructing immediate infection-status checks."" The under-layer of routine gear changes dramatically as a result.","以""为不妨碍即时确认感染状况""这一冠冕堂皇的理由、向全舰颁布的可怕命令。日常装备之下因此发生剧变。"
+ITEM_SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic),绅士眼镜（基础）
+ITEM_SCOPE_BASIC_DESC,装備で透視可能。電池が必要,Equip for X-ray view. Needs battery.,装备后可透视。需要电池。
+ITEM_SCOPE_BATTERY_NAME,眼鏡用電池,Scope Battery,眼镜用电池
+ITEM_SCOPE_BATTERY_DESC,眼鏡を30秒使える,30 seconds of scope use,可使用眼镜30秒
+ITEM_PRTS_VISOR_NAME,PRTS連動・生体情報スキャンバイザー（改造版）,PRTS-Linked Biometric Scan Visor (Modded),PRTS联动·生体信息扫描面罩（改造版）
+ITEM_PRTS_VISOR_DESC,クロージャに賄賂を渡してリミッターを解除した特殊ゴーグル。服の透過から心拍数の可視化（思考読み）まで、段階的に対象の「すべて」を丸裸にする。,"Special goggles whose limiter Closure removed in exchange for a generous bribe. From clothing-see-through to heart-rate visualization (and beyond, into reading thoughts), they progressively strip the target of ""everything.""","向可露希尔行贿后解除限制器的特殊护目镜。从衣物透视到心率可视化（乃至读心），按阶段把目标的""一切""都剥得一干二净。"
+SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic),绅士眼镜（基础）
+SCOPE_BASIC_DESC,下着まで透ける標準枠,Standard frame: shows underwear,可透视至内衣的标准款
+SCOPE_ADVANCED_NAME,PRTS改造バイザー,PRTS Modded Visor,PRTS改造面罩
+SCOPE_ADVANCED_DESC,服の透過と心拍可視化を兼ねる改造枠。長時間使用可能だが発覚率は高い。,Modded frame combining clothing see-through with heart-rate visualization. Lasts longer but raises exposure risk.,可同时实现衣物透视与心率可视化的改造款。可长时间使用，但败露风险更高。
+CG_LEMUEN_INTIMATE_FIRST_CAPTION,初めての夜,The First Night,初次共度的夜
+ROOM_OPERATOR_TITLE,オペレータ,Operators,干员
+ROOM_DETAIL_PLACEHOLDER,—,—,—
+ROOM_TRUST_FMT,信頼度 %d,Trust %d,信赖度 %d
+ROOM_STAGE_FMT,段階 %d  %s,Stage %d  %s,阶段 %d  %s
+ROOM_GIVE_BUTTON,渡す,Give,赠送
+ROOM_TOUCH_TITLE,触れる,Touch,触碰
+ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)",“%s”  (信赖度 %+d)
+ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining,锁定中… 剩余 %d 秒
+ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d,%s ×%d
+SHOP_TITLE,ショップ,Shop,商店
+SHOP_ITEM_FMT,%s — ¥%s,%s — ¥%s,%s — ¥%s
+SHOP_DETAIL_NONE,アイテムを選んでください,Select an item to see details,请选择物品查看详情
+SHOP_DETAIL_PRICE_FMT,価格 ¥ %s,Price ¥ %s,价格 ¥ %s
+SHOP_DETAIL_GATE_FMT,信頼度 %d 以上で使用可,Usable at trust %d or higher,信赖度 %d 以上方可使用
+SHOP_BUY_BUTTON,購入する,Purchase,购买
+CATEGORY_DAILY,日常,Daily,日常
+CATEGORY_HOBBY,趣味,Hobby,兴趣
+CATEGORY_BODY_CARE,ボディケア,Body Care,身体护理
+CATEGORY_ROMANCE,ロマン,Romance,浪漫
+CATEGORY_DIRECT_TOY,玩具,Toys,玩具
+CATEGORY_DIRECT_DRUG,薬品,Drugs,药品
+CATEGORY_DIRECT_BIND,拘束,Restraints,束缚
+CATEGORY_DIRECT_PROT,保護,Protection,防护
+CATEGORY_COS_OUTFIT,衣装,Outfits,服装
+CATEGORY_COS_PARTS,パーツ,Parts,配件
+CATEGORY_INVITATION,招待状,Invitations,邀请函
+TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…,现在还不肯见你…
+TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s,%s 不够
+TOAST_TOUCH_GATED,まだ無理だ…,Not yet…,还不行…
+TOAST_INSPECTION_COOLDOWN,検査は時間を置く必要がある,Inspection is on cooldown,检查需要冷却时间
+TOAST_SCOPE_NO_BATTERY,眼鏡のバッテリーが切れている,Scope battery depleted,眼镜电池已耗尽
+TOAST_GOLDEN_BONUS,ゴールデン書類！ +¥%s,Golden Paperwork! +¥%s,黄金文件！ +¥%s
+ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection,🔍 仪容检查
+ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s),检查 (剩余 %d 秒)
+ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope,👓 绅士眼镜
+TOUCH_LEMUEN_HAIR,髪を撫でる,Stroke her hair,抚摸她的头发
+TOUCH_LEMUEN_HAND,手を取る,Take her hand,牵起她的手
+TOUCH_LEMUEN_PAT,頭をぽんぽん,Pat her head,摸摸头
+TOUCH_LEMUEN_NECK,肩・首筋,Shoulder & nape,肩颈
+TOUCH_LEMUEN_EAR,耳元で囁く,Whisper in her ear,在她耳边低语
+TOUCH_LEMUEN_HUG,抱きしめる,Embrace her,拥抱她
+TOUCH_LEMUEN_THIGH,太もも,Thigh,大腿
+TOUCH_LEMUEN_WAIST,腰,Waist,腰
+TOUCH_LEMUEN_CHEST_CLOTHED,胸（服越し）,Chest (over clothes),胸（隔衣）
+TOUCH_LEMUEN_KISS,唇,Kiss,亲吻
+TOUCH_LEMUEN_CHEST_DIRECT,胸（直接）,Chest (direct),胸（直接）
+TOUCH_LEMUEN_KISS_DEEP,唇（深く）,Deep kiss,深吻
+TOUCH_LEMUEN_LOWER,下半身,Lower body,下身
+TOUCH_LEMUEN_FORCE_CLOSE,強引に距離を詰める,Force close approach,强行靠近
+TOUCH_LEMUEN_GROPE_CHEST,いきなり胸を触る,Sudden grope,突然摸胸
+TOAST_IDLE_BUFF_FMT,アドレナリン分泌！クリック ×%d（%d 秒）,Adrenaline rush! Click ×%d for %d sec,肾上腺素飙升！点击 ×%d（%d 秒）
+DOCTOR_NARRATION_NAME,（ドクター）,(Doctor),（博士）
+DOCTOR_NAME,ドクター,Doctor,博士
+CG_LEMUEN_INTIMATE_HABIT_CAPTION,習慣化,Habit,习惯化
+CG_LEMUEN_INTIMATE_DEVOTE_CAPTION,観察結果,Observation Result,观察结果
+CG_LEMUEN_INTIMATE_BREAK_CAPTION,誓約,The Vow,誓约
+SHOP_QTY_LABEL,数量:,Qty:,数量:
+SHOP_QTY_MAX,×Max,×Max,×Max
+SHOP_BUY_BUTTON_QTY_FMT,購入する ×%d  (¥ %s),Buy ×%d  (¥ %s),购买 ×%d  (¥ %s)

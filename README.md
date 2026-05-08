@@ -4,7 +4,7 @@ Godot 4.6+ で作るシンプルなクリッカーゲームの雛形。
 
 ## 構成
 
-- `project.godot` — Godot 4.6 プロジェクト設定（縦持ち 720x1280、GL Compatibility）
+- `project.godot` — Godot 4.6 プロジェクト設定（横持ち 1280x720、GL Compatibility）
 - `scenes/main.tscn` — メインシーン（タイトル / スコア / クリックボタン / アップグレード）
 - `scripts/main.gd` — クリック・アップグレード・自動収益のロジック
 - `icon.svg` — プロジェクトアイコン
@@ -42,13 +42,21 @@ SubtitleLabel  → トースト・タブ見出し
 
 ## 翻訳（i18n）
 
-`translations/strings.csv` に key + 言語列を追加するだけで多言語化できる。
+UI / システム文言は `translations/strings.csv` に、キャラごとの会話台詞は `translations/dialogues/<operator_id>.csv` に分けて置く。どちらも CSV → `.translation` をエディタが自動生成する形式。
 
 ```
 keys,ja,en
 WORK_CLICK_BUTTON,CLICK!,CLICK!
 ROOM_TRUST_FMT,信頼度 %d,Trust %d
 ```
+
+```
+# translations/dialogues/lemuen.csv
+keys,ja,en,zh_CN
+DIALOGUE_LEMUEN_GIFT_TEA,"あら、…","Oh? …",哎呀，…
+```
+
+`DIALOGUE_<OP>_*` キーは必ずキャラ別ファイルに置く（行数増加に強くするため）。新キャラを足したら同名 CSV を追加し、`project.godot` の `locale/translations` に 3 言語ぶんの `.translation` パスを追記する。
 
 ### 使い方の規約
 
@@ -67,9 +75,9 @@ LocaleService.change_locale("en")  # 即時反映
 
 ### 言語追加
 
-1. `strings.csv` に列追加（例 `zh`）
+1. `strings.csv` および `translations/dialogues/*.csv` 全部に列追加（例 `zh`）
 2. `LocaleService.SUPPORTED_LOCALES` に `"zh"` 追加
-3. `project.godot` の `locale/translations` に `strings.zh.translation` を追加
+3. `project.godot` の `locale/translations` に `strings.zh.translation` および各キャラの `dialogues/<op>.zh.translation` を追加
 4. Godot エディタで CSV を再インポート
 
 ## 次に足せそうなもの
