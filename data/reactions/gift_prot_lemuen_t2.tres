@@ -11,6 +11,7 @@ match_category = false
 min_trust = 60
 max_trust = 99999
 min_tier = 2
+requires_cgs = Array[StringName]([&"cg_lemuen_intimate_first"])
 reaction = 0
 trust_delta = 4
 expression = &"smile"
