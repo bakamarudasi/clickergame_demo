@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://itempinkgas0000"]
+
+[ext_resource type="Script" path="res://scripts/data/item_data.gd" id="1_item"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("2_eff")
+kind = 0
+amount = 5
+target_id = &""
+
+[sub_resource type="Resource" id="effect_2"]
+script = ExtResource("2_eff")
+kind = 4
+amount = 3
+target_id = &""
+
+[resource]
+script = ExtResource("1_item")
+id = &"warfarin_pink_gas"
+display_name = "ITEM_PINK_GAS_NAME"
+category = 5
+price = 600
+is_consumable = true
+description = "ITEM_PINK_GAS_DESC"
+effects = Array[Resource]([SubResource("effect_1"), SubResource("effect_2")])
+trust_gate_min = 60
