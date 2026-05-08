@@ -57,9 +57,9 @@ const AROUSAL_DECAY_PER_SEC := 1.0           # 何もしないと毎秒これだ
 const AROUSAL_INTIMACY_BOOST_PER_100 := 1.0  # 親密度100ごとに増加量+100% (×2倍)
 
 # ゴールデン書類（Workタブのランダムボーナス）
-const GOLDEN_INTERVAL_MIN_SEC := 30.0
-const GOLDEN_INTERVAL_MAX_SEC := 90.0
-const GOLDEN_LIFETIME_SEC := 6.0             # 画面横断にかける時間
+const GOLDEN_INTERVAL_MIN_SEC := 180.0       # 出現間隔の下限（3分）
+const GOLDEN_INTERVAL_MAX_SEC := 420.0       # 出現間隔の上限（7分）
+const GOLDEN_LIFETIME_SEC := 12.0            # 画面横断にかける時間（=見逃し許容秒数）
 const GOLDEN_BONUS_PER_CLICK := 25           # click_power 比例ボーナスの倍率
 const GOLDEN_BONUS_PCT_OF_PILE := 0.07       # 現在通貨の何%をボーナスにするか
 const GOLDEN_BONUS_FLOOR := 50               # 最低保証ボーナス
