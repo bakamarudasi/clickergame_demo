@@ -25,6 +25,7 @@ const INTIMACY_BAR_DISPLAY_MAX := 200                 # 親密度バーの目盛
 @onready var touch_list: VBoxContainer = %TouchList
 @onready var inspection_button: Button = %InspectionButton
 @onready var portrait_view: TextureRect = %PortraitView
+@onready var face_overlay: TextureRect = %FaceOverlay
 @onready var scope_toggle: Button = %ScopeToggle
 @onready var battery_bar: ProgressBar = %BatteryBar
 @onready var suspicion_bar: ProgressBar = %SuspicionBar
@@ -280,22 +281,38 @@ func _refresh_portrait() -> void:
 	if _current_op == &"":
 		portrait_view.texture = null
 		portrait_view.modulate = Color.WHITE
+		face_overlay.visible = false
 		return
 	var rt := GameState.get_runtime(_current_op)
 	if rt == null:
 		portrait_view.texture = null
+		face_overlay.visible = false
 		return
 	var costume := DataRegistry.get_costume(rt.equipped_costume)
 	if costume == null:
 		portrait_view.texture = null
+		face_overlay.visible = false
 		return
-	# 表情フラッシュ中はそれを最優先
+	# 表情フラッシュ中はそれを最優先。顔差分（layered）→ 全身差し替え（full swap）の順に解決。
 	if _expression_show_until_unix > Time.get_unix_time_from_system() and _active_expression != &"":
-		var flash_tex := _expression_texture(_active_expression)
-		if flash_tex != null:
-			portrait_view.texture = flash_tex
+		var face_tex := _face_overlay_texture(_active_expression)
+		if face_tex != null:
+			# 顔レイヤー方式：体は通常 sprite を出して、顔だけ重ねる
+			portrait_view.texture = costume.sprite
+			face_overlay.texture = face_tex
+			_position_face_overlay(costume)
+			face_overlay.visible = true
 			_apply_arousal_tint()
 			return
+		var flash_tex := _expression_texture(_active_expression)
+		if flash_tex != null:
+			# 全差し替え方式
+			portrait_view.texture = flash_tex
+			face_overlay.visible = false
+			_apply_arousal_tint()
+			return
+	# フラッシュ無し（または該当テクスチャ無し）→ 顔オーバレイは隠す
+	face_overlay.visible = false
 	if _pose_show_until_unix > Time.get_unix_time_from_system():
 		portrait_view.texture = costume.sprite_pose_seductive if costume.sprite_pose_seductive != null else costume.sprite
 	elif GameState.xray_active:
@@ -308,7 +325,8 @@ func _refresh_portrait() -> void:
 func _flash_expression(expr: StringName) -> void:
 	if expr == &"" or _current_op == &"":
 		return
-	if _expression_texture(expr) == null:
+	# 顔差分・全身差し替えのどちらか一方でも登録されてたら起動。
+	if _face_overlay_texture(expr) == null and _expression_texture(expr) == null:
 		# データ未整備でも黙って素通り（既存挙動を壊さない）
 		return
 	_active_expression = expr
@@ -323,6 +341,31 @@ func _expression_texture(expr: StringName) -> Texture2D:
 	if op == null or not op.portrait_expressions.has(expr):
 		return null
 	return op.portrait_expressions[expr]
+
+
+func _face_overlay_texture(expr: StringName) -> Texture2D:
+	if expr == &"" or _current_op == &"":
+		return null
+	var op := DataRegistry.get_operator(_current_op)
+	if op == null or not op.portrait_face_overlays.has(expr):
+		return null
+	return op.portrait_face_overlays[expr]
+
+
+# face_overlay は portrait_view の子で、anchor を costume.face_anchor_rect の
+# 正規化座標に合わせて貼付け位置を決める。コスチューム差し替えに自動追従する。
+func _position_face_overlay(costume: CostumeData) -> void:
+	if costume == null:
+		return
+	var rect := costume.face_anchor_rect
+	face_overlay.anchor_left = rect.position.x
+	face_overlay.anchor_top = rect.position.y
+	face_overlay.anchor_right = rect.position.x + rect.size.x
+	face_overlay.anchor_bottom = rect.position.y + rect.size.y
+	face_overlay.offset_left = 0.0
+	face_overlay.offset_top = 0.0
+	face_overlay.offset_right = 0.0
+	face_overlay.offset_bottom = 0.0
 
 
 # 発情度に応じた modulate tint を立ち絵に適用する。
