@@ -56,6 +56,16 @@ const AROUSAL_MAX := 100.0                   # 0..この値の範囲でクラン
 const AROUSAL_DECAY_PER_SEC := 1.0           # 何もしないと毎秒これだけ減る
 const AROUSAL_INTIMACY_BOOST_PER_100 := 1.0  # 親密度100ごとに増加量+100% (×2倍)
 
+# ゴールデン書類（Workタブのランダムボーナス）
+const GOLDEN_INTERVAL_MIN_SEC := 30.0
+const GOLDEN_INTERVAL_MAX_SEC := 90.0
+const GOLDEN_LIFETIME_SEC := 6.0             # 画面横断にかける時間
+const GOLDEN_BONUS_PER_CLICK := 25           # click_power 比例ボーナスの倍率
+const GOLDEN_BONUS_PCT_OF_PILE := 0.07       # 現在通貨の何%をボーナスにするか
+const GOLDEN_BONUS_FLOOR := 50               # 最低保証ボーナス
+const GOLDEN_SIZE_PX := 96.0
+const GOLDEN_TINT_COLOR := Color(1.4, 1.15, 0.4)
+
 # --- Theme variation 名（.tscn の theme_type_variation で使う） --------
 const VAR_DISPLAY_BUTTON := &"DisplayButton"   # FONT_DISPLAY
 const VAR_TAB_BUTTON := &"TabButton"           # FONT_SUBTITLE

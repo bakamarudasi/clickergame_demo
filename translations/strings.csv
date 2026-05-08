@@ -126,6 +126,7 @@ TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s,%s 不够
 TOAST_TOUCH_GATED,まだ無理だ…,Not yet…,还不行…
 TOAST_INSPECTION_COOLDOWN,検査は時間を置く必要がある,Inspection is on cooldown,检查需要冷却时间
 TOAST_SCOPE_NO_BATTERY,眼鏡のバッテリーが切れている,Scope battery depleted,眼镜电池已耗尽
+TOAST_GOLDEN_BONUS,ゴールデン書類！ +¥%s,Golden Paperwork! +¥%s,黄金文件！ +¥%s
 ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection,🔍 仪容检查
 ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s),检查 (剩余 %d 秒)
 ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope,👓 绅士眼镜

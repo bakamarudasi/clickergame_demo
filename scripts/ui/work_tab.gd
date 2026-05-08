@@ -3,6 +3,8 @@ extends Control
 # Workタブ。クリックでの通貨生成と強化購入のみを担当。
 # 他タブを直接参照しない。EconomyService 経由でのみ状態を変える。
 
+const GOLDEN_TEXTURE := preload("res://assets/paperwork.svg")
+
 @onready var document_button: TextureButton = %DocumentButton
 @onready var upgrade_list: VBoxContainer = %UpgradeList
 @onready var detail_name: Label = %DetailName
@@ -14,6 +16,9 @@ var _click_tween: Tween
 var _selected_id: StringName = &""
 var _button_group: ButtonGroup
 
+var _golden_timer: Timer
+var _golden_active_node: TextureButton = null
+
 
 func _ready() -> void:
 	_button_group = ButtonGroup.new()
@@ -23,6 +28,15 @@ func _ready() -> void:
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
 	_build_upgrade_buttons()
 	_refresh_detail()
+	_setup_golden_timer()
+
+
+func _setup_golden_timer() -> void:
+	_golden_timer = Timer.new()
+	_golden_timer.one_shot = true
+	add_child(_golden_timer)
+	_golden_timer.timeout.connect(_spawn_golden)
+	_restart_golden_timer()
 
 
 func _on_click_pressed() -> void:
@@ -141,3 +155,64 @@ func _format_upgrade(u: UpgradeData) -> String:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED:
 		_refresh_upgrade_buttons()
+
+
+# --- ゴールデン書類 -----------------------------------------------------
+
+func _restart_golden_timer() -> void:
+	_golden_timer.wait_time = randf_range(
+		UIConstants.GOLDEN_INTERVAL_MIN_SEC,
+		UIConstants.GOLDEN_INTERVAL_MAX_SEC
+	)
+	_golden_timer.start()
+
+
+func _spawn_golden() -> void:
+	# Workタブが画面に出てない時はスポーンを見送って次の時刻を引き直す
+	if not is_visible_in_tree():
+		_restart_golden_timer()
+		return
+	if _golden_active_node != null and is_instance_valid(_golden_active_node):
+		_restart_golden_timer()
+		return
+	var btn := TextureButton.new()
+	btn.texture_normal = GOLDEN_TEXTURE
+	btn.modulate = UIConstants.GOLDEN_TINT_COLOR
+	btn.ignore_texture_size = true
+	btn.stretch_mode = 5
+	var sz := UIConstants.GOLDEN_SIZE_PX
+	btn.custom_minimum_size = Vector2(sz, sz)
+	btn.size = Vector2(sz, sz)
+	# WorkTab の中で適当な高さのランダム位置に出す
+	var w := size.x
+	var h := size.y
+	var y := randf_range(h * 0.2, h * 0.7)
+	btn.position = Vector2(-sz, y)
+	btn.z_index = 50
+	add_child(btn)
+	_golden_active_node = btn
+	btn.pressed.connect(_on_golden_clicked.bind(btn))
+	# 横断アニメ + ゆっくり回転で目立たせる
+	var dur := UIConstants.GOLDEN_LIFETIME_SEC
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(btn, "position:x", w + sz, dur)
+	tw.tween_property(btn, "rotation", deg_to_rad(20.0), dur)
+	tw.chain().tween_callback(func() -> void: _expire_golden(btn))
+
+
+func _on_golden_clicked(btn: TextureButton) -> void:
+	if not is_instance_valid(btn):
+		return
+	var bonus := UIConstants.GOLDEN_BONUS_FLOOR
+	bonus = max(bonus, GameState.click_power * UIConstants.GOLDEN_BONUS_PER_CLICK)
+	bonus = max(bonus, int(float(GameState.currency) * UIConstants.GOLDEN_BONUS_PCT_OF_PILE))
+	GameState.add_currency(bonus)
+	EventBus.toast_requested.emit(tr("TOAST_GOLDEN_BONUS") % FormatUtils.short(bonus))
+	_expire_golden(btn)
+
+
+func _expire_golden(btn: TextureButton) -> void:
+	if is_instance_valid(btn):
+		btn.queue_free()
+	_golden_active_node = null
+	_restart_golden_timer()
