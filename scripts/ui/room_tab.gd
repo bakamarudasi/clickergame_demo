@@ -92,6 +92,26 @@ func _select_operator(op_id: StringName) -> void:
 	_refresh_inspection_button()
 	_refresh_portrait()
 	_refresh_suspicion_ui()
+	_consume_prestige_greet(op_id)
+
+
+# プレステージ完了後の最初の選択時に PRESTIGE 反応を 1 度だけ流す。
+func _consume_prestige_greet(op_id: StringName) -> void:
+	var rt := GameState.get_runtime(op_id)
+	if rt == null or not rt.pending_prestige_greet:
+		return
+	rt.pending_prestige_greet = false
+	var rule := ReactionResolver.resolve(
+		Enums.TriggerKind.PRESTIGE,
+		&"",
+		op_id,
+		rt.trust,
+		1,
+		-1
+	)
+	if rule != null:
+		ReactionResolver.apply_side_effects(rule, op_id)
+		EventBus.reaction_played.emit(op_id, rule)
 
 
 func _process(delta: float) -> void:

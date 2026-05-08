@@ -5,8 +5,7 @@ extends Object
 # is_harassment フラグで分岐し、ロック判定もここで処理。
 
 static func touch(op_id: StringName, spot_id: StringName) -> ReactionRule:
-	if GameState.is_operator_locked(op_id):
-		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_OPERATOR_LOCKED"))
+	if GameState.try_locked_revisit(op_id):
 		return null
 	var spot := DataRegistry.get_touch_spot(spot_id)
 	if spot == null:

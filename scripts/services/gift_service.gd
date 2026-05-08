@@ -4,8 +4,7 @@ extends Object
 # Roomタブ UI が「ギフトを渡す」ときに呼ぶ唯一の入り口。
 
 static func give(op_id: StringName, item_id: StringName) -> ReactionRule:
-	if GameState.is_operator_locked(op_id):
-		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_OPERATOR_LOCKED"))
+	if GameState.try_locked_revisit(op_id):
 		return null
 	var it := DataRegistry.get_item(item_id)
 	if it == null:

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://rrlemamax000"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 7
+trigger_id = &""
+operator_id = &"lemuen"
+match_category = false
+min_trust = 0
+max_trust = 99999
+reaction = 6
+trust_delta = 0
+expression = &"aroused"
+dialogue = "DIALOGUE_LEMUEN_AROUSAL_MAX"
+priority = 10

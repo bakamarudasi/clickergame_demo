@@ -58,6 +58,10 @@ enum TriggerKind {
 	HARASSMENT,
 	INSPECTION,
 	XRAY_CAUGHT,
+	STAGE_UP,         # ステージ昇格瞬間。trigger_id は &"1" / &"2" ... 新ステージ番号
+	PRESTIGE,         # prestige 完了直後の再会。trigger_id は空
+	AROUSAL_MAX,      # 発情度が AROUSAL_MAX に到達した瞬間。trigger_id は空
+	LOCKED_REVISIT,   # ロック中のオペにアクション試行。trigger_id は空
 }
 
 enum UpgradeEffectKind {

@@ -23,6 +23,13 @@ extends Resource
 @export var arousal: float = 0.0
 @export var arousal_last_unix: float = 0.0
 @export var arousal_peak: float = 0.0
+# 発情度が AROUSAL_MAX に到達した時 1 度だけ MAX 用反応を出す。
+# arousal が一定値（80%）以下に落ちたらリセットされる。
+@export var arousal_max_announced: bool = false
+
+# プレステージ完了時に立つフラグ。次回 Room でこのオペを選択した瞬間に
+# PRESTIGE 反応を 1 度だけ出して降ろす（再会演出）。
+@export var pending_prestige_greet: bool = false
 
 func is_locked() -> bool:
 	return Time.get_unix_time_from_system() < locked_until
