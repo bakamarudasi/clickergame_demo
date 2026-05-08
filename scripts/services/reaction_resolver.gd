@@ -13,7 +13,7 @@ static func resolve(
 	category: int = -1
 ) -> ReactionRule:
 	var best: ReactionRule = null
-	var best_priority: int = -1
+	var best_score: int = -1
 	for rule: ReactionRule in DataRegistry.reactions:
 		if rule.trigger_kind != trigger_kind:
 			continue
@@ -31,9 +31,16 @@ static func resolve(
 			continue
 		if rule.requires_active_rule != &"" and not GameState.has_rule(rule.requires_active_rule):
 			continue
-		if rule.priority > best_priority:
+		if GameState.prestige_count < rule.min_tier:
+			continue
+		if GameState.get_bond(op_id) < rule.min_bond:
+			continue
+		# priority を主軸に、tier+bond の specificity をタイブレークに使う。
+		# これで「同じ priority なら、より厳しい条件を満たした上位バリアント」が選ばれる。
+		var score := rule.priority * 1000 + rule.min_tier * 10 + rule.min_bond
+		if score > best_score:
 			best = rule
-			best_priority = rule.priority
+			best_score = score
 	return best
 
 

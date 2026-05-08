@@ -71,3 +71,9 @@ enum CostumeUnlockVia {
 	STAGE,
 	SHOP_PURCHASE,
 }
+
+enum MetaPillar {
+	AFFINITY,    # 親愛度・絆系
+	ECONOMY,     # クリック・自動収益・新強化解放
+	CATALOG,     # ショップ品揃え・カテゴリ解放
+}

@@ -26,6 +26,16 @@ var equipped_scope_id: StringName = &""
 var scope_battery_seconds: float = 0.0
 var xray_active: bool = false
 
+# プレステージ・メタ進行
+# prestige_count は ReactionRule.min_tier の比較対象（Tier軸）。
+# bond は キャラごとの絆。ReactionRule.min_bond の比較対象。
+# meta_upgrade_levels は data/meta_upgrades/*.tres の id -> 取得Lv。
+# 詳細設計は PROGRESSION.md を参照。
+var prestige_count: int = 0
+var prestige_currency: int = 0
+var bond: Dictionary = {}                    # StringName -> int
+var meta_upgrade_levels: Dictionary = {}     # StringName -> int
+
 
 func _ready() -> void:
 	# project.godot の autoload 順序により、ここに来る時点で DataRegistry はロード済み。
@@ -268,3 +278,43 @@ func reset_xray_suspicion(op_id: StringName) -> void:
 		return
 	rt.xray_suspicion = 0.0
 	EventBus.xray_suspicion_changed.emit(op_id, 0.0)
+
+
+# --- プレステージ・メタ進行 ----------------------------------------------
+
+func add_prestige_count(delta: int = 1) -> void:
+	prestige_count = max(0, prestige_count + delta)
+	EventBus.prestige_count_changed.emit(prestige_count)
+
+func add_prestige_currency(amount: int) -> void:
+	prestige_currency = max(0, prestige_currency + amount)
+	EventBus.prestige_currency_changed.emit(prestige_currency)
+
+func try_spend_prestige(amount: int) -> bool:
+	if prestige_currency < amount:
+		return false
+	prestige_currency -= amount
+	EventBus.prestige_currency_changed.emit(prestige_currency)
+	return true
+
+func get_bond(op_id: StringName) -> int:
+	return bond.get(op_id, 0)
+
+func add_bond(op_id: StringName, delta: int = 1) -> void:
+	var new_value: int = max(0, get_bond(op_id) + delta)
+	bond[op_id] = new_value
+	EventBus.bond_changed.emit(op_id, new_value)
+
+func get_meta_level(meta_id: StringName) -> int:
+	return meta_upgrade_levels.get(meta_id, 0)
+
+func set_meta_level(meta_id: StringName, level: int) -> void:
+	meta_upgrade_levels[meta_id] = level
+	EventBus.meta_upgrade_purchased.emit(meta_id, level)
+
+func has_meta_unlock(meta_id: StringName) -> bool:
+	# requires_meta フィールドの判定用ユーティリティ。
+	# 空文字は「要件なし」、それ以外は当該 meta が Lv1 以上で解放扱い。
+	if meta_id == &"":
+		return true
+	return get_meta_level(meta_id) >= 1

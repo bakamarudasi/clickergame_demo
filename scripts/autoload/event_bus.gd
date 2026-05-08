@@ -40,5 +40,11 @@ signal scope_equipped(scope_id: StringName)
 signal xray_suspicion_changed(operator_id: StringName, value: float)
 signal xray_caught(operator_id: StringName)
 
+# プレステージ・メタ進行
+signal prestige_count_changed(new_count: int)
+signal prestige_currency_changed(new_amount: int)
+signal bond_changed(operator_id: StringName, new_bond: int)
+signal meta_upgrade_purchased(meta_id: StringName, new_level: int)
+
 # 通知系（UI共通トースト等）
 signal toast_requested(text: String)
