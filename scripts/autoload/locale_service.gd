@@ -6,7 +6,7 @@ extends Node
 
 signal locale_changed(new_locale: String)
 
-const SUPPORTED_LOCALES := ["ja", "en"]
+const SUPPORTED_LOCALES := ["ja", "en", "zh_CN"]
 const DEFAULT_LOCALE := "ja"
 
 

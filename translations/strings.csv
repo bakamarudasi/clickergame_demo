@@ -1,79 +1,79 @@
-keys,ja,en
-UI_TAB_WORK,Work,Work
-UI_TAB_ROOM,Room,Room
-UI_TAB_SHOP,Shop,Shop
-UI_CURRENCY_FMT,¥ %d,¥ %d
-UI_PER_SEC_FMT,%d / sec,%d / sec
-UI_CLICK_POWER_FMT,+%d / click,+%d / click
-WORK_CLICK_BUTTON,CLICK!,CLICK!
-WORK_UPGRADE_TITLE,アップグレード,Upgrades
-WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
-WORK_UPGRADE_DETAIL_NONE,強化を選んでください,Select an upgrade to see details
-WORK_UPGRADE_DETAIL_FMT,Lv.%d   ¥ %d,Lv.%d   ¥ %d
-WORK_UPGRADE_BUY_BUTTON,購入する,Purchase
-UPGRADE_CLICK_PLUS_ONE_NAME,ケルシーの無言の圧力,Kal'tsit's Silent Pressure
-UPGRADE_CLICK_PLUS_ONE_DESC,「……。」背後に立つ彼女の冷ややかな視線を感じるだけで、ペンの走りが少しだけ速くなる。背筋は凍る。,"""…"" Just feeling her icy gaze from behind speeds up your pen a little. Your spine, on the other hand, freezes."
-UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アーミヤの「まだ休んじゃダメですよ」,"Amiya — ""You Can't Rest Yet"""
-UPGRADE_PAPERWORK_DOUBLE_CHECK_DESC,「ドクター、終わってない仕事がたくさんありますからね。」その純粋な笑顔と優しさが、ドクターの心を縛る最大の原動力。,"""Doctor, there's still plenty of work left, you know."" Her pure smile and kindness are the greatest force binding the Doctor's heart."
-UPGRADE_COMMAND_FOCUS_NAME,純正オリジニウムの丸呑み,Pure Originium Gulped Whole
-UPGRADE_COMMAND_FOCUS_DESC,理性がマイナスを振り切ったドクターの奇行。バリバリという咀嚼音と共に、未知の活力が湧いてくる（※医療部から厳しく禁じられています）。,"An eccentric feat by a Doctor whose Sanity has long since gone negative. Crunch by crunch, an unknown vitality wells up. (*Strictly forbidden by the Medical Department.)"
-UPGRADE_FIELD_CLERK_NAME,テンニンカのテーブルクロス振り,Honeyberry's Tablecloth Flourish
-UPGRADE_FIELD_CLERK_DESC,「りんごちゃーん！」彼女が楽しげにクロスを振るたびに、どこからともなく謎の推進力（とコスト）が湧き出してくる。,"""Apple-chaaan!"" Every cheerful flick of her cloth conjures mysterious momentum (and costs) out of nowhere."
-UPGRADE_LOGISTICS_TEAM_NAME,クロージャの怪しい自動化ツール,Closure's Suspicious Automation Tool
-UPGRADE_LOGISTICS_TEAM_DESC,「特別価格で提供するよ！」と売りつけられた怪しいUSBメモリ。たまに勝手に通販サイトを開くが、仕事はちゃんとする。,"""Special price, just for you!"" — a shady USB stick she pushed on you. It opens shopping sites on its own now and then, but it gets the job done."
-UPGRADE_ORIGINIUM_ARTS_NAME,シーの絵巻からのブラック労働力,Sweatshop Labor from Lin's Scroll
-UPGRADE_ORIGINIUM_ARTS_DESC,「面倒くさい…」とぼやく彼女から無理やり引き出した墨の化身たち。24時間、文句も言わずに無限の作業をこなしてくれる。,"Ink avatars wrenched from her despite her muttered ""what a pain..."" Twenty-four hours a day, no complaints, infinite labor."
-UPGRADE_DOCTOR_AWAKENING_NAME,理性0ドクターの口内カップ麺調理,Sanity-Zero Doctor's In-Mouth Cup Noodle Prep
-UPGRADE_DOCTOR_AWAKENING_DESC,乾麺を砕いて口に入れ、粉末スープを流し込み、熱湯を含んで3分保持する究極の時短術。もはや人を超越した集中力を発揮する。,"Crush dry noodles into your mouth, pour in the seasoning, then hold hot water for three minutes. The ultimate time-saver, channeling focus beyond human."
-OPERATOR_LEMUEN_NAME,レミュアン,Lemuen
-COSTUME_LEMUEN_DEFAULT,聖衣,Robe
-STAGE_LEMUEN_0,警戒,Wary
-STAGE_LEMUEN_1,様子見,Observing
-STAGE_LEMUEN_2,打ち解け,Open
-STAGE_LEMUEN_3,親密,Intimate
-STAGE_LEMUEN_4,陥落,Fallen
-ITEM_TEA_PREMIUM_NAME,高級紅茶,Premium Tea
-ITEM_TEA_PREMIUM_DESC,信頼度+5,+5 trust
-ITEM_RULE_UNDERWEAR_MANDATE_NAME,下着義務化命令,Underwear Mandate
-ITEM_RULE_UNDERWEAR_MANDATE_DESC,検査の建前を成立させる規則,Justifies inspections
-ITEM_SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
-ITEM_SCOPE_BASIC_DESC,装備で透視可能。電池が必要,Equip for X-ray view. Needs battery.
-ITEM_SCOPE_BATTERY_NAME,眼鏡用電池,Scope Battery
-ITEM_SCOPE_BATTERY_DESC,眼鏡を30秒使える,30 seconds of scope use
-SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic)
-SCOPE_BASIC_DESC,下着まで透ける標準枠,Standard frame: shows underwear
-DIALOGUE_LEMUEN_GIFT_TEA,"あら、私の好みを調べたの、ドクター？……ふふっ、観察癖はお互い様ってわけね。お礼に、今度あなたの好みも当ててあげるわ","Oh? Did you study my preferences, Doctor? ...Hmph, seems we both have an observation habit. As thanks, I'll guess yours next time."
-DIALOGUE_LEMUEN_INSP_REJECT,"あら、検査？　……ねえドクター、私の身だしなみと、あなたの本音、どっちを先に確認すればいいのかしら？　はっきりしてくれないと、こちらもどう協力すればいいか困るのよ","Oh, an inspection? ...Tell me, Doctor—should I verify my appearance first, or your real intentions? You'll need to be clearer, or I won't know how to cooperate."
-DIALOGUE_LEMUEN_INSP_COMPLIANT,"ご自分の通達、お忘れじゃないわよね、ドクター。……規則通り、ちゃんと身に着けているわ。確認するなら、目を逸らさずどうぞ。後で『見えなかった』なんて言わせないから","You haven't forgotten your own decree, have you, Doctor? ...All according to regulations. If you're going to verify, don't look away. I won't accept ""I didn't see"" later."
-DIALOGUE_LEMUEN_XRAY_LOW,"ねえドクター、覚えてる？　船上にあなたを狙撃できる場所が一ヶ所あるって話。……ちょうど今、その視線で同じことが私に起きてるのよ。次の瞬きでやめないと、お仕置き、考えるかしら","Remember, Doctor? That spot on the ship where someone could pick you off? ...Your gaze is doing the same to me right now. If you don't stop by your next blink, I might have to consider a punishment."
-DIALOGUE_LEMUEN_XRAY_HIGH,"ふふっ、観察熱心ね、ドクター。私のクセが移ったの？　……いいわ、好きなだけ見ていって。但し、目を逸らしたら――次は私が観察する番だから、覚悟しなさい","Hmph, what dedication, Doctor. Did my habit rub off on you? ...Fine. Look as much as you like. But if you look away—then it's my turn to observe. Brace yourself."
-ROOM_OPERATOR_TITLE,オペレータ,Operators
-ROOM_DETAIL_PLACEHOLDER,—,—
-ROOM_TRUST_FMT,信頼度 %d,Trust %d
-ROOM_STAGE_FMT,段階 %d  %s,Stage %d  %s
-ROOM_GIVE_BUTTON,渡す,Give
-ROOM_TOUCH_TITLE,触れる,Touch
-ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)"
-ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining
-ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d
-SHOP_TITLE,ショップ,Shop
-SHOP_ITEM_FMT,%s — ¥%d,%s — ¥%d
-CATEGORY_DAILY,日常,Daily
-CATEGORY_HOBBY,趣味,Hobby
-CATEGORY_BODY_CARE,ボディケア,Body Care
-CATEGORY_ROMANCE,ロマン,Romance
-CATEGORY_DIRECT_TOY,玩具,Toys
-CATEGORY_DIRECT_DRUG,薬品,Drugs
-CATEGORY_DIRECT_BIND,拘束,Restraints
-CATEGORY_DIRECT_PROT,保護,Protection
-CATEGORY_COS_OUTFIT,衣装,Outfits
-CATEGORY_COS_PARTS,パーツ,Parts
-CATEGORY_INVITATION,招待状,Invitations
-TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…
-TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s
-TOAST_TOUCH_GATED,まだ無理だ…,Not yet…
-TOAST_INSPECTION_COOLDOWN,検査は時間を置く必要がある,Inspection is on cooldown
-TOAST_SCOPE_NO_BATTERY,眼鏡のバッテリーが切れている,Scope battery depleted
-ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection
-ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s)
-ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope
+keys,ja,en,zh_CN
+UI_TAB_WORK,Work,Work,工作
+UI_TAB_ROOM,Room,Room,房间
+UI_TAB_SHOP,Shop,Shop,商店
+UI_CURRENCY_FMT,¥ %d,¥ %d,¥ %d
+UI_PER_SEC_FMT,%d / sec,%d / sec,%d / 秒
+UI_CLICK_POWER_FMT,+%d / click,+%d / click,+%d / 点击
+WORK_CLICK_BUTTON,CLICK!,CLICK!,点击！
+WORK_UPGRADE_TITLE,アップグレード,Upgrades,强化
+WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d,%s  Lv.%d — 费用 %d
+WORK_UPGRADE_DETAIL_NONE,強化を選んでください,Select an upgrade to see details,请选择强化查看详情
+WORK_UPGRADE_DETAIL_FMT,Lv.%d   ¥ %d,Lv.%d   ¥ %d,Lv.%d   ¥ %d
+WORK_UPGRADE_BUY_BUTTON,購入する,Purchase,购买
+UPGRADE_CLICK_PLUS_ONE_NAME,ケルシーの無言の圧力,Kal'tsit's Silent Pressure,凯尔希的无言压力
+UPGRADE_CLICK_PLUS_ONE_DESC,「……。」背後に立つ彼女の冷ややかな視線を感じるだけで、ペンの走りが少しだけ速くなる。背筋は凍る。,"""…"" Just feeling her icy gaze from behind speeds up your pen a little. Your spine, on the other hand, freezes.",“……。”仅仅感受到站在身后的她那冰冷的视线，笔尖的速度便会稍稍加快。而脊背则瞬间冻住。
+UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アーミヤの「まだ休んじゃダメですよ」,"Amiya — ""You Can't Rest Yet""",阿米娅的“现在还不能休息哦”
+UPGRADE_PAPERWORK_DOUBLE_CHECK_DESC,「ドクター、終わってない仕事がたくさんありますからね。」その純粋な笑顔と優しさが、ドクターの心を縛る最大の原動力。,"""Doctor, there's still plenty of work left, you know."" Her pure smile and kindness are the greatest force binding the Doctor's heart.",“博士，还有很多没完成的工作呢。”她那纯粹的笑容与温柔，正是束缚博士之心最大的原动力。
+UPGRADE_COMMAND_FOCUS_NAME,純正オリジニウムの丸呑み,Pure Originium Gulped Whole,纯正源石整颗吞下
+UPGRADE_COMMAND_FOCUS_DESC,理性がマイナスを振り切ったドクターの奇行。バリバリという咀嚼音と共に、未知の活力が湧いてくる（※医療部から厳しく禁じられています）。,"An eccentric feat by a Doctor whose Sanity has long since gone negative. Crunch by crunch, an unknown vitality wells up. (*Strictly forbidden by the Medical Department.)",理智早已突破负值的博士的奇行。伴随着嘎嘣嘎嘣的咀嚼声，未知的活力从体内涌出（※医疗部已严令禁止）。
+UPGRADE_FIELD_CLERK_NAME,テンニンカのテーブルクロス振り,Honeyberry's Tablecloth Flourish,桃金娘的桌布挥舞
+UPGRADE_FIELD_CLERK_DESC,「りんごちゃーん！」彼女が楽しげにクロスを振るたびに、どこからともなく謎の推進力（とコスト）が湧き出してくる。,"""Apple-chaaan!"" Every cheerful flick of her cloth conjures mysterious momentum (and costs) out of nowhere.",“苹果酱～！”每当她欢快地挥舞桌布，便会从某处涌出神秘的推进力（与费用）。
+UPGRADE_LOGISTICS_TEAM_NAME,クロージャの怪しい自動化ツール,Closure's Suspicious Automation Tool,可露希尔的可疑自动化工具
+UPGRADE_LOGISTICS_TEAM_DESC,「特別価格で提供するよ！」と売りつけられた怪しいUSBメモリ。たまに勝手に通販サイトを開くが、仕事はちゃんとする。,"""Special price, just for you!"" — a shady USB stick she pushed on you. It opens shopping sites on its own now and then, but it gets the job done.",“特别价格，限时奉上！”被强行兜售的可疑U盘。偶尔会擅自打开购物网站，但工作倒是会好好完成。
+UPGRADE_ORIGINIUM_ARTS_NAME,シーの絵巻からのブラック労働力,Sweatshop Labor from Lin's Scroll,见之画卷召出的黑心劳力
+UPGRADE_ORIGINIUM_ARTS_DESC,「面倒くさい…」とぼやく彼女から無理やり引き出した墨の化身たち。24時間、文句も言わずに無限の作業をこなしてくれる。,"Ink avatars wrenched from her despite her muttered ""what a pain..."" Twenty-four hours a day, no complaints, infinite labor.",从嘟囔着“真麻烦……”的她那里强行拽出的墨之化身们。24小时无休、毫无怨言地承担无尽的作业。
+UPGRADE_DOCTOR_AWAKENING_NAME,理性0ドクターの口内カップ麺調理,Sanity-Zero Doctor's In-Mouth Cup Noodle Prep,理智为0的博士口腔泡面术
+UPGRADE_DOCTOR_AWAKENING_DESC,乾麺を砕いて口に入れ、粉末スープを流し込み、熱湯を含んで3分保持する究極の時短術。もはや人を超越した集中力を発揮する。,"Crush dry noodles into your mouth, pour in the seasoning, then hold hot water for three minutes. The ultimate time-saver, channeling focus beyond human.",将干面饼捏碎送入口中，倒入调味粉，再含一口热水保持三分钟——堪称究极的省时之术。展现出已然超越人类的专注力。
+OPERATOR_LEMUEN_NAME,レミュアン,Lemuen,雷缪安
+COSTUME_LEMUEN_DEFAULT,聖衣,Robe,圣衣
+STAGE_LEMUEN_0,警戒,Wary,警戒
+STAGE_LEMUEN_1,様子見,Observing,观望
+STAGE_LEMUEN_2,打ち解け,Open,敞开心扉
+STAGE_LEMUEN_3,親密,Intimate,亲密
+STAGE_LEMUEN_4,陥落,Fallen,沦陷
+ITEM_TEA_PREMIUM_NAME,高級紅茶,Premium Tea,高级红茶
+ITEM_TEA_PREMIUM_DESC,信頼度+5,+5 trust,信赖度+5
+ITEM_RULE_UNDERWEAR_MANDATE_NAME,下着義務化命令,Underwear Mandate,内衣义务化命令
+ITEM_RULE_UNDERWEAR_MANDATE_DESC,検査の建前を成立させる規則,Justifies inspections,使检查的名义得以成立的规则
+ITEM_SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic),绅士眼镜（基础）
+ITEM_SCOPE_BASIC_DESC,装備で透視可能。電池が必要,Equip for X-ray view. Needs battery.,装备后可透视。需要电池。
+ITEM_SCOPE_BATTERY_NAME,眼鏡用電池,Scope Battery,眼镜用电池
+ITEM_SCOPE_BATTERY_DESC,眼鏡を30秒使える,30 seconds of scope use,可使用眼镜30秒
+SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic),绅士眼镜（基础）
+SCOPE_BASIC_DESC,下着まで透ける標準枠,Standard frame: shows underwear,可透视至内衣的标准款
+DIALOGUE_LEMUEN_GIFT_TEA,"あら、私の好みを調べたの、ドクター？……ふふっ、観察癖はお互い様ってわけね。お礼に、今度あなたの好みも当ててあげるわ","Oh? Did you study my preferences, Doctor? ...Hmph, seems we both have an observation habit. As thanks, I'll guess yours next time.",哎呀，博士竟然调查过我的喜好？……呵呵，看来观察的癖好我们半斤八两呢。作为答谢，下次也由我来猜猜你的喜好吧。
+DIALOGUE_LEMUEN_INSP_REJECT,"あら、検査？　……ねえドクター、私の身だしなみと、あなたの本音、どっちを先に確認すればいいのかしら？　はっきりしてくれないと、こちらもどう協力すればいいか困るのよ","Oh, an inspection? ...Tell me, Doctor—should I verify my appearance first, or your real intentions? You'll need to be clearer, or I won't know how to cooperate.",哎呀，检查吗？……博士，我的仪容与你的真心话，应该先确认哪一边呢？你不说清楚的话，我也不知该如何配合呢。
+DIALOGUE_LEMUEN_INSP_COMPLIANT,"ご自分の通達、お忘れじゃないわよね、ドクター。……規則通り、ちゃんと身に着けているわ。確認するなら、目を逸らさずどうぞ。後で『見えなかった』なんて言わせないから","You haven't forgotten your own decree, have you, Doctor? ...All according to regulations. If you're going to verify, don't look away. I won't accept ""I didn't see"" later.",自己下达的通告可没忘吧，博士？……规则规定的我都好好穿在身上了。要确认的话就别移开视线哦。之后可不许说“没看见”。
+DIALOGUE_LEMUEN_XRAY_LOW,"ねえドクター、覚えてる？　船上にあなたを狙撃できる場所が一ヶ所あるって話。……ちょうど今、その視線で同じことが私に起きてるのよ。次の瞬きでやめないと、お仕置き、考えるかしら","Remember, Doctor? That spot on the ship where someone could pick you off? ...Your gaze is doing the same to me right now. If you don't stop by your next blink, I might have to consider a punishment.",博士，还记得吗？船上有一处能狙击到你的位置。……正好现在，你的视线对我做着同样的事呢。若下一次眨眼前还不停下，我可要考虑要怎么惩罚你了。
+DIALOGUE_LEMUEN_XRAY_HIGH,"ふふっ、観察熱心ね、ドクター。私のクセが移ったの？　……いいわ、好きなだけ見ていって。但し、目を逸らしたら――次は私が観察する番だから、覚悟しなさい","Hmph, what dedication, Doctor. Did my habit rub off on you? ...Fine. Look as much as you like. But if you look away—then it's my turn to observe. Brace yourself.",呵呵，真热衷于观察呢，博士。是我的癖好传染给你了？……好啊，尽情看吧。不过——一旦移开视线，下一个观察你的就是我了。做好觉悟吧。
+ROOM_OPERATOR_TITLE,オペレータ,Operators,干员
+ROOM_DETAIL_PLACEHOLDER,—,—,—
+ROOM_TRUST_FMT,信頼度 %d,Trust %d,信赖度 %d
+ROOM_STAGE_FMT,段階 %d  %s,Stage %d  %s,阶段 %d  %s
+ROOM_GIVE_BUTTON,渡す,Give,赠送
+ROOM_TOUCH_TITLE,触れる,Touch,触碰
+ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)",“%s”  (信赖度 %+d)
+ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining,锁定中… 剩余 %d 秒
+ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d,%s ×%d
+SHOP_TITLE,ショップ,Shop,商店
+SHOP_ITEM_FMT,%s — ¥%d,%s — ¥%d,%s — ¥%d
+CATEGORY_DAILY,日常,Daily,日常
+CATEGORY_HOBBY,趣味,Hobby,兴趣
+CATEGORY_BODY_CARE,ボディケア,Body Care,身体护理
+CATEGORY_ROMANCE,ロマン,Romance,浪漫
+CATEGORY_DIRECT_TOY,玩具,Toys,玩具
+CATEGORY_DIRECT_DRUG,薬品,Drugs,药品
+CATEGORY_DIRECT_BIND,拘束,Restraints,束缚
+CATEGORY_DIRECT_PROT,保護,Protection,防护
+CATEGORY_COS_OUTFIT,衣装,Outfits,服装
+CATEGORY_COS_PARTS,パーツ,Parts,配件
+CATEGORY_INVITATION,招待状,Invitations,邀请函
+TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…,现在还不肯见你…
+TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s,%s 不够
+TOAST_TOUCH_GATED,まだ無理だ…,Not yet…,还不行…
+TOAST_INSPECTION_COOLDOWN,検査は時間を置く必要がある,Inspection is on cooldown,检查需要冷却时间
+TOAST_SCOPE_NO_BATTERY,眼鏡のバッテリーが切れている,Scope battery depleted,眼镜电池已耗尽
+ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection,🔍 仪容检查
+ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s),检查 (剩余 %d 秒)
+ROOM_SCOPE_TOGGLE,👓 紳士眼鏡,👓 Scope,👓 绅士眼镜
