@@ -88,6 +88,40 @@ theme_type_variation = &"SubtitleLabel"
 modulate = Color(0.95, 0.6, 0.3, 1)
 text = ""
 
+[node name="QtyHBox" type="HBoxContainer" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="QtyLabel" type="Label" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SHOP_QTY_LABEL"
+
+[node name="QtyBtn1" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+text = "×1"
+
+[node name="QtyBtn10" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "×10"
+
+[node name="QtyBtn100" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "×100"
+
+[node name="QtyBtnMax" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "SHOP_QTY_MAX"
+
 [node name="BuyButton" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
 unique_name_in_owner = true
 layout_mode = 2

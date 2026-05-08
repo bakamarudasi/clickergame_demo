@@ -143,3 +143,6 @@ DOCTOR_NAME,ドクター,Doctor,博士
 CG_LEMUEN_INTIMATE_HABIT_CAPTION,習慣化,Habit,习惯化
 CG_LEMUEN_INTIMATE_DEVOTE_CAPTION,観察結果,Observation Result,观察结果
 CG_LEMUEN_INTIMATE_BREAK_CAPTION,誓約,The Vow,誓约
+SHOP_QTY_LABEL,数量:,Qty:,数量:
+SHOP_QTY_MAX,×Max,×Max,×Max
+SHOP_BUY_BUTTON_QTY_FMT,購入する ×%d  (¥ %s),Buy ×%d  (¥ %s),购买 ×%d  (¥ %s)
