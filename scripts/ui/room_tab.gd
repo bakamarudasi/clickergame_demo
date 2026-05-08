@@ -39,6 +39,8 @@ var _expression_show_until_unix: float = 0.0
 var _active_expression: StringName = &""
 var _portrait_scene_node: Node = null
 var _portrait_scene_path: String = ""
+var _idle_last_interaction_unix: float = 0.0
+var _idle_stage_fired: int = 0
 
 
 func _ready() -> void:
@@ -59,12 +61,14 @@ func _ready() -> void:
 	give_button.pressed.connect(_on_give_pressed)
 	inspection_button.pressed.connect(_on_inspection_pressed)
 	scope_toggle.toggled.connect(_on_scope_toggled)
+	visibility_changed.connect(_on_self_visibility_changed)
 	set_process(true)
 
 	_rebuild_operator_list()
 	detail_panel.visible = false
 	_refresh_scope_ui()
 	_refresh_battery_ui()
+	_reset_idle_timer()
 
 
 func _rebuild_operator_list() -> void:
@@ -114,6 +118,63 @@ func _consume_prestige_greet(op_id: StringName) -> void:
 		EventBus.reaction_played.emit(op_id, rule)
 
 
+# --- アイドルフレーバー ---------------------------------------------------
+# Room タブ操作なしで一定時間経つと、IDLE 反応を段階的に発火する。
+# 各段階の trigger_id は &"stage_1" / &"stage_2" / &"stage_3" / &"fire"。
+# fire 段階では click_power に一時バフを乗せる（狙撃カウントダウンの「演出」役）。
+
+func _on_self_visibility_changed() -> void:
+	if visible:
+		_reset_idle_timer()
+
+
+func _reset_idle_timer() -> void:
+	_idle_last_interaction_unix = Time.get_unix_time_from_system()
+	_idle_stage_fired = 0
+
+
+func _check_idle() -> void:
+	if _current_op == &"":
+		return
+	if GameState.is_operator_locked(_current_op):
+		return
+	var elapsed := Time.get_unix_time_from_system() - _idle_last_interaction_unix
+	if elapsed >= UIConstants.IDLE_FIRE_SEC and _idle_stage_fired < 4:
+		_idle_stage_fired = 4
+		_fire_idle(&"fire")
+		GameState.apply_click_buff(UIConstants.IDLE_BUFF_MULT, UIConstants.IDLE_BUFF_DURATION_SEC)
+		EventBus.toast_requested.emit(
+			tr("TOAST_IDLE_BUFF_FMT") % [int(UIConstants.IDLE_BUFF_MULT), int(UIConstants.IDLE_BUFF_DURATION_SEC)]
+		)
+		_reset_idle_timer()
+	elif elapsed >= UIConstants.IDLE_STAGE_3_SEC and _idle_stage_fired < 3:
+		_idle_stage_fired = 3
+		_fire_idle(&"stage_3")
+	elif elapsed >= UIConstants.IDLE_STAGE_2_SEC and _idle_stage_fired < 2:
+		_idle_stage_fired = 2
+		_fire_idle(&"stage_2")
+	elif elapsed >= UIConstants.IDLE_STAGE_1_SEC and _idle_stage_fired < 1:
+		_idle_stage_fired = 1
+		_fire_idle(&"stage_1")
+
+
+func _fire_idle(stage: StringName) -> void:
+	var rt := GameState.get_runtime(_current_op)
+	if rt == null:
+		return
+	var rule := ReactionResolver.resolve(
+		Enums.TriggerKind.IDLE,
+		stage,
+		_current_op,
+		rt.trust,
+		1,
+		-1
+	)
+	if rule != null:
+		ReactionResolver.apply_side_effects(rule, _current_op)
+		EventBus.reaction_played.emit(_current_op, rule)
+
+
 func _process(delta: float) -> void:
 	if not visible:
 		return
@@ -123,6 +184,7 @@ func _process(delta: float) -> void:
 		return
 	if not InspectionService.can_inspect(_current_op):
 		_refresh_inspection_button()
+	_check_idle()
 	var now := Time.get_unix_time_from_system()
 	if _pose_show_until_unix > 0.0 and now >= _pose_show_until_unix:
 		_pose_show_until_unix = 0.0
@@ -264,6 +326,11 @@ func _on_reaction_played(op_id: StringName, rule: ReactionRule) -> void:
 		return
 	_append_dialogue(tr("ROOM_REACTION_FMT") % [tr(rule.pick_dialogue()), rule.trust_delta])
 	_flash_expression(rule.expression)
+	# IDLE 反応は「アイドル経過の結果」なのでタイマーをリセットしない
+	# （リセットすると stage_1 → 待機 → stage_1 のループになる）。
+	# それ以外の反応＝ユーザーの能動的なアクションなのでタイマーを巻き戻す。
+	if rule.trigger_kind != Enums.TriggerKind.IDLE:
+		_reset_idle_timer()
 
 
 func _on_operator_locked(op_id: StringName, until_unix: float) -> void:
@@ -499,6 +566,7 @@ func _refresh_suspicion_ui() -> void:
 
 func _on_scope_toggled(_pressed: bool) -> void:
 	ScopeService.toggle(_current_op)
+	_reset_idle_timer()
 
 
 func _on_xray_changed(_active: bool) -> void:

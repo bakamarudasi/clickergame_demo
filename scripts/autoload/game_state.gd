@@ -10,6 +10,12 @@ var currency: int = 0
 var click_power: int = 1
 var per_second: int = 0
 
+# 一時バフ（アイドル発火・将来のイベント等から付与される）。
+# unix 時刻 < click_buff_until_unix の間 click_power に乗算が乗る。
+# 切れたら effective_click_power() が自動で素の click_power に戻す。
+var click_buff_multiplier: float = 1.0
+var click_buff_until_unix: float = 0.0
+
 var owned_upgrades: Dictionary = {}          # upgrade_id -> level
 var unlocked_operators: Array[StringName] = []
 var operator_runtime: Dictionary = {}        # operator_id -> OperatorRuntime
@@ -63,6 +69,21 @@ func try_spend(amount: int) -> bool:
 func set_click_power(v: int) -> void:
 	click_power = v
 	EventBus.click_power_changed.emit(click_power)
+
+
+# 一時 click 倍率バフ。多重発動時は新しい方で上書き（より強い／長いバフが
+# 来た時の挙動を考えるなら max を取るが、現状は素直に上書き）。
+func apply_click_buff(multiplier: float, duration_sec: float) -> void:
+	click_buff_multiplier = max(1.0, multiplier)
+	click_buff_until_unix = Time.get_unix_time_from_system() + max(0.0, duration_sec)
+	EventBus.click_power_changed.emit(click_power)
+
+
+# バフ込みの実効 click_power。EconomyService.click() などはこれを使う。
+func effective_click_power() -> int:
+	if Time.get_unix_time_from_system() < click_buff_until_unix:
+		return int(click_power * click_buff_multiplier)
+	return click_power
 
 func set_per_second(v: int) -> void:
 	per_second = v

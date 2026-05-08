@@ -66,6 +66,14 @@ const GOLDEN_BONUS_FLOOR := 50               # 最低保証ボーナス
 const GOLDEN_SIZE_PX := 96.0
 const GOLDEN_TINT_COLOR := Color(1.4, 1.15, 0.4)
 
+# Room タブのアイドルフレーバー段階タイマー（最後の操作から経過秒）
+const IDLE_STAGE_1_SEC := 60.0      # 1分：軽い独り言
+const IDLE_STAGE_2_SEC := 180.0     # 3分：牽制
+const IDLE_STAGE_3_SEC := 300.0     # 5分：ロックオン
+const IDLE_FIRE_SEC := 360.0        # 6分：発火（バフ付与）
+const IDLE_BUFF_MULT := 2.0         # 発火時の click 倍率
+const IDLE_BUFF_DURATION_SEC := 60.0  # バフ持続秒
+
 # --- Theme variation 名（.tscn の theme_type_variation で使う） --------
 const VAR_DISPLAY_BUTTON := &"DisplayButton"   # FONT_DISPLAY
 const VAR_TAB_BUTTON := &"TabButton"           # FONT_SUBTITLE

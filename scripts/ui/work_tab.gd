@@ -204,7 +204,7 @@ func _on_golden_clicked(btn: TextureButton) -> void:
 	if not is_instance_valid(btn):
 		return
 	var bonus := UIConstants.GOLDEN_BONUS_FLOOR
-	bonus = max(bonus, GameState.click_power * UIConstants.GOLDEN_BONUS_PER_CLICK)
+	bonus = max(bonus, GameState.effective_click_power() * UIConstants.GOLDEN_BONUS_PER_CLICK)
 	bonus = max(bonus, int(float(GameState.currency) * UIConstants.GOLDEN_BONUS_PCT_OF_PILE))
 	GameState.add_currency(bonus)
 	EventBus.toast_requested.emit(tr("TOAST_GOLDEN_BONUS") % FormatUtils.short(bonus))

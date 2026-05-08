@@ -5,7 +5,7 @@ extends Object
 # Workタブ UI が呼ぶ唯一の入り口。
 
 static func click() -> void:
-	GameState.add_currency(GameState.click_power)
+	GameState.add_currency(GameState.effective_click_power())
 
 
 static func tick(seconds: float = 1.0) -> void:
