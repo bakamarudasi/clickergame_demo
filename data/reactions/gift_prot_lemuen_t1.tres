@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=3 format=3 uid="uid://ruleprotlemt100"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("2_eff")
+kind = 1
+amount = 0
+target_id = &"cg_lemuen_intimate_first"
+
+[sub_resource type="Resource" id="effect_2"]
+script = ExtResource("2_eff")
+kind = 9
+amount = 30
+target_id = &""
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &"medical_protector"
+operator_id = &"lemuen"
+match_category = false
+min_trust = 60
+max_trust = 99999
+min_tier = 1
+reaction = 1
+trust_delta = 8
+expression = &"shy_smile"
+dialogue = "DIALOGUE_LEMUEN_PROT_T1"
+side_effects = Array[Resource]([SubResource("effect_1"), SubResource("effect_2")])
+priority = 10

@@ -91,6 +91,10 @@ DIALOGUE_LEMUEN_INSP_REJECT,"あら、検査？　……ねえドクター、私
 DIALOGUE_LEMUEN_INSP_COMPLIANT,"ご自分の通達、お忘れじゃないわよね、ドクター。……規則通り、ちゃんと身に着けているわ。確認するなら、目を逸らさずどうぞ。後で『見えなかった』なんて言わせないから","You haven't forgotten your own decree, have you, Doctor? ...All according to regulations. If you're going to verify, don't look away. I won't accept ""I didn't see"" later.",自己下达的通告可没忘吧，博士？……规则规定的我都好好穿在身上了。要确认的话就别移开视线哦。之后可不许说“没看见”。
 DIALOGUE_LEMUEN_XRAY_LOW,"ねえドクター、覚えてる？　船上にあなたを狙撃できる場所が一ヶ所あるって話。……ちょうど今、その視線で同じことが私に起きてるのよ。次の瞬きでやめないと、お仕置き、考えるかしら","Remember, Doctor? That spot on the ship where someone could pick you off? ...Your gaze is doing the same to me right now. If you don't stop by your next blink, I might have to consider a punishment.",博士，还记得吗？船上有一处能狙击到你的位置。……正好现在，你的视线对我做着同样的事呢。若下一次眨眼前还不停下，我可要考虑要怎么惩罚你了。
 DIALOGUE_LEMUEN_XRAY_HIGH,"ふふっ、観察熱心ね、ドクター。私のクセが移ったの？　……いいわ、好きなだけ見ていって。但し、目を逸らしたら――次は私が観察する番だから、覚悟しなさい","Hmph, what dedication, Doctor. Did my habit rub off on you? ...Fine. Look as much as you like. But if you look away—then it's my turn to observe. Brace yourself.",呵呵，真热衷于观察呢，博士。是我的癖好传染给你了？……好啊，尽情看吧。不过——一旦移开视线，下一个观察你的就是我了。做好觉悟吧。
+DIALOGUE_LEMUEN_PROT_T0,"……ドクター？　これを私に？　……ふふっ、まだ早いわよ。順序ってものがあるでしょう？　もう少し、私のことを分かってからにして。","...Doctor? You're giving this to me? ...Hmph, it's still too early. There's an order to these things, isn't there? Get to know me a little better first.",……博士？这个，是要给我？……呵呵，还为时尚早呢。事情也得讲个先后顺序吧？等再多了解我一些之后再说。
+DIALOGUE_LEMUEN_PROT_T1,"……そんな顔で持ち出されたら、断れないじゃない、ドクター。……いいわ、今夜だけ。記憶に残しておきたいから、よく見ていて。","...When you bring it out with a face like that, I can't refuse, Doctor. ...Fine. Just for tonight. I'd like to remember this — so watch closely.",……被你用这种表情递过来，叫我怎么拒绝啊，博士。……好吧，就今晚。我想把这一刻记进心里，所以——好好看着。
+DIALOGUE_LEMUEN_PROT_T2,"あら、また？　ふふっ、すっかり手慣れてしまったわね、ドクター。……隠さなくていいわ、私もよ。","Oh? Again? Hmph, you've gotten quite practiced at this, Doctor. ...You don't have to hide it. Me too.",哎呀，又来？呵呵，已经熟门熟路了呢，博士。……不必藏着了，我也一样。
+CG_LEMUEN_INTIMATE_FIRST_CAPTION,初めての夜,The First Night,初次共度的夜
 ROOM_OPERATOR_TITLE,オペレータ,Operators,干员
 ROOM_DETAIL_PLACEHOLDER,—,—,—
 ROOM_TRUST_FMT,信頼度 %d,Trust %d,信赖度 %d

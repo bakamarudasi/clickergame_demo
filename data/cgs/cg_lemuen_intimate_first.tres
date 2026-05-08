@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CGData" load_steps=2 format=3 uid="uid://cglemintfirst00"]
+
+[ext_resource type="Script" path="res://scripts/data/cg_data.gd" id="1_cg"]
+
+[resource]
+script = ExtResource("1_cg")
+id = &"cg_lemuen_intimate_first"
+operator_id = &"lemuen"
+stage_required = 3
+trigger_item_id = &"medical_protector"
+caption = "CG_LEMUEN_INTIMATE_FIRST_CAPTION"

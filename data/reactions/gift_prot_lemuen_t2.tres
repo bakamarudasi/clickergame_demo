@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://ruleprotlemt200"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &"medical_protector"
+operator_id = &"lemuen"
+match_category = false
+min_trust = 60
+max_trust = 99999
+min_tier = 2
+reaction = 0
+trust_delta = 4
+expression = &"smile"
+dialogue = "DIALOGUE_LEMUEN_PROT_T2"
+priority = 10
