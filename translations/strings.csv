@@ -34,6 +34,18 @@ STAGE_LEMUEN_3,親密,Intimate,亲密
 STAGE_LEMUEN_4,陥落,Fallen,沦陷
 ITEM_TEA_PREMIUM_NAME,高級紅茶,Premium Tea,高级红茶
 ITEM_TEA_PREMIUM_DESC,信頼度+5,+5 trust,信赖度+5
+ITEM_COOKIE_NAME,ラテラーノ風クッキー,Laterano Cookies,拉特兰风曲奇
+ITEM_COOKIE_DESC,ラテラーノ仕込みの素朴な焼き菓子。気軽に渡せる定番ギフト。信頼度+2。,Humble baked treats made the Laterano way. An easy go-to gift. Trust +2.,以拉特兰手法烘制的素朴点心。是能轻松送出的常备礼物。信赖度+2。
+ITEM_COFFEE_NAME,ブラックコーヒー,Black Coffee,黑咖啡
+ITEM_COFFEE_DESC,ロドス事務班ご用達のブラックコーヒー。眠気覚ましには十分。信頼度+3。,The Rhodes Island staff's go-to black coffee. Plenty enough to chase off drowsiness. Trust +3.,罗德岛事务班常备的黑咖啡。提神已绰绰有余。信赖度+3。
+ITEM_SANDWICH_NAME,クルビアサンド,Columbia Sandwich,哥伦比亚三明治
+ITEM_SANDWICH_DESC,クルビア式の片手で食べられる昼食。栄養もそこそこ。信頼度+4。,A Columbian one-handed lunch — surprisingly balanced. Trust +4.,哥伦比亚式可单手取食的午餐，营养也尚可。信赖度+4。
+ITEM_ENERGY_DRINK_NAME,源石抜きエナドリ,Originium-Free Energy Drink,无源石能量饮料
+ITEM_ENERGY_DRINK_DESC,「源石不使用」と書かれた怪しいエナドリ。理性が戻る気がする（気のせい）。信頼度+5。,"A suspicious energy drink labelled ""Originium-free."" You feel your Sanity returning (you do not). Trust +5.","贴着""不含源石""标签的可疑能量饮料。感觉理智回来了（其实没有）。信赖度+5。"
+ITEM_BENTO_NAME,ヴィクトリア風弁当,Victorian Bento,维多利亚风便当
+ITEM_BENTO_DESC,ヴィクトリア式の栄養バランスの取れた弁当。手作り感あり。信頼度+7。,A Victorian-style balanced bento with a homemade touch. Trust +7.,维多利亚风的营养均衡便当，带着手作的温度。信赖度+7。
+ITEM_CHOCOLATE_NAME,龍門高級チョコ,Lungmen Premium Chocolate,龙门高级巧克力
+ITEM_CHOCOLATE_DESC,龍門の高級チョコレート。心遣いが伝わる甘味。信頼度+12。,Lungmen premium chocolate — a sweet that says you cared enough. Trust +12.,龙门的高级巧克力，是能让心意传达到的甜。信赖度+12。
 ITEM_RULE_UNDERWEAR_MANDATE_NAME,下着義務化命令,Underwear Mandate,内衣义务化命令
 ITEM_RULE_UNDERWEAR_MANDATE_DESC,検査の建前を成立させる規則,Justifies inspections,使检查的名义得以成立的规则
 ITEM_SCOPE_BASIC_NAME,紳士眼鏡（基本）,Gentleman Scope (Basic),绅士眼镜（基础）
