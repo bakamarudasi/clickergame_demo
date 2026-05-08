@@ -304,3 +304,81 @@ resolver は priority + tier の両方で勝つ最上位を返すので、presti
 
 3〜4 までは安全な追加（既存挙動を壊さない）なので会社作業向き。
 5 以降は UI 設計と動作確認が必要なので家作業。
+
+---
+
+## 5. リアクション条件レイヤの設計方針（研究結果）
+
+`ReactionRule` のフィルタを「衣装×発情度×CGチェイン×アイテムコンボ」まで対応するための設計判断を、ゲーム業界の主要パターンを踏まえて記録する。
+
+### 5.1 採用したパターン
+
+| パターン | 出典 | 我々の採用形 |
+|---|---|---|
+| **Storylet + 候補 sift** | Harlowe / 学術系 emergent narrative | 既存 `ReactionResolver.resolve()` がこれ。条件はフラットフィールドで宣言、resolver が priority + specificity で1本選ぶ |
+| **階層フォールバック** | Stardew Valley `Universal_<Taste>` → 個別NPC override | `operator_id == &""` を「全員共通」として扱う既存の仕様を活用。各 trigger_kind には必ず1個 priority=0 / 全員共通の汎用 .tres を置く運用ルールにする |
+| **Reverse / マイナス側** | Persona Social Link Reverse | 既存 `harassment_counter` がこの役割。`max_harassment` フィルタを ReactionRule に追加し「ハラス値が高すぎる時は通常反応出さない」を表現 |
+| **アイテムコンボ → active_rule 経由** | (汎用) | アイテム使用時に `RULE_ACTIVATE` で隠し Rule を立てる。例: ロープ使用 → `rule_rope_in_room`、目隠し使用 → `rule_blindfold_in_room`。ReactionRule は `requires_active_rules: Array[StringName]` で AND 評価 |
+
+### 5.2 採用しなかったパターン（Phase 2 用に保留）
+
+| パターン | なぜ今は採らないか |
+|---|---|
+| **統一 Status Effect システム** (potency / duration / stack_policy) | trust / intimacy / arousal / harassment は寿命と意味がバラバラ（永続 / 永続 / 短期減衰 / タイマー後リセット）。汎化のために抽象化すると Effect 一覧 UI など全部書き直しになる。我々のスケールでは専用スカラー値の方が安い。ReactionRule が 30 本超えてから再検討 |
+| **Condition の多態 SO 化** | Unity の `class Condition: SO { abstract IsMet(ctx) }` パターン。拡張性は最高だが、Godot で各条件をサブResource化すると Inspector 体験が劣化し .tres も肥大。フィールド20個超えたら検討 |
+| **DSL文字列フィールド** | `when X > 50 and has(Z)` のような式。コンパイル時チェック失われ、翻訳ベース制約で文字列ハンドリング増える |
+
+### 5.3 ReactionRule に追加するフィールド（Phase 1 確定）
+
+```gdscript
+# 親密度・ハラスゲート
+@export var min_intimacy: int = 0
+@export var max_harassment: int = 99999
+
+# 衣装・状態ゲート
+@export var requires_equipped_costume: StringName = &""
+@export var requires_xray_active: bool = false
+
+# コンテンツ・コンボゲート
+@export var requires_cgs: Array[StringName] = []
+@export var requires_memories: Array[StringName] = []
+@export var requires_active_rules: Array[StringName] = []
+# ↑ 既存の単数 `requires_active_rule` を AND 配列に発展させる（移行時は単数値があれば配列の先頭に積む）
+
+# 発火制御
+@export var probability: float = 1.0   # < 1.0 で確率発火
+```
+
+新規 `Enums.EffectKind`:
+
+```gdscript
+MEMORY_UNLOCK,   # GameState.unlock_memory(target_id) を呼ぶ
+```
+
+### 5.4 アイテムコンボの具体例
+
+「ロープ＋目隠し両方装備中 + 信頼度80以上 + 親密度50以上 で拘束 climax」を表現する場合:
+
+| .tres | 種別 | 内容 |
+|---|---|---|
+| `originium_rope.tres` | Item | 既存。effects に `RULE_ACTIVATE: rule_rope_in_room` を追加（消費型なので使用後に有効化） |
+| `blindfold.tres` | Item（要追加） | DIRECT_BIND カテゴリ、effects に `RULE_ACTIVATE: rule_blindfold_in_room` |
+| `touch_chest_lemuen_bondage_climax.tres` | Reaction | trigger=TOUCH, requires_active_rules=[rope, blindfold], min_trust=80, min_intimacy=50, min_arousal=70, side_effects=[CG_UNLOCK + MEMORY_UNLOCK] |
+
+3つの .tres と既存ルール仕組みだけで「複数アイテムを順に使った状態でしか見られないシーン」が完結する。**新トリガーや専用ロジックは要らない。**
+
+### 5.5 運用ルール（漏れ防止）
+
+- 各 `trigger_kind` × `operator_id == &""`（全員共通） で priority=0 の汎用フォールバック .tres を1本必ず用意する。これが無いと条件未満の trigger で無音になる
+- 厳しい条件（min_arousal=80 など）の特殊バリアントは、必ず priority を上げるか specificity に乗せて、ベースより優先されるようにする
+- 同じ specificity score の rule を2本以上書かない（resolver は最初に勝った方を返すので意図しない揺れになる）。同条件で複数案を試したい場合は `probability` を使う
+
+### 5.6 sources
+
+- [A Status Effect Stacking Algorithm — Game Developer](https://www.gamedeveloper.com/design/a-status-effect-stacking-algorithm)
+- [Modding:Gift taste data — Stardew Valley Wiki](https://stardewvalleywiki.com/Modding:Gift_taste_data)
+- [Working with Storylets in Harlowe — Digital Ephemera](https://videlais.com/2021/01/22/working-with-storylets-in-harlowe-3-2-and-later/)
+- [Same but different — Comparing Persona Social Link 3/4/5](https://www.gamedeveloper.com/design/same-but-different---comparing-the-social-link-system-in-persona-3-4-5)
+- [Building Visual Novels with Social Simulation and Storylets (PDF)](https://www.researchgate.net/publication/387221850_Building_Visual_Novels_with_Social_Simulation_and_Storylets)
+- [Tokimeki Memorial — Wikipedia](https://en.wikipedia.org/wiki/Tokimeki_Memorial)
+- [Use ScriptableObjects as Delegate Objects — Unity](https://unity.com/how-to/scriptableobjects-delegate-objects)
