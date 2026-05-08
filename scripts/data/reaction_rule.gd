@@ -40,5 +40,17 @@ extends Resource
 @export var trust_delta: int = 0
 @export var expression: StringName = &""
 @export_multiline var dialogue: String = ""
+# 同一ルール内で吐く台詞を増やしたい時のバリエーション。dialogue と
+# 合わせて 1 つのプールになり、pick_dialogue() で毎回ランダムに 1 件返す。
+# 例: 「髪を撫でる」3 種の台詞を回したい → ここに 2 個追加する。
+@export var dialogue_alternates: Array[String] = []
 @export var side_effects: Array[ItemEffect] = []
 @export var priority: int = 0
+
+
+func pick_dialogue() -> String:
+	if dialogue_alternates.is_empty():
+		return dialogue
+	var pool: Array[String] = [dialogue]
+	pool.append_array(dialogue_alternates)
+	return pool[randi() % pool.size()]

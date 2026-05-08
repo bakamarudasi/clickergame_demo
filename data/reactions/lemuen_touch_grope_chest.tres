@@ -14,4 +14,5 @@ reaction = 4
 trust_delta = -8
 expression = &"glare"
 dialogue = "DIALOGUE_LEMUEN_TOUCH_GROPE"
+dialogue_alternates = Array[String](["DIALOGUE_LEMUEN_TOUCH_GROPE_ALT2"])
 priority = 10

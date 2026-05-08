@@ -237,7 +237,7 @@ func _on_inventory_changed(_id: StringName, _n: int) -> void:
 func _on_reaction_played(op_id: StringName, rule: ReactionRule) -> void:
 	if op_id != _current_op:
 		return
-	_append_dialogue(tr("ROOM_REACTION_FMT") % [tr(rule.dialogue), rule.trust_delta])
+	_append_dialogue(tr("ROOM_REACTION_FMT") % [tr(rule.pick_dialogue()), rule.trust_delta])
 	_flash_expression(rule.expression)
 
 

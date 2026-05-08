@@ -14,4 +14,5 @@ reaction = 6
 trust_delta = 3
 expression = &"aroused"
 dialogue = "DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT"
+dialogue_alternates = Array[String](["DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT_ALT2", "DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT_ALT3"])
 priority = 10

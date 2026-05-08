@@ -14,4 +14,5 @@ reaction = 1
 trust_delta = 0
 expression = &"smile"
 dialogue = "DIALOGUE_LEMUEN_TOUCH_HAND"
+dialogue_alternates = Array[String](["DIALOGUE_LEMUEN_TOUCH_HAND_ALT2", "DIALOGUE_LEMUEN_TOUCH_HAND_ALT3"])
 priority = 10

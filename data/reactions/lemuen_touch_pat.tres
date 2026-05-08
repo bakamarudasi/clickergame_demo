@@ -14,4 +14,5 @@ reaction = 1
 trust_delta = 0
 expression = &"smug"
 dialogue = "DIALOGUE_LEMUEN_TOUCH_PAT"
+dialogue_alternates = Array[String](["DIALOGUE_LEMUEN_TOUCH_PAT_ALT2", "DIALOGUE_LEMUEN_TOUCH_PAT_ALT3"])
 priority = 10
