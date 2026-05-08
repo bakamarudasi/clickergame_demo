@@ -37,6 +37,8 @@ var _current_op: StringName = &""
 var _pose_show_until_unix: float = 0.0
 var _expression_show_until_unix: float = 0.0
 var _active_expression: StringName = &""
+var _portrait_scene_node: Node = null
+var _portrait_scene_path: String = ""
 
 
 func _ready() -> void:
@@ -229,6 +231,8 @@ func _on_arousal_changed(op_id: StringName, _v: float) -> void:
 	if op_id == _current_op:
 		_refresh_gauges()
 		_apply_arousal_tint()
+		if _portrait_scene_node != null:
+			_dispatch_portrait_scene_state()
 
 
 func _on_inventory_changed(_id: StringName, _n: int) -> void:
@@ -282,17 +286,31 @@ func _refresh_portrait() -> void:
 		portrait_view.texture = null
 		portrait_view.modulate = Color.WHITE
 		face_overlay.visible = false
+		_clear_portrait_scene()
 		return
 	var rt := GameState.get_runtime(_current_op)
 	if rt == null:
 		portrait_view.texture = null
 		face_overlay.visible = false
+		_clear_portrait_scene()
 		return
 	var costume := DataRegistry.get_costume(rt.equipped_costume)
 	if costume == null:
 		portrait_view.texture = null
 		face_overlay.visible = false
+		_clear_portrait_scene()
 		return
+	# シーン方式（Spine / Live2D / AnimationPlayer 等）が指定されてればそちらを優先。
+	# シーンルート側で表情・ポーズ・xray・arousal を全部捌くので、静的 PNG 系の
+	# 表示は止める。
+	if costume.portrait_scene != null:
+		_ensure_portrait_scene(costume.portrait_scene)
+		portrait_view.visible = false
+		face_overlay.visible = false
+		_dispatch_portrait_scene_state()
+		return
+	_clear_portrait_scene()
+	portrait_view.visible = true
 	# 表情フラッシュ中はそれを最優先。顔差分（layered）→ 全身差し替え（full swap）の順に解決。
 	if _expression_show_until_unix > Time.get_unix_time_from_system() and _active_expression != &"":
 		var face_tex := _face_overlay_texture(_active_expression)
@@ -366,6 +384,54 @@ func _position_face_overlay(costume: CostumeData) -> void:
 	face_overlay.offset_top = 0.0
 	face_overlay.offset_right = 0.0
 	face_overlay.offset_bottom = 0.0
+
+
+# --- シーン方式の立ち絵（Spine / Live2D / AnimationPlayer 等の差し替え枠）-------
+
+# costume.portrait_scene が指定されてる時に呼ぶ。既に同じシーンが乗ってれば
+# インスタンスを使い回し、違う場合は古いのを free して新規 instantiate。
+func _ensure_portrait_scene(scene: PackedScene) -> void:
+	var path := scene.resource_path
+	if _portrait_scene_node != null and _portrait_scene_path == path:
+		return
+	_clear_portrait_scene()
+	_portrait_scene_node = scene.instantiate()
+	# PortraitView の親（PortraitArea）にぶら下げる。PortraitArea が
+	# CenterContainer なのでサイズは中央で自動配置される。
+	var holder := portrait_view.get_parent()
+	holder.add_child(_portrait_scene_node)
+	_portrait_scene_path = path
+
+
+func _clear_portrait_scene() -> void:
+	if _portrait_scene_node != null:
+		_portrait_scene_node.queue_free()
+		_portrait_scene_node = null
+		_portrait_scene_path = ""
+
+
+# シーンルートに状態を投げる。実装されてないメソッドは黙ってスキップ。
+func _dispatch_portrait_scene_state() -> void:
+	var n := _portrait_scene_node
+	if n == null:
+		return
+	var now := Time.get_unix_time_from_system()
+	# 表情：フラッシュ中なら _active_expression、無ければ idle 相当の空文字
+	var expr: StringName = _active_expression if _expression_show_until_unix > now else &""
+	if n.has_method(&"play_expression"):
+		n.call(&"play_expression", expr)
+	# ポーズ：高信頼の見せつけ中は seductive、それ以外は idle
+	var pose: StringName = &"seductive" if _pose_show_until_unix > now else &"idle"
+	if n.has_method(&"play_pose"):
+		n.call(&"play_pose", pose)
+	# 紳士眼鏡：ON 中は view_kind を流す、OFF なら空文字
+	var view_kind: StringName = ScopeService.current_view_kind() if GameState.xray_active else &""
+	if n.has_method(&"set_xray_view"):
+		n.call(&"set_xray_view", view_kind)
+	# 発情度：0..1 正規化値を渡す。tint 演出はシーン側に任せる
+	var t := clampf(GameState.get_arousal(_current_op) / UIConstants.AROUSAL_MAX, 0.0, 1.0)
+	if n.has_method(&"set_arousal"):
+		n.call(&"set_arousal", t)
 
 
 # 発情度に応じた modulate tint を立ち絵に適用する。
