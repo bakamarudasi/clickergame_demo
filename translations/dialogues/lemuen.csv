@@ -1,232 +1,232 @@
 keys,ja,en,zh_CN
-DIALOGUE_LEMUEN_GIFT_TEA,"あら、私の好みを調べたの、ドクター？……ふふっ、観察癖はお互い様ってわけね。お礼に、今度あなたの好みも当ててあげるわ","Oh? Did you study my preferences, Doctor? ...Hmph, seems we both have an observation habit. As thanks, I'll guess yours next time.",哎呀，博士竟然调查过我的喜好？……呵呵，看来观察的癖好我们半斤八两呢。作为答谢，下次也由我来猜猜你的喜好吧。
-DIALOGUE_LEMUEN_INSP_REJECT,"あら、検査？　……ねえドクター、私の身だしなみと、あなたの本音、どっちを先に確認すればいいのかしら？　はっきりしてくれないと、こちらもどう協力すればいいか困るのよ","Oh, an inspection? ...Tell me, Doctor—should I verify my appearance first, or your real intentions? You'll need to be clearer, or I won't know how to cooperate.",哎呀，检查吗？……博士，我的仪容与你的真心话，应该先确认哪一边呢？你不说清楚的话，我也不知该如何配合呢。
-DIALOGUE_LEMUEN_INSP_COMPLIANT,"ご自分の通達、お忘れじゃないわよね、ドクター。……規則通り、ちゃんと身に着けているわ。確認するなら、目を逸らさずどうぞ。後で『見えなかった』なんて言わせないから","You haven't forgotten your own decree, have you, Doctor? ...All according to regulations. If you're going to verify, don't look away. I won't accept ""I didn't see"" later.",自己下达的通告可没忘吧，博士？……规则规定的我都好好穿在身上了。要确认的话就别移开视线哦。之后可不许说“没看见”。
-DIALOGUE_LEMUEN_XRAY_LOW,"ねえドクター、覚えてる？　船上にあなたを狙撃できる場所が一ヶ所あるって話。……ちょうど今、その視線で同じことが私に起きてるのよ。次の瞬きでやめないと、お仕置き、考えるかしら","Remember, Doctor? That spot on the ship where someone could pick you off? ...Your gaze is doing the same to me right now. If you don't stop by your next blink, I might have to consider a punishment.",博士，还记得吗？船上有一处能狙击到你的位置。……正好现在，你的视线对我做着同样的事呢。若下一次眨眼前还不停下，我可要考虑要怎么惩罚你了。
-DIALOGUE_LEMUEN_XRAY_HIGH,"ふふっ、観察熱心ね、ドクター。私のクセが移ったの？　……いいわ、好きなだけ見ていって。但し、目を逸らしたら――次は私が観察する番だから、覚悟しなさい","Hmph, what dedication, Doctor. Did my habit rub off on you? ...Fine. Look as much as you like. But if you look away—then it's my turn to observe. Brace yourself.",呵呵，真热衷于观察呢，博士。是我的癖好传染给你了？……好啊，尽情看吧。不过——一旦移开视线，下一个观察你的就是我了。做好觉悟吧。
-DIALOGUE_LEMUEN_PROT_T0,"……ドクター？　これを私に？　……ふふっ、まだ早いわよ。順序ってものがあるでしょう？　もう少し、私のことを分かってからにして。","...Doctor? You're giving this to me? ...Hmph, it's still too early. There's an order to these things, isn't there? Get to know me a little better first.",……博士？这个，是要给我？……呵呵，还为时尚早呢。事情也得讲个先后顺序吧？等再多了解我一些之后再说。
-DIALOGUE_LEMUEN_PROT_T1,"……そんな顔で持ち出されたら、断れないじゃない、ドクター。……いいわ、今夜だけ。記憶に残しておきたいから、よく見ていて。","...When you bring it out with a face like that, I can't refuse, Doctor. ...Fine. Just for tonight. I'd like to remember this — so watch closely.",……被你用这种表情递过来，叫我怎么拒绝啊，博士。……好吧，就今晚。我想把这一刻记进心里，所以——好好看着。
-DIALOGUE_LEMUEN_PROT_T2,"あら、また？　ふふっ、すっかり手慣れてしまったわね、ドクター。……隠さなくていいわ、私もよ。","Oh? Again? Hmph, you've gotten quite practiced at this, Doctor. ...You don't have to hide it. Me too.",哎呀，又来？呵呵，已经熟门熟路了呢，博士。……不必藏着了，我也一样。
-DIALOGUE_LEMUEN_TOUCH_HAIR,"あら、手が伸びてくる軌道、見え見えだったわよ？　……ふふ、でも避けないでおいてあげる。気が済むまでどうぞ？",,
-DIALOGUE_LEMUEN_TOUCH_HAND,"私の手を取ってどうするの？　……もしかして、車椅子を押してくれるのかしら。なら、ロドスで一番見晴らしのいい特等席までご案内願おうかしら。",,
-DIALOGUE_LEMUEN_TOUCH_PAT,"ふふっ、年上を撫でるなんていい度胸ね。……次にその手が伸びてきたら、あなたのおでこに『よくできました』のゴム弾を撃ち込んじゃうわよ？",,
-DIALOGUE_LEMUEN_TOUCH_NECK,"っ……ドクター、そこは狙撃手にとって大事な場所よ。スコープを覗く体勢が崩れちゃったら、どう責任とってくれるの？",,
-DIALOGUE_LEMUEN_TOUCH_EAR,"……んっ。不意打ちはなしよ。私の耳は、遠くの足音だって拾えるくらいには敏感なんだから……変なこと、吹き込まないで。",,
-DIALOGUE_LEMUEN_TOUCH_HUG,"あらあら……甘えん坊さんね。車椅子越しでもいいなら、いくらでも受け止めてあげる。ほら、おいで？",,
-DIALOGUE_LEMUEN_TOUCH_THIGH,"……ドクター？　それが『リハビリのお手伝い』のつもりなら、後で医療部に報告書を出さないといけないわね。……ふふ、冗談。でも、ちょっとくすぐったいかしら。",,
-DIALOGUE_LEMUEN_TOUCH_WAIST,"っ……そこは、ちょっと反則よ。うまく姿勢が保てなくなるじゃない。……私をこの椅子から下ろしたいなら、もっと上手な口実を考えなさいな。",,
-DIALOGUE_LEMUEN_TOUCH_CHEST_CLOTHED,"……んっ。呼吸が乱れたら、弾道がブレちゃうのよ？　あなた、私のこと……どこまで狂わせるつもり？",,
-DIALOGUE_LEMUEN_TOUCH_KISS,"……ん。もう……射程距離の計算もできないくらい、近づきすぎよ、ドクター。",,
-DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT,"はぁ……ダメね、あなたの手、熱すぎるわ。狙撃手失格ね……今はスコープの向こうより、あなたの熱しか感じられないもの……っ。",,
-DIALOGUE_LEMUEN_TOUCH_KISS_DEEP,"んっ……ぁ……息、できない……。車椅子ごと、あなたに溶かされちゃいそう……っ、もっと……。",,
-DIALOGUE_LEMUEN_TOUCH_LOWER,"ひゃっ……ぁ……！　そこ、ダメ……っ、足に、力が入らないのに……あなたに全部、委ねるしか、なくなっちゃうじゃない……っ！",,
-DIALOGUE_LEMUEN_TOUCH_FORCE,"……ちょっと強引すぎない？　私はこの椅子から逃げられないんだから、もう少し手順を踏んでくれないと……本気で撃ち抜くわよ？",,
-DIALOGUE_LEMUEN_TOUCH_GROPE,"……ドクター。今の手の動き、『うっかり手が滑った』じゃ済まされないわね。……さて、私の銃口がこっちを向く前に、どうやって弁明してくれるのかしら？",,
-DIALOGUE_LEMUEN_TOUCH_HAIR_ALT2,"私の髪に何かついてる？　……ふふ、ただ触りたかっただけなら、素直にそう言えばいいのに。",,
-DIALOGUE_LEMUEN_TOUCH_HAIR_ALT3,"ブラッシングしてくれるの？　なら、手加減なしでお願いね。痛くしたら……撃つわよ？",,
-DIALOGUE_LEMUEN_TOUCH_HAND_ALT2,"あら、エスコートのつもり？　ふふ、私の手は銃のダコだらけよ。それでも握りたいなら、離さないでね。",,
-DIALOGUE_LEMUEN_TOUCH_HAND_ALT3,"……ん。ちょっと冷えてたから、ちょうどいいわ。あなたの手、あったかいわね。",,
-DIALOGUE_LEMUEN_TOUCH_PAT_ALT2,"もう、子ども扱いしないでって言ってるのに……。まあいいわ、今日だけは特別に許してあげる。",,
-DIALOGUE_LEMUEN_TOUCH_PAT_ALT3,"あらあら、ご褒美のつもり？　……ふふ、私をいい子にしておきたいなら、もっと上手に撫でなさいな。",,
-DIALOGUE_LEMUEN_TOUCH_NECK_ALT2,"んっ……肩こりマッサージのつもり？　それにしては、ちょっと指使いが怪しいわね……ふふ。",,
-DIALOGUE_LEMUEN_TOUCH_NECK_ALT3,"ひゃっ……ちょっと、くすぐったいわ。私の首元に無防備に触れるなんて、あなた、本当に命知らずね？",,
-DIALOGUE_LEMUEN_TOUCH_EAR_ALT2,"……っ、息がかかってるわよ。そんな至近距離で囁かれたら、流石の私も反応しちゃうじゃない……。",,
-DIALOGUE_LEMUEN_TOUCH_EAR_ALT3,"（ビクッ）……もう。風切り音には慣れてるけど、あなたの吐息には……まだ耐性がないみたい。",,
-DIALOGUE_LEMUEN_TOUCH_HUG_ALT2,"……ん。あったかい。車椅子の金属の冷たさが、あなたの熱で全部飛んでいっちゃいそう。",,
-DIALOGUE_LEMUEN_TOUCH_HUG_ALT3,"ふふ、しっかり捕まえててね。急発進して、あなたごと連れ去っちゃうかもしれないから。",,
-DIALOGUE_LEMUEN_TOUCH_THIGH_ALT2,"……っ、そこ。自分から動かせないからって、好きにしていいわけじゃないのよ？　……嫌とは、言ってないけど。",,
-DIALOGUE_LEMUEN_TOUCH_THIGH_ALT3,"ん……そんな風に撫でられたら、足先まで熱くなっちゃうわ。……どうするの、これ。",,
-DIALOGUE_LEMUEN_TOUCH_WAIST_ALT2,"あっ……ダメ、上半身の力まで抜けちゃう……っ。あなたに体重、預けちゃっても……いい？",,
-DIALOGUE_LEMUEN_TOUCH_WAIST_ALT3,"……んっ。車椅子に固定されてるみたいで、なんだか……変な気分ね。あなたが、意地悪に見えるわ。",,
-DIALOGUE_LEMUEN_TOUCH_CHEST_CLOTHED_ALT2,"あっ……ダメ、そんなに優しく撫でられたら……心音が早くなってるの、バレちゃうじゃない……っ。",,
-DIALOGUE_LEMUEN_TOUCH_CHEST_CLOTHED_ALT3,"……ふふ、服の上からでも……私の鼓動、伝わってるでしょう？　あなたのせいよ……。",,
-DIALOGUE_LEMUEN_TOUCH_KISS_ALT2,"……っ、ちゅ。……ふふ、私から仕掛けると思ってた？　たまには、あなたから奪われるのも悪くないわね。",,
-DIALOGUE_LEMUEN_TOUCH_KISS_ALT3,"ん……。息継ぎのタイミング、ちゃんと教えてあげようか？　……もう一回、目を閉じて。",,
-DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT_ALT2,"あっ、んっ……素肌、直接は……刺激が強すぎるわ……っ。私、もう……冷静じゃ、いられない……。",,
-DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT_ALT3,"んっ、はぁっ……そんなに、意地悪にしないで……。あなたの指の動き……全部、頭が真っ白に……っ。",,
-DIALOGUE_LEMUEN_TOUCH_KISS_DEEP_ALT2,"ちゅっ……れろ……んっ、あぁ……。だめ、こんなに深くされたら……私、おかしくなっちゃう……っ。",,
-DIALOGUE_LEMUEN_TOUCH_KISS_DEEP_ALT3,"んんっ……はぁ、はぁ……っ。口の中、全部……あなたに支配されちゃったみたい……もっと、めちゃくちゃにして……っ。",,
-DIALOGUE_LEMUEN_TOUCH_LOWER_ALT2,"あっ、あぁっ……！　なか、熱い……っ、触られるたびに、ビクビクして……恥ずかしいのに、止めてほしくないの……っ。",,
-DIALOGUE_LEMUEN_TOUCH_LOWER_ALT3,"んっ、ひぃっ……！　もう、だめ……頭の中、ぐちゃぐちゃ……っ。あなたのせいなんだから……最後まで、責任、とってね……っ♡",,
-DIALOGUE_LEMUEN_TOUCH_FORCE_ALT2,"……っ、痛い。そういう手荒な真似が好きなら、他を当たってちょうだい。私、乱暴なのは嫌いよ。",,
-DIALOGUE_LEMUEN_TOUCH_GROPE_ALT2,"……その手、弾丸で穴を開けられたいの？　親しき仲にも礼儀あり、って言葉、ラテラーノの法律より重いわよ？",,
-DIALOGUE_LEMUEN_GIFT_VIBR_T0,"クロージャの新作？　肩こり解消ツールにしては、随分と……局所的な振動パターンね。これを私にどうしろって言うのかしら？",,
-DIALOGUE_LEMUEN_GIFT_VIBR_T1,"んっ……あっ……ドクター、意地悪ね。私が自分から動けないのをいいことに、こんなの仕掛けるなんて……っ、書類、読めなくなっちゃうじゃない……",,
-DIALOGUE_LEMUEN_GIFT_VIBR_T2,"ふふっ、なんだかドクターのほうが、このおもちゃに興味津々みたいね。……ねえ、今度は私が『撃ち抜いて』あげようか？　あなたの弱点、もう完全にロックオンしてるのよ？",,
-DIALOGUE_LEMUEN_GIFT_OIL_T0,"医療部の疲労緩和オイルね。ありがとう。ずっと座りっぱなしだと、足先が冷えちゃって……後で自分で塗り込んでおくわ。",,
-DIALOGUE_LEMUEN_GIFT_OIL_T1,"せっかくだから、ドクターに手伝ってもらおうかしら。……ええ、ふくらはぎの辺りを……んっ。……ドクター、手が少し上すぎない？",,
-DIALOGUE_LEMUEN_GIFT_OIL_T2,"……はぁ。オイル、すっかり熱を持っちゃったわね。ねえドクター……私の足だけじゃなくて、あなたの身体にも塗り込んで……一緒に、溶け合ってみない？",,
-DIALOGUE_LEMUEN_GIFT_ROPE_T0,"あら、警備隊用のロープ？　これがあれば車椅子の最高速度が更新できそうね。……え、違うの？　じゃあ、誰を縛り上げるつもり？",,
-DIALOGUE_LEMUEN_GIFT_ROPE_T1,"車椅子に縛り付けて、どうするの？　私は元々逃げられないのに……ふふっ、ドクターって意外と、支配欲が強いのね。いいわ、好きなだけきつく縛りなさい。",,
-DIALOGUE_LEMUEN_GIFT_ROPE_T2,"さあ、今度はドクターの番よ。動かないでね……ふふ、こうして無防備な獲物を至近距離で見下ろすのも、たまには悪くないわね。……どこから嬲ってほしい？",,
-DIALOGUE_LEMUEN_GIFT_GAS_T0,"ワルファリンの試薬じゃない。あの子から横流し？　ふふっ……ドクター、こっちから誘うつもりだったのに、先を越されちゃったわ。減点よ。",,
-DIALOGUE_LEMUEN_GIFT_GAS_T1,"少し吸うだけでいいのね？　……んっ、なんだか……頭の芯が、ぼうっとして……。ドクターの顔が、すごく……美味しそうに見えるわ……。",,
-DIALOGUE_LEMUEN_GIFT_GAS_T2,"はぁ……っ、ドクター……もっと、あのガス……頂戴。頭の中の風向きの計算も、射撃のセオリーも、全部溶けちゃって……あなたのことしか、考えられないの……っ",,
-DIALOGUE_LEMUEN_GIFT_NOVEL_T0,"カシミア騎士小説の初版じゃない！　すごいわドクター、どこでこれを見つけたの？　ふふっ、今夜は窓辺でゆっくり読書会ね。",,
-DIALOGUE_LEMUEN_GIFT_NOVEL_T1,"『騎士は乙女を壁に押し当て、熱い吐息を交わした……』ふふ、いいシーンね。……ドクター、どうしてそんなに顔を赤くしてるの？",,
-DIALOGUE_LEMUEN_GIFT_NOVEL_T2,"本で読むだけじゃ、少し物足りなくなってきちゃった。ねえドクター……この続き、私と一緒に『実践』してみない？　私が乙女で、あなたが騎士よ。",,
-DIALOGUE_LEMUEN_GIFT_BRACE_T0,"特注のチタンブレスレット？　銃弾も弾きそうなくらい頑丈ね。……これを私に？　少し重たい気もするけれど……デザインは嫌いじゃないわ。",,
-DIALOGUE_LEMUEN_GIFT_BRACE_T1,"……ふふ。（サイズ、ぴったりね。ずっと私のこと見てたってこと？）嬉しいって言ったら、着けてくれる？　……あなたの手で、私を縛り付けて。",,
-DIALOGUE_LEMUEN_GIFT_BRACE_T2,"スコープを覗く時、いつもこのブレスレットが目に入るの。その度に……私が誰のものか、思い出させてくれる。ドクター、あなたも忘れないでね？",,
-DIALOGUE_LEMUEN_GIFT_CATEARS_T0,"サンクタにフェリーンの耳？　ドクター、あなたの美意識のセンサー、ちょっと故障してるんじゃない？　私は着けないわよ。",,
-DIALOGUE_LEMUEN_GIFT_CATEARS_T1,"……今回だけだからね。……にゃあ。…………ふふ、今笑った？　次笑ったら、あなたのコーヒーカップを粉々に撃ち抜くわよ。",,
-DIALOGUE_LEMUEN_GIFT_CATEARS_T2,"あらドクター、今日は私が耳を着けてなくて残念そうね。……ふふ、ドアの鍵、閉めてきて。飼い主さんを待ってる間、ずっと……うずうずしてたんだから。",,
-DIALOGUE_LEMUEN_INSP_UNDERWEAR_T0,"『感染状況の即時確認のため、指定のアンダーウェアを着用すること』……ふふっ。自分で出した怪しい通達、まさか忘れたわけじゃないわよね？　ほら、あなたの目でしっかり『確認』しなさいな。",,
-DIALOGUE_LEMUEN_INSP_UNDERWEAR_T1,"はい、規則通りよ。……どう？　布面積が少なくて少し心もとないけれど、ドクターがこれで『安全確認』しやすいって言うなら、大人しく従ってあげるわ。",,
-DIALOGUE_LEMUEN_INSP_UNDERWEAR_T2,"……ふふ、検査の時間ね。今日は少し暑かったから、規則で決められたこの薄い生地だと……汗で張り付いて、色々透けちゃってるかもしれないわ。……ほら、もっと至近距離で観察しなくていいの？",,
-DIALOGUE_LEMUEN_MIDNIGHT_1,"こんな夜更けに『特別健康診断』だなんて、熱心なお医者様ね。……ふふ、安心して。廊下には誰もいなかったわ。これで心置きなく、私を隅々まで『診察』できるわね？",,
-DIALOGUE_LEMUEN_MIDNIGHT_2,"……んっ、そこは聴診器を当てる場所じゃないと思うけど？　……ふふ、いいわよ。夜の静寂の中なら、私の乱れた心音も、あなたの荒い吐息も……全部、正確に捉えられるもの。",,
-DIALOGUE_LEMUEN_MIDNIGHT_3,"はぁ……っ、そんなに深く調べられたら、隠し事なんて何もできなくなっちゃうじゃない。……ねえドクター、この『診察』が終わるまで、絶対に私をこの部屋から帰さないつもりでしょう……？",,
-DIALOGUE_LEMUEN_STAGE_UP_1,"ふぅん……ドクターの働きぶり、ここからだとよく見えるの。私のスコープから逃れられると思ってた？　……ふふ、もう少し観察させてもらおうかしら。",,
-DIALOGUE_LEMUEN_STAGE_UP_2,"じっくり観察してやっと、その人を排除しないといけないか、守るべきかが見えてくるの。……ふふ、あなたはどっちだと思う？　安心して仕事に打ち込んでいいわよ、ドクター。",,
-DIALOGUE_LEMUEN_STAGE_UP_3,"ねえドクター、最近気づいたの。あなた、私の冗談にちゃんと冗談で返してくれるようになったわね。……今度、車椅子にスラスター付ける時、手伝ってくれるって期待してもいいかしら？",,
-DIALOGUE_LEMUEN_STAGE_UP_4,"ずっと私があなたを観察してると思ってた？　……いつの間にか、あなたのペースに巻き込まれてたみたい。これからは、背中だけじゃなくて……隣も任せちゃっていいかしら、ドクター？",,
-DIALOGUE_LEMUEN_PRESTIGE_REUNION,"あら、ドクター。また会えたわね。……ふふ、そんな顔しないで。私の『要人警護リスト』はちゃんと更新済みよ。さあ、今日はどこへ連れて行ってくれるの？",,
-DIALOGUE_LEMUEN_AROUSAL_MAX,"……ドクター、もう……ダメみたい。スコープも、規則も、全部……あなたのせいで使えなくなっちゃった。……責任、とってね？",,
-DIALOGUE_LEMUEN_LOCKED_1,"……ドクター、お引き取り願えるかしら。今日のあなたとは、もう話したくない気分なの。……明日になれば、気が変わるかも、ね？",,
-DIALOGUE_LEMUEN_LOCKED_2,"あら、まだいたの？　……ふふ、私の機嫌の時計、まだ針が戻ってないわよ。それとも、もう一発撃ち込まれたい？",,
-DIALOGUE_LEMUEN_IDLE_STAGE_1,"……窓の影、また伸びたわね。ドクター、お仕事はひと休みかしら？",,
-DIALOGUE_LEMUEN_IDLE_STAGE_2,"ねえ、ドクター。戦場でそんなにじっと動かないでいたら……いい的（ターゲット）になっちゃうわよ？",,
-DIALOGUE_LEMUEN_IDLE_STAGE_3,"（カチャッという銃の操作音）……ふふっ、スコープのど真ん中。風向き、よし。距離、よし。",,
-DIALOGUE_LEMUEN_IDLE_FIRE,"バーン！　……ふふっ、驚いた？　さあ、休憩はおしまいよ。",,
-DIALOGUE_LEMUEN_CG_GOMU_01,"夜の静寂が支配する執務室。意を決して、ポケットに忍ばせていた医療部支給の『小さな四角いパッケージ』を机の上に置いた。",,
-DIALOGUE_LEMUEN_CG_GOMU_02,"……レミュアン。",,
-DIALOGUE_LEMUEN_CG_GOMU_03,"彼女はそれに視線を落とすと、目を丸くして、ほんの数秒だけ瞬きをした。そして――すぐにいつもの、すべてを見透かしたような艶やかな微笑みを浮かべた。",,
-DIALOGUE_LEMUEN_CG_GOMU_04,"あら。……ふふっ。医療部の備品ね。感染対策の規定にはしっかり従う……流石は私たちの優秀なドクターだわ。",,
-DIALOGUE_LEMUEN_CG_GOMU_05,"からかうような口調とは裏腹に、彼女の白い指先がパッケージの端をそっとなぞる。その指先は、いつもライフルの引き金を引く時のような、かすかな熱を帯びていた。",,
-DIALOGUE_LEMUEN_CG_GOMU_06,"でも、少し意外だったわ。ずっと私のことを観察して、じわじわと外堀を埋めてきてたから……ドクターが自分から『引き金』を引くのは、もう少し先かと思ってた。",,
-DIALOGUE_LEMUEN_CG_GOMU_07,"……嫌だった？",,
-DIALOGUE_LEMUEN_CG_GOMU_08,"まさか。……減点よ、ドクター。私が『嫌な相手』と、こんな夜更けまで二人きりでいると思う？",,
-DIALOGUE_LEMUEN_CG_GOMU_09,"彼女は車椅子をゆっくりと進め、目の前まで距離を詰めてくる。ふわりと、サンクタ特有の清潔な香りと、彼女自身の甘い匂いが鼻腔をくすぐった。",,
-DIALOGUE_LEMUEN_CG_GOMU_10,"ねえ、ドクター。……このパッケージを開けたら、もう後戻りはできないわよ。ただの『同僚』や『観察対象』じゃいられなくなる。……覚悟はできてるの？",,
-DIALOGUE_LEMUEN_CG_GOMU_11,"ああ。……君の全部を、引き受けるよ。",,
-DIALOGUE_LEMUEN_CG_GOMU_12,"その言葉を聞いた瞬間、彼女の瞳から『余裕のあるお姉さん』の光がふっと和らぎ、一人の無防備な女性の顔へと変わった。",,
-DIALOGUE_LEMUEN_CG_GOMU_13,"……言ったわね。言質はしっかり取ったわよ。",,
-DIALOGUE_LEMUEN_CG_GOMU_14,"彼女は服の裾をきゅっと掴むと、少しだけ潤んだ上目遣いで見上げてきた。",,
-DIALOGUE_LEMUEN_CG_GOMU_15,"知っての通り、私はこの車椅子だから……もし怖くなっても、途中で走って逃げるなんてできないの。だから……",,
-DIALOGUE_LEMUEN_CG_GOMU_16,"……ちゃんと、エスコートしてね。私を、あなたが撃ち抜いたこの場所から……一歩も動けなくなるくらい、めちゃくちゃにして……っ",,
-DIALOGUE_LEMUEN_CG_GOMU_17,"その言葉を合図に、彼女を抱き上げ、静かにベッドへと向かう。腕の中で彼女は小さく『んっ』と声を漏らし、首元に顔を埋めた。",,
-DIALOGUE_LEMUEN_CG_GOMU_18,"……ふふ、手、震えてるわよ。大丈夫……ゆっくりでいいから。あなたが私に着けてくれるところ……ちゃんと、最後まで観察させてね……♡",,
-DIALOGUE_LEMUEN_CG_GOMU_19,"ベッドに彼女を優しく横たえる。車椅子の固定具を外し、クッションで下半身を支える。月明かりが彼女の白い肌を照らし、豊かな胸の谷間と、すでに少し湿った太ももの内側が露わになった。",,
-DIALOGUE_LEMUEN_CG_GOMU_20,"……私の体、こんなにじっくり見られるの、初めてよ。ドクターの目……熱くて、射程が合いそうにないわ。",,
-DIALOGUE_LEMUEN_CG_GOMU_21,"彼女の唇にキスを落とす。優しく、深く。彼女の舌が絡みつき、いつもの余裕を保とうとするが、息が徐々に熱を帯びていく。",,
-DIALOGUE_LEMUEN_CG_GOMU_22,"んっ……キスだけで……心拍数が上がってる……私の計算……少し、狂い始めてる……",,
-DIALOGUE_LEMUEN_CG_GOMU_23,"服を丁寧にはだけさせる。ブラウス、ブラ……豊かな乳房が重たげに揺れた。指先で乳首を優しく摘むと、彼女の体がビクンと跳ねた。",,
-DIALOGUE_LEMUEN_CG_GOMU_24,"あっ……！　そこ……敏感なの、ばれてるでしょう？　んっ……ふふ、でも……悪くない……もっと、強く摘んで……っ",,
-DIALOGUE_LEMUEN_CG_GOMU_25,"舌で乳首を転がし、吸い上げる。彼女の指が髪を掴み、甘く喘ぐ。",,
-DIALOGUE_LEMUEN_CG_GOMU_26,"はあっ……ドクターの口……熱い……私の、こんなところまで……観察されてる……あんっ！",,
-DIALOGUE_LEMUEN_CG_GOMU_27,"下着をゆっくり下ろす。すでに蜜で濡れた秘部が、月光に輝いていた。指を這わせると、彼女の腰が小さく跳ねる。",,
-DIALOGUE_LEMUEN_CG_GOMU_28,"くっ……逃げられない……この車椅子じゃ、下半身が思うように動かないの……あなたの指から……どこにも行けない……っ",,
-DIALOGUE_LEMUEN_CG_GOMU_29,"中指をゆっくり沈める。熱く、狭い内壁が指を締め付けてくる。",,
-DIALOGUE_LEMUEN_CG_GOMU_30,"んあっ……！　奥……届いてる……私の、計算外の場所を……抉ってる……あっ あっ……冷静でいようとしたのに……っ",,
-DIALOGUE_LEMUEN_CG_GOMU_31,"指を出し入れしながら、親指でクリトリスを同時に刺激。彼女の息が完全に乱れ、普段のスナイパーらしい冷静さが音を立てて崩れていく。",,
-DIALOGUE_LEMUEN_CG_GOMU_32,"はあっ はあっ……ドクター……卑怯よ……こんなに早く、私の余裕を……剥がすなんて……んっ！　奥……もっと奥を……っ",,
-DIALOGUE_LEMUEN_CG_GOMU_33,"（ぐちゅっ……ぐちゅっ……）さらに二本の指を沈め、Gスポットを執拗に擦る。彼女の体が弓なりに反り、太ももが小刻みに震えた。",,
-DIALOGUE_LEMUEN_CG_GOMU_34,"おっ……！　そこ……だめ……私の、弱いところ……見つけられちゃった……射程が……もう、合わない……っ！",,
-DIALOGUE_LEMUEN_CG_GOMU_35,"指を抜き、コンドームを装着。先端を彼女の入口に当て、ゆっくりと腰を進める。",,
-DIALOGUE_LEMUEN_CG_GOMU_36,"んんっ……！　入ってくる……太くて……熱い……私の、中を……押し広げてる……あっ……全部……届いた……？",,
-DIALOGUE_LEMUEN_CG_GOMU_37,"最初は優しく、深く腰を振る。彼女の内壁が熱く収縮し、締め付けてくる。",,
-DIALOGUE_LEMUEN_CG_GOMU_38,"ふあっ……動いてる……私の奥を、突いて……計算……できない……こんな快感……私の射程内に……収まらない……っ",,
-DIALOGUE_LEMUEN_CG_GOMU_39,"速度を徐々に上げていく。彼女の声が大きくなり、普段の艶やかなトーンが崩れ始めた。",,
-DIALOGUE_LEMUEN_CG_GOMU_40,"あっ！　あんっ！　もっと……激しく……この体じゃ逃げられないの……めちゃくちゃにして……っ！",,
-DIALOGUE_LEMUEN_CG_GOMU_41,"（ぐぽっ ぐぽっ ぐぽっ……！）激しい水音が部屋に響き渡る。彼女の瞳がとろんと蕩け、息が完全に上ずっていた。",,
-DIALOGUE_LEMUEN_CG_GOMU_42,"おほっ……！　おほおっ！！　だめ……頭が……真っ白……射程オーバー……っ！　あっ あっ イッちゃう……私の、全部……イッちゃうわ……っ！！",,
-DIALOGUE_LEMUEN_CG_GOMU_43,"（画面が一瞬強くフラッシュする）彼女の体が大きく痙攣し、絶頂に達した。内壁が激しく収縮し、愛液が溢れ出す。",,
-DIALOGUE_LEMUEN_CG_GOMU_44,"はあっ！　はあっ！　おほっ……！　もう……理性が……飛んでいく……ドクターの……だけ……私の、全部……あなたのもの……っ！！",,
-DIALOGUE_LEMUEN_CG_GOMU_45,"さらに激しく突き上げ、連続で追い込む。二度、三度と絶頂を重ねさせ、彼女の声は完全に『メス堕ち』の響きになっていた。",,
-DIALOGUE_LEMUEN_CG_GOMU_46,"あへっ……あへえっ……！　イッてる……イッてるの……ドクターのせい……私の計算……全部、壊されちゃった……っ",,
-DIALOGUE_LEMUEN_CG_GOMU_47,"最後の激しい一突きで、彼女は大きく弓なりに反り、完全に限界を超えた。（激しい水音と、彼女の甘い悲鳴が同時に響く）",,
-DIALOGUE_LEMUEN_CG_GOMU_48,"事後――息を荒げながら、彼女を抱きしめる。額に優しくキスを落とすと、彼女の瞳がゆっくりと焦点を取り戻した。",,
-DIALOGUE_LEMUEN_CG_GOMU_49,"……はあ……はあ……すごかったわ……私の、全部の計算が……狂わされた……",,
-DIALOGUE_LEMUEN_CG_GOMU_50,"彼女は弱々しく微笑み、胸に顔を埋めた。",,
-DIALOGUE_LEMUEN_CG_GOMU_51,"でも……嫌じゃない。むしろ……ドクターに、こんなに依存したくなるなんて……Trust、確実に上がってるわよ？　ふふっ",,
-DIALOGUE_LEMUEN_CG_GOMU_52,"……次は、もっと上手く計算するわ。でも……今夜は、もう……あなたのペースに、全部合わせちゃう……♡",,
-DIALOGUE_LEMUEN_PROT_T1_SEEN,"あら、また？　……ふふ、もう『今夜だけ』って言い訳は使えないわね、ドクター。今度は『習慣』にしましょう？　私の方も、まだ満足しきってなかったから。",,
-DIALOGUE_LEMUEN_PROT_MILESTONE_100,"あら、また？　ふふっ……ドクター、もうこれで何回目？　いえ、聞かないで。私も数えるのやめたから。……今夜も、私の部屋で、ね？",,
-DIALOGUE_LEMUEN_PROT_MILESTONE_500,"ふふ、ドクター。今夜は……いえ、これからは、私から仕掛けようかしら。あなたが寝ている隙に、ね？　観察、しっかり済んだから。",,
-DIALOGUE_LEMUEN_PROT_MILESTONE_1000,"ねえドクター。あなたの心音、もう私の中で千回以上響いたわ。……今夜は、ちゃんと『誓約』しましょう？",,
-DIALOGUE_LEMUEN_CG_HABIT_01,"夜のレミュアン私室。もう何度目か、数えるのをやめた夜だった。",,
-DIALOGUE_LEMUEN_CG_HABIT_02,"彼女の私室が、僕たちの『日課』の場所になっていた。部屋着姿で髪を下ろした彼女は、ソファに身を預け、ぱらぱらと本のページを繰っていた。",,
-DIALOGUE_LEMUEN_CG_HABIT_03,"あら、ドクター。……また来ちゃったの？",,
-DIALOGUE_LEMUEN_CG_HABIT_04,"本を閉じる音。からかうような笑みを浮かべて、彼女は車椅子のロックを外す音をわざと響かせた。",,
-DIALOGUE_LEMUEN_CG_HABIT_05,"ふふ、『今夜だけ』なんて、誰が言ったのかしらね。……もう数えるの、やめにしたわよ？",,
-DIALOGUE_LEMUEN_CG_HABIT_06,"抱き寄せ、ソファの上で軽くキスを落とす。すぐに足りなくなって、彼女の顎を指で持ち上げて深く重ねた。彼女は小さく息を吐きながら、首に腕を回してきた。",,
-DIALOGUE_LEMUEN_CG_HABIT_07,"んっ……主導権、完全にあなたね。7対3ってところかしら？",,
-DIALOGUE_LEMUEN_CG_HABIT_08,"部屋着の合わせをはだけさせると、汗ばんだ素肌からはサンクタの清潔な匂いと、彼女自身の甘い匂いが立ち昇った。",,
-DIALOGUE_LEMUEN_CG_HABIT_09,"抱き上げて、慣れた歩数でベッドへ。腕の中で彼女は素直に身を委ねている。",,
-DIALOGUE_LEMUEN_CG_HABIT_10,"……あなたの腕、もう私の体重を覚えちゃってるのね。",,
-DIALOGUE_LEMUEN_CG_HABIT_11,"横たえた彼女に重なる。首筋に唇を這わせ、もう一度キスを落としながら、ゆっくりと彼女の中へ沈んでいく。ぬぷっ、と、もう何度繰り返したか分からない感触が彼女を迎え入れる。",,
-DIALOGUE_LEMUEN_CG_HABIT_12,"あっ……んっ……今日も、優しくて……でも、ちゃんと、めちゃくちゃにしてくれるのね……。",,
-DIALOGUE_LEMUEN_CG_HABIT_13,"数えきれない夜を重ねた今も、内壁は初夜と変わらない熱で僕を迎え入れる。違うのは、その奥の彼女が何ひとつ怯えていないこと。",,
-DIALOGUE_LEMUEN_CG_HABIT_14,"ふふ、約束って言うより……もう、日課？　寝たきりだった頃なんて、何もできなかったのに……今は、こんなにあなたに頼ってる。",,
-DIALOGUE_LEMUEN_CG_HABIT_15,"腰を軽やかに動かす。彼女は背中に爪を立て、甘く喘ぎながら、それでもからかいをやめなかった。",,
-DIALOGUE_LEMUEN_CG_HABIT_16,"はあっ……あなたのせいよ……私の計算、またぐちゃぐちゃ……っ。",,
-DIALOGUE_LEMUEN_CG_HABIT_17,"角度を変えて深く突き入れると、彼女の喉から押し殺した嬌声が漏れた。",,
-DIALOGUE_LEMUEN_CG_HABIT_18,"んっ……っ、そこ……日課にしては、刺激強すぎ……。",,
-DIALOGUE_LEMUEN_CG_HABIT_19,"揺れる胸を片手で包み、唇で先端を舐めるように転がすと、彼女の腰が小さく跳ねる。",,
-DIALOGUE_LEMUEN_CG_HABIT_20,"あっ……だめ、両方一緒に……っ、頭、また真っ白になっちゃう……。",,
-DIALOGUE_LEMUEN_CG_HABIT_21,"数分か、数十分か。やがて彼女の体が小さく震え、甘い声が部屋に響いた。",,
-DIALOGUE_LEMUEN_CG_HABIT_22,"髪が汗で湿り、頰がわずかに赤らんでいた。",,
-DIALOGUE_LEMUEN_CG_HABIT_23,"……はあ。やっぱり、ドクターのせい。私の余裕、今日も綺麗に剥がされちゃったわ。",,
-DIALOGUE_LEMUEN_CG_HABIT_24,"少しだけ強がったあと、彼女は上目遣いで僕を見て、当然のように言った。",,
-DIALOGUE_LEMUEN_CG_HABIT_25,"ねえドクター、明日も……来るんでしょう？",,
-DIALOGUE_LEMUEN_CG_DEVOTE_01,"夜の執務室。気づかぬうちに、机に突っ伏したまま深い眠りに落ちていた。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_02,"静かな車輪の音が近づいてくる。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_03,"寝顔を覗き込むレミュアン。優しいのに、どこか残酷な笑みが浮かんでいた。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_04,"あら、無防備……ふふ、観察対象から目を離した私の負けね。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_05,"そっと肩を揺すられ、目を覚ます。視線を上げると、彼女の顔が真上から見下ろしていた。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_06,"ねえドクター、起きて。今夜は私が『引き金』を引く番よ。動かないで……それ、命令じゃなくて、お願い、ね？",,
-DIALOGUE_LEMUEN_CG_DEVOTE_07,"私室に連行され、ベッドに押し倒される。髪を下ろした彼女が、ゆっくりと服のボタンを外していく。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_08,"ふふ、狙撃ポイントを教えてあげるわ。……私の、私室よ。逃げ場、初めから無かったでしょう？",,
-DIALOGUE_LEMUEN_CG_DEVOTE_09,"自ら腰に跨り、熱を持った秘部を僕の硬さにくちゅっ、と擦りつける。布越しでも分かるほど、すでに濡れていた。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_10,"もうこんなに硬くなってる……ふふ、観察してて、よかったわ。あなたの一番反応する場所、もう、覚えちゃった。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_11,"跨ったまま、彼女はコンドームを手に取った。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_12,"自分でこれ着けるとこ、見ててね？　ドクターがいつも私に着けてくれてた景色……今夜は、私からのプレゼント。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_13,"細い指がパッケージを破る音。彼女の指先が僕の先端に触れ、わざと焦らすようにゆっくりと包み込んでいく。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_14,"ふふ、ビクビクしてる。ここ、こんなに敏感だったのね……観察、しっかり活かしてあげる。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_15,"根本を握ってしごくように刺激し、僕の腰が跳ねるのを楽しそうに見ている。彼女の指の動きには、ライフルの引き金を引くときと同じ、繊細な熱があった。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_16,"装着を終えると、先端を自分の濡れた入口に当て、ぬぷっ、ぬぷっ、と少しずつ腰を下ろしていく。熱く狭い内壁が、僕を飲み込んでいく。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_17,"動かないで……今夜は全部、私に任せて。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_18,"腰を前後に揺らし、僕の硬さを奥深くまで迎え入れる。僕の反応を一つ一つ観察しながらリズムを操る彼女の動きには、容赦がなかった。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_19,"んっ……あっ……ここが、あなたの弱いところでしょう？　私が何度も観察して、覚えておいたのよ。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_20,"彼女が腰を円を描くように回す。Gスポットを執拗に擦りつけられ、僕の喉から呻きが漏れた。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_21,"はあっ……あなたの顔、こんなに蕩けてる……。観察対象が、こんなに可愛い表情をするなんて……っ、あんっ！",,
-DIALOGUE_LEMUEN_CG_DEVOTE_22,"動きが激しくなる。豊かな胸が目の前で揺れ、彼女は僕の手を自分の胸に導き、強く揉ませながらさらに深く腰を落とす。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_23,"もっと奥まで……届いてる……？　私の中、こんなに熱く締め付けてるの、感じてるでしょう？",,
-DIALOGUE_LEMUEN_CG_DEVOTE_24,"両手をベッドに押さえつけられ、完全に動けない状態で彼女の騎乗を受け止め続ける。優しいのに容赦なく、僕を快楽の渦に引きずり込んでいく。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_25,"イッていいわよ……でも、私が許可するまで、動かないでね？",,
-DIALOGUE_LEMUEN_CG_DEVOTE_26,"やがて彼女自身も限界を迎え、腰の動きを激しくしながら、僕を同時に追い詰めた。ぐぽっ、ぐぽっ、と濡れた水音が部屋に響く。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_27,"あっ……あんっ！　おほっ……！　イッく……あなたも、一緒に……っ！！",,
-DIALOGUE_LEMUEN_CG_DEVOTE_28,"内壁が激しく収縮し、僕を締め付けながら絶頂に達する。その瞬間、僕は彼女の中で大きく脈打った。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_29,"彼女は満足げに僕の上に倒れかかった。汗で髪が張り付き、頰を赤らめながらも、勝ち誇った表情を隠そうともしない。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_30,"ふふ……どう？　私の観察、役に立ったでしょう？",,
-DIALOGUE_LEMUEN_CG_DEVOTE_31,"耳元で、甘く、しかしどこか残酷に囁く。",,
-DIALOGUE_LEMUEN_CG_DEVOTE_32,"これからは、あなたは私の管理下よ。ふふ、観察結果は……最大限に活かさせてもらうわ。",,
-DIALOGUE_LEMUEN_CG_BREAK_01,"朝の柔らかい光が、レミュアンの私室を照らしていた。何度目かわからない激しい夜の後、僕たちはベッドの上で抱き合ったまま眠っていた。",,
-DIALOGUE_LEMUEN_CG_BREAK_02,"彼女の体が小さく震え、ゆっくりと目が覚める。",,
-DIALOGUE_LEMUEN_CG_BREAK_03,"細い手首で、チタンのブレスレットが朝日を受けて淡く光っていた。",,
-DIALOGUE_LEMUEN_CG_BREAK_04,"……んっ。",,
-DIALOGUE_LEMUEN_CG_BREAK_05,"夢うつつのまま、彼女は僕の胸に顔を埋めた。普段の余裕も、計算も、一切ない。素の彼女がそこにいた。",,
-DIALOGUE_LEMUEN_CG_BREAK_06,"……ドクター。",,
-DIALOGUE_LEMUEN_CG_BREAK_07,"声は少し掠れていた。ゆっくりと体を起こし、僕の顔をまっすぐに見つめる。その瞳には、もう『スナイパー』も『余裕のあるお姉さん』もいなかった。ただ、純粋な欲求と、長い間隠してきた寂しさだけが溢れていた。",,
-DIALOGUE_LEMUEN_CG_BREAK_08,"覆い被さるようにキスを落とし、そのまま腰を動かし始めた。",,
-DIALOGUE_LEMUEN_CG_BREAK_09,"はあっ……もう……計算なんて、放棄したわ。射程内に、あなたしか居ないんだもの……っ。",,
-DIALOGUE_LEMUEN_CG_BREAK_10,"体にしがみつき、荒々しく腰を振る。朝の光の中で、二人の体が激しく重なり、ぐちゅっ、ぬちゅっ、と濡れた音が部屋に満ちていく。",,
-DIALOGUE_LEMUEN_CG_BREAK_11,"ドクター……私を……あなた専用の弾丸にして……っ。",,
-DIALOGUE_LEMUEN_CG_BREAK_12,"動きには必死さがあった。今まで抑えていた全ての感情が、一気に溢れ出している。",,
-DIALOGUE_LEMUEN_CG_BREAK_13,"はあっ！　あんっ！　おほっ……！　沈黙のレミュアン、なんて呼ばれてた頃の私……もう、いないわよ……っ！",,
-DIALOGUE_LEMUEN_CG_BREAK_14,"目に、うっすらと涙が浮かぶ。快楽と、長い間抱えていた寂しさが混じり合って、彼女の体を激しく震わせていた。",,
-DIALOGUE_LEMUEN_CG_BREAK_15,"僕の首に腕を回し、激しく腰を振り続けながら、涙を零した。",,
-DIALOGUE_LEMUEN_CG_BREAK_16,"他の誰にも……引き金を引かせない。あなたが、私の唯一……っ！",,
-DIALOGUE_LEMUEN_CG_BREAK_17,"彼女の腰を抱き、同じ激しさで応える。二人の動きが完全にシンクロし、互いに求め合う。",,
-DIALOGUE_LEMUEN_CG_BREAK_18,"あっ……あっ……イッく……ドクターと一緒に……もう、離さないで……っ！！",,
-DIALOGUE_LEMUEN_CG_BREAK_19,"体が大きく弓なりに反り、絶頂に達する。同時に僕も彼女の中で大きく脈打ち、熱いものを放った。内壁が激しく収縮し、僕を締め付けながら、彼女は涙を零しながら喘いだ。",,
-DIALOGUE_LEMUEN_CG_BREAK_20,"はあっ……はあっ……うっ……ドクター……。",,
-DIALOGUE_LEMUEN_CG_BREAK_21,"絶頂の余韻の中、まだ僕の中に繋がったまま、彼女は僕の胸に顔を埋めた。",,
-DIALOGUE_LEMUEN_CG_BREAK_22,"しばらくして、彼女はゆっくりと体を起こし、指先で僕の胸に触れた。",,
-DIALOGUE_LEMUEN_CG_BREAK_23,"その指が、僕の心音を優しく確かめるように、静かに動く。",,
-DIALOGUE_LEMUEN_CG_BREAK_24,"……はあ。あなたの心音……すごく、安心するわ。",,
-DIALOGUE_LEMUEN_CG_BREAK_25,"少しだけ微笑み、僕の胸に耳を寄せた。もう計算も、余裕も、一切ない。ただ、純粋に僕を求めている彼女がそこにいた。",,
-DIALOGUE_LEMUEN_CG_BREAK_26,"ドクター。私の弾丸は、もう、あなただけのもの。……これは、誓約よ。",,
-DIALOGUE_LEMUEN_CG_BREAK_27,"そう言いながら、僕の胸にそっとキスを落とす。その瞳には、もう迷いも寂しさもなかった。ただ、完全な依存と愛だけが輝いていた。",,
-DIALOGUE_LEMUEN_CG_BREAK_28,"彼女は静かに笑った。それは、出会ってから初めて見る、何の演技も計算もない、本当に幸せそうな笑みだった。",,
+DIALOGUE_LEMUEN_GIFT_TEA,あら、私の好みを調べたの、ドクター？……ふふっ、観察癖はお互い様ってわけね。お礼に、今度あなたの好みも当ててあげるわ,"Oh? Did you study my preferences, Doctor? ...Hmph, seems we both have an observation habit. As thanks, I'll guess yours next time.",哎呀，博士竟然调查过我的喜好？……呵呵，看来观察的癖好我们半斤八两呢。作为答谢，下次也由我来猜猜你的喜好吧。
+DIALOGUE_LEMUEN_INSP_REJECT,あら、検査？　……ねえドクター、私の身だしなみと、あなたの本音、どっちを先に確認すればいいのかしら？　はっきりしてくれないと、こちらもどう協力すればいいか困るのよ,"Oh, an inspection? ...Tell me, Doctor—should I verify my appearance first, or your real intentions? You'll need to be clearer, or I won't know how to cooperate.",哎呀，检查吗？……博士，我的仪容与你的真心话，应该先确认哪一边呢？你不说清楚的话，我也不知该如何配合呢。
+DIALOGUE_LEMUEN_INSP_COMPLIANT,ご自分の通達、お忘れじゃないわよね、ドクター。……規則通り、ちゃんと身に着けているわ。確認するなら、目を逸らさずどうぞ。後で『見えなかった』なんて言わせないから,"You haven't forgotten your own decree, have you, Doctor? ...All according to regulations. If you're going to verify, don't look away. I won't accept ""I didn't see"" later.",自己下达的通告可没忘吧，博士？……规则规定的我都好好穿在身上了。要确认的话就别移开视线哦。之后可不许说“没看见”。
+DIALOGUE_LEMUEN_XRAY_LOW,ねえドクター、覚えてる？　船上にあなたを狙撃できる場所が一ヶ所あるって話。……ちょうど今、その視線で同じことが私に起きてるのよ。次の瞬きでやめないと、お仕置き、考えるかしら,"Remember, Doctor? That spot on the ship where someone could pick you off? ...Your gaze is doing the same to me right now. If you don't stop by your next blink, I might have to consider a punishment.",博士，还记得吗？船上有一处能狙击到你的位置。……正好现在，你的视线对我做着同样的事呢。若下一次眨眼前还不停下，我可要考虑要怎么惩罚你了。
+DIALOGUE_LEMUEN_XRAY_HIGH,ふふっ、観察熱心ね、ドクター。私のクセが移ったの？　……いいわ、好きなだけ見ていって。但し、目を逸らしたら――次は私が観察する番だから、覚悟しなさい,"Hmph, what dedication, Doctor. Did my habit rub off on you? ...Fine. Look as much as you like. But if you look away—then it's my turn to observe. Brace yourself.",呵呵，真热衷于观察呢，博士。是我的癖好传染给你了？……好啊，尽情看吧。不过——一旦移开视线，下一个观察你的就是我了。做好觉悟吧。
+DIALOGUE_LEMUEN_PROT_T0,……ドクター？　これを私に？　……ふふっ、まだ早いわよ。順序ってものがあるでしょう？　もう少し、私のことを分かってからにして。,"...Doctor? You're giving this to me? ...Hmph, it's still too early. There's an order to these things, isn't there? Get to know me a little better first.",……博士？这个，是要给我？……呵呵，还为时尚早呢。事情也得讲个先后顺序吧？等再多了解我一些之后再说。
+DIALOGUE_LEMUEN_PROT_T1,……そんな顔で持ち出されたら、断れないじゃない、ドクター。……いいわ、今夜だけ。記憶に残しておきたいから、よく見ていて。,"...When you bring it out with a face like that, I can't refuse, Doctor. ...Fine. Just for tonight. I'd like to remember this — so watch closely.",……被你用这种表情递过来，叫我怎么拒绝啊，博士。……好吧，就今晚。我想把这一刻记进心里，所以——好好看着。
+DIALOGUE_LEMUEN_PROT_T2,あら、また？　ふふっ、すっかり手慣れてしまったわね、ドクター。……隠さなくていいわ、私もよ。,"Oh? Again? Hmph, you've gotten quite practiced at this, Doctor. ...You don't have to hide it. Me too.",哎呀，又来？呵呵，已经熟门熟路了呢，博士。……不必藏着了，我也一样。
+DIALOGUE_LEMUEN_TOUCH_HAIR,あら、手が伸びてくる軌道、見え見えだったわよ？　……ふふ、でも避けないでおいてあげる。気が済むまでどうぞ？,"Oh my, the trajectory of your hand was painfully obvious. ...Hmph, but I'll let you have it. Touch all you like.",哎呀，伸过来的轨迹，看得清清楚楚呢。……呵呵，但我就不躲开。摸到满足为止吧？
+DIALOGUE_LEMUEN_TOUCH_HAND,私の手を取ってどうするの？　……もしかして、車椅子を押してくれるのかしら。なら、ロドスで一番見晴らしのいい特等席までご案内願おうかしら。,"What are you doing taking my hand? ...Pushing my wheelchair, perhaps? Then please escort me to the best vantage point in all of Rhodes Island.",握住我的手要做什么？……是想推我的轮椅吗？那就请把我送到罗德岛视野最好的特等席吧。
+DIALOGUE_LEMUEN_TOUCH_PAT,ふふっ、年上を撫でるなんていい度胸ね。……次にその手が伸びてきたら、あなたのおでこに『よくできました』のゴム弾を撃ち込んじゃうわよ？,"Hmph, what nerve, patting your elder. ...Next time that hand reaches out, I'll plant a 'Good job!' rubber bullet square on your forehead.",呵呵，胆敢摸长辈的头啊。……下次这只手再伸过来，我可要朝你的额头打一发『干得不错』的橡皮弹哦？
+DIALOGUE_LEMUEN_TOUCH_NECK,っ……ドクター、そこは狙撃手にとって大事な場所よ。スコープを覗く体勢が崩れちゃったら、どう責任とってくれるの？,"Mn... Doctor, that's a vital point for a sniper. If my shooting posture breaks down, how do you intend to take responsibility?",嗯……博士，那里对狙击手而言是要害。要是窥镜的姿势崩了，你打算怎么负责？
+DIALOGUE_LEMUEN_TOUCH_EAR,……んっ。不意打ちはなしよ。私の耳は、遠くの足音だって拾えるくらいには敏感なんだから……変なこと、吹き込まないで。,"...Mn. No surprise attacks, please. My ears can pick up footsteps from a distance — don't whisper anything strange.",……嗯。请别突袭。我的耳朵敏感到能捕捉远处的脚步声……别在那里吹些奇怪的话。
+DIALOGUE_LEMUEN_TOUCH_HUG,あらあら……甘えん坊さんね。車椅子越しでもいいなら、いくらでも受け止めてあげる。ほら、おいで？,"My, my... what a needy little one. If wheelchair-side is fine with you, I'll catch you as many times as you like. Come here.",哎呀哎呀……真是个撒娇鬼呢。隔着轮椅也无所谓的话，我会接住你多少次都行。过来吧？
+DIALOGUE_LEMUEN_TOUCH_THIGH,……ドクター？　それが『リハビリのお手伝い』のつもりなら、後で医療部に報告書を出さないといけないわね。……ふふ、冗談。でも、ちょっとくすぐったいかしら。,"...Doctor? If that's meant to be 'rehabilitation assistance,' I'll have to file a report with Medical later. ...Hmph, joking. But it does tickle a little.",……博士？如果这是『协助康复』的话，事后我可得向医疗部递报告了。……呵呵，开玩笑。不过，确实有点痒。
+DIALOGUE_LEMUEN_TOUCH_WAIST,っ……そこは、ちょっと反則よ。うまく姿勢が保てなくなるじゃない。……私をこの椅子から下ろしたいなら、もっと上手な口実を考えなさいな。,"Mn... that's a foul. My posture won't hold. ...If you want to lift me out of this chair, you'll need a better excuse.",嗯……那里可是犯规。姿势都保持不住了。……要把我从这把椅子上抱下来，得找个更高明的借口才行。
+DIALOGUE_LEMUEN_TOUCH_CHEST_CLOTHED,……んっ。呼吸が乱れたら、弾道がブレちゃうのよ？　あなた、私のこと……どこまで狂わせるつもり？,"...Mn. If my breathing falters, my aim drifts, you know? Just how thoroughly do you intend to drive me mad...?",……嗯。呼吸要是乱了，弹道就会偏喔？你打算把我……扰乱到什么程度？
+DIALOGUE_LEMUEN_TOUCH_KISS,……ん。もう……射程距離の計算もできないくらい、近づきすぎよ、ドクター。,"...Mn. You're far too close — I can't even calculate the distance anymore, Doctor.",……嗯。已经……近得连射程距离都计算不清了，博士。
+DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT,はぁ……ダメね、あなたの手、熱すぎるわ。狙撃手失格ね……今はスコープの向こうより、あなたの熱しか感じられないもの……っ。,"Haa... your hand is too hot. I'm a disgrace as a sniper... right now, I can't feel anything beyond your warmth, not even what's past my scope...",哈啊……你的手，太烫了。简直愧对狙击手之名……现在比起镜外的世界，我满脑子都只有你的温度……唔。
+DIALOGUE_LEMUEN_TOUCH_KISS_DEEP,んっ……ぁ……息、できない……。車椅子ごと、あなたに溶かされちゃいそう……っ、もっと……。,"Mn... ahh... I can't... breathe... Doctor, I feel as though you might dissolve me — wheelchair and all... mn, more...",嗯……啊……喘……不过气……。连同轮椅一起，要被你融化了……嗯，再来……。
+DIALOGUE_LEMUEN_TOUCH_LOWER,ひゃっ……ぁ……！　そこ、ダメ……っ、足に、力が入らないのに……あなたに全部、委ねるしか、なくなっちゃうじゃない……っ！,"Hyaa... ahh...! There — no...! My legs already won't move, and now I have nothing but you to surrender to...!",呀……啊……！那里，不行……腿都使不上力了……除了把全部交给你之外，已经无路可走了啦……唔！
+DIALOGUE_LEMUEN_TOUCH_FORCE,……ちょっと強引すぎない？　私はこの椅子から逃げられないんだから、もう少し手順を踏んでくれないと……本気で撃ち抜くわよ？,"...A bit too forceful, isn't it? I can't escape this chair. Either step gently — or I'll genuinely shoot you.",……是不是有点太蛮横？我可逃不出这把椅子。再不讲究点手序的话……我可真要朝你开一枪喔？
+DIALOGUE_LEMUEN_TOUCH_GROPE,……ドクター。今の手の動き、『うっかり手が滑った』じゃ済まされないわね。……さて、私の銃口がこっちを向く前に、どうやって弁明してくれるのかしら？,"...Doctor. That hand of yours just now isn't going to fly under 'oops, slipped.' ...Now then — before my muzzle swings your way, what excuse will you offer?",……博士。刚才那只手的动作，可不是『不小心滑了』就能糊弄过去的。……那么，趁我的枪口转向你之前，要怎么辩解？
+DIALOGUE_LEMUEN_TOUCH_HAIR_ALT2,私の髪に何かついてる？　……ふふ、ただ触りたかっただけなら、素直にそう言えばいいのに。,"Is there something on my hair? ...Hmph, if you just wanted to touch it, you could have said so honestly.",我的头发上有什么吗？……呵呵，要是只是想摸的话，老老实实说就好啦。
+DIALOGUE_LEMUEN_TOUCH_HAIR_ALT3,ブラッシングしてくれるの？　なら、手加減なしでお願いね。痛くしたら……撃つわよ？,"Brushing my hair, are you? Then please don't hold back. If you hurt me... I'll shoot.",想给我梳头吗？那就别手下留情。要是弄痛了……我可要开枪喔？
+DIALOGUE_LEMUEN_TOUCH_HAND_ALT2,あら、エスコートのつもり？　ふふ、私の手は銃のダコだらけよ。それでも握りたいなら、離さないでね。,"Oh, an escort? Hmph, my hands are calloused from gripping a rifle. If you still want to hold them — don't let go.",哎，想当我的护花使者吗？呵呵，我的手可是磨出了枪茧。要是仍想握住——就别松开手哦。
+DIALOGUE_LEMUEN_TOUCH_HAND_ALT3,……ん。ちょっと冷えてたから、ちょうどいいわ。あなたの手、あったかいわね。,...Mn. They were a bit cold. Just right. Your hand is warm.,……嗯。手刚才还有点冷，正合适。你的手，挺暖的呢。
+DIALOGUE_LEMUEN_TOUCH_PAT_ALT2,もう、子ども扱いしないでって言ってるのに……。まあいいわ、今日だけは特別に許してあげる。,"Geez, I told you not to treat me like a child... oh well. Just for today, I'll let you off.",真是的，都说了别把我当小孩了……算了，今天就特别破例放过你。
+DIALOGUE_LEMUEN_TOUCH_PAT_ALT3,あらあら、ご褒美のつもり？　……ふふ、私をいい子にしておきたいなら、もっと上手に撫でなさいな。,"My, my, a reward? ...Hmph, if you want to keep me a 'good girl,' you'll need to pat better than that.",哎呀哎呀，是奖赏吗？……呵呵，想让我做乖孩子的话，得把头摸得更熟练才行。
+DIALOGUE_LEMUEN_TOUCH_NECK_ALT2,んっ……肩こりマッサージのつもり？　それにしては、ちょっと指使いが怪しいわね……ふふ。,Mn... a shoulder massage? Your fingers are awfully suspicious for that... hmph.,嗯……是肩部按摩吗？以按摩来说，指法可有点可疑呢……呵呵。
+DIALOGUE_LEMUEN_TOUCH_NECK_ALT3,ひゃっ……ちょっと、くすぐったいわ。私の首元に無防備に触れるなんて、あなた、本当に命知らずね？,"Hyaa... that tickles. Touching my neck so unguardedly — you really are reckless with your life, aren't you?",呀……有点痒呢。这么毫无防备地碰我的颈侧，真是不要命啊？
+DIALOGUE_LEMUEN_TOUCH_EAR_ALT2,……っ、息がかかってるわよ。そんな至近距離で囁かれたら、流石の私も反応しちゃうじゃない……。,"...Mn, I can feel your breath. At that distance, even I would react...",……唔，气息打在耳边了。这么近距离地低语，连我也撑不住了啦……。
+DIALOGUE_LEMUEN_TOUCH_EAR_ALT3,（ビクッ）……もう。風切り音には慣れてるけど、あなたの吐息には……まだ耐性がないみたい。,"(jolts) ...Geez. I'm used to wind cutting past — but your breath, I haven't built up tolerance for.",（一颤）……真是的。我对风切声早就习惯了，但对你的吐息……还没建立耐受呢。
+DIALOGUE_LEMUEN_TOUCH_HUG_ALT2,……ん。あったかい。車椅子の金属の冷たさが、あなたの熱で全部飛んでいっちゃいそう。,...Mn. So warm. The chill of the wheelchair's metal feels like it's all melted away by your heat.,……嗯，好温暖。轮椅金属的冰冷，仿佛都被你的体温赶跑了。
+DIALOGUE_LEMUEN_TOUCH_HUG_ALT3,ふふ、しっかり捕まえててね。急発進して、あなたごと連れ去っちゃうかもしれないから。,"Hmph, hold on tight. I might suddenly hit the gas and carry you off entirely.",呵呵，要抓紧喔。说不定我会突然加速，把你也一并劫走。
+DIALOGUE_LEMUEN_TOUCH_THIGH_ALT2,……っ、そこ。自分から動かせないからって、好きにしていいわけじゃないのよ？　……嫌とは、言ってないけど。,"...Mn, there. Just because I can't move them on my own doesn't mean you can do as you please... I'm not saying I dislike it, though.",……唔，那里。只因为我自己动不了，就觉得可以随便处置吗？……虽然我也没说讨厌就是了。
+DIALOGUE_LEMUEN_TOUCH_THIGH_ALT3,ん……そんな風に撫でられたら、足先まで熱くなっちゃうわ。……どうするの、これ。,"Mn... when you stroke me like that, the heat travels all the way to my toes... what are you going to do about it?",嗯……被你那样抚摸，连脚尖都热起来了……。你打算怎么收尾啊，这？
+DIALOGUE_LEMUEN_TOUCH_WAIST_ALT2,あっ……ダメ、上半身の力まで抜けちゃう……っ。あなたに体重、預けちゃっても……いい？,"Ah... no, even my upper body is going limp...! Can I... lean my whole weight on you?",啊……不行，连上半身都使不上力了……。我能把体重，全部……交给你吗？
+DIALOGUE_LEMUEN_TOUCH_WAIST_ALT3,……んっ。車椅子に固定されてるみたいで、なんだか……変な気分ね。あなたが、意地悪に見えるわ。,...Mn. As if I'm pinned to this wheelchair... it's a strange feeling. You look almost wicked.,……嗯，仿佛被固定在轮椅上了一样，感觉好奇怪。你看起来……真是够坏的。
+DIALOGUE_LEMUEN_TOUCH_CHEST_CLOTHED_ALT2,あっ……ダメ、そんなに優しく撫でられたら……心音が早くなってるの、バレちゃうじゃない……っ。,"Ah... no, if you stroke me that gently, my heartbeat will give me away... it's racing, you know...",啊……不行，被这么温柔地抚摸……心跳的快，可要藏不住了啊……唔。
+DIALOGUE_LEMUEN_TOUCH_CHEST_CLOTHED_ALT3,……ふふ、服の上からでも……私の鼓動、伝わってるでしょう？　あなたのせいよ……。,"...Hmph, even through the fabric... my heartbeat's reaching you, isn't it? It's all your fault.",……呵呵，隔着衣服……我的心跳，应该传过去了吧？这都是你的错喔……。
+DIALOGUE_LEMUEN_TOUCH_KISS_ALT2,……っ、ちゅ。……ふふ、私から仕掛けると思ってた？　たまには、あなたから奪われるのも悪くないわね。,"...Mn, chu. ...Hmph, did you think I'd always be the one striking first? Once in a while, it's not bad to be stolen from, too.",……唔，啵。……呵呵，以为只有我会主动出击吗？偶尔被你夺走，也不坏喔。
+DIALOGUE_LEMUEN_TOUCH_KISS_ALT3,ん……。息継ぎのタイミング、ちゃんと教えてあげようか？　……もう一回、目を閉じて。,Mn... shall I teach you when to breathe? ...One more time. Close your eyes.,嗯……要不要让我教你换气的节奏？……再一次。把眼睛闭上。
+DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT_ALT2,あっ、んっ……素肌、直接は……刺激が強すぎるわ……っ。私、もう……冷静じゃ、いられない……。,"Ah, mn... bare skin directly is too much... I can't... stay calm anymore...",啊，嗯……素肌相触，刺激太强了……唔。我已经……没法保持冷静了……。
+DIALOGUE_LEMUEN_TOUCH_CHEST_DIRECT_ALT3,んっ、はぁっ……そんなに、意地悪にしないで……。あなたの指の動き……全部、頭が真っ白に……っ。,"Mn, haah... don't tease me like that... your fingers... my mind is going blank...",嗯，哈啊……别这样使坏地撩我……。你的指尖……让我满脑子一片空白……唔。
+DIALOGUE_LEMUEN_TOUCH_KISS_DEEP_ALT2,ちゅっ……れろ……んっ、あぁ……。だめ、こんなに深くされたら……私、おかしくなっちゃう……っ。,"Chu... rero... mn, ahh... no, this deep — I'll go strange, Doctor...",啵……唔，啊……不行，这么深的话……我会变得奇怪的啦……唔。
+DIALOGUE_LEMUEN_TOUCH_KISS_DEEP_ALT3,んんっ……はぁ、はぁ……っ。口の中、全部……あなたに支配されちゃったみたい……もっと、めちゃくちゃにして……っ。,"Mmh... haa, haa... my mouth is utterly conquered by you... break me more... mess me up completely...",唔……哈啊，哈啊……唔。口中已经全被你占据了……再来……把我搅乱到不能自已……唔。
+DIALOGUE_LEMUEN_TOUCH_LOWER_ALT2,あっ、あぁっ……！　なか、熱い……っ、触られるたびに、ビクビクして……恥ずかしいのに、止めてほしくないの……っ。,"Ah, ahh...! Inside, it's so hot...! Each touch makes me twitch... it's embarrassing, but I don't want you to stop...",啊，啊啊……！里面，好烫……每被碰到一下都在抽动……明明很羞耻，却又不希望你停下……唔。
+DIALOGUE_LEMUEN_TOUCH_LOWER_ALT3,んっ、ひぃっ……！　もう、だめ……頭の中、ぐちゃぐちゃ……っ。あなたのせいなんだから……最後まで、責任、とってね……っ♡,"Mn, hii...! No more... my head is a mess... it's all your fault... so take responsibility... to the very end... ♡",唔，咿……！不行了……脑子里乱成一团……都是你害的啦……要负责到最后哦……唔♡
+DIALOGUE_LEMUEN_TOUCH_FORCE_ALT2,……っ、痛い。そういう手荒な真似が好きなら、他を当たってちょうだい。私、乱暴なのは嫌いよ。,"...Mn, that hurts. If you have a taste for rough handling, find someone else. I dislike crude hands.",……唔，疼。如果你喜欢粗暴的玩法，请去找别人。我不爱粗鲁的对待。
+DIALOGUE_LEMUEN_TOUCH_GROPE_ALT2,……その手、弾丸で穴を開けられたいの？　親しき仲にも礼儀あり、って言葉、ラテラーノの法律より重いわよ？,"...Want a bullet hole through that hand of yours? 'Familiarity breeds courtesy' — that's heavier than Laterano law, you know?",……是想让那只手上多个弹孔吗？『再亲昵也得讲礼数』——这句话，可比拉特兰的法律还要重哦？
+DIALOGUE_LEMUEN_GIFT_VIBR_T0,クロージャの新作？　肩こり解消ツールにしては、随分と……局所的な振動パターンね。これを私にどうしろって言うのかしら？,"Closure's latest, hm? For a stiff-shoulder relief tool, the vibration pattern is awfully... localized. What exactly do you expect me to do with this?",可露希尔的新作？以肩颈放松工具来说，振动模式可有点……局部得过头了呢。这个，要我拿来怎么用啊？
+DIALOGUE_LEMUEN_GIFT_VIBR_T1,んっ……あっ……ドクター、意地悪ね。私が自分から動けないのをいいことに、こんなの仕掛けるなんて……っ、書類、読めなくなっちゃうじゃない……,"Mn... ah... Doctor, you're cruel. Taking advantage of the fact that I can't move on my own to set this on me... I won't be able to read my paperwork anymore...",嗯……啊……博士，真坏心眼。仗着我自己动不了，居然给我装上这种东西……唔，文件都看不下去了啦……。
+DIALOGUE_LEMUEN_GIFT_VIBR_T2,ふふっ、なんだかドクターのほうが、このおもちゃに興味津々みたいね。……ねえ、今度は私が『撃ち抜いて』あげようか？　あなたの弱点、もう完全にロックオンしてるのよ？,"Hmph, looks like the Doctor's the one fascinated by this little toy. ...Tell you what — let me 'pierce through' you this time? I've already locked onto your weak spots, completely.",呵呵，看起来博士才是对这玩具兴致盎然的那一方呢。……要不，这次换我来『一枪打穿』你？你的弱点，我可早就完全锁定了哦。
+DIALOGUE_LEMUEN_GIFT_OIL_T0,医療部の疲労緩和オイルね。ありがとう。ずっと座りっぱなしだと、足先が冷えちゃって……後で自分で塗り込んでおくわ。,The Medical Department's strain-relief oil. Thank you. Sitting all day leaves my feet cold... I'll rub it in myself later.,医疗部的疲劳缓解油吗。谢谢你。一直坐着，脚尖会冷……晚点我自己抹一下。
+DIALOGUE_LEMUEN_GIFT_OIL_T1,せっかくだから、ドクターに手伝ってもらおうかしら。……ええ、ふくらはぎの辺りを……んっ。……ドクター、手が少し上すぎない？,"Since you brought it, why not lend a hand, Doctor? ...Yes, around the calf is fine... mn. ...Doctor, your hand is a little too high, isn't it?",既然带来了，要不博士帮我抹？……嗯，小腿那一带就好……唔。……博士，手是不是有点太靠上了？
+DIALOGUE_LEMUEN_GIFT_OIL_T2,……はぁ。オイル、すっかり熱を持っちゃったわね。ねえドクター……私の足だけじゃなくて、あなたの身体にも塗り込んで……一緒に、溶け合ってみない？,"...Haa. The oil's gone completely warm. Hey Doctor... not just my legs — rub it into your body too. Let's melt together, shall we?",……哈啊。油都热透了呢。喂博士……不只是我的腿，把你身上也抹上吧？一起……融化进彼此里，怎么样？
+DIALOGUE_LEMUEN_GIFT_ROPE_T0,あら、警備隊用のロープ？　これがあれば車椅子の最高速度が更新できそうね。……え、違うの？　じゃあ、誰を縛り上げるつもり？,"Oh, security-issue rope? With this, my wheelchair's top speed could see a record... wait, that's not it? Then who exactly are you planning to tie up?",哎，警备队用的绳索？有了这个，我的轮椅最高速度都能刷新呢。……什么，不是吗？那你打算把谁捆起来啊？
+DIALOGUE_LEMUEN_GIFT_ROPE_T1,車椅子に縛り付けて、どうするの？　私は元々逃げられないのに……ふふっ、ドクターって意外と、支配欲が強いのね。いいわ、好きなだけきつく縛りなさい。,"Tying me to the wheelchair, hm? I can't escape from it to begin with... hmph, you have a stronger possessive streak than I thought, Doctor. Fine, tie me as tight as you like.",把我绑在轮椅上，要做什么？我本来就逃不掉的呢……呵呵，博士的占有欲意外地强呢。好吧，想绑多紧就绑多紧。
+DIALOGUE_LEMUEN_GIFT_ROPE_T2,さあ、今度はドクターの番よ。動かないでね……ふふ、こうして無防備な獲物を至近距離で見下ろすのも、たまには悪くないわね。……どこから嬲ってほしい？,"Now then, it's the Doctor's turn. Don't move, all right? ...Hmph, looking down at a defenseless prey at point-blank range — once in a while, it's not bad. Where would you like to be teased first?",那么，这次轮到博士了。不许动喔……呵呵，以零距离俯视无防备的猎物，偶尔为之也不坏。想从哪里开始被玩弄呢？
+DIALOGUE_LEMUEN_GIFT_GAS_T0,ワルファリンの試薬じゃない。あの子から横流し？　ふふっ……ドクター、こっちから誘うつもりだったのに、先を越されちゃったわ。減点よ。,"Warfarin's reagent, isn't it. She's smuggled it as far as the Doctor? Hmph... I was going to be the one to invite you, you know. Beat me to it. Demerit point.",华法琳的试剂啊。这都流到博士手上了？呵呵……本来打算是我来约你的，结果被你抢先了。扣分喔。
+DIALOGUE_LEMUEN_GIFT_GAS_T1,少し吸うだけでいいのね？　……んっ、なんだか……頭の芯が、ぼうっとして……。ドクターの顔が、すごく……美味しそうに見えるわ……。,Just a small inhalation? ...Mn. My head is going hazy at the core... the Doctor's face... looks unbearably delicious...,只吸一点点就好吗？……嗯，头脑深处变得朦胧起来……博士的脸，看起来好……美味喔……。
+DIALOGUE_LEMUEN_GIFT_GAS_T2,はぁ……っ、ドクター……もっと、あのガス……頂戴。頭の中の風向きの計算も、射撃のセオリーも、全部溶けちゃって……あなたのことしか、考えられないの……っ,"Haa... Doctor... give me more of that gas. The wind calculations, the shooting theory, all of it melts away... I can't think of anything but you...",哈啊……博士……再给我多一些那种气体……唔。风向的计算、射击的理论，全都融化掉了……脑子里只有你……唔。
+DIALOGUE_LEMUEN_GIFT_NOVEL_T0,カシミア騎士小説の初版じゃない！　すごいわドクター、どこでこれを見つけたの？　ふふっ、今夜は窓辺でゆっくり読書会ね。,"A first edition of a Kashimere knight novel?! Doctor, where on earth did you find this? Hmph, tonight we're having a quiet reading session by the window.",卡西米尔骑士小说的初版！？博士，这是从哪里找来的？呵呵，今晚就在窗边来一场安静的读书会吧。
+DIALOGUE_LEMUEN_GIFT_NOVEL_T1,『騎士は乙女を壁に押し当て、熱い吐息を交わした……』ふふ、いいシーンね。……ドクター、どうしてそんなに顔を赤くしてるの？,"'The knight pressed the maiden against the wall, their hot breaths mingling...' Hmph, lovely scene. ...Doctor, why is your face so red?",『骑士将少女抵在墙上，交换着炙热的吐息……』呵呵，好场景呢。……博士，你的脸怎么这么红？
+DIALOGUE_LEMUEN_GIFT_NOVEL_T2,本で読むだけじゃ、少し物足りなくなってきちゃった。ねえドクター……この続き、私と一緒に『実践』してみない？　私が乙女で、あなたが騎士よ。,"Just reading isn't quite enough anymore. Hey, Doctor... want to 'practice' the rest with me? I'll be the maiden, and you'll be the knight.",光是看书已经不够过瘾了。喂，博士……要不要陪我把后续『付诸实践』？我演少女，你演骑士。
+DIALOGUE_LEMUEN_GIFT_BRACE_T0,特注のチタンブレスレット？　銃弾も弾きそうなくらい頑丈ね。……これを私に？　少し重たい気もするけれど……デザインは嫌いじゃないわ。,"A custom titanium bracelet? Sturdy enough to deflect bullets, by the look of it. ...This is for me? It's a little heavy, but the design — I don't dislike it.",定制款钛金属手镯？看上去坚固到能挡子弹呢。……这是要送我？份量是有点重，不过造型我不讨厌。
+DIALOGUE_LEMUEN_GIFT_BRACE_T1,……ふふ。（サイズ、ぴったりね。ずっと私のこと見てたってこと？）嬉しいって言ったら、着けてくれる？　……あなたの手で、私を縛り付けて。,...Hmph. (The size fits perfectly. So you've been watching me all along?) If I said I were happy — would you put it on me? ...With your own hands. Bind me with it.,……呵呵。（尺寸刚刚好呢。难道你一直都在观察我？）如果我说我很高兴——你会亲手帮我戴上吗？……用你的手，把我牢牢系住。
+DIALOGUE_LEMUEN_GIFT_BRACE_T2,スコープを覗く時、いつもこのブレスレットが目に入るの。その度に……私が誰のものか、思い出させてくれる。ドクター、あなたも忘れないでね？,"When I look through the scope, this bracelet's always in my line of sight. Each time, it reminds me whose I am. ...Don't you forget either, Doctor.",在我窥镜的时候，这个手镯总会进入视野。每一次，都在提醒我是谁的人。……博士，你也别忘了喔。
+DIALOGUE_LEMUEN_GIFT_CATEARS_T0,サンクタにフェリーンの耳？　ドクター、あなたの美意識のセンサー、ちょっと故障してるんじゃない？　私は着けないわよ。,"Feline ears on a Sankta? Doctor, I'd say your aesthetic sensors are slightly malfunctioning. I'm not putting these on.",在萨卡兹身上戴菲林耳朵？博士，你的审美传感器是不是有点故障了？我才不戴。
+DIALOGUE_LEMUEN_GIFT_CATEARS_T1,……今回だけだからね。……にゃあ。…………ふふ、今笑った？　次笑ったら、あなたのコーヒーカップを粉々に撃ち抜くわよ。,"...Just this once, all right? ...Nyaa. ...Hmph, did you laugh just now? If you laugh again, I'll shoot your coffee mug into a thousand pieces.",……就这一次喔。……喵～。……呵呵，刚才笑了吧？再笑我就把你的咖啡杯打个粉碎喔？
+DIALOGUE_LEMUEN_GIFT_CATEARS_T2,あらドクター、今日は私が耳を着けてなくて残念そうね。……ふふ、ドアの鍵、閉めてきて。飼い主さんを待ってる間、ずっと……うずうずしてたんだから。,"Oh, Doctor — looking disappointed I'm not wearing them today? ...Hmph, lock the door behind you. While waiting for my owner, I've been... fidgeting all this time.",哎呀博士，今天我没戴耳朵，你看起来好失落呢。……呵呵，把门锁上吧。在等主人的这段时间里，我可一直……心痒难耐喔。
+DIALOGUE_LEMUEN_INSP_UNDERWEAR_T0,『感染状況の即時確認のため、指定のアンダーウェアを着用すること』……ふふっ。自分で出した怪しい通達、まさか忘れたわけじゃないわよね？　ほら、あなたの目でしっかり『確認』しなさいな。,"'For prompt confirmation of infection status, the designated underwear shall be worn'... hmph. You haven't forgotten that suspicious decree of yours, have you? Now then — verify it with your own eyes, Doctor.",『为即时确认感染状况，应着规定的内衣』……呵呵。自己下达的可疑通告，总不会忘了吧？来，请用你自己的眼睛好好『确认』喔。
+DIALOGUE_LEMUEN_INSP_UNDERWEAR_T1,はい、規則通りよ。……どう？　布面積が少なくて少し心もとないけれど、ドクターがこれで『安全確認』しやすいって言うなら、大人しく従ってあげるわ。,"Yes, exactly per the regulations. ...Well? The fabric coverage is rather meager — a touch unsettling — but if it makes the Doctor's 'safety check' easier, I'll comply obediently.",是，严格按规定喔。……怎么样？布料面积少了点，确实有些没安全感——不过如果这能让博士的『安全确认』更顺利，我就乖乖配合。
+DIALOGUE_LEMUEN_INSP_UNDERWEAR_T2,……ふふ、検査の時間ね。今日は少し暑かったから、規則で決められたこの薄い生地だと……汗で張り付いて、色々透けちゃってるかもしれないわ。……ほら、もっと至近距離で観察しなくていいの？,"...Hmph, inspection time. It was a little hot today, so this thin regulation fabric... might be sticking with sweat, showing through here and there. ...Come, you can observe much closer than that, can't you?",……呵呵，到检查时间了。今天有些热，这件规定的薄面料……可能贴着汗水，透出了不少呢。……来，再凑近些观察也无妨吧？
+DIALOGUE_LEMUEN_MIDNIGHT_1,こんな夜更けに『特別健康診断』だなんて、熱心なお医者様ね。……ふふ、安心して。廊下には誰もいなかったわ。これで心置きなく、私を隅々まで『診察』できるわね？,"A 'special health check' at this hour, Doctor? How devoted. ...Hmph, you can relax. There was no one in the corridor. Now you can 'examine' me from head to toe with a clear conscience.",这种深夜还要『特别健康检查』，真是位敬业的医生呢。……呵呵，放心吧，走廊上一个人也没有。这下博士可以毫无顾忌地把我从头到脚『诊察』个遍了。
+DIALOGUE_LEMUEN_MIDNIGHT_2,……んっ、そこは聴診器を当てる場所じゃないと思うけど？　……ふふ、いいわよ。夜の静寂の中なら、私の乱れた心音も、あなたの荒い吐息も……全部、正確に捉えられるもの。,"...Mn, that's not quite where the stethoscope goes, is it? ...Hmph, very well. In the silence of night, my disordered heartbeat and your ragged breath — both will be picked up perfectly clearly.",……嗯，那里好像不是听诊器该贴的地方吧？……呵呵，没关系。在夜晚的静谧里，我紊乱的心跳和你急促的呼吸，都能被清晰地捕捉到。
+DIALOGUE_LEMUEN_MIDNIGHT_3,はぁ……っ、そんなに深く調べられたら、隠し事なんて何もできなくなっちゃうじゃない。……ねえドクター、この『診察』が終わるまで、絶対に私をこの部屋から帰さないつもりでしょう……？,"Haa... examined this deeply, I won't have a single secret left. ...Hey Doctor, until this 'check-up' is over, you have absolutely no intention of letting me out of this room — do you?",哈啊……被诊察得这么深入，我就连一点秘密也藏不住了啦。……喂博士，这场『诊察』结束之前，你是绝对不打算放我离开这房间了，对吧？
+DIALOGUE_LEMUEN_STAGE_UP_1,ふぅん……ドクターの働きぶり、ここからだとよく見えるの。私のスコープから逃れられると思ってた？　……ふふ、もう少し観察させてもらおうかしら。,"Hmm... the Doctor's work, viewed from here, is rather clear. Did you think you could escape my scope? ...Hmph, perhaps I'll keep observing a little longer.",嗯哼……博士工作时的样子，从这里看得一清二楚呢。觉得能逃出我的镜头吗？……呵呵，再让我观察一阵子吧。
+DIALOGUE_LEMUEN_STAGE_UP_2,じっくり観察してやっと、その人を排除しないといけないか、守るべきかが見えてくるの。……ふふ、あなたはどっちだと思う？　安心して仕事に打ち込んでいいわよ、ドクター。,"It's only after thorough observation that I can tell — must this person be eliminated, or protected? ...Hmph, which side do you think you fall on? You can devote yourself to your work in peace, Doctor.",只有彻底观察过后，我才能分辨出——这个人是该排除，还是该守护。……呵呵，你觉得自己在哪一边？放心地投身工作就好，博士。
+DIALOGUE_LEMUEN_STAGE_UP_3,ねえドクター、最近気づいたの。あなた、私の冗談にちゃんと冗談で返してくれるようになったわね。……今度、車椅子にスラスター付ける時、手伝ってくれるって期待してもいいかしら？,"Hey Doctor, I've noticed something lately. You've started returning my jokes with jokes of your own. ...The next time I'm fitting thrusters to the wheelchair, may I count on you for help?",喂博士，最近我发现一件事。你开始能用玩笑回应我的玩笑了呢。……下次给轮椅装推进器的时候，我可以期待你来帮忙吗？
+DIALOGUE_LEMUEN_STAGE_UP_4,ずっと私があなたを観察してると思ってた？　……いつの間にか、あなたのペースに巻き込まれてたみたい。これからは、背中だけじゃなくて……隣も任せちゃっていいかしら、ドクター？,"You thought I was always the one observing you? ...Before I knew it, I was being swept up at your pace. From here on — not just my back, but my side too. May I leave it to you, Doctor?",还以为一直是我在观察你吗？……不知不觉之间，我已经被卷进你的节奏里了。从今往后，不只是我的背后，连身边……也能托付给你吗，博士？
+DIALOGUE_LEMUEN_PRESTIGE_REUNION,あら、ドクター。また会えたわね。……ふふ、そんな顔しないで。私の『要人警護リスト』はちゃんと更新済みよ。さあ、今日はどこへ連れて行ってくれるの？,"Oh, Doctor. We meet again. ...Hmph, don't make that face. My 'VIP protection list' has been properly updated. Now then — where are you taking me today?",哎，博士。又见面了呢。……呵呵，别露出那种表情。我的『要人护卫名单』已经更新过了喔。来，今天打算把我带去哪里玩？
+DIALOGUE_LEMUEN_AROUSAL_MAX,……ドクター、もう……ダメみたい。スコープも、規則も、全部……あなたのせいで使えなくなっちゃった。……責任、とってね？,"...Doctor, I'm... done for. The scope, the rules, all of it... can't be used anymore. Because of you. ...You'll take responsibility, won't you?",……博士，我已经……不行了。镜头也好规则也好，全都……因为你而再也用不出来了。……要负责，喔？
+DIALOGUE_LEMUEN_LOCKED_1,……ドクター、お引き取り願えるかしら。今日のあなたとは、もう話したくない気分なの。……明日になれば、気が変わるかも、ね？,"...Doctor, would you mind leaving? I don't feel like talking with the version of you I've got today. ...Tomorrow, I might change my mind, hm?",……博士，请你回去吧。今天的你，我不想跟你说话。……到了明天，说不定心情会变，喔？
+DIALOGUE_LEMUEN_LOCKED_2,あら、まだいたの？　……ふふ、私の機嫌の時計、まだ針が戻ってないわよ。それとも、もう一発撃ち込まれたい？,"Oh? Still here? ...Hmph, the hands of my mood-clock haven't reset yet, you know. Or would you rather I put another bullet through that nerve of yours?",哎，还在啊？……呵呵，我心情的指针还没拨回来呢。还是说，你想再吃我一发子弹？
+DIALOGUE_LEMUEN_IDLE_STAGE_1,……窓の影、また伸びたわね。ドクター、お仕事はひと休みかしら？,"...The shadow at the window has stretched out again. Doctor, taking a break from work?",……窗边的影子又拉长了呢。博士，工作要休息一会儿了吗？
+DIALOGUE_LEMUEN_IDLE_STAGE_2,ねえ、ドクター。戦場でそんなにじっと動かないでいたら……いい的（ターゲット）になっちゃうわよ？,"Hey, Doctor. If you stay that perfectly still on a battlefield... you'll make a fine target, you know?",喂，博士。在战场上动也不动地待这么久……会变成靶子的喔？
+DIALOGUE_LEMUEN_IDLE_STAGE_3,（カチャッという銃の操作音）……ふふっ、スコープのど真ん中。風向き、よし。距離、よし。,"(the metallic snap of a rifle being cocked) ...Hmph. Dead center of the scope. Wind direction, good. Distance, good.",（咔嚓——枪械上膛的声响）……呵呵，正中镜心。风向，OK。距离，OK。
+DIALOGUE_LEMUEN_IDLE_FIRE,バーン！　……ふふっ、驚いた？　さあ、休憩はおしまいよ。,"Bang! ...Hmph, did I startle you? Now then, break time's over.",砰！……呵呵，吓到了吗？好啦，休息时间结束了喔。
+DIALOGUE_LEMUEN_CG_GOMU_01,夜の静寂が支配する執務室。意を決して、ポケットに忍ばせていた医療部支給の『小さな四角いパッケージ』を机の上に置いた。,"The office, ruled by midnight silence. Steeling myself, I placed the small square package — Medical Department issue — onto the desk.",被夜的静谧统治的办公室。我下定决心，将口袋里那枚医疗部配发的『小四方包装』，轻轻放到了桌上。
+DIALOGUE_LEMUEN_CG_GOMU_02,……レミュアン。,...Lemuen.,……雷缪安。
+DIALOGUE_LEMUEN_CG_GOMU_03,彼女はそれに視線を落とすと、目を丸くして、ほんの数秒だけ瞬きをした。そして――すぐにいつもの、すべてを見透かしたような艶やかな微笑みを浮かべた。,"She lowered her gaze to it, eyes widening slightly, blinking just a few times. Then — at once — she put on that knowing, sultry smile of hers.",她将视线落在那东西上，眼睛微微睁大，眨了几下。然后——立刻——又挂上了那副洞察一切的、媚态盈盈的微笑。
+DIALOGUE_LEMUEN_CG_GOMU_04,あら。……ふふっ。医療部の備品ね。感染対策の規定にはしっかり従う……流石は私たちの優秀なドクターだわ。,Oh my. ...Hmph. Medical Department issue. Following the infection-control regulations to the letter — as expected of our excellent Doctor.,哎呀。……呵呵。是医疗部的备品呢。感染对策规定，遵守得一丝不苟……不愧是我们优秀的博士。
+DIALOGUE_LEMUEN_CG_GOMU_05,からかうような口調とは裏腹に、彼女の白い指先がパッケージの端をそっとなぞる。その指先は、いつもライフルの引き金を引く時のような、かすかな熱を帯びていた。,"For all her teasing tone, her pale fingertips traced the edge of the package. Those fingertips carried the same faint heat as when she pulled a rifle's trigger.",嘴上是调侃的语气，可她那白皙的指尖，却轻轻沿着包装的边缘抚过。那指尖，带着扣动扳机时那种特有的、隐微的灼热。
+DIALOGUE_LEMUEN_CG_GOMU_06,でも、少し意外だったわ。ずっと私のことを観察して、じわじわと外堀を埋めてきてたから……ドクターが自分から『引き金』を引くのは、もう少し先かと思ってた。,"Still, this is a bit unexpected. You'd been observing me, slowly closing in from all sides... I thought it would be a while longer before the Doctor pulled his own 'trigger.'",不过，倒是有点出乎意料。你一直在观察我，一点一点地把外围填满……还以为博士自己扣动『扳机』，得再过一阵子。
+DIALOGUE_LEMUEN_CG_GOMU_07,……嫌だった？,...Did you not want me to?,……是不愿意吗？
+DIALOGUE_LEMUEN_CG_GOMU_08,まさか。……減点よ、ドクター。私が『嫌な相手』と、こんな夜更けまで二人きりでいると思う？,"Hardly. ...Demerit point, Doctor. Do you really think I'd be alone with someone I disliked at this hour of the night?",才不呢。……扣分喔，博士。要是真的讨厌的人，我会跟他在深夜独处吗？
+DIALOGUE_LEMUEN_CG_GOMU_09,彼女は車椅子をゆっくりと進め、目の前まで距離を詰めてくる。ふわりと、サンクタ特有の清潔な香りと、彼女自身の甘い匂いが鼻腔をくすぐった。,"She rolled her wheelchair forward, slowly, until the distance between us was almost gone. The clean, Sankta-typical scent and her own sweet fragrance grazed my nose.",她驾着轮椅缓缓滑近，直到将我们之间的距离填满。萨卡兹特有的洁净气息，与她身上那甜甜的香味，一同拂上了鼻腔。
+DIALOGUE_LEMUEN_CG_GOMU_10,ねえ、ドクター。……このパッケージを開けたら、もう後戻りはできないわよ。ただの『同僚』や『観察対象』じゃいられなくなる。……覚悟はできてるの？,"Hey, Doctor. ...Once we open that package, there's no going back. Not 'colleagues,' not 'observation target' — none of that anymore. ...Are you prepared?",喂，博士。……一旦打开这个包装，就再也回不了头了。我们就再也不只是『同僚』，也不再是『观察对象』。……你做好觉悟了吗？
+DIALOGUE_LEMUEN_CG_GOMU_11,ああ。……君の全部を、引き受けるよ。,Yeah. ...I'll take all of you on.,嗯。……你的全部，都由我来承担。
+DIALOGUE_LEMUEN_CG_GOMU_12,その言葉を聞いた瞬間、彼女の瞳から『余裕のあるお姉さん』の光がふっと和らぎ、一人の無防備な女性の顔へと変わった。,"The instant she heard those words, the 'composed elder sister' light in her eyes softened, and shifted into the face of one defenseless woman.",听到这句话的那一瞬间，她眼中『游刃有余的姐姐』那道光柔和下来，化作了一个毫无防备的女子的神情。
+DIALOGUE_LEMUEN_CG_GOMU_13,……言ったわね。言質はしっかり取ったわよ。,"...You've said it. I've taken your word as collateral, you know.",……你说出口了喔。我可是把你的话当作了凭据。
+DIALOGUE_LEMUEN_CG_GOMU_14,彼女は服の裾をきゅっと掴むと、少しだけ潤んだ上目遣いで見上げてきた。,"She gripped the hem of my coat tightly, and looked up at me through slightly damp lashes.",她紧紧攥住了我衣摆的一角，用微微湿润的目光从下方仰视着我。
+DIALOGUE_LEMUEN_CG_GOMU_15,知っての通り、私はこの車椅子だから……もし怖くなっても、途中で走って逃げるなんてできないの。だから……,"As you know, I'm in this wheelchair... so even if I get scared, I can't run away halfway through. So...",你知道的，我离不开这把轮椅……所以就算半路害怕了，我也跑不掉。所以……
+DIALOGUE_LEMUEN_CG_GOMU_16,……ちゃんと、エスコートしてね。私を、あなたが撃ち抜いたこの場所から……一歩も動けなくなるくらい、めちゃくちゃにして……っ,"...Escort me properly, all right? From this place where you've shot me down... mess me up so completely that I can't take a single step away...",……要好好地护送我喔。把我从这片被你击中的地方……弄得完全没法挪动一步那样彻底地，让我变得乱七八糟……唔。
+DIALOGUE_LEMUEN_CG_GOMU_17,その言葉を合図に、彼女を抱き上げ、静かにベッドへと向かう。腕の中で彼女は小さく『んっ』と声を漏らし、首元に顔を埋めた。,"As if at her cue, I lifted her into my arms and carried her quietly toward the bed. In my embrace, she let out a small 'mn' and buried her face against my neck.",仿佛听到了暗号，我将她抱起，安静地走向床。怀中的她小声地『唔』了一声，将脸埋进了我的颈侧。
+DIALOGUE_LEMUEN_CG_GOMU_18,……ふふ、手、震えてるわよ。大丈夫……ゆっくりでいいから。あなたが私に着けてくれるところ……ちゃんと、最後まで観察させてね……♡,"...Hmph, your hand is trembling. It's all right... go slowly. The part where you put it on me... let me observe it, all the way to the end... ♡",……呵呵，你的手在抖喔。没关系……慢慢来就好。你给我戴上的那个过程……让我从头到尾，好好地观察喔……唔♡
+DIALOGUE_LEMUEN_CG_GOMU_19,ベッドに彼女を優しく横たえる。車椅子の固定具を外し、クッションで下半身を支える。月明かりが彼女の白い肌を照らし、豊かな胸の谷間と、すでに少し湿った太ももの内側が露わになった。,"I laid her gently on the bed. Released the wheelchair's brakes, propped her lower body with cushions. Moonlight bathed her pale skin, and the cleavage of her full breasts and the already-slightly-damp inside of her thighs were laid bare.",我将她轻轻横放到床上，松开轮椅的固定具，用靠垫支撑住她的下半身。月光照亮了她洁白的肌肤，丰润胸口的乳沟，与早已微微濡湿的大腿内侧，一同显露而出。
+DIALOGUE_LEMUEN_CG_GOMU_20,……私の体、こんなにじっくり見られるの、初めてよ。ドクターの目……熱くて、射程が合いそうにないわ。,"...This is the first time anyone's looked at my body so thoroughly. The Doctor's gaze... is so hot, I don't think I can match its range.",……我的身体，被这么仔细地观察，还是头一次喔。博士的眼神……热得我，恐怕都对不上焦了呢。
+DIALOGUE_LEMUEN_CG_GOMU_21,彼女の唇にキスを落とす。優しく、深く。彼女の舌が絡みつき、いつもの余裕を保とうとするが、息が徐々に熱を帯びていく。,"I dropped a kiss onto her lips. Gently, deeply. Her tongue tangled with mine — she tried to keep her usual composure, but her breath grew steadily warmer.",我向她的唇落下一吻。温柔，又深。她的舌尖与我交缠，像是想保持平日的从容，可呼吸却一点点蕴上了热度。
+DIALOGUE_LEMUEN_CG_GOMU_22,んっ……キスだけで……心拍数が上がってる……私の計算……少し、狂い始めてる……,Mn... just from a kiss... my heartbeat is climbing... my calculations... are starting to come undone...,嗯……仅仅是亲吻……心跳就已经在加快了……我的计算……开始一点一点崩坏了……。
+DIALOGUE_LEMUEN_CG_GOMU_23,服を丁寧にはだけさせる。ブラウス、ブラ……豊かな乳房が重たげに揺れた。指先で乳首を優しく摘むと、彼女の体がビクンと跳ねた。,"I carefully unfastened her clothes. Blouse, brassiere... her full breasts swayed heavily. The instant my fingers gently pinched a nipple, her body jolted.",我仔细地解开她的衣物。衬衫，胸衣……她那丰润的双乳沉甸甸地晃动起来。当我的指尖温柔地捏住乳尖那一瞬，她的身体猛地一颤。
+DIALOGUE_LEMUEN_CG_GOMU_24,あっ……！　そこ……敏感なの、ばれてるでしょう？　んっ……ふふ、でも……悪くない……もっと、強く摘んで……っ,"Ah...! There... it's sensitive — you can tell, can't you? Mn... hmph, but... not bad... pinch me harder... mn.",啊……！那里……敏感的，已经被你发现了吧？嗯……呵呵，可是……感觉不坏……再用力捏紧一些……唔。
+DIALOGUE_LEMUEN_CG_GOMU_25,舌で乳首を転がし、吸い上げる。彼女の指が髪を掴み、甘く喘ぐ。,"With my tongue I rolled the nipple, sucking. Her fingers buried themselves in my hair and she let out sweet, short gasps.",我用舌尖将乳尖来回拨弄、吸吮。她的手指深深地揉进了我的发间，发出又甜又短的喘息。
+DIALOGUE_LEMUEN_CG_GOMU_26,はあっ……ドクターの口……熱い……私の、こんなところまで……観察されてる……あんっ！,Haa... the Doctor's mouth... it's so hot... even a place like this... is being observed... ahn!,哈啊……博士的嘴……好烫……连这种地方……都被观察到了……啊嗯！
+DIALOGUE_LEMUEN_CG_GOMU_27,下着をゆっくり下ろす。すでに蜜で濡れた秘部が、月光に輝いていた。指を這わせると、彼女の腰が小さく跳ねる。,"I slid her underwear down slowly. Her already-honey-soaked sex glistened in the moonlight. When my fingers traced over it, her hips gave small, shivering jumps.",我缓缓将她的内裤褪下。早已被蜜色濡湿的私处，在月光下闪着光。当我的手指拂过那里，她的腰肢便轻轻地弹跳了起来。
+DIALOGUE_LEMUEN_CG_GOMU_28,くっ……逃げられない……この車椅子じゃ、下半身が思うように動かないの……あなたの指から……どこにも行けない……っ,"Kuh... I can't run... in this wheelchair, my lower body won't move the way I want it to... I have nowhere to escape from your fingers... mn!",咕……逃不掉的……这把轮椅上，下半身根本不听使唤……我哪儿也躲不开你的手指了……唔！
+DIALOGUE_LEMUEN_CG_GOMU_29,中指をゆっくり沈める。熱く、狭い内壁が指を締め付けてくる。,"I sank my middle finger in slowly. Hot, narrow inner walls clenched around the digit.",我慢慢将中指沉入她的体内。又热又紧的内壁，紧紧地包裹住了我的手指。
+DIALOGUE_LEMUEN_CG_GOMU_30,んあっ……！　奥……届いてる……私の、計算外の場所を……抉ってる……あっ あっ……冷静でいようとしたのに……っ,"Nahh...! The deepest part... it reached... that's a place I never accounted for... you're carving into it... ah, ah... and I was trying so hard to stay calm...",嗯啊……！里面……碰到了……。那是我计算之外的地方……你正一点点地撬开它……啊，啊……明明我还想保持冷静的……唔。
+DIALOGUE_LEMUEN_CG_GOMU_31,指を出し入れしながら、親指でクリトリスを同時に刺激。彼女の息が完全に乱れ、普段のスナイパーらしい冷静さが音を立てて崩れていく。,"While moving my finger in and out, I stimulated her clitoris with my thumb at the same time. Her breathing came completely apart, and the sniper's calm she usually wore audibly crumbled.",我一边将手指反复推入抽出，一边用拇指同时挑逗她的花蕊。她的呼吸彻底乱了，平日狙击手的冷静，发出声响地崩塌了。
+DIALOGUE_LEMUEN_CG_GOMU_32,はあっ はあっ……ドクター……卑怯よ……こんなに早く、私の余裕を……剥がすなんて……んっ！　奥……もっと奥を……っ,"Haa, haa... Doctor... that's not fair... peeling away my composure this fast... mn! Deeper... go deeper... mn!",哈啊，哈啊……博士……太狡猾了……。把我的从容这么快剥下来……唔！里面……再里面一点……唔！
+DIALOGUE_LEMUEN_CG_GOMU_33,（ぐちゅっ……ぐちゅっ……）さらに二本の指を沈め、Gスポットを執拗に擦る。彼女の体が弓なりに反り、太ももが小刻みに震えた。,"(squelch... squelch...) Two more fingers slipped in, rubbing relentlessly against the G-spot. Her body arched into a bow and her thighs trembled in tiny shudders.",（咕啾……咕啾……）我又添入了两根手指，执拗地擦着她的G点。她的身体如弓般绷紧，大腿在不可控制地一阵阵颤抖。
+DIALOGUE_LEMUEN_CG_GOMU_34,おっ……！　そこ……だめ……私の、弱いところ……見つけられちゃった……射程が……もう、合わない……っ！,Ohh...! There... no... my weak spot... you've found it... my range... is shot to pieces... ah!,哦……！那里……不行……我的弱点……被你找到了……。射程，已经……完全偏了……唔！
+DIALOGUE_LEMUEN_CG_GOMU_35,指を抜き、コンドームを装着。先端を彼女の入口に当て、ゆっくりと腰を進める。,"I withdrew my fingers and put on the condom. I pressed my tip against her wet entrance, and slowly pushed my hips forward.",我抽出手指，戴上避孕套。将顶端抵在她湿润的入口上，缓缓地推进腰肢。
+DIALOGUE_LEMUEN_CG_GOMU_36,んんっ……！　入ってくる……太くて……熱い……私の、中を……押し広げてる……あっ……全部……届いた……？,Mmh...! It's coming in... so thick... so hot... pushing my insides apart... ah... did all of it... reach...?,嗯嗯……！进来了……又粗……又烫……。把我的里面，一点点撑开……啊……全部，都……进到深处了？
+DIALOGUE_LEMUEN_CG_GOMU_37,最初は優しく、深く腰を振る。彼女の内壁が熱く収縮し、締め付けてくる。,"At first, gently, deeply, I worked my hips. Her inner walls contracted hot around me, drawing me in.",起初我温柔地、深深地摆动腰部。她的内壁炽热地收缩，紧紧地裹住了我。
+DIALOGUE_LEMUEN_CG_GOMU_38,ふあっ……動いてる……私の奥を、突いて……計算……できない……こんな快感……私の射程内に……収まらない……っ,Fwah... you're moving... striking my deepest part... I can't... calculate... a pleasure like this... won't fit inside my range...,呼啊……你在动……顶在我的深处……。算不出来啊……这种快感……早已超出我的射程……唔。
+DIALOGUE_LEMUEN_CG_GOMU_39,速度を徐々に上げていく。彼女の声が大きくなり、普段の艶やかなトーンが崩れ始めた。,"Gradually, I picked up the pace. Her voice grew louder, and her usual sultry tone began to fall apart.",我一点点加快了节奏。她的声音越来越响，平日里那带着媚气的腔调开始逐渐崩塌。
+DIALOGUE_LEMUEN_CG_GOMU_40,あっ！　あんっ！　もっと……激しく……この体じゃ逃げられないの……めちゃくちゃにして……っ！,"Ah! Ahn! More... harder... in this body, I can't run... mess me up...!",啊！嗯啊！再用力……再激烈一些……这身体让我无法逃跑……。把我搞得乱七八糟吧……！
+DIALOGUE_LEMUEN_CG_GOMU_41,（ぐぽっ ぐぽっ ぐぽっ……！）激しい水音が部屋に響き渡る。彼女の瞳がとろんと蕩け、息が完全に上ずっていた。,"(gpoh, gpoh, gpoh...!) Lewd sounds of water filled the room. Her eyes melted, and her breath was utterly ragged.",（噗咕，噗咕，噗咕……！）淫靡的水声充满了房间。她的双眸已经溶化得迷离，呼吸彻底乱了节奏。
+DIALOGUE_LEMUEN_CG_GOMU_42,おほっ……！　おほおっ！！　だめ……頭が……真っ白……射程オーバー……っ！　あっ あっ イッちゃう……私の、全部……イッちゃうわ……っ！！,"Ohh...! Ohh!! No... my mind... goes white... range overload...! ah, ah, I'm coming... all of me... I'm going to...!!",喔……！喔啊！！不行……脑子里……一片空白……射程过载了……！啊，啊，要去了……我的全部……都要……！！
+DIALOGUE_LEMUEN_CG_GOMU_43,（画面が一瞬強くフラッシュする）彼女の体が大きく痙攣し、絶頂に達した。内壁が激しく収縮し、愛液が溢れ出す。,"(the screen flashes briefly, intensely) Her body convulsed greatly and she reached climax. Her inner walls clenched fiercely, and her honey overflowed.",（画面在一瞬间猛烈闪了一下）她的身体剧烈地痉挛，攀上了顶峰。内壁急剧地收缩着，蜜液汩汩涌出。
+DIALOGUE_LEMUEN_CG_GOMU_44,はあっ！　はあっ！　おほっ……！　もう……理性が……飛んでいく……ドクターの……だけ……私の、全部……あなたのもの……っ！！,Haa! Haa! Ohh...! My reason... is flying away... only the Doctor's... all of me... yours...!!,哈啊！哈啊！喔……！理性……要飞走了……只属于博士的……我的全部……都是你的……！！
+DIALOGUE_LEMUEN_CG_GOMU_45,さらに激しく突き上げ、連続で追い込む。二度、三度と絶頂を重ねさせ、彼女の声は完全に『メス堕ち』の響きになっていた。,"I drove deeper still, pushing her into climax after climax. Two, three times she came, and her voice took on the ring of complete surrender.",我又用力顶进去，将她接连推向高潮。两次，三次地反复抵达顶点，她的声音化作了彻底沦陷的甜叫。
+DIALOGUE_LEMUEN_CG_GOMU_46,あへっ……あへえっ……！　イッてる……イッてるの……ドクターのせい……私の計算……全部、壊されちゃった……っ,Aheh... aheh!! I'm coming... I'm still coming... it's the Doctor's fault... my calculations... all destroyed... mn!,哎嘿……哎嘿啊！！正在去……还在去……都是博士的错……我的计算……全部都被弄坏了……唔！
+DIALOGUE_LEMUEN_CG_GOMU_47,最後の激しい一突きで、彼女は大きく弓なりに反り、完全に限界を超えた。（激しい水音と、彼女の甘い悲鳴が同時に響く）,"With one final, fierce thrust, she arched into a deep bow, having long since crossed her limit. (a violent wet sound and her sweet scream rang out together.)",我用最后一记猛烈的挺动，让她整个身体绷成弓形，彻底冲破了极限。（剧烈的水声与她甜腻的悲鸣同时炸响。）
+DIALOGUE_LEMUEN_CG_GOMU_48,事後――息を荒げながら、彼女を抱きしめる。額に優しくキスを落とすと、彼女の瞳がゆっくりと焦点を取り戻した。,"Afterwards — breathing hard, I held her close. When I dropped a soft kiss on her forehead, her gaze slowly came back into focus.",事后——我喘着粗气，将她紧紧抱住。轻轻在她额上落下一吻后，她的视线缓缓回到了焦点上。
+DIALOGUE_LEMUEN_CG_GOMU_49,……はあ……はあ……すごかったわ……私の、全部の計算が……狂わされた……,...Haa... haa... that was incredible... my calculations... every last one of them... shattered.,……哈啊……哈啊……真是太棒了……。我所有的计算……一个也没剩下……全被打乱了。
+DIALOGUE_LEMUEN_CG_GOMU_50,彼女は弱々しく微笑み、胸に顔を埋めた。,She smiled weakly and buried her face against my chest.,她虚弱地一笑，将脸埋进了我的胸口。
+DIALOGUE_LEMUEN_CG_GOMU_51,でも……嫌じゃない。むしろ……ドクターに、こんなに依存したくなるなんて……Trust、確実に上がってるわよ？　ふふっ,"Still... I don't dislike it. If anything... wanting to depend on the Doctor this much... my Trust must definitely be climbing, hmph.",不过……一点也不讨厌。倒不如说……竟然会想这么依赖博士……信赖度一定上升了不少喔，呵呵。
+DIALOGUE_LEMUEN_CG_GOMU_52,……次は、もっと上手く計算するわ。でも……今夜は、もう……あなたのペースに、全部合わせちゃう……♡,"...Next time, I'll calculate it all properly. But... tonight, I'll just match your pace... all of it... ♡",……下一次，我会更好地把账算清楚。可是……今晚就让我，全都……跟着你的节奏吧……唔♡
+DIALOGUE_LEMUEN_PROT_T1_SEEN,あら、また？　……ふふ、もう『今夜だけ』って言い訳は使えないわね、ドクター。今度は『習慣』にしましょう？　私の方も、まだ満足しきってなかったから。,"Oh, again? ...Hmph, you can't use the 'just for tonight' excuse anymore, Doctor. This time, let's call it a 'habit,' shall we? I wasn't quite satisfied either, you know.",哎，又来吗？……呵呵，博士已经没法再用『就今晚』当借口了喔。这次，就当作『习惯』吧？我自己呢，也还没完全满足。
+DIALOGUE_LEMUEN_PROT_MILESTONE_100,あら、また？　ふふっ……ドクター、もうこれで何回目？　いえ、聞かないで。私も数えるのやめたから。……今夜も、私の部屋で、ね？,"Oh, again? Hmph... how many is this now, Doctor? No, don't tell me — I've stopped counting too. ...Tonight again, in my room, hm?",哎，又来吗？呵呵……博士，这是第几次了？算了，不必告诉我，我也已经放弃数了。……今晚也，到我的房间来吧？
+DIALOGUE_LEMUEN_PROT_MILESTONE_500,ふふ、ドクター。今夜は……いえ、これからは、私から仕掛けようかしら。あなたが寝ている隙に、ね？　観察、しっかり済んだから。,"Hmph, Doctor. Tonight... no, from here on — perhaps I'll be the one initiating. While you're asleep, hm? My observation phase is finished, after all.",呵呵，博士。今夜……不，从今往后，要不要让我来主动？趁你熟睡的时候，喔？观察阶段已经结束了。
+DIALOGUE_LEMUEN_PROT_MILESTONE_1000,ねえドクター。あなたの心音、もう私の中で千回以上響いたわ。……今夜は、ちゃんと『誓約』しましょう？,"Hey Doctor. Your heartbeat has echoed inside me over a thousand times by now. ...Tonight, let's properly seal the 'vow,' shall we?",喂博士。你的心跳，在我身体里已经回响了上千次以上了。……今晚，就来正式地立下『誓约』吧？
+DIALOGUE_LEMUEN_CG_HABIT_01,夜のレミュアン私室。もう何度目か、数えるのをやめた夜だった。,Lemuen's private room at night. Another night I'd long since stopped counting.,夜晚的雷缪安的私室。这又是数也数不清的、其中一个夜晚。
+DIALOGUE_LEMUEN_CG_HABIT_02,彼女の私室が、僕たちの『日課』の場所になっていた。部屋着姿で髪を下ろした彼女は、ソファに身を預け、ぱらぱらと本のページを繰っていた。,"Her private room had become the place for our 'daily ritual.' In her loungewear, hair down, she leaned against the sofa, idly turning the pages of a book.",她的私室已经成了我们『日课』的场所。她身着家居服，长发披肩，靠在沙发里，懒懒地翻着书页。
+DIALOGUE_LEMUEN_CG_HABIT_03,あら、ドクター。……また来ちゃったの？,"Oh, Doctor. ...You've come again?",哎，博士。……今天又来啦？
+DIALOGUE_LEMUEN_CG_HABIT_04,本を閉じる音。からかうような笑みを浮かべて、彼女は車椅子のロックを外す音をわざと響かせた。,"The sound of the book closing. With her teasing smile, she deliberately let the click of the wheelchair's brakes ring out.",啪——书合上的声音。她带着一抹调侃的笑，故意让轮椅解锁的卡嗒声响了出来。
+DIALOGUE_LEMUEN_CG_HABIT_05,ふふ、『今夜だけ』なんて、誰が言ったのかしらね。……もう数えるの、やめにしたわよ？,"Hmph, 'just for tonight' — I wonder who said that? ...I've stopped counting, you know?",呵呵，『就今晚』——这话是谁说来着？……我可早就放弃数日子了喔？
+DIALOGUE_LEMUEN_CG_HABIT_06,抱き寄せ、ソファの上で軽くキスを落とす。すぐに足りなくなって、彼女の顎を指で持ち上げて深く重ねた。彼女は小さく息を吐きながら、首に腕を回してきた。,"I drew her in, dropping a soft kiss on her on the sofa. It wasn't enough — I lifted her chin with a finger and pressed deeper. She let out a small breath and looped her arms around my neck.",我将她拉进怀中，在沙发上落下一记轻吻。觉得不够，又用指尖轻轻抬起她的下颌，吻得更深。她吐出一声短促的气息，将双臂环上了我的颈项。
+DIALOGUE_LEMUEN_CG_HABIT_07,んっ……主導権、完全にあなたね。7対3ってところかしら？,"Mn... the initiative is completely yours. Seven to three, I'd say?",嗯……主导权完全在你手上呢。七比三，差不多是这个比例吧？
+DIALOGUE_LEMUEN_CG_HABIT_08,部屋着の合わせをはだけさせると、汗ばんだ素肌からはサンクタの清潔な匂いと、彼女自身の甘い匂いが立ち昇った。,"When I parted the front of her loungewear, the Sankta-clean scent and her own sweet fragrance rose from her warm skin.",我拨开她家居服的前襟，沾了汗水的肌肤上，便升起了萨卡兹特有的洁净气息，与她自己甜甜的香味。
+DIALOGUE_LEMUEN_CG_HABIT_09,抱き上げて、慣れた歩数でベッドへ。腕の中で彼女は素直に身を委ねている。,"I lifted her up, walked the familiar number of steps to the bed. In my arms, she yielded to me without resistance.",我将她抱起，用早已熟悉的步数走到床边。怀中的她，毫无防备地将身体托付了过来。
+DIALOGUE_LEMUEN_CG_HABIT_10,……あなたの腕、もう私の体重を覚えちゃってるのね。,"...Your arms have memorized my weight by now, haven't they.",……你的手臂，早就记住我的体重了吧。
+DIALOGUE_LEMUEN_CG_HABIT_11,横たえた彼女に重なる。首筋に唇を這わせ、もう一度キスを落としながら、ゆっくりと彼女の中へ沈んでいく。ぬぷっ、と、もう何度繰り返したか分からない感触が彼女を迎え入れる。,"I laid her down and covered her with my body. Tracing her neck with my lips, dropping another kiss, I sank slowly into her. Nupu — a feeling I'd lost count of repeating welcomed me in.",我将她平放，再覆身贴上。在她的颈侧轻吻一下，再次落下一记深吻，缓缓地沉入她的体内。咕——一种我已经数不清重复了多少次的触感，将我迎接进去。
+DIALOGUE_LEMUEN_CG_HABIT_12,あっ……んっ……今日も、優しくて……でも、ちゃんと、めちゃくちゃにしてくれるのね……。,"Ah... mn... gentle today, too... but you'll still mess me up properly, won't you...",啊……嗯……今晚也好温柔……可是，你还是会把我搞得乱七八糟的吧……？
+DIALOGUE_LEMUEN_CG_HABIT_13,数えきれない夜を重ねた今も、内壁は初夜と変わらない熱で僕を迎え入れる。違うのは、その奥の彼女が何ひとつ怯えていないこと。,"Even after all these countless nights, her insides welcome me with the same heat as the first night. The difference is that the her inside that heat is no longer afraid of anything.",即便重复了数不清的夜晚，她的内壁仍以与初夜无异的热度迎接着我。唯一不同的是——身体深处的她，早已没有半点畏惧。
+DIALOGUE_LEMUEN_CG_HABIT_14,ふふ、約束って言うより……もう、日課？　寝たきりだった頃なんて、何もできなかったのに……今は、こんなにあなたに頼ってる。,"Hmph, more than 'a promise,' it's... a daily ritual, isn't it? Back when I was bedridden, I couldn't do a thing... and now I'm leaning on you this much.",呵呵，比起『约定』，这……更像是一种日常吧？卧床那段时间，我什么都做不到……可现在，竟然能这么依赖你。
+DIALOGUE_LEMUEN_CG_HABIT_15,腰を軽やかに動かす。彼女は背中に爪を立て、甘く喘ぎながら、それでもからかいをやめなかった。,"I worked my hips lightly. She drove her nails into my back, gasping sweetly, but never quite gave up the teasing.",我轻巧地摆动起腰肢。她的指甲嵌入了我的背肌，发出甜腻的喘息，却仍不肯停下挑衅。
+DIALOGUE_LEMUEN_CG_HABIT_16,はあっ……あなたのせいよ……私の計算、またぐちゃぐちゃ……っ。,Haa... it's all your fault... my calculations... a mess again... mn.,哈啊……都是你的错……。我的计算，又被搅得乱七八糟……唔。
+DIALOGUE_LEMUEN_CG_HABIT_17,角度を変えて深く突き入れると、彼女の喉から押し殺した嬌声が漏れた。,"I shifted angle and drove deep, and a stifled cry escaped her throat.",我换了个角度狠狠顶进去，从她喉间溢出一声压抑的甜吟。
+DIALOGUE_LEMUEN_CG_HABIT_18,んっ……っ、そこ……日課にしては、刺激強すぎ……。,Mn... that... for a daily ritual... the stimulation's too strong...,嗯……那里……以日课来说……刺激太强了啦……唔。
+DIALOGUE_LEMUEN_CG_HABIT_19,揺れる胸を片手で包み、唇で先端を舐めるように転がすと、彼女の腰が小さく跳ねる。,"With one hand I cupped her swaying breast, rolling the tip with my lips as if to lap at it, and her hips gave little jumps.",我以一只手将她颤动的乳房包住，再用唇舔弄似地拨弄起乳尖，她的腰随之轻轻地一颤一颤。
+DIALOGUE_LEMUEN_CG_HABIT_20,あっ……だめ、両方一緒に……っ、頭、また真っ白になっちゃう……。,"Ah... no, both at once... mn... my head's going white again...",啊……不行，两边一起来……唔……脑子里又要一片空白了……。
+DIALOGUE_LEMUEN_CG_HABIT_21,数分か、数十分か。やがて彼女の体が小さく震え、甘い声が部屋に響いた。,"Minutes, or tens of minutes — eventually her body trembled, and a sweet voice echoed through the room.",几分钟，又或者几十分钟过去，她的身体微微一颤，甜腻的嗓音响彻了房间。
+DIALOGUE_LEMUEN_CG_HABIT_22,髪が汗で湿り、頰がわずかに赤らんでいた。,"Her hair was damp with sweat, and her cheeks tinted faintly red.",她的发丝被汗水沾湿，双颊微微泛红。
+DIALOGUE_LEMUEN_CG_HABIT_23,……はあ。やっぱり、ドクターのせい。私の余裕、今日も綺麗に剥がされちゃったわ。,"...Haa. Yes, this is the Doctor's fault. My composure — peeled away cleanly today, again.",……哈啊。果然，这都是博士的错。我的从容，今天又被你剥得干干净净。
+DIALOGUE_LEMUEN_CG_HABIT_24,少しだけ強がったあと、彼女は上目遣いで僕を見て、当然のように言った。,"After putting on a small show of bravado, she looked up at me through her lashes and said it as if it were the most natural thing.",在稍稍逞了一下强之后，她从眉睫下抬起目光望着我，像在说一件天经地义的事。
+DIALOGUE_LEMUEN_CG_HABIT_25,ねえドクター、明日も……来るんでしょう？,"Hey, Doctor. Tomorrow too... you're coming, right?",喂，博士。明天……也会来的吧？
+DIALOGUE_LEMUEN_CG_DEVOTE_01,夜の執務室。気づかぬうちに、机に突っ伏したまま深い眠りに落ちていた。,"The office at night. Without realizing it, I'd slumped over my desk and fallen into a deep sleep.",夜晚的办公室。不知不觉间，我已经趴在桌上沉沉地睡着了。
+DIALOGUE_LEMUEN_CG_DEVOTE_02,静かな車輪の音が近づいてくる。,The quiet sound of wheels approached.,轻柔的车轮声，渐渐靠近。
+DIALOGUE_LEMUEN_CG_DEVOTE_03,寝顔を覗き込むレミュアン。優しいのに、どこか残酷な笑みが浮かんでいた。,"Lemuen, peering at my sleeping face. A smile — gentle, yet somewhere cruel — played on her lips.",雷缪安凑近，端详着我熟睡的脸。她唇边浮出一抹温柔，又带着几分残忍的笑意。
+DIALOGUE_LEMUEN_CG_DEVOTE_04,あら、無防備……ふふ、観察対象から目を離した私の負けね。,"Oh my, defenseless... hmph. Looks like I lost — for taking my eyes off the observation target.",哎呀，毫无防备呢……呵呵。看来是我输了——竟然让观察对象逃出视线之外。
+DIALOGUE_LEMUEN_CG_DEVOTE_05,そっと肩を揺すられ、目を覚ます。視線を上げると、彼女の顔が真上から見下ろしていた。,"My shoulder was shaken gently and I awoke. As I lifted my eyes, her face was directly above mine, looking down.",我感到肩膀被轻轻摇晃，醒了过来。抬眼望去，她的脸正从正上方俯视着我。
+DIALOGUE_LEMUEN_CG_DEVOTE_06,ねえドクター、起きて。今夜は私が『引き金』を引く番よ。動かないで……それ、命令じゃなくて、お願い、ね？,"Hey, Doctor, wake up. Tonight, it's my turn to pull the 'trigger.' Don't move... think of it less as an order, and more as a request, hm?",喂博士，醒一下。今晚轮到我来扣『扳机』喔。别动……这与其说是命令，不如当作请求吧？
+DIALOGUE_LEMUEN_CG_DEVOTE_07,私室に連行され、ベッドに押し倒される。髪を下ろした彼女が、ゆっくりと服のボタンを外していく。,"I was hauled to her private room and pushed down onto the bed. Hair let down, she slowly began undoing my buttons.",我被她带到她的私室，按倒在床上。她将长发放下，缓缓解开我的纽扣。
+DIALOGUE_LEMUEN_CG_DEVOTE_08,ふふ、狙撃ポイントを教えてあげるわ。……私の、私室よ。逃げ場、初めから無かったでしょう？,"Hmph, let me show you the sniper's vantage point. ...My private room, of course. There was no escape from the start, was there?",呵呵，让我把狙击点告诉你吧。……就是我的私室喔。其实从一开始就没有逃路了，对吧？
+DIALOGUE_LEMUEN_CG_DEVOTE_09,自ら腰に跨り、熱を持った秘部を僕の硬さにくちゅっ、と擦りつける。布越しでも分かるほど、すでに濡れていた。,"She straddled my hips on her own and rubbed her hot, kuchu-wet sex against my hardness. Even through the fabric I could tell she was already drenched.",她主动跨上我的腰肢，将炙热的私处咕啾地抵在我的硬挺上磨蹭。隔着布料也能清楚地知道，她早已湿透了。
+DIALOGUE_LEMUEN_CG_DEVOTE_10,もうこんなに硬くなってる……ふふ、観察してて、よかったわ。あなたの一番反応する場所、もう、覚えちゃった。,"Already this hard... hmph, observing was worth it. The places that make you react the most — I've memorized every one of them.",已经硬成这样了……呵呵，观察果然没白费呢。让你反应最大的那些地方，我已经全部记下来了。
+DIALOGUE_LEMUEN_CG_DEVOTE_11,跨ったまま、彼女はコンドームを手に取った。,"Still straddling me, she picked up the condom.",她依旧跨在我身上，从一旁拈起避孕套。
+DIALOGUE_LEMUEN_CG_DEVOTE_12,自分でこれ着けるとこ、見ててね？　ドクターがいつも私に着けてくれてた景色……今夜は、私からのプレゼント。,"Watch me put it on, all right? The sight the Doctor used to give me when he put it on me himself... tonight, that's my present to you.",看着我把它戴上喔？博士每次给我戴上时的那副景色……今晚，就当作我送你的礼物吧。
+DIALOGUE_LEMUEN_CG_DEVOTE_13,細い指がパッケージを破る音。彼女の指先が僕の先端に触れ、わざと焦らすようにゆっくりと包み込んでいく。,"The sound of slender fingers tearing the wrapper. Her fingertips brushed my tip, and as if to tease, she rolled the rubber over me with calculated slowness.",细长指尖撕开包装的声响。她的指尖触上我的顶端，像是故意挑逗那般，缓缓地把套子向下卷过。
+DIALOGUE_LEMUEN_CG_DEVOTE_14,ふふ、ビクビクしてる。ここ、こんなに敏感だったのね……観察、しっかり活かしてあげる。,"Hmph, you're twitching. So this part is this sensitive... I'll put my observations to good use.",呵呵，在抽搐呢。原来这里这么敏感啊……观察的成果，我会好好运用的。
+DIALOGUE_LEMUEN_CG_DEVOTE_15,根本を握ってしごくように刺激し、僕の腰が跳ねるのを楽しそうに見ている。彼女の指の動きには、ライフルの引き金を引くときと同じ、繊細な熱があった。,"She gripped the base and stroked, watching with delight as my hips jumped. There was, in the motion of her fingers, the same delicate heat she had when she pulled a rifle's trigger.",她握住根部摩挲，玩味地观察着我腰肢的颤跳。她指尖的动作里，带着与扣动扳机时一样的细腻热度。
+DIALOGUE_LEMUEN_CG_DEVOTE_16,装着を終えると、先端を自分の濡れた入口に当て、ぬぷっ、ぬぷっ、と少しずつ腰を下ろしていく。熱く狭い内壁が、僕を飲み込んでいく。,"Once she'd finished, she pressed my tip against her drenched entrance, and lowered her hips little by little — nupu, nupu. The hot, narrow walls swallowed me down.",装好之后，她将顶端抵在自己湿润的入口上，咕咕、咕咕地一点点沉下腰。又烫又紧的内壁，将我整根吞没了进去。
+DIALOGUE_LEMUEN_CG_DEVOTE_17,動かないで……今夜は全部、私に任せて。,"Don't move... tonight, leave everything to me.",别动……今夜，全都交给我。
+DIALOGUE_LEMUEN_CG_DEVOTE_18,腰を前後に揺らし、僕の硬さを奥深くまで迎え入れる。僕の反応を一つ一つ観察しながらリズムを操る彼女の動きには、容赦がなかった。,"She rocked her hips back and forth, taking me deep into her core. There was no mercy in her motion as she manipulated the rhythm, observing each of my reactions one by one.",她前后摇动腰肢，将我的硬挺迎进了最深处。她的动作毫不留情，一边操控着节奏，一边把我的每一个反应都一一观察清楚。
+DIALOGUE_LEMUEN_CG_DEVOTE_19,んっ……あっ……ここが、あなたの弱いところでしょう？　私が何度も観察して、覚えておいたのよ。,"Mn... ah... this is your weak spot, isn't it? I observed it again and again — and remembered.",嗯……啊……这里就是你的弱点吧？我反反复复观察过，全部都记下来了喔。
+DIALOGUE_LEMUEN_CG_DEVOTE_20,彼女が腰を円を描くように回す。Gスポットを執拗に擦りつけられ、僕の喉から呻きが漏れた。,"She rolled her hips in slow circles, grinding doggedly against the G-spot. A groan tore from my throat.",她以画圆般的轨迹轻轻磨动腰肢，固执地擦着我体内的某一点，逼得我从喉间漏出一声闷哼。
+DIALOGUE_LEMUEN_CG_DEVOTE_21,はあっ……あなたの顔、こんなに蕩けてる……。観察対象が、こんなに可愛い表情をするなんて……っ、あんっ！,"Haa... your face is melting like that... to think the observation target could make such an adorable expression... ah, ahn!",哈啊……你的脸都化掉了呢……。原来观察对象也会露出这么可爱的表情……啊嗯！
+DIALOGUE_LEMUEN_CG_DEVOTE_22,動きが激しくなる。豊かな胸が目の前で揺れ、彼女は僕の手を自分の胸に導き、強く揉ませながらさらに深く腰を落とす。,"Her motions intensified. Her breasts swayed before me, and she guided my hand to one, making me knead it firmly while she sank her hips deeper still.",她的动作愈发激烈。丰满的双乳在眼前晃动，她将我的手引到自己的胸口，命我用力揉捏，自己则将腰沉得更深。
+DIALOGUE_LEMUEN_CG_DEVOTE_23,もっと奥まで……届いてる……？　私の中、こんなに熱く締め付けてるの、感じてるでしょう？,"Deeper... can you feel it? Inside me — burning, tightening — you can feel that, can't you?",再深一点……感觉到了吗？我的里面，这么炽热又用力地缠住你，应该感觉得到吧？
+DIALOGUE_LEMUEN_CG_DEVOTE_24,両手をベッドに押さえつけられ、完全に動けない状態で彼女の騎乗を受け止め続ける。優しいのに容赦なく、僕を快楽の渦に引きずり込んでいく。,"My hands were pinned against the bed. Unable to move at all, I had to take her riding without reprieve. Gentle yet merciless, she dragged me deeper into the whirlpool of pleasure.",我的双手被压在床上。完全动弹不得，只能任凭她在我身上骑乘。温柔中却不留半分余地，将我一步步拖入快感的漩涡。
+DIALOGUE_LEMUEN_CG_DEVOTE_25,イッていいわよ……でも、私が許可するまで、動かないでね？,"You may come... but until I give permission, you won't move, will you?",可以去喔……不过，没有我的允许之前，你不许动，对吧？
+DIALOGUE_LEMUEN_CG_DEVOTE_26,やがて彼女自身も限界を迎え、腰の動きを激しくしながら、僕を同時に追い詰めた。ぐぽっ、ぐぽっ、と濡れた水音が部屋に響く。,"Eventually her own limit drew near. She drove her hips harder, pushing me to the brink alongside her. The wet sounds of gpoh, gpoh filled the room.",她自己也临近极限。腰肢愈发用力地起伏，将我同她一道推到悬崖边。咕噗、咕噗的水声充满房间。
+DIALOGUE_LEMUEN_CG_DEVOTE_27,あっ……あんっ！　おほっ……！　イッく……あなたも、一緒に……っ！！,"Ah... ahn! Ohh...! I'm coming... you, too — together...!!",啊……嗯啊！喔……！要去了……你也，一起……！！
+DIALOGUE_LEMUEN_CG_DEVOTE_28,内壁が激しく収縮し、僕を締め付けながら絶頂に達する。その瞬間、僕は彼女の中で大きく脈打った。,"Her inner walls clenched fiercely, and as she reached climax, gripping me tight, I throbbed deep inside her in the same instant.",她的内壁猛烈地收缩着，将我紧紧绞住的同时迎来高潮。在那一刻，我也在她的体内重重地脉动。
+DIALOGUE_LEMUEN_CG_DEVOTE_29,彼女は満足げに僕の上に倒れかかった。汗で髪が張り付き、頰を赤らめながらも、勝ち誇った表情を隠そうともしない。,"She collapsed onto me, satisfied. Hair clinging with sweat, cheeks flushed — and yet her triumphant expression made no attempt to hide.",她带着满足感整个倒在我身上。汗湿的发丝贴在脸侧，双颊泛红——可那副胜券在握的笑容，丝毫没有要藏起来的意思。
+DIALOGUE_LEMUEN_CG_DEVOTE_30,ふふ……どう？　私の観察、役に立ったでしょう？,"Hmph... well? My observations came in handy, didn't they?",呵呵……怎么样？我的观察派上用场了吧？
+DIALOGUE_LEMUEN_CG_DEVOTE_31,耳元で、甘く、しかしどこか残酷に囁く。,"In my ear, sweet, but somewhere cruel, she whispered.",她贴在我的耳畔，声音甜腻，却又藏着几分残忍地低语。
+DIALOGUE_LEMUEN_CG_DEVOTE_32,これからは、あなたは私の管理下よ。ふふ、観察結果は……最大限に活かさせてもらうわ。,"From here on, you're under my management, Doctor. Hmph — I'll be putting my observation results to maximum use.",从今往后，博士就归我管理了。呵呵——我的观察结果，会被发挥到极致喔。
+DIALOGUE_LEMUEN_CG_BREAK_01,朝の柔らかい光が、レミュアンの私室を照らしていた。何度目かわからない激しい夜の後、僕たちはベッドの上で抱き合ったまま眠っていた。,"The soft morning light fell across Lemuen's private room. After a fierce night I'd lost count of, we were still on the bed, asleep, holding each other.",柔和的晨光洒进了雷缪安的私室。在又一个我已数不清的激烈夜晚之后，我们仍相拥在床上，沉沉地睡着。
+DIALOGUE_LEMUEN_CG_BREAK_02,彼女の体が小さく震え、ゆっくりと目が覚める。,"Her body shivered slightly, and slowly her eyes opened.",她的身体微微一颤，慢慢睁开了双眼。
+DIALOGUE_LEMUEN_CG_BREAK_03,細い手首で、チタンのブレスレットが朝日を受けて淡く光っていた。,"On her slender wrist, the titanium bracelet caught the morning light, glowing faintly.",她纤细的手腕上，那只钛金属手镯沐浴在朝阳中，泛着淡淡的光。
+DIALOGUE_LEMUEN_CG_BREAK_04,……んっ。,...Mn.,……唔。
+DIALOGUE_LEMUEN_CG_BREAK_05,夢うつつのまま、彼女は僕の胸に顔を埋めた。普段の余裕も、計算も、一切ない。素の彼女がそこにいた。,"Still half-asleep, she pressed her face against my chest. None of her usual composure or calculation was there. Only the bare her remained.",她半醒未醒，将脸蹭进我的胸口。平日里那份从容与算计，全部消失了。剩下的，只是最素颜的她。
+DIALOGUE_LEMUEN_CG_BREAK_06,……ドクター。,...Doctor.,……博士。
+DIALOGUE_LEMUEN_CG_BREAK_07,声は少し掠れていた。ゆっくりと体を起こし、僕の顔をまっすぐに見つめる。その瞳には、もう『スナイパー』も『余裕のあるお姉さん』もいなかった。ただ、純粋な欲求と、長い間隠してきた寂しさだけが溢れていた。,"Her voice was a little hoarse. She slowly lifted herself, looking me straight in the face. In her eyes, neither 'sniper' nor 'composed elder sister' remained — just pure desire and the loneliness she'd hidden so long, spilling out.",她的声音有些沙哑，缓缓撑起身，直视着我的脸。她的眼里再也没有『狙击手』，也没有『游刃有余的姐姐』——只剩下纯粹的渴求，与她长久以来藏起的寂寞，毫无保留地涌了出来。
+DIALOGUE_LEMUEN_CG_BREAK_08,覆い被さるようにキスを落とし、そのまま腰を動かし始めた。,"She leaned over me, dropped a kiss, and began to move her hips on her own.",她俯身覆下，将一吻落在我唇上，继而开始自行摆动起腰肢。
+DIALOGUE_LEMUEN_CG_BREAK_09,はあっ……もう……計算なんて、放棄したわ。射程内に、あなたしか居ないんだもの……っ。,"Haa... I've already... thrown calculations away. Within my range, there's no one but you, after all... mn.",哈啊……我已经……把计算彻底抛开了。射程之内，除了你以外什么都没有了……唔。
+DIALOGUE_LEMUEN_CG_BREAK_10,体にしがみつき、荒々しく腰を振る。朝の光の中で、二人の体が激しく重なり、ぐちゅっ、ぬちゅっ、と濡れた音が部屋に満ちていく。,"She clung to my body, jerking her hips in short, ragged motions. In the morning light our bodies tangled, and gpuchu, nuchu, wet sounds filled the room.",她紧紧抱住我的身体，猛烈地挺动起腰肢。晨光之中，两副身躯激烈地交缠在一起，咕啾、嗯啾的湿响充满了房间。
+DIALOGUE_LEMUEN_CG_BREAK_11,ドクター……私を……あなた専用の弾丸にして……っ。,Doctor... make me... your private bullet... mn.,博士……让我，成为……你专属的弹丸吧……唔。
+DIALOGUE_LEMUEN_CG_BREAK_12,動きには必死さがあった。今まで抑えていた全ての感情が、一気に溢れ出している。,There was a desperate edge in her movements. Every emotion she'd kept down was spilling over all at once.,她的动作里带着一种迫切。这些日子里被她强行压下的所有情感，正一齐喷涌而出。
+DIALOGUE_LEMUEN_CG_BREAK_13,はあっ！　あんっ！　おほっ……！　沈黙のレミュアン、なんて呼ばれてた頃の私……もう、いないわよ……っ！,"Haa! Ahn! Ohh...! The me they used to call 'Silent Lemuen'... she's not here anymore, you know...!",哈啊！嗯啊！喔……！曾被叫做『沉默的雷缪安』的我……早就不在了喔……！
+DIALOGUE_LEMUEN_CG_BREAK_14,目に、うっすらと涙が浮かぶ。快楽と、長い間抱えていた寂しさが混じり合って、彼女の体を激しく震わせていた。,"Tears welled, faintly, in her eyes. Pleasure and a long-held loneliness mingled, shaking her body to the core.",她的眼里浮起了一层薄薄的泪意。快感与积压已久的寂寞混在一起，让她的身体剧烈地颤抖。
+DIALOGUE_LEMUEN_CG_BREAK_15,僕の首に腕を回し、激しく腰を振り続けながら、涙を零した。,"She wrapped her arms around my neck, and as her hips drove on, the tears slipped down.",她将双臂环上我的颈项，腰肢仍未停下，泪珠一颗颗滚落下来。
+DIALOGUE_LEMUEN_CG_BREAK_16,他の誰にも……引き金を引かせない。あなたが、私の唯一……っ！,No one else... will pull this trigger. You... only you... mn!,再不许有别人……扣动这扳机。是你……只有你……唔！
+DIALOGUE_LEMUEN_CG_BREAK_17,彼女の腰を抱き、同じ激しさで応える。二人の動きが完全にシンクロし、互いに求め合う。,"I caught her by the hips and answered with the same intensity. Our motions synced completely — wanting each other, taking each other.",我托住她的腰，以与她同等的激烈回应。两副身躯的节奏完全同步——彼此渴求，彼此索取。
+DIALOGUE_LEMUEN_CG_BREAK_18,あっ……あっ……イッく……ドクターと一緒に……もう、離さないで……っ！！,Ah... ah... I'm coming... together with the Doctor... don't ever let go of me...!!,啊……啊……要去了……和博士一起……再也不要放开我……唔！！
+DIALOGUE_LEMUEN_CG_BREAK_19,体が大きく弓なりに反り、絶頂に達する。同時に僕も彼女の中で大きく脈打ち、熱いものを放った。内壁が激しく収縮し、僕を締め付けながら、彼女は涙を零しながら喘いだ。,"Her body bowed back deeply and she reached climax. In the same instant, I throbbed hard inside her, releasing my own heat. Her inner walls clenched fiercely, and tears streamed down her cheeks as she cried out.",她的身体向后弓成深深的弧度，攀上了顶峰。同一瞬间，我也在她的深处剧烈地脉动，将炽热释放出来。她的内壁急剧收缩，泪水沿着脸颊滑落，喘息间夹着甜腻的呜咽。
+DIALOGUE_LEMUEN_CG_BREAK_20,はあっ……はあっ……うっ……ドクター……。,Haa... haa... uh... Doctor...,哈啊……哈啊……唔……博士……。
+DIALOGUE_LEMUEN_CG_BREAK_21,絶頂の余韻の中、まだ僕の中に繋がったまま、彼女は僕の胸に顔を埋めた。,"In the afterglow, still joined to me, she buried her face against my chest.",在余韵中，她依然与我相连，将脸埋进了我的胸口。
+DIALOGUE_LEMUEN_CG_BREAK_22,しばらくして、彼女はゆっくりと体を起こし、指先で僕の胸に触れた。,"After a while, she slowly raised herself, and brought her fingertips to my chest.",过了好一会儿，她缓缓撑起身，将指尖搭在了我的胸口。
+DIALOGUE_LEMUEN_CG_BREAK_23,その指が、僕の心音を優しく確かめるように、静かに動く。,"Her finger moved gently, as if quietly listening to my heartbeat.",那根手指安静地动着，仿佛在轻轻探寻我心跳的节律。
+DIALOGUE_LEMUEN_CG_BREAK_24,……はあ。あなたの心音……すごく、安心するわ。,...Haa. Your heartbeat... it makes me feel so safe.,……哈啊。你的心跳……让我感到无比安心呢。
+DIALOGUE_LEMUEN_CG_BREAK_25,少しだけ微笑み、僕の胸に耳を寄せた。もう計算も、余裕も、一切ない。ただ、純粋に僕を求めている彼女がそこにいた。,"She smiled faintly and pressed her ear to my chest. No more calculation, no more composure. Only the her that purely sought me remained.",她微微一笑，将耳朵贴上我的胸口。再也没有计算，也没有从容。剩下的，只是纯粹想要我的她。
+DIALOGUE_LEMUEN_CG_BREAK_26,ドクター。私の弾丸は、もう、あなただけのもの。……これは、誓約よ。,"Doctor. My bullet, from now on, belongs to you alone. ...This is a vow.",博士。我的弹丸，从今往后只属于你一人。……这是誓约。
+DIALOGUE_LEMUEN_CG_BREAK_27,そう言いながら、僕の胸にそっとキスを落とす。その瞳には、もう迷いも寂しさもなかった。ただ、完全な依存と愛だけが輝いていた。,"Saying so, she pressed a soft kiss to my chest. In her eyes, no hesitation, no loneliness — only complete dependence and love, shining out.",她说着，将一记轻吻落在我的胸口。眼中没有了犹豫，也没有寂寞——剩下的只有完全的依赖与爱，闪着耀眼的光。
+DIALOGUE_LEMUEN_CG_BREAK_28,彼女は静かに笑った。それは、出会ってから初めて見る、何の演技も計算もない、本当に幸せそうな笑みだった。,"She laughed quietly. It was a smile I'd never seen since meeting her — without artifice, without calculation, simply, truly happy.",她安静地笑了。那是自我们相识以来从未见过的笑容——没有伪装，没有算计，只是纯粹地、真心地，幸福地笑着。
