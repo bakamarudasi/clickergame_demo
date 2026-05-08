@@ -94,6 +94,9 @@ static func _specificity(rule: ReactionRule) -> int:
 	s += rule.min_bond * 10
 	s += int(rule.min_arousal)
 	s += rule.min_intimacy
+	# 累積回数ゲート（gift_count + touch consecutive 等）が高いほどより特化と扱う。
+	# 同じ trigger に対して "100回目専用" のマイルストーン反応を組む時に必要。
+	s += rule.consecutive_count_min
 	if rule.max_harassment < 99999:
 		s += 10
 	if rule.requires_equipped_costume != &"":
