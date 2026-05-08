@@ -1,0 +1,14 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+source_file="res://translations/dialogues/lemuen.csv"
+dest_files=["res://translations/dialogues/lemuen.en.translation", "res://translations/dialogues/lemuen.ja.translation", "res://translations/dialogues/lemuen.zh_CN.translation"]
+
+[params]
+
+compress=true
+delimiter=0
