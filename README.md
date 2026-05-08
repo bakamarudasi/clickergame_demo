@@ -4,7 +4,7 @@ Godot 4.6+ で作るシンプルなクリッカーゲームの雛形。
 
 ## 構成
 
-- `project.godot` — Godot 4.6 プロジェクト設定（縦持ち 720x1280、GL Compatibility）
+- `project.godot` — Godot 4.6 プロジェクト設定（横持ち 1280x720、GL Compatibility）
 - `scenes/main.tscn` — メインシーン（タイトル / スコア / クリックボタン / アップグレード）
 - `scripts/main.gd` — クリック・アップグレード・自動収益のロジック
 - `icon.svg` — プロジェクトアイコン
