@@ -11,20 +11,20 @@ WORK_UPGRADE_FMT,%s  Lv.%d — Cost %d,%s  Lv.%d — Cost %d
 WORK_UPGRADE_DETAIL_NONE,強化を選んでください,Select an upgrade to see details
 WORK_UPGRADE_DETAIL_FMT,Lv.%d   ¥ %d,Lv.%d   ¥ %d
 WORK_UPGRADE_BUY_BUTTON,購入する,Purchase
-UPGRADE_CLICK_PLUS_ONE_NAME,予備のペン,Spare Pen
-UPGRADE_CLICK_PLUS_ONE_DESC,机に予備のペンを常備。一筆ごとの処理量+1。,Keep a spare pen on the desk. +1 per click.
-UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アミヤの清書補助,Amiya's Transcription
-UPGRADE_PAPERWORK_DOUBLE_CHECK_DESC,副官アミヤが書類のミスを直してくれる。クリックあたり+5。,Amiya proofreads each form for you. +5 per click.
-UPGRADE_COMMAND_FOCUS_NAME,指揮席の集中,Command Focus
-UPGRADE_COMMAND_FOCUS_DESC,戦術指揮室で一筆に作戦の重みが乗る。クリックあたり+25。,At the command desk each stroke carries the weight of strategy. +25 per click.
-UPGRADE_FIELD_CLERK_NAME,事務オペレーター配属,Field Clerk Assigned
-UPGRADE_FIELD_CLERK_DESC,ロドス事務班から1名配属。あなたが休んでいる間も書類が片付く。毎秒+1。,A Rhodes Island clerk is assigned to your desk. Forms move even while you rest. +1 per second.
-UPGRADE_LOGISTICS_TEAM_NAME,後方支援班の拡充,Logistics Team Expanded
-UPGRADE_LOGISTICS_TEAM_DESC,後方支援班を強化。報告書が連続で処理されていく。毎秒+5。,Logistics team reinforced. Reports clear in a steady stream. +5 per second.
-UPGRADE_ORIGINIUM_ARTS_NAME,源石技芸による複製,Originium Arts: Replication
-UPGRADE_ORIGINIUM_ARTS_DESC,術師の力で書類が机の上で勝手に増えていく。毎秒+20。,Casters duplicate paperwork in mid-air over your desk. +20 per second.
-UPGRADE_DOCTOR_AWAKENING_NAME,ドクターの覚醒,Doctor's Awakening
-UPGRADE_DOCTOR_AWAKENING_DESC,失われた記憶の片鱗が蘇る。クリック威力が2倍に（最大3段階）。,Fragments of lost memory return. Click power x2 (max 3 stages).
+UPGRADE_CLICK_PLUS_ONE_NAME,ケルシーの無言の圧力,Kal'tsit's Silent Pressure
+UPGRADE_CLICK_PLUS_ONE_DESC,「……。」背後に立つ彼女の冷ややかな視線を感じるだけで、ペンの走りが少しだけ速くなる。背筋は凍る。,"""…"" Just feeling her icy gaze from behind speeds up your pen a little. Your spine, on the other hand, freezes."
+UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アーミヤの「まだ休んじゃダメですよ」,"Amiya — ""You Can't Rest Yet"""
+UPGRADE_PAPERWORK_DOUBLE_CHECK_DESC,「ドクター、終わってない仕事がたくさんありますからね。」その純粋な笑顔と優しさが、ドクターの心を縛る最大の原動力。,"""Doctor, there's still plenty of work left, you know."" Her pure smile and kindness are the greatest force binding the Doctor's heart."
+UPGRADE_COMMAND_FOCUS_NAME,純正オリジニウムの丸呑み,Pure Originium Gulped Whole
+UPGRADE_COMMAND_FOCUS_DESC,理性がマイナスを振り切ったドクターの奇行。バリバリという咀嚼音と共に、未知の活力が湧いてくる（※医療部から厳しく禁じられています）。,"An eccentric feat by a Doctor whose Sanity has long since gone negative. Crunch by crunch, an unknown vitality wells up. (*Strictly forbidden by the Medical Department.)"
+UPGRADE_FIELD_CLERK_NAME,テンニンカのテーブルクロス振り,Honeyberry's Tablecloth Flourish
+UPGRADE_FIELD_CLERK_DESC,「りんごちゃーん！」彼女が楽しげにクロスを振るたびに、どこからともなく謎の推進力（とコスト）が湧き出してくる。,"""Apple-chaaan!"" Every cheerful flick of her cloth conjures mysterious momentum (and costs) out of nowhere."
+UPGRADE_LOGISTICS_TEAM_NAME,クロージャの怪しい自動化ツール,Closure's Suspicious Automation Tool
+UPGRADE_LOGISTICS_TEAM_DESC,「特別価格で提供するよ！」と売りつけられた怪しいUSBメモリ。たまに勝手に通販サイトを開くが、仕事はちゃんとする。,"""Special price, just for you!"" — a shady USB stick she pushed on you. It opens shopping sites on its own now and then, but it gets the job done."
+UPGRADE_ORIGINIUM_ARTS_NAME,シーの絵巻からのブラック労働力,Sweatshop Labor from Lin's Scroll
+UPGRADE_ORIGINIUM_ARTS_DESC,「面倒くさい…」とぼやく彼女から無理やり引き出した墨の化身たち。24時間、文句も言わずに無限の作業をこなしてくれる。,"Ink avatars wrenched from her despite her muttered ""what a pain..."" Twenty-four hours a day, no complaints, infinite labor."
+UPGRADE_DOCTOR_AWAKENING_NAME,理性0ドクターの口内カップ麺調理,Sanity-Zero Doctor's In-Mouth Cup Noodle Prep
+UPGRADE_DOCTOR_AWAKENING_DESC,乾麺を砕いて口に入れ、粉末スープを流し込み、熱湯を含んで3分保持する究極の時短術。もはや人を超越した集中力を発揮する。,"Crush dry noodles into your mouth, pour in the seasoning, then hold hot water for three minutes. The ultimate time-saver, channeling focus beyond human."
 OPERATOR_LEMUEN_NAME,レミュアン,Lemuen
 COSTUME_LEMUEN_DEFAULT,聖衣,Robe
 STAGE_LEMUEN_0,警戒,Wary
