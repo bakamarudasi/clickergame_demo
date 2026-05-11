@@ -309,6 +309,101 @@ static func _expected_for_effect_kind(kind: int) -> String:
 		_: return ""
 
 
+# 各データクラスが「翻訳キー文字列」として扱うフィールド一覧。
+# 値が ALL_CAPS_UNDERSCORE 形式なら translation キーとみなして検証する。
+const _TRANSLATION_FIELDS := {
+	"items": ["display_name", "description"],
+	"cgs": ["caption"],
+	"reactions": ["dialogue"],     # dialogue_alternates は別途処理
+	"touch_spots": ["display_name"],
+	"costumes": ["display_name"],
+	"operators": ["display_name"],
+	"upgrades": ["display_name", "description"],
+	"scopes": ["display_name", "description"],
+	"meta_upgrades": ["display_name"],
+	"memories": ["title"],
+}
+
+
+# 翻訳キー扱いの値が翻訳ファイル (CSV/PO) に登録されてないものを返す。
+# 戻り値: Array[{ source_path, source_kind, field, key }]
+static func scan_missing_translation_keys() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for category_key in _TRANSLATION_FIELDS.keys():
+		var entry := AssetAuditCategories.find_by_key(category_key)
+		if entry.is_empty():
+			continue
+		for e in scan_category(entry):
+			var fields: Array = _TRANSLATION_FIELDS[category_key]
+			for field in fields:
+				var v: Variant = e.resource.get(field)
+				_check_translation_value(out, e.path, entry.label, field, v)
+			# CG steps の speaker / dialogue
+			if category_key == "cgs":
+				var cg: CGData = e.resource as CGData
+				if cg != null:
+					for i in cg.steps.size():
+						var step: CGStep = cg.steps[i]
+						if step == null: continue
+						_check_translation_value(out, e.path, "CGStep #%d" % (i + 1), "speaker", step.speaker)
+						_check_translation_value(out, e.path, "CGStep #%d" % (i + 1), "dialogue", step.dialogue)
+			# Reaction の dialogue_alternates
+			elif category_key == "reactions":
+				var rule: ReactionRule = e.resource as ReactionRule
+				if rule != null:
+					for i in rule.dialogue_alternates.size():
+						_check_translation_value(out, e.path, "ReactionRule",
+								"dialogue_alternates[%d]" % i, rule.dialogue_alternates[i])
+			# Operator の stages.title / flavor_line
+			elif category_key == "operators":
+				var op: OperatorData = e.resource as OperatorData
+				if op != null:
+					for si in op.stages.size():
+						var st: TrustStageData = op.stages[si]
+						if st == null: continue
+						_check_translation_value(out, e.path, "Stage %d" % si, "title", st.title)
+						_check_translation_value(out, e.path, "Stage %d" % si, "flavor_line", st.flavor_line)
+	return out
+
+
+static func _check_translation_value(out: Array[Dictionary], source: String,
+		kind: String, field: String, value: Variant) -> void:
+	if not (value is String):
+		return
+	var s: String = value
+	if s == "":
+		return
+	# ALL_CAPS_UNDERSCORE のものだけ翻訳キー扱い。それ以外は literal とみなしてスキップ。
+	if not _looks_like_translation_key(s):
+		return
+	if AssetAuditIndex.translation_has_key(s):
+		return
+	out.append({
+		"source_path": source,
+		"source_kind": kind,
+		"field": field,
+		"key": s,
+	})
+
+
+static func _looks_like_translation_key(s: String) -> bool:
+	# A-Z, 0-9, _ のみで構成され、かつ大文字を含む。
+	if s == "":
+		return false
+	var has_upper := false
+	for i in s.length():
+		var c := s[i]
+		if c >= "A" and c <= "Z":
+			has_upper = true
+			continue
+		if c >= "0" and c <= "9":
+			continue
+		if c == "_":
+			continue
+		return false
+	return has_upper
+
+
 # ReactionRule.expression / CGStep.expression が Operator のどちらの辞書にも
 # 登録されてないキーを列挙する。
 # 戻り値: Array[{ source_path, source_kind, op_id, expression_key }]

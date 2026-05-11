@@ -36,8 +36,12 @@ var _audit_missing_tree: Tree
 var _audit_refs_tree: Tree
 var _audit_expr_tree: Tree
 var _audit_dangling_tree: Tree
+var _audit_translation_tree: Tree
 var _status_label: Label
 var _context_menu: PopupMenu
+
+# プレビューに使うロケール（空 = 任意の locale から拾う）
+const _PREVIEW_LOCALE := "ja"
 
 # 待機中のドロップ情報（OS ドラッグ時、files_dropped が来た時にここを参照）
 var _pending_drop_target: Dictionary = {}
@@ -305,6 +309,37 @@ func _build_audit_tab() -> Control:
 	dang_box.add_child(_audit_dangling_tree)
 	outer.add_child(dang_box)
 
+	# Missing Translation Keys
+	var tr_box := VBoxContainer.new()
+	tr_box.name = "Missing Translations"
+	var tr_top := HBoxContainer.new()
+	tr_box.add_child(tr_top)
+	var refresh_tr := Button.new()
+	refresh_tr.text = "再スキャン"
+	refresh_tr.pressed.connect(_populate_translation_tree)
+	tr_top.add_child(refresh_tr)
+	var tr_hint := Label.new()
+	tr_hint.text = "翻訳ソース (.csv/.po) に未登録のキーを参照してるフィールド"
+	tr_hint.modulate = Color(1, 1, 1, 0.6)
+	tr_top.add_child(tr_hint)
+
+	_audit_translation_tree = Tree.new()
+	_audit_translation_tree.hide_root = true
+	_audit_translation_tree.size_flags_horizontal = SIZE_EXPAND_FILL
+	_audit_translation_tree.size_flags_vertical = SIZE_EXPAND_FILL
+	_audit_translation_tree.columns = 3
+	_audit_translation_tree.set_column_titles_visible(true)
+	_audit_translation_tree.set_column_title(0, "Source")
+	_audit_translation_tree.set_column_title(1, "field")
+	_audit_translation_tree.set_column_title(2, "未定義キー")
+	_audit_translation_tree.set_column_expand(0, true)
+	_audit_translation_tree.set_column_expand(1, false)
+	_audit_translation_tree.set_column_expand(2, true)
+	_audit_translation_tree.set_column_custom_minimum_width(1, 200)
+	_audit_translation_tree.item_activated.connect(_on_translation_activated)
+	tr_box.add_child(_audit_translation_tree)
+	outer.add_child(tr_box)
+
 	return outer
 
 
@@ -316,11 +351,13 @@ func _refresh_all() -> void:
 	# 各種スキャナが同じ index を参照するので、まず一度だけ無効化して
 	# 強制リビルドさせる。
 	AssetAuditIndex.invalidate()
+	AssetAuditIndex._translation_built = false
 	_populate_browse_tree()
 	_populate_missing_cg_tree()
 	_populate_refs_tree()
 	_populate_expr_tree()
 	_populate_dangling_tree()
+	_populate_translation_tree()
 
 
 func _populate_browse_tree() -> void:
@@ -354,7 +391,12 @@ func _populate_browse_tree() -> void:
 			var primary := e.display if e.display != "" else String(e.id)
 			if primary == "":
 				primary = e.file_name
-			ri.set_text(0, "%s" % primary)
+			# 翻訳キーっぽければ訳文を引いて表示。元キーは tooltip に残す。
+			var preview_text := primary
+			var translated := AssetAuditIndex.translation_lookup(primary, _PREVIEW_LOCALE)
+			if translated != primary and translated != "":
+				preview_text = "%s  〈%s〉" % [translated, primary]
+			ri.set_text(0, preview_text)
 			ri.set_tooltip_text(0, "%s\n%s" % [e.path, e.file_name])
 			ri.set_metadata(0, {
 				META_KIND: "resource",
@@ -704,6 +746,35 @@ func _on_dangling_activated() -> void:
 		var path: String = meta[META_PATH]
 		if ResourceLoader.exists(path):
 			EditorInterface.edit_resource(load(path))
+
+
+func _on_translation_activated() -> void:
+	var item := _audit_translation_tree.get_selected()
+	if item == null:
+		return
+	var meta: Variant = item.get_metadata(0)
+	if meta is Dictionary and meta.has(META_PATH):
+		var path: String = meta[META_PATH]
+		if ResourceLoader.exists(path):
+			EditorInterface.edit_resource(load(path))
+
+
+func _populate_translation_tree() -> void:
+	if _audit_translation_tree == null:
+		return
+	_audit_translation_tree.clear()
+	var root := _audit_translation_tree.create_item()
+	var missing := AssetAuditScanner.scan_missing_translation_keys()
+	for m in missing:
+		var ri := _audit_translation_tree.create_item(root)
+		ri.set_text(0, "%s  (%s)" % [m.source_path.get_file(), m.source_kind])
+		ri.set_text(1, m.field)
+		ri.set_text(2, m.key)
+		ri.set_custom_color(2, Color(1, 0.6, 0.4))
+		ri.set_metadata(0, {
+			META_KIND: "resource",
+			META_PATH: m.source_path,
+		})
 
 
 func _populate_dangling_tree() -> void:
