@@ -23,6 +23,10 @@ GameState="*res://scripts/autoload/game_state.gd"
 ReactionDispatcher="*res://scripts/autoload/reaction_dispatcher.gd"
 LocaleService="*res://scripts/autoload/locale_service.gd"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/asset_audit/plugin.cfg")
+
 [internationalization]
 
 locale/translations=PackedStringArray("res://translations/strings.en.translation", "res://translations/strings.ja.translation", "res://translations/strings.zh_CN.translation", "res://translations/dialogues/lemuen.en.translation", "res://translations/dialogues/lemuen.ja.translation", "res://translations/dialogues/lemuen.zh_CN.translation")
