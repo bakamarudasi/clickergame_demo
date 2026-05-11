@@ -20,6 +20,10 @@ const META_OP := "op_id"
 const META_CG_ID := "cg_id"
 const META_HINT := "hint"
 const META_MODE := "mode"
+# slot 系（"portrait_slot" / "costume_slot"）で使う
+const META_SLOT_PROP := "slot_prop"   # "portrait_idle" / "portrait_expressions" / "portrait_face_overlays" /
+                                       # "sprite" / "sprite_pose_seductive" / "sprite_xray_variants"
+const META_SLOT_KEY := "slot_key"     # Dictionary 系のキー（例: "smile" / "underwear"）
 
 # 外部から plugin.gd がセットする。Inspector 操作や FS 更新に使う。
 var editor_plugin: EditorPlugin = null
@@ -30,6 +34,7 @@ var _filter_edit: LineEdit
 var _category_picker: OptionButton
 var _audit_missing_tree: Tree
 var _audit_refs_tree: Tree
+var _audit_expr_tree: Tree
 var _status_label: Label
 
 # 待機中のドロップ情報（OS ドラッグ時、files_dropped が来た時にここを参照）
@@ -222,6 +227,38 @@ func _build_audit_tab() -> Control:
 	refs_box.add_child(_audit_refs_tree)
 	outer.add_child(refs_box)
 
+	# Missing Expression Keys
+	var expr_box := VBoxContainer.new()
+	expr_box.name = "Missing Expressions"
+	var expr_top := HBoxContainer.new()
+	expr_box.add_child(expr_top)
+	var refresh_expr := Button.new()
+	refresh_expr.text = "再スキャン"
+	refresh_expr.pressed.connect(_populate_expr_tree)
+	expr_top.add_child(refresh_expr)
+	var expr_hint := Label.new()
+	expr_hint.text = "Reaction/CG が参照してる expression キーが Operator に未登録"
+	expr_hint.modulate = Color(1, 1, 1, 0.6)
+	expr_top.add_child(expr_hint)
+
+	_audit_expr_tree = Tree.new()
+	_audit_expr_tree.hide_root = true
+	_audit_expr_tree.size_flags_horizontal = SIZE_EXPAND_FILL
+	_audit_expr_tree.size_flags_vertical = SIZE_EXPAND_FILL
+	_audit_expr_tree.columns = 3
+	_audit_expr_tree.set_column_titles_visible(true)
+	_audit_expr_tree.set_column_title(0, "Operator")
+	_audit_expr_tree.set_column_title(1, "expression キー")
+	_audit_expr_tree.set_column_title(2, "参照元")
+	_audit_expr_tree.set_column_expand(0, false)
+	_audit_expr_tree.set_column_expand(1, false)
+	_audit_expr_tree.set_column_expand(2, true)
+	_audit_expr_tree.set_column_custom_minimum_width(0, 110)
+	_audit_expr_tree.set_column_custom_minimum_width(1, 130)
+	_audit_expr_tree.item_activated.connect(_on_expr_activated)
+	expr_box.add_child(_audit_expr_tree)
+	outer.add_child(expr_box)
+
 	return outer
 
 
@@ -233,6 +270,7 @@ func _refresh_all() -> void:
 	_populate_browse_tree()
 	_populate_missing_cg_tree()
 	_populate_refs_tree()
+	_populate_expr_tree()
 
 
 func _populate_browse_tree() -> void:
@@ -311,7 +349,101 @@ func _populate_browse_tree() -> void:
 					else:
 						ri.set_text(1, "OK")
 						ri.set_custom_color(1, Color(0.4, 1, 0.5))
+				elif entry.key == "operators":
+					_add_operator_slots(ri, e.resource as OperatorData, e.path)
+				elif entry.key == "costumes":
+					_add_costume_slots(ri, e.resource as CostumeData, e.path)
 	_status_label.text = "%d 件のリソースを表示中" % total
+
+
+# Operator の portrait 系プロパティを子ノードとして並べる。
+# 各行は image をドロップすればそのスロットに直接書き込まれる。
+func _add_operator_slots(parent: TreeItem, op: OperatorData, op_path: String) -> void:
+	if op == null:
+		return
+	# portrait_idle (単一 Texture)
+	var idle_row := _browse_tree.create_item(parent)
+	idle_row.set_text(0, "  portrait_idle")
+	idle_row.set_text(1, "[配置済み]" if op.portrait_idle != null else "[未設定]")
+	if op.portrait_idle == null:
+		idle_row.set_custom_color(1, Color(1, 0.6, 0.4))
+	idle_row.set_metadata(0, {
+		META_KIND: "portrait_slot",
+		META_PATH: op_path,
+		META_SLOT_PROP: "portrait_idle",
+		META_SLOT_KEY: "",
+		META_OP: op.id,
+	})
+	# 全身差し替え（portrait_expressions）
+	if op.portrait_expressions.size() > 0:
+		var grp1 := _browse_tree.create_item(parent)
+		grp1.set_text(0, "  portrait_expressions (全身差し替え)")
+		grp1.set_selectable(0, false)
+		grp1.set_selectable(1, false)
+		for k in op.portrait_expressions.keys():
+			var row := _browse_tree.create_item(grp1)
+			row.set_text(0, "    %s" % k)
+			row.set_text(1, "[配置済み]" if op.portrait_expressions[k] != null else "[未設定]")
+			row.set_metadata(0, {
+				META_KIND: "portrait_slot",
+				META_PATH: op_path,
+				META_SLOT_PROP: "portrait_expressions",
+				META_SLOT_KEY: String(k),
+				META_OP: op.id,
+			})
+	# 顔差分（portrait_face_overlays）
+	if op.portrait_face_overlays.size() > 0:
+		var grp2 := _browse_tree.create_item(parent)
+		grp2.set_text(0, "  portrait_face_overlays (顔差分)")
+		grp2.set_selectable(0, false)
+		grp2.set_selectable(1, false)
+		for k in op.portrait_face_overlays.keys():
+			var row := _browse_tree.create_item(grp2)
+			row.set_text(0, "    %s" % k)
+			row.set_text(1, "[配置済み]" if op.portrait_face_overlays[k] != null else "[未設定]")
+			row.set_metadata(0, {
+				META_KIND: "portrait_slot",
+				META_PATH: op_path,
+				META_SLOT_PROP: "portrait_face_overlays",
+				META_SLOT_KEY: String(k),
+				META_OP: op.id,
+			})
+
+
+# Costume のスプライト系プロパティを子ノードとして並べる。
+func _add_costume_slots(parent: TreeItem, costume: CostumeData, costume_path: String) -> void:
+	if costume == null:
+		return
+	for slot_prop in ["sprite", "sprite_pose_seductive"]:
+		var tex: Texture2D = costume.get(slot_prop)
+		var row := _browse_tree.create_item(parent)
+		row.set_text(0, "  %s" % slot_prop)
+		row.set_text(1, "[配置済み]" if tex != null else "[未設定]")
+		if tex == null:
+			row.set_custom_color(1, Color(1, 0.6, 0.4))
+		row.set_metadata(0, {
+			META_KIND: "costume_slot",
+			META_PATH: costume_path,
+			META_SLOT_PROP: slot_prop,
+			META_SLOT_KEY: "",
+			META_OP: costume.operator_id,
+		})
+	if costume.sprite_xray_variants.size() > 0:
+		var grp := _browse_tree.create_item(parent)
+		grp.set_text(0, "  sprite_xray_variants (X-ray 差分)")
+		grp.set_selectable(0, false)
+		grp.set_selectable(1, false)
+		for k in costume.sprite_xray_variants.keys():
+			var row := _browse_tree.create_item(grp)
+			row.set_text(0, "    %s" % k)
+			row.set_text(1, "[配置済み]" if costume.sprite_xray_variants[k] != null else "[未設定]")
+			row.set_metadata(0, {
+				META_KIND: "costume_slot",
+				META_PATH: costume_path,
+				META_SLOT_PROP: "sprite_xray_variants",
+				META_SLOT_KEY: String(k),
+				META_OP: costume.operator_id,
+			})
 
 
 func _populate_missing_cg_tree() -> void:
@@ -403,6 +535,35 @@ func _on_refs_activated() -> void:
 		var path: String = meta[META_PATH]
 		if ResourceLoader.exists(path):
 			EditorInterface.edit_resource(load(path))
+
+
+func _on_expr_activated() -> void:
+	var item := _audit_expr_tree.get_selected()
+	if item == null:
+		return
+	var meta: Variant = item.get_metadata(0)
+	if meta is Dictionary and meta.has(META_PATH):
+		var path: String = meta[META_PATH]
+		if ResourceLoader.exists(path):
+			EditorInterface.edit_resource(load(path))
+
+
+func _populate_expr_tree() -> void:
+	if _audit_expr_tree == null:
+		return
+	_audit_expr_tree.clear()
+	var root := _audit_expr_tree.create_item()
+	var missing := AssetAuditScanner.scan_missing_expression_keys()
+	for m in missing:
+		var ri := _audit_expr_tree.create_item(root)
+		ri.set_text(0, String(m.op_id))
+		ri.set_text(1, m.expression_key)
+		ri.set_text(2, "%s  (%s)" % [m.source_path.get_file(), m.source_kind])
+		ri.set_custom_color(1, Color(1, 0.6, 0.4))
+		ri.set_metadata(0, {
+			META_KIND: "resource",
+			META_PATH: m.source_path,
+		})
 
 
 func _open_selected_in_inspector(tree: Tree) -> void:
@@ -544,6 +705,9 @@ func _on_delete_pressed() -> void:
 # Drag & Drop（Tree 内部ドロップ = FileSystem dock からの drag）
 # -------------------------------------------------------------------------
 
+const _DROP_KINDS := ["step", "portrait_slot", "costume_slot"]
+
+
 func _can_drop_browse(at_position: Vector2, data: Variant) -> bool:
 	if not (data is Dictionary):
 		return false
@@ -559,7 +723,9 @@ func _can_drop_browse(at_position: Vector2, data: Variant) -> bool:
 	if item == null:
 		return false
 	var meta: Variant = item.get_metadata(0)
-	return meta is Dictionary and meta.get(META_KIND, "") == "step"
+	if not (meta is Dictionary):
+		return false
+	return meta.get(META_KIND, "") in _DROP_KINDS
 
 
 func _drop_browse(at_position: Vector2, data: Variant) -> void:
@@ -570,13 +736,22 @@ func _drop_browse(at_position: Vector2, data: Variant) -> void:
 	if item == null:
 		return
 	var meta: Variant = item.get_metadata(0)
-	if not (meta is Dictionary) or meta.get(META_KIND, "") != "step":
+	if not (meta is Dictionary):
 		return
+	var kind: String = meta.get(META_KIND, "")
 	var files: PackedStringArray = data.get("files", PackedStringArray())
 	if files.is_empty():
 		return
 	# 内部 D&D の files は res:// パス
-	_show_drop_mode_dialog(meta, files[0], false)
+	_dispatch_drop(kind, meta, files[0], false)
+
+
+func _dispatch_drop(kind: String, meta: Dictionary, src_path: String, src_is_os: bool) -> void:
+	if kind == "step":
+		_show_drop_mode_dialog(meta, src_path, src_is_os)
+	elif kind == "portrait_slot" or kind == "costume_slot":
+		# slot 直接ドロップは対象が一意なのでダイアログ不要、上書き確認だけ。
+		_apply_slot_drop(meta, src_path, src_is_os)
 
 
 func _hit_test_tree(_at_position: Vector2) -> Tree:
@@ -594,7 +769,7 @@ func _hit_test_tree(_at_position: Vector2) -> Tree:
 func _on_window_files_dropped(files: PackedStringArray) -> void:
 	if files.is_empty():
 		return
-	# 現在のマウス位置から、どの step がターゲットかを決定する。
+	# 現在のマウス位置から、どのターゲット行に落ちたかを決定する。
 	var tree: Tree = _hit_test_tree(Vector2.ZERO)
 	if tree == null:
 		return
@@ -602,9 +777,12 @@ func _on_window_files_dropped(files: PackedStringArray) -> void:
 	if item == null:
 		return
 	var meta: Variant = item.get_metadata(0)
-	if not (meta is Dictionary) or meta.get(META_KIND, "") != "step":
+	if not (meta is Dictionary):
 		return
-	_show_drop_mode_dialog(meta, files[0], true)
+	var kind: String = meta.get(META_KIND, "")
+	if not (kind in _DROP_KINDS):
+		return
+	_dispatch_drop(kind, meta, files[0], true)
 
 
 # -------------------------------------------------------------------------
@@ -699,8 +877,9 @@ func _perform_copy_and_assign(meta: Dictionary, src_path: String, src_is_os: boo
 				_status_label.text = "CG 保存失敗 err=%d" % err2
 				return
 			_status_label.text = "差し込み完了: %s -> %s" % [dst, cg_path]
-		2:
-			# OperatorData.portrait_face_overlays[expression_key] にセット
+		2, 3:
+			# 2 = portrait_expressions（全身まるごと差し替え）
+			# 3 = portrait_face_overlays（顔だけ差分）
 			var op_path: String = "res://data/operators/%s.tres" % meta.get(META_OP, &"")
 			var op: OperatorData = load(op_path) as OperatorData
 			if op == null:
@@ -710,12 +889,101 @@ func _perform_copy_and_assign(meta: Dictionary, src_path: String, src_is_os: boo
 			if key == &"":
 				_status_label.text = "expression キーが空です"
 				return
-			op.portrait_face_overlays[key] = tex
+			var dict_name := "portrait_expressions" if mode_choice == 2 else "portrait_face_overlays"
+			var d: Dictionary = op.get(dict_name)
+			d[key] = tex
+			op.set(dict_name, d)
 			var err3 := ResourceSaver.save(op, op_path)
 			if err3 != OK:
 				_status_label.text = "Operator 保存失敗 err=%d" % err3
 				return
-			_status_label.text = "顔差分登録: %s -> %s.portrait_face_overlays[%s]" % [dst, op.id, key]
+			_status_label.text = "登録: %s -> %s.%s[%s]" % [dst, op.id, dict_name, key]
+	_refresh_filesystem()
+	_refresh_all()
+
+
+# -------------------------------------------------------------------------
+# Slot 直接ドロップ（portrait_slot / costume_slot）
+# -------------------------------------------------------------------------
+
+func _apply_slot_drop(meta: Dictionary, src_path: String, src_is_os: bool) -> void:
+	var src_name := src_path.get_file()
+	var dst := AssetAuditScanner.resolve_slot_save_path(meta, src_name)
+	if FileAccess.file_exists(dst):
+		var confirm := ConfirmationDialog.new()
+		confirm.dialog_text = "上書きしますか？\n%s" % dst
+		confirm.ok_button_text = "上書き"
+		confirm.confirmed.connect(func ():
+			confirm.queue_free()
+			_perform_slot_copy_and_assign(meta, src_path, src_is_os, dst)
+		)
+		confirm.canceled.connect(func (): confirm.queue_free())
+		add_child(confirm)
+		confirm.popup_centered()
+		return
+	_perform_slot_copy_and_assign(meta, src_path, src_is_os, dst)
+
+
+func _perform_slot_copy_and_assign(meta: Dictionary, src_path: String, src_is_os: bool, dst: String) -> void:
+	var dst_dir := dst.get_base_dir()
+	var dst_abs := ProjectSettings.globalize_path(dst)
+	var dst_dir_abs := ProjectSettings.globalize_path(dst_dir)
+	DirAccess.make_dir_recursive_absolute(dst_dir_abs)
+	var src_abs := src_path if src_is_os else ProjectSettings.globalize_path(src_path)
+	var err := DirAccess.copy_absolute(src_abs, dst_abs)
+	if err != OK:
+		_status_label.text = "コピー失敗 err=%d: %s" % [err, dst]
+		return
+	_refresh_filesystem()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var tex: Texture2D = null
+	for retry in 10:
+		if ResourceLoader.exists(dst):
+			tex = load(dst) as Texture2D
+		if tex != null:
+			break
+		await get_tree().create_timer(0.1).timeout
+	if tex == null:
+		_status_label.text = "インポート未完了: %s" % dst
+		return
+	var resource_path: String = meta.get(META_PATH, "")
+	var slot_prop: String = meta.get(META_SLOT_PROP, "")
+	var slot_key: String = meta.get(META_SLOT_KEY, "")
+	var res: Resource = load(resource_path)
+	if res == null:
+		_status_label.text = "リソース ロード失敗: %s" % resource_path
+		return
+	var kind: String = meta.get(META_KIND, "")
+	if kind == "portrait_slot":
+		var op := res as OperatorData
+		if op == null:
+			_status_label.text = "Operator キャスト失敗"
+			return
+		if slot_prop == "portrait_idle":
+			op.portrait_idle = tex
+		else:
+			# Dictionary 系。get/set でディクショナリを受け取って書き戻す。
+			var d: Dictionary = op.get(slot_prop)
+			d[StringName(slot_key)] = tex
+			op.set(slot_prop, d)
+	elif kind == "costume_slot":
+		var costume := res as CostumeData
+		if costume == null:
+			_status_label.text = "Costume キャスト失敗"
+			return
+		if slot_prop == "sprite_xray_variants":
+			costume.sprite_xray_variants[StringName(slot_key)] = tex
+		else:
+			costume.set(slot_prop, tex)
+	var err2 := ResourceSaver.save(res, resource_path)
+	if err2 != OK:
+		_status_label.text = "保存失敗 err=%d" % err2
+		return
+	_status_label.text = "差し込み: %s -> %s.%s%s" % [
+		dst, resource_path.get_file(), slot_prop,
+		"[%s]" % slot_key if slot_key != "" else "",
+	]
 	_refresh_filesystem()
 	_refresh_all()
 

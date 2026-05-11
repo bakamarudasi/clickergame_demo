@@ -146,3 +146,85 @@ static func resolve_cg_save_path(op_id: StringName, cg_id: StringName,
 		ext = "png"
 	var step_part := "step_%02d_%s" % [step_index, base_name]
 	return "%s/%s.%s" % [dir, step_part, ext]
+
+
+# Slot ドロップ時の保存先。規約:
+#   portrait_idle           : res://assets/operators/<op>/portrait_idle.<ext>
+#   portrait_expressions[k] : res://assets/operators/<op>/portrait_expressions/<k>.<ext>
+#   portrait_face_overlays[k]: res://assets/operators/<op>/portrait_face_overlays/<k>.<ext>
+#   sprite (Costume)        : res://assets/operators/<op>/<costume_id>/sprite.<ext>
+#   sprite_pose_seductive   : res://assets/operators/<op>/<costume_id>/sprite_pose_seductive.<ext>
+#   sprite_xray_variants[k] : res://assets/operators/<op>/<costume_id>/sprite_xray_<k>.<ext>
+static func resolve_slot_save_path(meta: Dictionary, src_name: String) -> String:
+	var ext := src_name.get_extension().to_lower()
+	if ext == "":
+		ext = "png"
+	var kind: String = meta.get("kind", "")
+	var op_id: StringName = meta.get("op_id", &"")
+	var slot_prop: String = meta.get("slot_prop", "")
+	var slot_key: String = meta.get("slot_key", "")
+	if kind == "portrait_slot":
+		if slot_prop == "portrait_idle":
+			return "res://assets/operators/%s/portrait_idle.%s" % [op_id, ext]
+		return "res://assets/operators/%s/%s/%s.%s" % [op_id, slot_prop, slot_key, ext]
+	# costume_slot
+	var costume_path: String = meta.get("res_path", "")
+	var costume_id: String = costume_path.get_file().get_basename()
+	if slot_prop == "sprite_xray_variants":
+		return "res://assets/operators/%s/%s/sprite_xray_%s.%s" % [op_id, costume_id, slot_key, ext]
+	return "res://assets/operators/%s/%s/%s.%s" % [op_id, costume_id, slot_prop, ext]
+
+
+# ReactionRule.expression / CGStep.expression が Operator のどちらの辞書にも
+# 登録されてないキーを列挙する。
+# 戻り値: Array[{ source_path, source_kind, op_id, expression_key }]
+static func scan_missing_expression_keys() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	# Operator ごとの登録済みキー集合をキャッシュ
+	var op_entry := AssetAuditCategories.find_by_key("operators")
+	var op_keys: Dictionary = {}     # op_id -> Set[String]
+	for o in scan_category(op_entry):
+		var op: OperatorData = o.resource as OperatorData
+		if op == null:
+			continue
+		var keys := {}
+		for k in op.portrait_expressions.keys():
+			keys[String(k)] = true
+		for k in op.portrait_face_overlays.keys():
+			keys[String(k)] = true
+		op_keys[op.id] = keys
+	# Reactions チェック
+	var r_entry := AssetAuditCategories.find_by_key("reactions")
+	for r in scan_category(r_entry):
+		var rule: ReactionRule = r.resource as ReactionRule
+		if rule == null or rule.expression == &"":
+			continue
+		if rule.operator_id == &"":
+			continue
+		var keys: Dictionary = op_keys.get(rule.operator_id, {})
+		if not keys.has(String(rule.expression)):
+			out.append({
+				"source_path": r.path,
+				"source_kind": "ReactionRule",
+				"op_id": rule.operator_id,
+				"expression_key": String(rule.expression),
+			})
+	# CGSteps チェック
+	var cg_entry := AssetAuditCategories.find_by_key("cgs")
+	for c in scan_category(cg_entry):
+		var cg: CGData = c.resource as CGData
+		if cg == null or cg.operator_id == &"":
+			continue
+		var keys: Dictionary = op_keys.get(cg.operator_id, {})
+		for i in cg.steps.size():
+			var step: CGStep = cg.steps[i]
+			if step == null or step.expression == &"":
+				continue
+			if not keys.has(String(step.expression)):
+				out.append({
+					"source_path": c.path,
+					"source_kind": "CGStep #%d (%s)" % [i + 1, cg.id],
+					"op_id": cg.operator_id,
+					"expression_key": String(step.expression),
+				})
+	return out

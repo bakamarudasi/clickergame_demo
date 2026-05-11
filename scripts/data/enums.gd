@@ -50,6 +50,7 @@ enum EffectKind {
 	INTIMACY_ADD,        # 親密度（永続・上昇のみ）
 	AROUSAL_ADD,         # 発情度（時間で減衰、親密度で増加補正）
 	MEMORY_UNLOCK,       # GameState.unlock_memory(target_id) を呼ぶ
+	CG_PLAY,             # 解放状態に関わらず target_id の CG を即時再生（既視 CG の再演出に使う）
 }
 
 enum TriggerKind {

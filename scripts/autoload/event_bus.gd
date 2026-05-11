@@ -23,6 +23,8 @@ signal upgrade_purchased(upgrade_id: StringName, new_level: int)
 # 反応・コンテンツ
 signal reaction_played(operator_id: StringName, rule: ReactionRule)
 signal cg_unlocked(cg_id: StringName)
+# CG を「解放扱いにせず即時再生したい」時用。会話中フレーバー演出など。
+signal cg_play_requested(cg_id: StringName)
 signal costume_unlocked(operator_id: StringName, costume_id: StringName)
 signal costume_equipped(operator_id: StringName, costume_id: StringName)
 signal memory_unlocked(memory_id: StringName)
