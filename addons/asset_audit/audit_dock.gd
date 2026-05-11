@@ -52,6 +52,8 @@ var _preview_prev_btn: Button
 var _preview_next_btn: Button
 var _preview_step_index: int = 0
 var _preview_current_path: String = ""
+var _graph_op_picker: OptionButton
+var _graph_edit: GraphEdit
 var _status_label: Label
 var _context_menu: PopupMenu
 
@@ -102,6 +104,7 @@ func _build_ui() -> void:
 	tabs.add_child(_build_audit_tab())
 	tabs.add_child(_build_dashboard_tab())
 	tabs.add_child(_build_preview_tab())
+	tabs.add_child(_build_graph_tab())
 
 	_status_label = Label.new()
 	_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -377,6 +380,7 @@ func _refresh_all() -> void:
 	_populate_translation_tree()
 	_populate_dashboard()
 	_refresh_preview_source_picker()
+	_populate_graph()
 
 
 # -------------------------------------------------------------------------
@@ -826,6 +830,231 @@ func _load_costume(costume_id: StringName) -> CostumeData:
 	if not ResourceLoader.exists(path):
 		return null
 	return load(path) as CostumeData
+
+
+# -------------------------------------------------------------------------
+# Graph tab — Item / Touch / Reaction / CG / Costume の依存可視化
+# -------------------------------------------------------------------------
+
+const _GRAPH_COLORS := {
+	"item":     Color(0.65, 0.45, 0.85),
+	"touch":    Color(0.35, 0.65, 0.85),
+	"reaction": Color(0.45, 0.85, 0.55),
+	"cg":       Color(0.95, 0.65, 0.35),
+	"costume":  Color(0.55, 0.75, 0.95),
+	"memory":   Color(0.85, 0.55, 0.75),
+	"operator": Color(0.95, 0.95, 0.85),
+}
+
+
+func _build_graph_tab() -> Control:
+	var box := VBoxContainer.new()
+	box.name = "Graph"
+	box.size_flags_horizontal = SIZE_EXPAND_FILL
+	box.size_flags_vertical = SIZE_EXPAND_FILL
+
+	var top := HBoxContainer.new()
+	box.add_child(top)
+	top.add_child(_label("Operator:"))
+	_graph_op_picker = OptionButton.new()
+	_graph_op_picker.item_selected.connect(func (_idx): _populate_graph())
+	top.add_child(_graph_op_picker)
+	var arrange := Button.new()
+	arrange.text = "Auto Layout"
+	arrange.tooltip_text = "GraphEdit.arrange_nodes() で配置を整え直す"
+	arrange.pressed.connect(func (): if _graph_edit != null: _graph_edit.arrange_nodes())
+	top.add_child(arrange)
+	var refresh := Button.new()
+	refresh.text = "↻"
+	refresh.pressed.connect(_populate_graph)
+	top.add_child(refresh)
+
+	_graph_edit = GraphEdit.new()
+	_graph_edit.size_flags_horizontal = SIZE_EXPAND_FILL
+	_graph_edit.size_flags_vertical = SIZE_EXPAND_FILL
+	_graph_edit.minimap_enabled = true
+	# 接続編集はさせない（読み取り専用ビュー）
+	_graph_edit.right_disconnects = false
+	box.add_child(_graph_edit)
+
+	return box
+
+
+func _refresh_graph_op_picker() -> void:
+	if _graph_op_picker == null:
+		return
+	var prev := ""
+	if _graph_op_picker.item_count > 0:
+		prev = _graph_op_picker.get_item_text(_graph_op_picker.selected)
+	_graph_op_picker.clear()
+	var op_entry := AssetAuditCategories.find_by_key("operators")
+	if op_entry.is_empty():
+		return
+	var ops := AssetAuditScanner.scan_category(op_entry)
+	for i in ops.size():
+		_graph_op_picker.add_item(String(ops[i].id), i)
+		_graph_op_picker.set_item_metadata(i, ops[i].path)
+		if String(ops[i].id) == prev:
+			_graph_op_picker.selected = i
+
+
+func _populate_graph() -> void:
+	if _graph_edit == null:
+		return
+	_refresh_graph_op_picker()
+	# 既存ノード破棄
+	_graph_edit.clear_connections()
+	for child in _graph_edit.get_children():
+		if child is GraphNode:
+			child.queue_free()
+	if _graph_op_picker.item_count == 0:
+		return
+	var op_path: String = _graph_op_picker.get_item_metadata(_graph_op_picker.selected)
+	var op: OperatorData = load(op_path) as OperatorData
+	if op == null:
+		return
+
+	# 関連リソース収集
+	var reactions := _filter_resources("reactions", "operator_id", op.id)
+	var cgs := _filter_resources("cgs", "operator_id", op.id)
+	var costumes := _filter_resources("costumes", "operator_id", op.id)
+	var touch := _filter_resources("touch_spots", "operator_id", op.id)
+	var items := _items_referenced_by(reactions, op)
+
+	# ノード作成（同じ id は重複登録しない）
+	var node_names: Dictionary = {}     # entity_key (e.g. "item:blend_tea") -> graphnode name
+
+	# Operator 自体
+	_add_graph_node(node_names, "operator", String(op.id), op.id, "Operator")
+	# Items
+	for it in items:
+		var item: ItemData = it.resource as ItemData
+		_add_graph_node(node_names, "item", String(item.id), item.id, "Item")
+	# Touch spots
+	for ts in touch:
+		var t: TouchSpotData = ts.resource as TouchSpotData
+		_add_graph_node(node_names, "touch", String(t.id), t.id, "TouchSpot")
+	# Reactions（id 持たないので path を識別子に）
+	for r in reactions:
+		var fn := r.path.get_file().get_basename()
+		_add_graph_node(node_names, "reaction", fn, fn, "Reaction")
+	# CGs
+	for c in cgs:
+		var cg: CGData = c.resource as CGData
+		_add_graph_node(node_names, "cg", String(cg.id), cg.id, "CG")
+	# Costumes
+	for co in costumes:
+		var cos: CostumeData = co.resource as CostumeData
+		_add_graph_node(node_names, "costume", String(cos.id), cos.id, "Costume")
+
+	# Edge 描画
+	# Reaction -> Operator (常時)、Reaction.trigger -> Reaction、Reaction.side_effects -> CG/Costume/Memory
+	for r in reactions:
+		var rule: ReactionRule = r.resource as ReactionRule
+		var rn := "reaction:%s" % r.path.get_file().get_basename()
+		_connect_if_present(node_names, rn, "operator:%s" % op.id)
+		match rule.trigger_kind:
+			Enums.TriggerKind.ITEM:
+				_connect_if_present(node_names, "item:%s" % rule.trigger_id, rn)
+			Enums.TriggerKind.TOUCH:
+				_connect_if_present(node_names, "touch:%s" % rule.trigger_id, rn)
+		for eff in rule.side_effects:
+			if eff == null: continue
+			match eff.kind:
+				Enums.EffectKind.CG_UNLOCK, Enums.EffectKind.CG_PLAY:
+					_connect_if_present(node_names, rn, "cg:%s" % eff.target_id)
+				Enums.EffectKind.COSTUME_UNLOCK:
+					_connect_if_present(node_names, rn, "costume:%s" % eff.target_id)
+	# CG -> Operator
+	for c in cgs:
+		var cg: CGData = c.resource as CGData
+		_connect_if_present(node_names, "cg:%s" % cg.id, "operator:%s" % op.id)
+	# Costume -> Operator
+	for co in costumes:
+		var cos: CostumeData = co.resource as CostumeData
+		_connect_if_present(node_names, "costume:%s" % cos.id, "operator:%s" % op.id)
+
+	# Sugiyama 系の自動配置。ボタンからも呼び直せるが初回はここで実施。
+	# call_deferred で 1 フレーム待たないと GraphNode サイズが確定してない。
+	_graph_edit.arrange_nodes.call_deferred()
+
+
+func _add_graph_node(node_names: Dictionary, kind: String, id_str: String,
+		display_id: Variant, label: String) -> void:
+	var key := "%s:%s" % [kind, id_str]
+	if node_names.has(key):
+		return
+	var node := GraphNode.new()
+	node.name = key.replace(":", "_")
+	node.title = "[%s] %s" % [label, id_str]
+	node.position_offset = Vector2(0, 0)
+	# 1 つの slot を持つ Control 子を追加。両端にポートを生やす。
+	var content := Label.new()
+	content.text = AssetAuditIndex.translation_lookup(_lookup_display_name(kind, display_id), _PREVIEW_LOCALE)
+	if content.text == "":
+		content.text = id_str
+	node.add_child(content)
+	# 左右両側にポート (type=0)。色はカテゴリ色。
+	node.set_slot(0, true, 0, _GRAPH_COLORS.get(kind, Color.WHITE),
+			true, 0, _GRAPH_COLORS.get(kind, Color.WHITE))
+	# タイトル背景の色付けは GraphNode 標準機能では難しいので modulate を弱く適用
+	node.self_modulate = _GRAPH_COLORS.get(kind, Color.WHITE).lerp(Color.WHITE, 0.6)
+	_graph_edit.add_child(node)
+	node_names[key] = node.name
+
+
+func _connect_if_present(node_names: Dictionary, from_key: String, to_key: String) -> void:
+	if not node_names.has(from_key) or not node_names.has(to_key):
+		return
+	_graph_edit.connect_node(node_names[from_key], 0, node_names[to_key], 0)
+
+
+func _items_referenced_by(reactions: Array, op: OperatorData) -> Array:
+	var items_entry := AssetAuditCategories.find_by_key("items")
+	var all_items := AssetAuditScanner.scan_category(items_entry)
+	var by_id: Dictionary = {}
+	for it in all_items:
+		by_id[String(it.id)] = it
+	var collected: Dictionary = {}
+	# liked / disliked / cg.trigger_item_id / reaction.trigger_id (ITEM)
+	for li in op.liked_items:
+		if by_id.has(String(li)):
+			collected[String(li)] = by_id[String(li)]
+	for di in op.disliked_items:
+		if by_id.has(String(di)):
+			collected[String(di)] = by_id[String(di)]
+	for r in reactions:
+		var rule: ReactionRule = r.resource as ReactionRule
+		if rule != null and rule.trigger_kind == Enums.TriggerKind.ITEM:
+			if by_id.has(String(rule.trigger_id)):
+				collected[String(rule.trigger_id)] = by_id[String(rule.trigger_id)]
+	return collected.values()
+
+
+func _lookup_display_name(kind: String, id_v: Variant) -> String:
+	match kind:
+		"operator":
+			var p := "res://data/operators/%s.tres" % id_v
+			if ResourceLoader.exists(p):
+				var r: OperatorData = load(p)
+				return r.display_name
+		"item":
+			var p := "res://data/items/%s.tres" % id_v
+			if ResourceLoader.exists(p):
+				return load(p).display_name
+		"costume":
+			var p := "res://data/costumes/%s.tres" % id_v
+			if ResourceLoader.exists(p):
+				return load(p).display_name
+		"touch":
+			var p := "res://data/touch_spots/%s.tres" % id_v
+			if ResourceLoader.exists(p):
+				return load(p).display_name
+		"cg":
+			var p := "res://data/cgs/%s.tres" % id_v
+			if ResourceLoader.exists(p):
+				return load(p).caption
+	return ""
 
 
 func _populate_browse_tree() -> void:
