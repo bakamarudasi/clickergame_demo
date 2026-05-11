@@ -39,6 +39,19 @@ var _audit_dangling_tree: Tree
 var _audit_translation_tree: Tree
 var _dashboard_op_picker: OptionButton
 var _dashboard_tree: Tree
+var _preview_category_picker: OptionButton
+var _preview_source_picker: OptionButton
+var _preview_locale_picker: OptionButton
+var _preview_image: TextureRect
+var _preview_face_overlay: TextureRect
+var _preview_placeholder: Label
+var _preview_speaker_label: Label
+var _preview_dialogue_text: RichTextLabel
+var _preview_step_label: Label
+var _preview_prev_btn: Button
+var _preview_next_btn: Button
+var _preview_step_index: int = 0
+var _preview_current_path: String = ""
 var _status_label: Label
 var _context_menu: PopupMenu
 
@@ -88,6 +101,7 @@ func _build_ui() -> void:
 	tabs.add_child(_build_browse_tab())
 	tabs.add_child(_build_audit_tab())
 	tabs.add_child(_build_dashboard_tab())
+	tabs.add_child(_build_preview_tab())
 
 	_status_label = Label.new()
 	_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -362,6 +376,7 @@ func _refresh_all() -> void:
 	_populate_dangling_tree()
 	_populate_translation_tree()
 	_populate_dashboard()
+	_refresh_preview_source_picker()
 
 
 # -------------------------------------------------------------------------
@@ -565,6 +580,252 @@ func _on_dashboard_activated() -> void:
 		var path: String = meta[META_PATH]
 		if ResourceLoader.exists(path):
 			EditorInterface.edit_resource(load(path))
+
+
+# -------------------------------------------------------------------------
+# Preview tab — 実ゲーム起動なしで CG step / Reaction の台詞を再生
+# -------------------------------------------------------------------------
+
+const _PREVIEW_CATEGORIES := ["cgs", "reactions"]
+
+
+func _build_preview_tab() -> Control:
+	var box := VBoxContainer.new()
+	box.name = "Preview"
+	box.size_flags_horizontal = SIZE_EXPAND_FILL
+	box.size_flags_vertical = SIZE_EXPAND_FILL
+
+	var top := HBoxContainer.new()
+	box.add_child(top)
+	top.add_child(_label("対象:"))
+	_preview_category_picker = OptionButton.new()
+	_preview_category_picker.add_item("CGs", 0)
+	_preview_category_picker.add_item("Reactions", 1)
+	_preview_category_picker.item_selected.connect(func (_idx): _refresh_preview_source_picker())
+	top.add_child(_preview_category_picker)
+	_preview_source_picker = OptionButton.new()
+	_preview_source_picker.size_flags_horizontal = SIZE_EXPAND_FILL
+	_preview_source_picker.item_selected.connect(func (_idx): _on_preview_source_selected())
+	top.add_child(_preview_source_picker)
+	top.add_child(_label("Locale:"))
+	_preview_locale_picker = OptionButton.new()
+	_preview_locale_picker.add_item("ja", 0)
+	_preview_locale_picker.add_item("en", 1)
+	_preview_locale_picker.add_item("zh_CN", 2)
+	_preview_locale_picker.item_selected.connect(func (_idx): _refresh_preview_step())
+	top.add_child(_preview_locale_picker)
+
+	# 画像エリア
+	var image_container := AspectRatioContainer.new()
+	image_container.ratio = 16.0 / 9.0
+	image_container.size_flags_vertical = SIZE_EXPAND_FILL
+	box.add_child(image_container)
+
+	var image_back := ColorRect.new()
+	image_back.color = Color(0.05, 0.05, 0.07)
+	image_back.size_flags_horizontal = SIZE_EXPAND_FILL
+	image_back.size_flags_vertical = SIZE_EXPAND_FILL
+	image_container.add_child(image_back)
+
+	_preview_image = TextureRect.new()
+	_preview_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_preview_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_preview_image.set_anchors_preset(PRESET_FULL_RECT)
+	image_back.add_child(_preview_image)
+
+	_preview_face_overlay = TextureRect.new()
+	_preview_face_overlay.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_preview_face_overlay.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_preview_face_overlay.set_anchors_preset(PRESET_FULL_RECT)
+	_preview_face_overlay.visible = false
+	image_back.add_child(_preview_face_overlay)
+
+	_preview_placeholder = Label.new()
+	_preview_placeholder.set_anchors_preset(PRESET_FULL_RECT)
+	_preview_placeholder.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_preview_placeholder.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_preview_placeholder.modulate = Color(1, 1, 1, 0.4)
+	image_back.add_child(_preview_placeholder)
+
+	# 台詞ボックス
+	_preview_speaker_label = Label.new()
+	_preview_speaker_label.add_theme_font_size_override("font_size", 13)
+	_preview_speaker_label.modulate = Color(1, 0.9, 0.6)
+	box.add_child(_preview_speaker_label)
+	_preview_dialogue_text = RichTextLabel.new()
+	_preview_dialogue_text.bbcode_enabled = true
+	_preview_dialogue_text.fit_content = true
+	_preview_dialogue_text.size_flags_horizontal = SIZE_EXPAND_FILL
+	_preview_dialogue_text.custom_minimum_size = Vector2(0, 80)
+	box.add_child(_preview_dialogue_text)
+
+	# Step ナビ
+	var nav := HBoxContainer.new()
+	box.add_child(nav)
+	_preview_prev_btn = Button.new()
+	_preview_prev_btn.text = "◀ 前"
+	_preview_prev_btn.pressed.connect(func (): _step_preview(-1))
+	nav.add_child(_preview_prev_btn)
+	_preview_step_label = Label.new()
+	_preview_step_label.size_flags_horizontal = SIZE_EXPAND_FILL
+	_preview_step_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	nav.add_child(_preview_step_label)
+	_preview_next_btn = Button.new()
+	_preview_next_btn.text = "次 ▶"
+	_preview_next_btn.pressed.connect(func (): _step_preview(1))
+	nav.add_child(_preview_next_btn)
+
+	return box
+
+
+func _label(t: String) -> Label:
+	var l := Label.new()
+	l.text = t
+	return l
+
+
+func _refresh_preview_source_picker() -> void:
+	if _preview_source_picker == null:
+		return
+	_preview_source_picker.clear()
+	var cat_key: String = _PREVIEW_CATEGORIES[_preview_category_picker.selected]
+	var entry := AssetAuditCategories.find_by_key(cat_key)
+	if entry.is_empty():
+		return
+	var entries := AssetAuditScanner.scan_category(entry)
+	for i in entries.size():
+		var label_str: String = entries[i].file_name
+		if entries[i].id != null and not _is_empty_id(entries[i].id):
+			label_str = String(entries[i].id)
+		_preview_source_picker.add_item(label_str, i)
+		_preview_source_picker.set_item_metadata(i, entries[i].path)
+	_preview_step_index = 0
+	_on_preview_source_selected()
+
+
+func _is_empty_id(v: Variant) -> bool:
+	if v is StringName: return v == &""
+	if v is String: return v == ""
+	return true
+
+
+func _on_preview_source_selected() -> void:
+	if _preview_source_picker == null or _preview_source_picker.item_count == 0:
+		_clear_preview()
+		return
+	_preview_current_path = _preview_source_picker.get_item_metadata(_preview_source_picker.selected)
+	_preview_step_index = 0
+	_refresh_preview_step()
+
+
+func _step_preview(delta: int) -> void:
+	_preview_step_index += delta
+	_refresh_preview_step()
+
+
+func _clear_preview() -> void:
+	_preview_image.texture = null
+	_preview_face_overlay.visible = false
+	_preview_speaker_label.text = ""
+	_preview_dialogue_text.text = ""
+	_preview_step_label.text = ""
+	_preview_placeholder.text = ""
+
+
+func _refresh_preview_step() -> void:
+	if _preview_current_path == "":
+		_clear_preview()
+		return
+	var locale := _preview_locale_picker.get_item_text(_preview_locale_picker.selected)
+	var res: Resource = load(_preview_current_path)
+	if res == null:
+		_clear_preview()
+		return
+	if res is CGData:
+		_render_cg_preview(res as CGData, locale)
+	elif res is ReactionRule:
+		_render_reaction_preview(res as ReactionRule, locale)
+
+
+func _render_cg_preview(cg: CGData, locale: String) -> void:
+	if cg.steps.is_empty():
+		_preview_step_label.text = "(steps なし)"
+		_preview_image.texture = cg.image
+		_preview_face_overlay.visible = false
+		_preview_speaker_label.text = ""
+		_preview_dialogue_text.text = AssetAuditIndex.translation_lookup(cg.caption, locale)
+		_preview_placeholder.text = "" if cg.image != null else "(画像なし)"
+		return
+	_preview_step_index = clamp(_preview_step_index, 0, cg.steps.size() - 1)
+	var step: CGStep = cg.steps[_preview_step_index]
+	_preview_step_label.text = "step %d / %d  (%s)" % [
+		_preview_step_index + 1, cg.steps.size(),
+		"FULL_CG" if step.mode == Enums.CGStepMode.FULL_CG else "PORTRAIT",
+	]
+	# 画像
+	if step.mode == Enums.CGStepMode.FULL_CG:
+		_preview_image.texture = step.cg_image
+		_preview_face_overlay.visible = false
+		if step.cg_image == null:
+			_preview_placeholder.text = "(画像未登録: %s)" % step.image_path_hint
+		else:
+			_preview_placeholder.text = ""
+	else:
+		var op: OperatorData = _load_op_for_cg(cg)
+		var costume: CostumeData = null
+		if op != null:
+			costume = _load_costume(op.default_costume_id)
+		_preview_image.texture = costume.sprite if costume != null else (op.portrait_idle if op != null else null)
+		_preview_face_overlay.visible = false
+		if op != null and step.expression != &"":
+			if op.portrait_face_overlays.has(step.expression):
+				_preview_face_overlay.texture = op.portrait_face_overlays[step.expression]
+				_preview_face_overlay.visible = true
+			elif op.portrait_expressions.has(step.expression):
+				_preview_image.texture = op.portrait_expressions[step.expression]
+		_preview_placeholder.text = "" if _preview_image.texture != null else "(立ち絵未登録)"
+	# 台詞
+	_preview_speaker_label.text = AssetAuditIndex.translation_lookup(step.speaker, locale) if step.speaker != "" else ""
+	_preview_dialogue_text.text = AssetAuditIndex.translation_lookup(step.dialogue, locale)
+
+
+func _render_reaction_preview(rule: ReactionRule, locale: String) -> void:
+	# Reaction は単発なので step ナビは無効化
+	_preview_step_label.text = "(reaction)"
+	var op: OperatorData = null
+	if rule.operator_id != &"":
+		var op_path := "res://data/operators/%s.tres" % rule.operator_id
+		if ResourceLoader.exists(op_path):
+			op = load(op_path) as OperatorData
+	var costume: CostumeData = null
+	if op != null:
+		costume = _load_costume(op.default_costume_id)
+	_preview_image.texture = costume.sprite if costume != null else (op.portrait_idle if op != null else null)
+	_preview_face_overlay.visible = false
+	if op != null and rule.expression != &"":
+		if op.portrait_face_overlays.has(rule.expression):
+			_preview_face_overlay.texture = op.portrait_face_overlays[rule.expression]
+			_preview_face_overlay.visible = true
+		elif op.portrait_expressions.has(rule.expression):
+			_preview_image.texture = op.portrait_expressions[rule.expression]
+	_preview_placeholder.text = "" if _preview_image.texture != null else "(立ち絵未登録)"
+	_preview_speaker_label.text = AssetAuditIndex.translation_lookup(op.display_name, locale) if op != null else ""
+	_preview_dialogue_text.text = AssetAuditIndex.translation_lookup(rule.pick_dialogue(), locale)
+
+
+func _load_op_for_cg(cg: CGData) -> OperatorData:
+	if cg.operator_id == &"":
+		return null
+	return load("res://data/operators/%s.tres" % cg.operator_id) as OperatorData
+
+
+func _load_costume(costume_id: StringName) -> CostumeData:
+	if costume_id == &"":
+		return null
+	var path := "res://data/costumes/%s.tres" % costume_id
+	if not ResourceLoader.exists(path):
+		return null
+	return load(path) as CostumeData
 
 
 func _populate_browse_tree() -> void:
