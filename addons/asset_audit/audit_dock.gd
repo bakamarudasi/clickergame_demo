@@ -37,6 +37,8 @@ var _audit_refs_tree: Tree
 var _audit_expr_tree: Tree
 var _audit_dangling_tree: Tree
 var _audit_translation_tree: Tree
+var _dashboard_op_picker: OptionButton
+var _dashboard_tree: Tree
 var _status_label: Label
 var _context_menu: PopupMenu
 
@@ -85,6 +87,7 @@ func _build_ui() -> void:
 
 	tabs.add_child(_build_browse_tab())
 	tabs.add_child(_build_audit_tab())
+	tabs.add_child(_build_dashboard_tab())
 
 	_status_label = Label.new()
 	_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -358,6 +361,210 @@ func _refresh_all() -> void:
 	_populate_expr_tree()
 	_populate_dangling_tree()
 	_populate_translation_tree()
+	_populate_dashboard()
+
+
+# -------------------------------------------------------------------------
+# Dashboard tab
+# -------------------------------------------------------------------------
+
+func _build_dashboard_tab() -> Control:
+	var box := VBoxContainer.new()
+	box.name = "Dashboard"
+	box.size_flags_horizontal = SIZE_EXPAND_FILL
+	box.size_flags_vertical = SIZE_EXPAND_FILL
+
+	var top := HBoxContainer.new()
+	box.add_child(top)
+	var pick_label := Label.new()
+	pick_label.text = "Operator:"
+	top.add_child(pick_label)
+	_dashboard_op_picker = OptionButton.new()
+	_dashboard_op_picker.item_selected.connect(func (_idx): _populate_dashboard())
+	top.add_child(_dashboard_op_picker)
+	var refresh := Button.new()
+	refresh.text = "↻"
+	refresh.pressed.connect(_populate_dashboard)
+	top.add_child(refresh)
+
+	_dashboard_tree = Tree.new()
+	_dashboard_tree.size_flags_horizontal = SIZE_EXPAND_FILL
+	_dashboard_tree.size_flags_vertical = SIZE_EXPAND_FILL
+	_dashboard_tree.hide_root = true
+	_dashboard_tree.columns = 2
+	_dashboard_tree.set_column_titles_visible(true)
+	_dashboard_tree.set_column_title(0, "セクション / 項目")
+	_dashboard_tree.set_column_title(1, "値")
+	_dashboard_tree.set_column_expand(0, true)
+	_dashboard_tree.set_column_expand(1, true)
+	_dashboard_tree.item_activated.connect(_on_dashboard_activated)
+	box.add_child(_dashboard_tree)
+	return box
+
+
+func _refresh_op_picker() -> void:
+	if _dashboard_op_picker == null:
+		return
+	var prev_id := ""
+	if _dashboard_op_picker.item_count > 0:
+		prev_id = _dashboard_op_picker.get_item_text(_dashboard_op_picker.selected)
+	_dashboard_op_picker.clear()
+	var op_entry := AssetAuditCategories.find_by_key("operators")
+	if op_entry.is_empty():
+		return
+	var ops := AssetAuditScanner.scan_category(op_entry)
+	for i in ops.size():
+		_dashboard_op_picker.add_item(String(ops[i].id), i)
+		_dashboard_op_picker.set_item_metadata(i, ops[i].path)
+		if String(ops[i].id) == prev_id:
+			_dashboard_op_picker.selected = i
+
+
+func _populate_dashboard() -> void:
+	if _dashboard_tree == null:
+		return
+	_refresh_op_picker()
+	_dashboard_tree.clear()
+	if _dashboard_op_picker.item_count == 0:
+		var root := _dashboard_tree.create_item()
+		var ri := _dashboard_tree.create_item(root)
+		ri.set_text(0, "（Operator が未登録）")
+		return
+	var op_path: String = _dashboard_op_picker.get_item_metadata(_dashboard_op_picker.selected)
+	var op: OperatorData = load(op_path) as OperatorData
+	if op == null:
+		return
+	var root := _dashboard_tree.create_item()
+
+	# Header
+	var head := _dashboard_tree.create_item(root)
+	head.set_text(0, op.id)
+	head.set_text(1, AssetAuditIndex.translation_lookup(op.display_name, _PREVIEW_LOCALE))
+	head.set_metadata(0, {META_KIND: "resource", META_PATH: op_path})
+
+	# Counts
+	var counts := _dashboard_tree.create_item(root)
+	counts.set_text(0, "■ コンテンツ数")
+	counts.set_selectable(0, false)
+	counts.set_selectable(1, false)
+
+	var costumes := _filter_resources("costumes", "operator_id", op.id)
+	var cgs := _filter_resources("cgs", "operator_id", op.id)
+	var touch := _filter_resources("touch_spots", "operator_id", op.id)
+	var reactions := _filter_resources("reactions", "operator_id", op.id)
+
+	_dash_row(counts, "Costumes", str(costumes.size()))
+	# CG: 欠損 step 件数も併記
+	var missing_cg_steps := 0
+	for c in cgs:
+		var cg: CGData = c.resource as CGData
+		if cg == null: continue
+		for s in cg.steps:
+			if s != null and s.cg_image == null and (s.mode == Enums.CGStepMode.FULL_CG or s.image_path_hint != ""):
+				missing_cg_steps += 1
+	_dash_row(counts, "CGs", "%d  (画像未配置 step: %d)" % [cgs.size(), missing_cg_steps])
+	_dash_row(counts, "Touch Spots", str(touch.size()))
+	_dash_row(counts, "Reactions", str(reactions.size()))
+	_dash_row(counts, "Liked Items", str(op.liked_items.size()))
+	_dash_row(counts, "Disliked Items", str(op.disliked_items.size()))
+	_dash_row(counts, "Default Costume", String(op.default_costume_id))
+	_dash_row(counts, "portrait_expressions", str(op.portrait_expressions.size()))
+	_dash_row(counts, "portrait_face_overlays", str(op.portrait_face_overlays.size()))
+
+	# Stages
+	var stages_root := _dashboard_tree.create_item(root)
+	stages_root.set_text(0, "■ Stages")
+	stages_root.set_selectable(0, false)
+	stages_root.set_selectable(1, false)
+	for i in op.stages.size():
+		var st: TrustStageData = op.stages[i]
+		if st == null: continue
+		var sr := _dashboard_tree.create_item(stages_root)
+		var title_txt := AssetAuditIndex.translation_lookup(st.title, _PREVIEW_LOCALE) if st.title != "" else ""
+		sr.set_text(0, "stage %d  (threshold %d)" % [i, st.threshold])
+		sr.set_text(1, title_txt)
+		for cu in st.costume_unlocks:
+			var c := _dashboard_tree.create_item(sr)
+			c.set_text(0, "  unlock costume")
+			c.set_text(1, String(cu))
+		for cgu in st.cg_unlocks:
+			var c2 := _dashboard_tree.create_item(sr)
+			c2.set_text(0, "  unlock cg")
+			c2.set_text(1, String(cgu))
+
+	# Issues for this operator
+	var issues_root := _dashboard_tree.create_item(root)
+	issues_root.set_text(0, "■ Issues")
+	issues_root.set_selectable(0, false)
+	issues_root.set_selectable(1, false)
+
+	var dangling := AssetAuditScanner.scan_dangling_ids()
+	var op_dangling := dangling.filter(func (d): return _is_my_op_data(d.source_path, op.id))
+	_dash_row(issues_root, "Dangling IDs", "%d 件" % op_dangling.size(),
+			Color(1, 0.6, 0.4) if op_dangling.size() > 0 else Color(0.4, 1, 0.5))
+	for d in op_dangling:
+		var r := _dashboard_tree.create_item(issues_root)
+		r.set_text(0, "  %s.%s" % [d.source_path.get_file(), d.field])
+		r.set_text(1, "%s (要 %s)" % [d.value, d.expected])
+		r.set_custom_color(1, Color(1, 0.6, 0.4))
+		r.set_metadata(0, {META_KIND: "resource", META_PATH: d.source_path})
+
+	var expr_missing := AssetAuditScanner.scan_missing_expression_keys().filter(
+			func (m): return m.op_id == op.id)
+	_dash_row(issues_root, "Missing Expressions", "%d 件" % expr_missing.size(),
+			Color(1, 0.6, 0.4) if expr_missing.size() > 0 else Color(0.4, 1, 0.5))
+	for e in expr_missing:
+		var r := _dashboard_tree.create_item(issues_root)
+		r.set_text(0, "  %s" % e.expression_key)
+		r.set_text(1, e.source_kind)
+		r.set_custom_color(0, Color(1, 0.6, 0.4))
+		r.set_metadata(0, {META_KIND: "resource", META_PATH: e.source_path})
+
+
+func _dash_row(parent: TreeItem, key: String, value: String, value_color: Color = Color(1, 1, 1, 1)) -> TreeItem:
+	var r := _dashboard_tree.create_item(parent)
+	r.set_text(0, key)
+	r.set_text(1, value)
+	if value_color != Color(1, 1, 1, 1):
+		r.set_custom_color(1, value_color)
+	return r
+
+
+func _filter_resources(category_key: String, prop: String, op_id: StringName) -> Array:
+	var entry := AssetAuditCategories.find_by_key(category_key)
+	if entry.is_empty():
+		return []
+	var out: Array = []
+	for e in AssetAuditScanner.scan_category(entry):
+		var v: Variant = e.resource.get(prop)
+		if v != null and v == op_id:
+			out.append(e)
+	return out
+
+
+# Issue 行が当該オペレータのデータに属するかどうかをパスから推測。
+func _is_my_op_data(source_path: String, op_id: StringName) -> bool:
+	var res: Resource = load(source_path)
+	if res == null:
+		return false
+	# operator_id プロパティを持つなら一致確認
+	if res.get("operator_id") != null:
+		return res.operator_id == op_id
+	# Operator 自体
+	if res.get("id") != null and res is OperatorData:
+		return res.id == op_id
+	return false
+
+
+func _on_dashboard_activated() -> void:
+	var item := _dashboard_tree.get_selected()
+	if item == null:
+		return
+	var meta: Variant = item.get_metadata(0)
+	if meta is Dictionary and meta.has(META_PATH):
+		var path: String = meta[META_PATH]
+		if ResourceLoader.exists(path):
+			EditorInterface.edit_resource(load(path))
 
 
 func _populate_browse_tree() -> void:
