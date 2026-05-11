@@ -156,24 +156,10 @@ func add_trust(op_id: StringName, delta: int) -> void:
 	rt.current_stage = new_stage
 	EventBus.trust_changed.emit(op_id, rt.trust, rt.current_stage)
 	if advanced:
+		# STAGE_UP 反応は ReactionDispatcher が stage_advanced を購読して
+		# call_deferred で発火する（再入回避のため）。ここは emit するだけ。
 		EventBus.stage_advanced.emit(op_id, rt.current_stage)
-		_fire_stage_up_reaction(op_id, rt.current_stage)
 
-
-# ステージ昇格時に STAGE_UP 反応を引いて reaction_played を流す。
-# 反応が定義されてないオペは黙って素通り（既存挙動を壊さない）。
-func _fire_stage_up_reaction(op_id: StringName, new_stage: int) -> void:
-	var rule := ReactionResolver.resolve(
-		Enums.TriggerKind.STAGE_UP,
-		StringName(str(new_stage)),
-		op_id,
-		get_runtime(op_id).trust,
-		1,
-		-1
-	)
-	if rule != null:
-		ReactionResolver.apply_side_effects(rule, op_id)
-		EventBus.reaction_played.emit(op_id, rule)
 
 func _compute_stage(op_id: StringName, trust: int) -> int:
 	var op := DataRegistry.get_operator(op_id)
@@ -219,25 +205,12 @@ func add_arousal(op_id: StringName, delta: float) -> void:
 		rt.arousal_peak = rt.arousal
 	EventBus.arousal_changed.emit(op_id, rt.arousal)
 	# AROUSAL_MAX 到達時に 1 度だけ反応を出す。80% 以下に落ちたらフラグリセット。
+	# 発火本体は ReactionDispatcher（call_deferred で再入回避）。
 	if rt.arousal >= UIConstants.AROUSAL_MAX and not rt.arousal_max_announced:
 		rt.arousal_max_announced = true
-		_fire_arousal_max_reaction(op_id)
+		ReactionDispatcher.dispatch_arousal_max(op_id)
 	elif rt.arousal < UIConstants.AROUSAL_MAX * 0.8:
 		rt.arousal_max_announced = false
-
-
-func _fire_arousal_max_reaction(op_id: StringName) -> void:
-	var rule := ReactionResolver.resolve(
-		Enums.TriggerKind.AROUSAL_MAX,
-		&"",
-		op_id,
-		get_runtime(op_id).trust,
-		1,
-		-1
-	)
-	if rule != null:
-		ReactionResolver.apply_side_effects(rule, op_id)
-		EventBus.reaction_played.emit(op_id, rule)
 
 
 func _decay_arousal_to_now(rt: OperatorRuntime) -> void:
@@ -392,30 +365,6 @@ func add_prestige_count(delta: int = 1) -> void:
 		if rt != null:
 			rt.pending_prestige_greet = true
 
-
-# ロック中のオペにアクション試行された時、LOCKED_REVISIT 反応を引いて流す。
-# 該当反応が定義されてれば true を返し、呼び出し元はそこで処理を中断する。
-# 反応が無ければ従来通りトーストを出して true を返す。
-# 戻り値が true なら「ロック処理済み（呼出側は通常処理に進まない）」。
-func try_locked_revisit(op_id: StringName) -> bool:
-	if not is_operator_locked(op_id):
-		return false
-	var rt := get_runtime(op_id)
-	var trust := rt.trust if rt != null else 0
-	var rule := ReactionResolver.resolve(
-		Enums.TriggerKind.LOCKED_REVISIT,
-		&"",
-		op_id,
-		trust,
-		1,
-		-1
-	)
-	if rule != null:
-		ReactionResolver.apply_side_effects(rule, op_id)
-		EventBus.reaction_played.emit(op_id, rule)
-	else:
-		EventBus.toast_requested.emit(TranslationServer.translate("TOAST_OPERATOR_LOCKED"))
-	return true
 
 func add_prestige_currency(amount: int) -> void:
 	prestige_currency = max(0, prestige_currency + amount)

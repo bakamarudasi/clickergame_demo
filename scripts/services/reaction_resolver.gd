@@ -109,7 +109,33 @@ static func _specificity(rule: ReactionRule) -> int:
 	return s
 
 
+# resolve + apply_side_effects + reaction_played.emit の標準フロー。
+# 呼出元の 90% はこの一行で済む。consecutive と category は ITEM 系のみ
+# 意味があり、それ以外は省略可。trust は runtime から自動で引く。
+# 戻り値: 発火したルール（無ければ null）。
+static func fire(
+	trigger_kind: int,
+	trigger_id: StringName,
+	op_id: StringName,
+	category: int = -1,
+	consecutive: int = 1
+) -> ReactionRule:
+	var rt := GameState.get_runtime(op_id)
+	var trust: int = rt.trust if rt != null else 0
+	var rule := resolve(trigger_kind, trigger_id, op_id, trust, consecutive, category)
+	if rule != null:
+		apply_side_effects(rule, op_id)
+		EventBus.reaction_played.emit(op_id, rule)
+	return rule
+
+
+# ルール解決後の副作用適用。trust_delta も含めてここで一括処理する。
+# 呼び出し元は別途 GameState.add_trust(rule.trust_delta) を呼んではいけない
+# （二重加算になる）。trust 系を rule.side_effects に書く必要は無く、
+# trust_delta フィールドだけで完結する。
 static func apply_side_effects(rule: ReactionRule, op_id: StringName) -> void:
+	if rule.trust_delta != 0:
+		GameState.add_trust(op_id, rule.trust_delta)
 	for eff: ItemEffect in rule.side_effects:
 		match eff.kind:
 			Enums.EffectKind.TRUST_ADD:

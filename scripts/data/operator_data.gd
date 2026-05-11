@@ -2,6 +2,7 @@ class_name OperatorData
 extends Resource
 
 @export var id: StringName = &""
+# 翻訳キー（例: "OP_LEMUEN_NAME"）。表示する側は必ず tr() を通すこと。
 @export var display_name: String = ""
 @export var personality: Enums.Personality = Enums.Personality.SAINTLY_DUAL
 @export var origin: StringName = &""

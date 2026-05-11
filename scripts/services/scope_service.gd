@@ -72,19 +72,5 @@ static func _trigger_caught(op_id: StringName) -> void:
 	_set_off()
 	GameState.reset_xray_suspicion(op_id)
 
-	var rt := GameState.get_runtime(op_id)
-	if rt == null:
-		return
-	var rule := ReactionResolver.resolve(
-		Enums.TriggerKind.XRAY_CAUGHT,
-		&"",
-		op_id,
-		rt.trust,
-		1,
-		-1
-	)
-	if rule != null:
-		GameState.add_trust(op_id, rule.trust_delta)
-		ReactionResolver.apply_side_effects(rule, op_id)
-		EventBus.reaction_played.emit(op_id, rule)
+	ReactionResolver.fire(Enums.TriggerKind.XRAY_CAUGHT, &"", op_id)
 	EventBus.xray_caught.emit(op_id)

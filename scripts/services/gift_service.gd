@@ -4,7 +4,7 @@ extends Object
 # Roomタブ UI が「ギフトを渡す」ときに呼ぶ唯一の入り口。
 
 static func give(op_id: StringName, item_id: StringName) -> ReactionRule:
-	if GameState.try_locked_revisit(op_id):
+	if ReactionDispatcher.try_locked_revisit(op_id):
 		return null
 	var it := DataRegistry.get_item(item_id)
 	if it == null:
@@ -19,11 +19,14 @@ static func give(op_id: StringName, item_id: StringName) -> ReactionRule:
 	if rt != null:
 		consecutive = rt.gift_count(item_id) + 1
 
+	# resolve は record/decay より前で行い、ハラス減衰前の harassment_counter で
+	# max_harassment ゲートを判定する（旧挙動の維持）。発火は record/decay の後。
+	var trust: int = rt.trust if rt != null else 0
 	var rule := ReactionResolver.resolve(
 		Enums.TriggerKind.ITEM,
 		item_id,
 		op_id,
-		rt.trust if rt != null else 0,
+		trust,
 		consecutive,
 		it.category
 	)
@@ -32,7 +35,6 @@ static func give(op_id: StringName, item_id: StringName) -> ReactionRule:
 	GameState.decay_harassment_on_gift(op_id)
 
 	if rule != null:
-		GameState.add_trust(op_id, rule.trust_delta)
 		ReactionResolver.apply_side_effects(rule, op_id)
 		EventBus.reaction_played.emit(op_id, rule)
 	else:
