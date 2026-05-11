@@ -43,6 +43,7 @@ func _ready() -> void:
 	EventBus.prestige_currency_changed.connect(_on_prestige_currency_changed)
 	EventBus.toast_requested.connect(_show_toast)
 	EventBus.cg_unlocked.connect(_on_cg_unlocked)
+	EventBus.cg_play_requested.connect(_on_cg_play_requested)
 
 	tab_work_button.pressed.connect(_switch_to.bind(TAB_WORK))
 	tab_room_button.pressed.connect(_switch_to.bind(TAB_ROOM))
@@ -121,6 +122,17 @@ func _show_toast(text: String) -> void:
 # CG が解放された瞬間に CGViewer をフルスクリーンで開く。
 # 同じ CG を二重に開かないようガード。閉じたあとはギャラリー（Status タブ）から再生可能。
 func _on_cg_unlocked(cg_id: StringName) -> void:
+	if cg_viewer.visible:
+		return
+	var cg := DataRegistry.get_cg(cg_id)
+	if cg == null:
+		return
+	cg_viewer.play(cg)
+
+
+# CG_PLAY エフェクト用。解放履歴は触らずに同じビューアを開く。
+# 会話中の差し込み演出（既見でも毎回流したいシーン）に使う。
+func _on_cg_play_requested(cg_id: StringName) -> void:
 	if cg_viewer.visible:
 		return
 	var cg := DataRegistry.get_cg(cg_id)

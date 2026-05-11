@@ -154,3 +154,6 @@ static func apply_side_effects(rule: ReactionRule, op_id: StringName) -> void:
 				GameState.add_arousal(op_id, float(eff.amount))
 			Enums.EffectKind.MEMORY_UNLOCK:
 				GameState.unlock_memory(eff.target_id)
+			Enums.EffectKind.CG_PLAY:
+				# 解放フラグは触らず、ビューア起動だけ要求する。
+				EventBus.cg_play_requested.emit(eff.target_id)
