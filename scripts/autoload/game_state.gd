@@ -216,7 +216,7 @@ func add_arousal(op_id: StringName, delta: float) -> void:
 func _decay_arousal_to_now(rt: OperatorRuntime) -> void:
 	var now := Time.get_unix_time_from_system()
 	if rt.arousal_last_unix > 0.0 and rt.arousal > 0.0:
-		var elapsed := max(0.0, now - rt.arousal_last_unix)
+		var elapsed: float = max(0.0, now - rt.arousal_last_unix)
 		rt.arousal = max(0.0, rt.arousal - elapsed * UIConstants.AROUSAL_DECAY_PER_SEC)
 	rt.arousal_last_unix = now
 
