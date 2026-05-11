@@ -105,7 +105,7 @@ func _on_auto_tick() -> void:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
 		_refresh_status_bar()
 
 
