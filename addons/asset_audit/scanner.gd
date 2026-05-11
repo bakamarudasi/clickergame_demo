@@ -175,6 +175,140 @@ static func resolve_slot_save_path(meta: Dictionary, src_name: String) -> String
 	return "res://assets/operators/%s/%s/%s.%s" % [op_id, costume_id, slot_prop, ext]
 
 
+# 各データ型の id 参照プロパティが、実在する id を指してるか検証する。
+# .tres / Inspector からタイポした時に「実ゲーム起動して落ちる」のを未然に防ぐ。
+# 戻り値: Array[{ source_path, source_kind, field, value, expected }]
+static func scan_dangling_ids() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	# Reactions
+	var r_entry := AssetAuditCategories.find_by_key("reactions")
+	for r in scan_category(r_entry):
+		var rule: ReactionRule = r.resource as ReactionRule
+		if rule == null:
+			continue
+		_check_id(out, r.path, "ReactionRule", "operator_id", rule.operator_id, "operators")
+		var trigger_expected := ""
+		match rule.trigger_kind:
+			Enums.TriggerKind.ITEM: trigger_expected = "items"
+			Enums.TriggerKind.TOUCH: trigger_expected = "touch_spots"
+			_: trigger_expected = ""
+		if trigger_expected != "":
+			_check_id(out, r.path, "ReactionRule", "trigger_id", rule.trigger_id, trigger_expected)
+		for cg_id in rule.requires_cgs:
+			_check_id(out, r.path, "ReactionRule", "requires_cgs[]", cg_id, "cgs")
+		for mem_id in rule.requires_memories:
+			_check_id(out, r.path, "ReactionRule", "requires_memories[]", mem_id, "memories")
+		_check_id(out, r.path, "ReactionRule", "requires_equipped_costume",
+				rule.requires_equipped_costume, "costumes")
+		for i in rule.side_effects.size():
+			var eff: ItemEffect = rule.side_effects[i]
+			if eff == null:
+				continue
+			var exp := _expected_for_effect_kind(eff.kind)
+			if exp != "":
+				_check_id(out, r.path, "ReactionRule", "side_effects[%d].target_id" % i,
+						eff.target_id, exp)
+	# Items
+	var i_entry := AssetAuditCategories.find_by_key("items")
+	for it in scan_category(i_entry):
+		var item: ItemData = it.resource as ItemData
+		if item == null:
+			continue
+		_check_id(out, it.path, "ItemData", "requires_meta", item.requires_meta, "meta_upgrades")
+		for i in item.effects.size():
+			var eff: ItemEffect = item.effects[i]
+			if eff == null:
+				continue
+			var exp := _expected_for_effect_kind(eff.kind)
+			if exp != "":
+				_check_id(out, it.path, "ItemData", "effects[%d].target_id" % i,
+						eff.target_id, exp)
+	# CGs
+	var cg_entry := AssetAuditCategories.find_by_key("cgs")
+	for c in scan_category(cg_entry):
+		var cg: CGData = c.resource as CGData
+		if cg == null:
+			continue
+		_check_id(out, c.path, "CGData", "operator_id", cg.operator_id, "operators")
+		_check_id(out, c.path, "CGData", "trigger_item_id", cg.trigger_item_id, "items")
+	# TouchSpots
+	var t_entry := AssetAuditCategories.find_by_key("touch_spots")
+	for t in scan_category(t_entry):
+		var ts: TouchSpotData = t.resource as TouchSpotData
+		if ts == null:
+			continue
+		_check_id(out, t.path, "TouchSpotData", "operator_id", ts.operator_id, "operators")
+	# Costumes
+	var co_entry := AssetAuditCategories.find_by_key("costumes")
+	for co in scan_category(co_entry):
+		var cos: CostumeData = co.resource as CostumeData
+		if cos == null:
+			continue
+		_check_id(out, co.path, "CostumeData", "operator_id", cos.operator_id, "operators")
+	# Operators
+	var op_entry := AssetAuditCategories.find_by_key("operators")
+	for o in scan_category(op_entry):
+		var op: OperatorData = o.resource as OperatorData
+		if op == null:
+			continue
+		_check_id(out, o.path, "OperatorData", "default_costume_id",
+				op.default_costume_id, "costumes")
+		for li in op.liked_items:
+			_check_id(out, o.path, "OperatorData", "liked_items[]", li, "items")
+		for di in op.disliked_items:
+			_check_id(out, o.path, "OperatorData", "disliked_items[]", di, "items")
+		for si in op.stages.size():
+			var stage: TrustStageData = op.stages[si]
+			if stage == null:
+				continue
+			for cu in stage.costume_unlocks:
+				_check_id(out, o.path, "OperatorData",
+						"stages[%d].costume_unlocks[]" % si, cu, "costumes")
+			for cgu in stage.cg_unlocks:
+				_check_id(out, o.path, "OperatorData",
+						"stages[%d].cg_unlocks[]" % si, cgu, "cgs")
+	# Upgrades
+	var u_entry := AssetAuditCategories.find_by_key("upgrades")
+	for u in scan_category(u_entry):
+		var up: UpgradeData = u.resource as UpgradeData
+		if up == null:
+			continue
+		_check_id(out, u.path, "UpgradeData", "requires_meta",
+				up.requires_meta, "meta_upgrades")
+	return out
+
+
+static func _check_id(out: Array[Dictionary], source: String, kind: String,
+		field: String, value: Variant, expected_category: String) -> void:
+	if value == null:
+		return
+	var is_empty := false
+	if value is StringName:
+		is_empty = value == &""
+	elif value is String:
+		is_empty = value == ""
+	if is_empty:
+		return
+	if not AssetAuditIndex.id_exists(value):
+		out.append({
+			"source_path": source,
+			"source_kind": kind,
+			"field": field,
+			"value": String(value),
+			"expected": expected_category,
+		})
+
+
+static func _expected_for_effect_kind(kind: int) -> String:
+	match kind:
+		Enums.EffectKind.CG_UNLOCK, Enums.EffectKind.CG_PLAY: return "cgs"
+		Enums.EffectKind.OPERATOR_UNLOCK: return "operators"
+		Enums.EffectKind.COSTUME_UNLOCK: return "costumes"
+		Enums.EffectKind.MEMORY_UNLOCK: return "memories"
+		Enums.EffectKind.SCOPE_GRANT: return "scopes"
+		_: return ""
+
+
 # ReactionRule.expression / CGStep.expression が Operator のどちらの辞書にも
 # 登録されてないキーを列挙する。
 # 戻り値: Array[{ source_path, source_kind, op_id, expression_key }]

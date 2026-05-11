@@ -35,7 +35,9 @@ var _category_picker: OptionButton
 var _audit_missing_tree: Tree
 var _audit_refs_tree: Tree
 var _audit_expr_tree: Tree
+var _audit_dangling_tree: Tree
 var _status_label: Label
+var _context_menu: PopupMenu
 
 # 待機中のドロップ情報（OS ドラッグ時、files_dropped が来た時にここを参照）
 var _pending_drop_target: Dictionary = {}
@@ -123,6 +125,15 @@ func _build_browse_tab() -> Control:
 	_browse_tree.drop_mode_flags = Tree.DROP_MODE_ON_ITEM
 	_browse_tree.item_activated.connect(_on_browse_activated)
 	_browse_tree.item_mouse_selected.connect(_on_browse_mouse_selected)
+	# 共通の右クリックメニュー
+	_context_menu = PopupMenu.new()
+	_context_menu.add_item("Inspector で開く", 0)
+	_context_menu.add_item("使用箇所を検索…", 1)
+	_context_menu.add_separator()
+	_context_menu.add_item("複製", 2)
+	_context_menu.add_item("削除", 3)
+	_context_menu.id_pressed.connect(_on_context_menu_pressed)
+	add_child(_context_menu)
 	# Tree の D&D は set_drag_forwarding で受け取る
 	_browse_tree.set_drag_forwarding(Callable(), _can_drop_browse, _drop_browse)
 	box.add_child(_browse_tree)
@@ -259,6 +270,41 @@ func _build_audit_tab() -> Control:
 	expr_box.add_child(_audit_expr_tree)
 	outer.add_child(expr_box)
 
+	# Dangling IDs
+	var dang_box := VBoxContainer.new()
+	dang_box.name = "Dangling IDs"
+	var dang_top := HBoxContainer.new()
+	dang_box.add_child(dang_top)
+	var refresh_dang := Button.new()
+	refresh_dang.text = "再スキャン"
+	refresh_dang.pressed.connect(_populate_dangling_tree)
+	dang_top.add_child(refresh_dang)
+	var dang_hint := Label.new()
+	dang_hint.text = "存在しない id を参照してるプロパティ（タイポ検出）"
+	dang_hint.modulate = Color(1, 1, 1, 0.6)
+	dang_top.add_child(dang_hint)
+
+	_audit_dangling_tree = Tree.new()
+	_audit_dangling_tree.hide_root = true
+	_audit_dangling_tree.size_flags_horizontal = SIZE_EXPAND_FILL
+	_audit_dangling_tree.size_flags_vertical = SIZE_EXPAND_FILL
+	_audit_dangling_tree.columns = 4
+	_audit_dangling_tree.set_column_titles_visible(true)
+	_audit_dangling_tree.set_column_title(0, "Source")
+	_audit_dangling_tree.set_column_title(1, "field")
+	_audit_dangling_tree.set_column_title(2, "value (未定義)")
+	_audit_dangling_tree.set_column_title(3, "expected category")
+	_audit_dangling_tree.set_column_expand(0, true)
+	_audit_dangling_tree.set_column_expand(1, false)
+	_audit_dangling_tree.set_column_expand(2, false)
+	_audit_dangling_tree.set_column_expand(3, false)
+	_audit_dangling_tree.set_column_custom_minimum_width(1, 200)
+	_audit_dangling_tree.set_column_custom_minimum_width(2, 160)
+	_audit_dangling_tree.set_column_custom_minimum_width(3, 120)
+	_audit_dangling_tree.item_activated.connect(_on_dangling_activated)
+	dang_box.add_child(_audit_dangling_tree)
+	outer.add_child(dang_box)
+
 	return outer
 
 
@@ -267,10 +313,14 @@ func _build_audit_tab() -> Control:
 # -------------------------------------------------------------------------
 
 func _refresh_all() -> void:
+	# 各種スキャナが同じ index を参照するので、まず一度だけ無効化して
+	# 強制リビルドさせる。
+	AssetAuditIndex.invalidate()
 	_populate_browse_tree()
 	_populate_missing_cg_tree()
 	_populate_refs_tree()
 	_populate_expr_tree()
+	_populate_dangling_tree()
 
 
 func _populate_browse_tree() -> void:
@@ -518,8 +568,105 @@ func _on_browse_activated() -> void:
 	_open_selected_in_inspector(_browse_tree)
 
 
-func _on_browse_mouse_selected(_pos: Vector2, _button: int) -> void:
-	pass  # ホバー時の追加処理用フック
+func _on_browse_mouse_selected(_pos: Vector2, button: int) -> void:
+	if button != MOUSE_BUTTON_RIGHT:
+		return
+	var item := _browse_tree.get_selected()
+	if item == null:
+		return
+	var meta: Variant = item.get_metadata(0)
+	if not (meta is Dictionary):
+		return
+	# resource / step / portrait_slot / costume_slot 行で開く
+	var kind: String = meta.get(META_KIND, "")
+	if not (kind in ["resource", "step", "portrait_slot", "costume_slot"]):
+		return
+	_context_menu.position = DisplayServer.mouse_get_position()
+	_context_menu.reset_size()
+	_context_menu.popup()
+
+
+func _on_context_menu_pressed(id: int) -> void:
+	var item := _browse_tree.get_selected()
+	if item == null:
+		return
+	match id:
+		0: _open_selected_in_inspector(_browse_tree)
+		1: _show_references_popup_for_selected()
+		2: _on_duplicate_pressed()
+		3: _on_delete_pressed()
+
+
+# 選択中の行（resource / step / portrait_slot 等）に紐付く id を判定し、
+# その id を参照しているファイル一覧を別ウィンドウで表示する。
+func _show_references_popup_for_selected() -> void:
+	var item := _browse_tree.get_selected()
+	if item == null:
+		return
+	var meta: Variant = item.get_metadata(0)
+	if not (meta is Dictionary):
+		return
+	var id_to_search: String = ""
+	if meta.has(META_PATH):
+		var path: String = meta[META_PATH]
+		var res: Resource = load(path)
+		if res != null and res.get("id") != null:
+			var v: Variant = res.get("id")
+			if v is StringName:
+				id_to_search = String(v)
+			elif v is String:
+				id_to_search = v
+		# 配列格納（reactions / messages）は id を持たないので省略
+	if id_to_search == "":
+		_status_label.text = "id を持たないリソースなので逆引きできません"
+		return
+	_open_references_popup(id_to_search)
+
+
+func _open_references_popup(id: String) -> void:
+	var refs := AssetAuditIndex.references_of(id)
+	var defined := AssetAuditIndex.defined_in(id)
+	var dlg := AcceptDialog.new()
+	dlg.title = "id 逆引き: %s" % id
+	dlg.min_size = Vector2(600, 420)
+
+	var vb := VBoxContainer.new()
+	dlg.add_child(vb)
+
+	var summary := Label.new()
+	var def_str := ""
+	if defined.size() > 0:
+		def_str = " / 定義: %s" % defined[0].path.get_file()
+	summary.text = "%d 件の参照%s" % [refs.size(), def_str]
+	summary.modulate = Color(1, 1, 1, 0.85)
+	vb.add_child(summary)
+
+	var tree := Tree.new()
+	tree.size_flags_horizontal = SIZE_EXPAND_FILL
+	tree.size_flags_vertical = SIZE_EXPAND_FILL
+	tree.hide_root = true
+	tree.columns = 1
+	tree.set_column_titles_visible(true)
+	tree.set_column_title(0, "参照元ファイル（ダブルクリックで開く）")
+	var root := tree.create_item()
+	for r in refs:
+		var ri := tree.create_item(root)
+		ri.set_text(0, r.source_path)
+		ri.set_metadata(0, r.source_path)
+	tree.item_activated.connect(func ():
+		var sel := tree.get_selected()
+		if sel == null: return
+		var p: String = sel.get_metadata(0)
+		if ResourceLoader.exists(p):
+			EditorInterface.edit_resource(load(p))
+	)
+	vb.add_child(tree)
+
+	dlg.confirmed.connect(dlg.queue_free)
+	dlg.canceled.connect(dlg.queue_free)
+	dlg.close_requested.connect(dlg.queue_free)
+	add_child(dlg)
+	dlg.popup_centered()
 
 
 func _on_missing_activated() -> void:
@@ -546,6 +693,36 @@ func _on_expr_activated() -> void:
 		var path: String = meta[META_PATH]
 		if ResourceLoader.exists(path):
 			EditorInterface.edit_resource(load(path))
+
+
+func _on_dangling_activated() -> void:
+	var item := _audit_dangling_tree.get_selected()
+	if item == null:
+		return
+	var meta: Variant = item.get_metadata(0)
+	if meta is Dictionary and meta.has(META_PATH):
+		var path: String = meta[META_PATH]
+		if ResourceLoader.exists(path):
+			EditorInterface.edit_resource(load(path))
+
+
+func _populate_dangling_tree() -> void:
+	if _audit_dangling_tree == null:
+		return
+	_audit_dangling_tree.clear()
+	var root := _audit_dangling_tree.create_item()
+	var dangling := AssetAuditScanner.scan_dangling_ids()
+	for d in dangling:
+		var ri := _audit_dangling_tree.create_item(root)
+		ri.set_text(0, "%s  (%s)" % [d.source_path.get_file(), d.source_kind])
+		ri.set_text(1, d.field)
+		ri.set_text(2, d.value)
+		ri.set_text(3, d.expected)
+		ri.set_custom_color(2, Color(1, 0.6, 0.4))
+		ri.set_metadata(0, {
+			META_KIND: "resource",
+			META_PATH: d.source_path,
+		})
 
 
 func _populate_expr_tree() -> void:
