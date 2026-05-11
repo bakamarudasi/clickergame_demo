@@ -936,7 +936,7 @@ func _populate_graph() -> void:
 		_add_graph_node(node_names, "touch", String(t.id), t.id, "TouchSpot")
 	# Reactions（id 持たないので path を識別子に）
 	for r in reactions:
-		var fn := r.path.get_file().get_basename()
+		var fn: String = str(r.path).get_file().get_basename()
 		_add_graph_node(node_names, "reaction", fn, fn, "Reaction")
 	# CGs
 	for c in cgs:
@@ -1085,7 +1085,7 @@ func _populate_browse_tree() -> void:
 		for e in matched:
 			total += 1
 			var ri := _browse_tree.create_item(cat_item)
-			var primary := e.display if e.display != "" else String(e.id)
+			var primary: String = e.display if e.display != "" else String(e.id)
 			if primary == "":
 				primary = e.file_name
 			# 翻訳キーっぽければ訳文を引いて表示。元キーは tooltip に残す。
@@ -1701,10 +1701,11 @@ func _dispatch_drop(kind: String, meta: Dictionary, src_path: String, src_is_os:
 
 func _hit_test_tree(_at_position: Vector2) -> Tree:
 	# どちらの Tree にホバーしてるか判定。
-	for t in [_browse_tree, _audit_missing_tree]:
+	var trees: Array[Tree] = [_browse_tree, _audit_missing_tree]
+	for t in trees:
 		if t == null:
 			continue
-		var local := t.get_local_mouse_position()
+		var local: Vector2 = t.get_local_mouse_position()
 		if Rect2(Vector2.ZERO, t.size).has_point(local):
 			return t
 	return null
