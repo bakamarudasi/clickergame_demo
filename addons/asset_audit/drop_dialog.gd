@@ -81,7 +81,7 @@ func setup(target_meta: Dictionary, src_path: String, src_is_os: bool) -> void:
 	expr_hb.add_child(expr_label)
 	_expression_edit = LineEdit.new()
 	_expression_edit.placeholder_text = "例: smile / shy_smile / blush（立ち絵 / 顔差分の時だけ必須）"
-	_expression_edit.size_flags_horizontal = SIZE_EXPAND_FILL
+	_expression_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	expr_hb.add_child(_expression_edit)
 
 	# 現在モードに応じて推奨デフォルトを選択
