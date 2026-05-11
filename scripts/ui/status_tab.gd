@@ -81,5 +81,5 @@ func _on_arousal_changed(op_id: StringName, _v: float) -> void:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
 		_rebuild()

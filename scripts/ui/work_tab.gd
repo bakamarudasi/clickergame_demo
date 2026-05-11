@@ -153,7 +153,7 @@ func _format_upgrade(u: UpgradeData) -> String:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
 		_refresh_upgrade_buttons()
 
 

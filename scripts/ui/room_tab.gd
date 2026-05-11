@@ -579,7 +579,7 @@ func _on_xray_caught(op_id: StringName) -> void:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
 		_rebuild_operator_list()
 		_refresh_detail()
 		_rebuild_gift_select()
