@@ -5,7 +5,7 @@ extends Object
 # is_harassment フラグで分岐し、ロック判定もここで処理。
 
 static func touch(op_id: StringName, spot_id: StringName) -> ReactionRule:
-	if GameState.try_locked_revisit(op_id):
+	if ReactionDispatcher.try_locked_revisit(op_id):
 		return null
 	var spot := DataRegistry.get_touch_spot(spot_id)
 	if spot == null:
@@ -25,16 +25,13 @@ static func touch(op_id: StringName, spot_id: StringName) -> ReactionRule:
 		if spot.is_harassment
 		else Enums.TriggerKind.TOUCH
 	)
-	var rule := ReactionResolver.resolve(
-		trigger_kind,
-		spot_id,
-		op_id,
-		rt.trust,
-		1,
-		-1
-	)
+	# resolve はルックアップだけ先に走らせる（rule.trust_delta の正負で
+	# spot 側の基礎ペナルティ適用要否が変わるため）。発火は最後にまとめて。
+	var rule := ReactionResolver.resolve(trigger_kind, spot_id, op_id, rt.trust, 1, -1)
 
-	# ハラスメントなら基礎ペナルティ＋カウンター加算（ルール側 trust_delta と合算）
+	# TouchSpot の基礎値（spot 側）と、Rule の trust_delta（rule 側）は別物。
+	# 前者は「触れた結果として最低限動く trust」、後者は「ルールが見つかった時の上乗せ」。
+	# rule.trust_delta は apply_side_effects 側で適用するのでここでは触らない。
 	if spot.is_harassment:
 		if rule == null or rule.trust_delta < 0:
 			GameState.add_trust(op_id, spot.trust_penalty_low)
@@ -43,7 +40,6 @@ static func touch(op_id: StringName, spot_id: StringName) -> ReactionRule:
 		GameState.add_trust(op_id, spot.trust_delta_base)
 
 	if rule != null:
-		GameState.add_trust(op_id, rule.trust_delta)
 		ReactionResolver.apply_side_effects(rule, op_id)
 		EventBus.reaction_played.emit(op_id, rule)
 	return rule

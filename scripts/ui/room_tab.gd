@@ -79,7 +79,8 @@ func _rebuild_operator_list() -> void:
 		if op == null:
 			continue
 		var b := Button.new()
-		b.text = op.display_name
+		# OperatorData.display_name は翻訳キー（"OP_LEMUEN_NAME" 等）。表示時は必ず tr() を通す。
+		b.text = tr(op.display_name)
 		b.pressed.connect(_select_operator.bind(op_id))
 		operator_list.add_child(b)
 
@@ -105,17 +106,7 @@ func _consume_prestige_greet(op_id: StringName) -> void:
 	if rt == null or not rt.pending_prestige_greet:
 		return
 	rt.pending_prestige_greet = false
-	var rule := ReactionResolver.resolve(
-		Enums.TriggerKind.PRESTIGE,
-		&"",
-		op_id,
-		rt.trust,
-		1,
-		-1
-	)
-	if rule != null:
-		ReactionResolver.apply_side_effects(rule, op_id)
-		EventBus.reaction_played.emit(op_id, rule)
+	ReactionDispatcher.dispatch_prestige_greet(op_id)
 
 
 # --- アイドルフレーバー ---------------------------------------------------
@@ -159,20 +150,9 @@ func _check_idle() -> void:
 
 
 func _fire_idle(stage: StringName) -> void:
-	var rt := GameState.get_runtime(_current_op)
-	if rt == null:
+	if _current_op == &"":
 		return
-	var rule := ReactionResolver.resolve(
-		Enums.TriggerKind.IDLE,
-		stage,
-		_current_op,
-		rt.trust,
-		1,
-		-1
-	)
-	if rule != null:
-		ReactionResolver.apply_side_effects(rule, _current_op)
-		EventBus.reaction_played.emit(_current_op, rule)
+	ReactionDispatcher.dispatch_idle(_current_op, stage)
 
 
 func _process(delta: float) -> void:
