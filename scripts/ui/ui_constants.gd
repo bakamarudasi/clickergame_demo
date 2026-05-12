@@ -34,6 +34,26 @@ const COLOR_TEXT := Color(0.92, 0.92, 0.95, 1.0)
 const COLOR_ACCENT := Color(0.85, 0.45, 0.55, 1.0)
 const COLOR_WARN := Color(0.95, 0.6, 0.3, 1.0)
 
+# レア度カラー（強化カードの枠・名前色）
+const RARITY_COLORS := {
+	Enums.UpgradeRarity.COMMON: Color(0.62, 0.66, 0.72, 1.0),
+	Enums.UpgradeRarity.RARE: Color(0.35, 0.65, 0.98, 1.0),
+	Enums.UpgradeRarity.EPIC: Color(0.78, 0.45, 0.95, 1.0),
+	Enums.UpgradeRarity.LEGENDARY: Color(1.0, 0.78, 0.25, 1.0),
+}
+const RARITY_PANEL_BG := Color(0.14, 0.16, 0.22, 1.0)
+const RARITY_PANEL_BG_DISABLED := Color(0.10, 0.11, 0.15, 1.0)
+const CARD_GLOW_PERIOD := 1.6      # 買えるカードの脈動周期（秒）
+const CARD_GLOW_MIN := 0.85        # 脈動最小 modulate.v
+const CARD_GLOW_MAX := 1.15        # 脈動最大 modulate.v
+
+# メタ強化の3柱カラー（カード枠・名前色用）
+const PILLAR_COLORS := {
+	Enums.MetaPillar.AFFINITY: Color(0.95, 0.45, 0.65, 1.0),
+	Enums.MetaPillar.ECONOMY: Color(0.95, 0.78, 0.30, 1.0),
+	Enums.MetaPillar.CATALOG: Color(0.55, 0.70, 0.98, 1.0),
+}
+
 # --- アニメーション・時間 -----------------------------------------------
 const TOAST_HOLD_SEC := 1.4
 const TOAST_FADE_SEC := 0.6

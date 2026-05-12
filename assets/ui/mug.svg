@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Drop shadow under mug -->
+  <ellipse cx="50" cy="58" rx="36" ry="34" fill="#000" opacity="0.22"/>
+  <!-- Outer body (top-down) -->
+  <circle cx="50" cy="50" r="34" fill="#F2F2F4" stroke="#9A9AA2" stroke-width="2"/>
+  <!-- Handle -->
+  <path d="M82 38 Q94 40 94 50 Q94 60 82 62" stroke="#9A9AA2" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- Inner rim shadow -->
+  <circle cx="50" cy="50" r="28" fill="none" stroke="#000" stroke-width="1.5" opacity="0.18"/>
+  <!-- Coffee surface -->
+  <circle cx="50" cy="50" r="26" fill="#6B3E1F"/>
+  <!-- Coffee highlight -->
+  <ellipse cx="42" cy="42" rx="9" ry="3.4" fill="#A06530" opacity="0.7"/>
+  <!-- Steam swirls -->
+  <g stroke="#FFFFFF" stroke-width="1.8" fill="none" opacity="0.65" stroke-linecap="round">
+    <path d="M36 30 Q33 22 38 16"/>
+    <path d="M50 26 Q53 18 48 10"/>
+    <path d="M64 30 Q67 22 62 16"/>
+  </g>
+</svg>

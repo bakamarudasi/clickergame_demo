@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80">
+  <g transform="rotate(-8 120 40)">
+    <!-- Shadow -->
+    <rect x="12" y="48" width="200" height="14" rx="4" fill="#000" opacity="0.22"/>
+    <!-- Pen body (black) -->
+    <rect x="10" y="35" width="200" height="16" rx="5" fill="#23262E"/>
+    <!-- Red cap -->
+    <rect x="10" y="35" width="70" height="16" rx="5" fill="#C73224"/>
+    <!-- Cap-body seam -->
+    <rect x="78" y="34" width="2.5" height="18" fill="#15171C"/>
+    <!-- Metal tip -->
+    <polygon points="210,35 232,43 210,51" fill="#B0B4BC"/>
+    <polygon points="226,41 236,43 226,45" fill="#23262E"/>
+    <!-- Body highlights -->
+    <rect x="14" y="37.5" width="64" height="2.4" fill="#FFFFFF" opacity="0.35"/>
+    <rect x="82" y="37.5" width="124" height="2.4" fill="#FFFFFF" opacity="0.2"/>
+    <!-- Clip on cap -->
+    <rect x="34" y="29" width="32" height="6" rx="2" fill="#9A2218"/>
+  </g>
+</svg>

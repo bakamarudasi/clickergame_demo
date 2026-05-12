@@ -9,9 +9,10 @@ static func click() -> void:
 
 
 static func tick(seconds: float = 1.0) -> void:
-	if GameState.per_second <= 0:
+	var rate := GameState.effective_per_second()
+	if rate <= 0:
 		return
-	GameState.add_currency(int(GameState.per_second * seconds))
+	GameState.add_currency(int(rate * seconds))
 
 
 static func current_cost(upgrade_id: StringName) -> int:

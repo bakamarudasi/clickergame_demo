@@ -4,30 +4,51 @@ extends Control
 # 他タブを直接参照しない。EconomyService 経由でのみ状態を変える。
 
 const GOLDEN_TEXTURE := preload("res://assets/paperwork.svg")
+const ICON_CLICK := preload("res://assets/ui/icon_click.svg")
+const ICON_AUTO := preload("res://assets/ui/icon_auto.svg")
+const ICON_MULT := preload("res://assets/ui/icon_mult.svg")
+const STAMP_APPROVED := preload("res://assets/ui/stamp_approved.svg")
+const PARTICLE_PAPER := preload("res://assets/ui/particle_paper.svg")
+const PARTICLE_INK := preload("res://assets/ui/particle_ink.svg")
+
+const CARD_ICON_SIZE := 28
+const PARTICLE_COUNT := 7
+const PARTICLE_SPEED_MIN := 140.0
+const PARTICLE_SPEED_MAX := 280.0
+const PARTICLE_LIFETIME := 0.65
+const PARTICLE_SIZE := 24.0
+const STAMP_CHANCE := 0.18
+const STAMP_SIZE := 180.0
+const STAMP_LIFETIME := 0.45
 
 @onready var document_button: TextureButton = %DocumentButton
-@onready var upgrade_list: VBoxContainer = %UpgradeList
-@onready var detail_name: Label = %DetailName
-@onready var detail_desc: Label = %DetailDesc
-@onready var detail_meta: Label = %DetailMeta
-@onready var buy_button: Button = %BuyButton
+@onready var upgrade_grid: GridContainer = %UpgradeGrid
+@onready var sticky_target_label: Label = %StickyTargetLabel
+@onready var prestige_bar: PanelContainer = %PrestigeBar
+@onready var prestige_preview: Label = %PrestigePreview
+@onready var prestige_button: Button = %PrestigeButton
+@onready var prestige_confirm: ConfirmationDialog = %PrestigeConfirm
 
 var _click_tween: Tween
-var _selected_id: StringName = &""
-var _button_group: ButtonGroup
 
 var _golden_timer: Timer
 var _golden_active_node: TextureButton = null
 
+# id → カード Dict（再構築せず差分更新するための索引）
+var _cards: Dictionary = {}
+var _expanded_id: StringName = &""
+
 
 func _ready() -> void:
-	_button_group = ButtonGroup.new()
 	document_button.pressed.connect(_on_click_pressed)
-	buy_button.pressed.connect(_on_buy_pressed)
-	EventBus.currency_changed.connect(_refresh_upgrade_buttons)
+	EventBus.currency_changed.connect(_refresh_all_cards)
+	EventBus.currency_changed.connect(_refresh_prestige_bar)
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
-	_build_upgrade_buttons()
-	_refresh_detail()
+	EventBus.meta_upgrade_purchased.connect(_on_meta_purchased)
+	prestige_button.pressed.connect(_on_prestige_button_pressed)
+	prestige_confirm.confirmed.connect(_on_prestige_confirmed)
+	_build_upgrade_cards()
+	_refresh_prestige_bar(0)
 	_setup_golden_timer()
 
 
@@ -42,8 +63,79 @@ func _setup_golden_timer() -> void:
 func _on_click_pressed() -> void:
 	var gained := GameState.click_power
 	EconomyService.click()
+	# 押下位置（document_button 上のローカル座標を WorkTab 座標へ変換）
+	var btn_rect := document_button.get_global_rect()
+	var click_global := document_button.get_global_mouse_position()
+	if not btn_rect.has_point(click_global):
+		click_global = btn_rect.get_center()
+	var click_local := click_global - global_position
 	_animate_click_squash()
+	_flash_document()
 	_spawn_click_popup(gained)
+	_spawn_click_particles(click_local)
+	if randf() < STAMP_CHANCE:
+		_spawn_approved_stamp(click_local)
+
+
+func _flash_document() -> void:
+	# クリックの瞬間に書類を一瞬白くする → 押した感触
+	var flash_tw := create_tween()
+	document_button.modulate = Color(1.3, 1.3, 1.3, 1.0)
+	flash_tw.tween_property(document_button, "modulate", Color(1, 1, 1, 1), 0.12)
+
+
+func _spawn_click_particles(origin: Vector2) -> void:
+	for i in PARTICLE_COUNT:
+		var tex: Texture2D = PARTICLE_PAPER if (i % 2 == 0) else PARTICLE_INK
+		var p := TextureRect.new()
+		p.texture = tex
+		p.custom_minimum_size = Vector2(PARTICLE_SIZE, PARTICLE_SIZE)
+		p.size = Vector2(PARTICLE_SIZE, PARTICLE_SIZE)
+		p.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		p.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		p.z_index = 90
+		p.pivot_offset = Vector2(PARTICLE_SIZE, PARTICLE_SIZE) * 0.5
+		p.position = origin - p.pivot_offset
+		add_child(p)
+		var angle := randf() * TAU
+		var speed := randf_range(PARTICLE_SPEED_MIN, PARTICLE_SPEED_MAX)
+		var velocity := Vector2(cos(angle), sin(angle)) * speed
+		var gravity := Vector2(0, 320.0)
+		# 終了位置（弾道近似）と回転終了角
+		var dur := PARTICLE_LIFETIME * randf_range(0.85, 1.15)
+		var end_pos := p.position + velocity * dur + gravity * dur * dur * 0.5
+		var end_rot := deg_to_rad(randf_range(-360.0, 360.0))
+		var tw := create_tween().set_parallel(true)
+		tw.tween_property(p, "position", end_pos, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.tween_property(p, "rotation", end_rot, dur)
+		tw.tween_property(p, "modulate:a", 0.0, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tw.tween_property(p, "scale", Vector2(0.6, 0.6), dur)
+		tw.chain().tween_callback(p.queue_free)
+
+
+func _spawn_approved_stamp(origin: Vector2) -> void:
+	var stamp := TextureRect.new()
+	stamp.texture = STAMP_APPROVED
+	stamp.custom_minimum_size = Vector2(STAMP_SIZE, STAMP_SIZE)
+	stamp.size = Vector2(STAMP_SIZE, STAMP_SIZE)
+	stamp.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	stamp.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamp.z_index = 95
+	stamp.pivot_offset = Vector2(STAMP_SIZE, STAMP_SIZE) * 0.5
+	stamp.position = origin - stamp.pivot_offset
+	stamp.scale = Vector2(2.4, 2.4)
+	stamp.modulate = Color(1, 1, 1, 0)
+	stamp.rotation = deg_to_rad(randf_range(-14.0, 14.0))
+	add_child(stamp)
+	var tw := create_tween().set_parallel(true)
+	# スタンプ叩きつけ：大きく出てキュッと縮む + 不透明度立ち上げ
+	tw.tween_property(stamp, "scale", Vector2(1.0, 1.0), 0.10).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(stamp, "modulate:a", 1.0, 0.06)
+	# 一拍置いてフェードアウト
+	tw.chain().tween_property(stamp, "modulate:a", 0.0, STAMP_LIFETIME).set_delay(0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.chain().tween_callback(stamp.queue_free)
 
 
 func _animate_click_squash() -> void:
@@ -86,75 +178,473 @@ func _spawn_click_popup(amount: int) -> void:
 	tw.chain().tween_callback(popup.queue_free)
 
 
-func _build_upgrade_buttons() -> void:
-	for child in upgrade_list.get_children():
+# --- カードビルド -------------------------------------------------------
+
+func _build_upgrade_cards() -> void:
+	for child in upgrade_grid.get_children():
 		child.queue_free()
-	for u: UpgradeData in DataRegistry.upgrades.values():
-		var b := Button.new()
-		b.toggle_mode = true
-		b.button_group = _button_group
-		b.text = _format_upgrade(u)
-		b.set_meta("upgrade_id", u.id)
-		b.pressed.connect(_on_upgrade_selected.bind(u.id))
-		upgrade_list.add_child(b)
-	_refresh_upgrade_buttons(0)
+	_cards.clear()
+	# レア度降順 → コスト昇順で並べる（強いやつが上に来る）
+	var upgrades: Array = DataRegistry.upgrades.values()
+	upgrades.sort_custom(func(a: UpgradeData, b: UpgradeData) -> bool:
+		if a.rarity != b.rarity:
+			return a.rarity > b.rarity
+		return a.base_cost < b.base_cost)
+	for u: UpgradeData in upgrades:
+		# メタ強化によるゲート：requires_meta が未解放なら表示しない
+		if not GameState.has_meta_unlock(u.requires_meta):
+			continue
+		var card := _make_card(u)
+		upgrade_grid.add_child(card)
+		_cards[u.id] = card
+	_refresh_all_cards(0)
 
 
-func _on_upgrade_selected(id: StringName) -> void:
-	_selected_id = id
-	_refresh_detail()
+func _make_card(u: UpgradeData) -> PanelContainer:
+	var rarity_color: Color = UIConstants.RARITY_COLORS.get(u.rarity, UIConstants.RARITY_COLORS[Enums.UpgradeRarity.COMMON])
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	panel.set_meta("upgrade_id", u.id)
+	panel.set_meta("rarity_color", rarity_color)
+
+	var sbox := StyleBoxFlat.new()
+	sbox.bg_color = UIConstants.RARITY_PANEL_BG
+	sbox.border_color = rarity_color
+	sbox.set_border_width_all(2)
+	sbox.set_corner_radius_all(8)
+	sbox.content_margin_left = 12
+	sbox.content_margin_right = 12
+	sbox.content_margin_top = 10
+	sbox.content_margin_bottom = 10
+	panel.add_theme_stylebox_override("panel", sbox)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 4)
+	vb.mouse_filter = Control.MOUSE_FILTER_PASS
+	panel.add_child(vb)
+
+	# --- ヘッダ：アイコン + 名前 + Lv --------------------------------------
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 8)
+	header.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(header)
+
+	var icon := TextureRect.new()
+	icon.texture = _icon_for_effect(u.effect_kind)
+	icon.custom_minimum_size = Vector2(CARD_ICON_SIZE, CARD_ICON_SIZE)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_PASS
+	header.add_child(icon)
+
+	var name_label := Label.new()
+	name_label.text = tr(u.display_name)
+	name_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	name_label.modulate = rarity_color
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	header.add_child(name_label)
+
+	var lv_label := Label.new()
+	lv_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	lv_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	header.add_child(lv_label)
+
+	# --- 効果ライン ---------------------------------------------------------
+	var effect_label := Label.new()
+	effect_label.text = _format_effect(u)
+	effect_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(effect_label)
+
+	# --- コストライン -------------------------------------------------------
+	var cost_label := Label.new()
+	cost_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(cost_label)
+
+	# --- 展開領域（リッチ詳細パネル） --------------------------------------
+	var expand := VBoxContainer.new()
+	expand.visible = false
+	expand.add_theme_constant_override("separation", 8)
+	expand.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(expand)
+
+	expand.add_child(HSeparator.new())
+
+	# ヘッダ行：大アイコン + レア度バッジ
+	var detail_head := HBoxContainer.new()
+	detail_head.add_theme_constant_override("separation", 10)
+	detail_head.mouse_filter = Control.MOUSE_FILTER_PASS
+	expand.add_child(detail_head)
+
+	var big_icon := TextureRect.new()
+	big_icon.texture = _icon_for_effect(u.effect_kind)
+	big_icon.custom_minimum_size = Vector2(56, 56)
+	big_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	big_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	big_icon.mouse_filter = Control.MOUSE_FILTER_PASS
+	detail_head.add_child(big_icon)
+
+	var rarity_badge := Label.new()
+	rarity_badge.text = _rarity_key(u.rarity)
+	rarity_badge.theme_type_variation = UIConstants.VAR_TITLE_LABEL
+	rarity_badge.modulate = rarity_color
+	rarity_badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rarity_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	rarity_badge.mouse_filter = Control.MOUSE_FILTER_PASS
+	detail_head.add_child(rarity_badge)
+
+	# 説明文
+	var desc_label := Label.new()
+	desc_label.text = tr(u.description)
+	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	desc_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	expand.add_child(desc_label)
+
+	expand.add_child(HSeparator.new())
+
+	# 統計グリッド（ラベル｜値 の2列）
+	var stats := GridContainer.new()
+	stats.columns = 2
+	stats.add_theme_constant_override("h_separation", 12)
+	stats.add_theme_constant_override("v_separation", 4)
+	stats.mouse_filter = Control.MOUSE_FILTER_PASS
+	expand.add_child(stats)
+
+	var per_lv_label := _make_stat_key_label("WORK_UPGRADE_STATS_PER_LV")
+	var per_lv_value := _make_stat_value_label()
+	per_lv_value.text = _format_effect(u)
+	stats.add_child(per_lv_label)
+	stats.add_child(per_lv_value)
+
+	var total_label := _make_stat_key_label("WORK_UPGRADE_STATS_TOTAL")
+	var total_value := _make_stat_value_label()
+	stats.add_child(total_label)
+	stats.add_child(total_value)
+
+	var invested_label := _make_stat_key_label("WORK_UPGRADE_STATS_INVESTED")
+	var invested_value := _make_stat_value_label()
+	stats.add_child(invested_label)
+	stats.add_child(invested_value)
+
+	var next_label := _make_stat_key_label("WORK_UPGRADE_STATS_NEXT_COST")
+	var next_value := _make_stat_value_label()
+	stats.add_child(next_label)
+	stats.add_child(next_value)
+
+	# 不足額 or 「購入可」のヒント
+	var afford_label := Label.new()
+	afford_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	afford_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	afford_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	expand.add_child(afford_label)
+
+	# 購入ボタン（広め・レア度色アクセント）
+	var buy_button := Button.new()
+	buy_button.text = tr("WORK_UPGRADE_BUY_BUTTON")
+	buy_button.custom_minimum_size = Vector2(0, 36)
+	buy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buy_button.add_theme_color_override("font_color", rarity_color)
+	buy_button.pressed.connect(_on_buy_pressed.bind(u.id))
+	expand.add_child(buy_button)
+
+	# クリックでアコーディオン展開（buy_button は STOP で食う）
+	panel.gui_input.connect(_on_card_gui_input.bind(u.id))
+
+	panel.set_meta("name_label", name_label)
+	panel.set_meta("lv_label", lv_label)
+	panel.set_meta("effect_label", effect_label)
+	panel.set_meta("cost_label", cost_label)
+	panel.set_meta("desc_label", desc_label)
+	panel.set_meta("expand", expand)
+	panel.set_meta("buy_button", buy_button)
+	panel.set_meta("stylebox", sbox)
+	panel.set_meta("rarity_badge", rarity_badge)
+	panel.set_meta("total_value", total_value)
+	panel.set_meta("invested_value", invested_value)
+	panel.set_meta("next_value", next_value)
+	panel.set_meta("afford_label", afford_label)
+	panel.set_meta("glow_tween", null)
+
+	return panel
 
 
-func _refresh_upgrade_buttons(_v: int = 0) -> void:
-	for child in upgrade_list.get_children():
-		if child is Button:
-			var id: StringName = child.get_meta("upgrade_id")
-			var u := DataRegistry.get_upgrade(id)
-			if u == null:
-				continue
-			child.text = _format_upgrade(u)
-	_refresh_detail()
+func _make_stat_key_label(key: String) -> Label:
+	var l := Label.new()
+	# Godot は Label.text に翻訳キーが入っていれば自動で tr する。
+	# 静的キーラベルはこの仕組みでロケール切替に追従させる。
+	l.text = key
+	l.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	l.modulate = Color(1, 1, 1, 0.75)
+	l.mouse_filter = Control.MOUSE_FILTER_PASS
+	return l
 
 
-func _refresh_detail() -> void:
-	if _selected_id == &"":
-		detail_name.text = ""
-		detail_desc.text = tr("WORK_UPGRADE_DETAIL_NONE")
-		detail_meta.text = ""
-		buy_button.disabled = true
+func _make_stat_value_label() -> Label:
+	var l := Label.new()
+	l.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	l.mouse_filter = Control.MOUSE_FILTER_PASS
+	return l
+
+
+func _rarity_key(r: Enums.UpgradeRarity) -> String:
+	match r:
+		Enums.UpgradeRarity.LEGENDARY: return "WORK_UPGRADE_RARITY_LEGENDARY"
+		Enums.UpgradeRarity.EPIC: return "WORK_UPGRADE_RARITY_EPIC"
+		Enums.UpgradeRarity.RARE: return "WORK_UPGRADE_RARITY_RARE"
+		_: return "WORK_UPGRADE_RARITY_COMMON"
+
+
+func _cumulative_invested(u: UpgradeData, level: int) -> int:
+	if level <= 0:
+		return 0
+	var sum := 0.0
+	var c := float(u.base_cost)
+	for i in level:
+		sum += c
+		c *= u.cost_growth
+	return int(sum)
+
+
+func _format_total_contribution(u: UpgradeData, level: int) -> String:
+	var amt := u.effect_amount * float(level)
+	match u.effect_kind:
+		Enums.UpgradeEffectKind.ADD_CLICK:
+			return tr("WORK_UPGRADE_EFFECT_CLICK") % FormatUtils.short(int(round(amt)))
+		Enums.UpgradeEffectKind.ADD_PER_SEC:
+			return tr("WORK_UPGRADE_EFFECT_SEC") % FormatUtils.short(int(round(amt)))
+		Enums.UpgradeEffectKind.MULT_CLICK:
+			# 倍率は重ねがけ：effect_amount^level
+			var mult := pow(u.effect_amount, level)
+			return tr("WORK_UPGRADE_EFFECT_MULT") % ("%.1f" % mult)
+	return ""
+
+
+func _icon_for_effect(kind: Enums.UpgradeEffectKind) -> Texture2D:
+	match kind:
+		Enums.UpgradeEffectKind.ADD_CLICK:
+			return ICON_CLICK
+		Enums.UpgradeEffectKind.ADD_PER_SEC:
+			return ICON_AUTO
+		Enums.UpgradeEffectKind.MULT_CLICK:
+			return ICON_MULT
+	return ICON_CLICK
+
+
+func _format_effect(u: UpgradeData) -> String:
+	var amt := FormatUtils.short(int(round(u.effect_amount)))
+	match u.effect_kind:
+		Enums.UpgradeEffectKind.ADD_CLICK:
+			return tr("WORK_UPGRADE_EFFECT_CLICK") % amt
+		Enums.UpgradeEffectKind.ADD_PER_SEC:
+			return tr("WORK_UPGRADE_EFFECT_SEC") % amt
+		Enums.UpgradeEffectKind.MULT_CLICK:
+			return tr("WORK_UPGRADE_EFFECT_MULT") % ("%.1f" % u.effect_amount)
+	return ""
+
+
+# --- 状態更新 -----------------------------------------------------------
+
+func _refresh_all_cards(_v: int = 0) -> void:
+	for id in _cards.keys():
+		_refresh_card(id)
+	_refresh_sticky_target()
+
+
+func _refresh_sticky_target() -> void:
+	# 「次の目標」付箋：未MAX強化の中で最も安いものを指す。
+	var min_cost := -1
+	var target_id: StringName = &""
+	for id in DataRegistry.upgrades:
+		var u := DataRegistry.get_upgrade(id)
+		if u == null:
+			continue
+		var lv := GameState.get_upgrade_level(id)
+		if u.max_level > 0 and lv >= u.max_level:
+			continue
+		var c := EconomyService.current_cost(id)
+		if min_cost < 0 or c < min_cost:
+			min_cost = c
+			target_id = id
+	if target_id == &"":
+		sticky_target_label.text = tr("WORK_STICKY_ALL_MAX")
 		return
-	var u := DataRegistry.get_upgrade(_selected_id)
+	var u := DataRegistry.get_upgrade(target_id)
+	sticky_target_label.text = "%s\n%s\n¥ %s" % [
+		tr("WORK_STICKY_HEADING"),
+		tr(u.display_name),
+		FormatUtils.short(min_cost),
+	]
+
+
+func _refresh_card(id: StringName) -> void:
+	var card: PanelContainer = _cards.get(id)
+	if card == null:
+		return
+	var u := DataRegistry.get_upgrade(id)
 	if u == null:
-		_selected_id = &""
-		_refresh_detail()
 		return
-	var lv := GameState.get_upgrade_level(_selected_id)
-	var cost := EconomyService.current_cost(_selected_id)
-	detail_name.text = tr(u.display_name)
-	detail_desc.text = tr(u.description)
-	detail_meta.text = tr("WORK_UPGRADE_DETAIL_FMT") % [lv, FormatUtils.short(cost)]
-	buy_button.disabled = not EconomyService.can_buy_upgrade(_selected_id)
+	var lv := GameState.get_upgrade_level(id)
+	var maxed := u.max_level > 0 and lv >= u.max_level
+	var can_buy := EconomyService.can_buy_upgrade(id) and not maxed
+
+	var lv_label: Label = card.get_meta("lv_label")
+	var cost_label: Label = card.get_meta("cost_label")
+	var buy_button: Button = card.get_meta("buy_button")
+	var total_value: Label = card.get_meta("total_value")
+	var invested_value: Label = card.get_meta("invested_value")
+	var next_value: Label = card.get_meta("next_value")
+	var afford_label: Label = card.get_meta("afford_label")
+
+	total_value.text = _format_total_contribution(u, lv)
+	invested_value.text = tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(_cumulative_invested(u, lv))
+
+	if maxed:
+		lv_label.text = tr("WORK_UPGRADE_LV_MAX_FMT") % lv
+		cost_label.text = tr("WORK_UPGRADE_COST_MAX")
+		next_value.text = tr("WORK_UPGRADE_COST_MAX")
+		afford_label.text = ""
+		buy_button.disabled = true
+	else:
+		lv_label.text = tr("WORK_UPGRADE_LV_FMT") % lv
+		var cost := EconomyService.current_cost(id)
+		var cost_str := tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(cost)
+		cost_label.text = cost_str
+		next_value.text = cost_str
+		buy_button.disabled = not can_buy
+		if can_buy:
+			afford_label.text = tr("WORK_UPGRADE_STATS_AFFORD")
+			afford_label.modulate = UIConstants.RARITY_COLORS[u.rarity]
+		else:
+			var short_by := cost - GameState.currency
+			afford_label.text = tr("WORK_UPGRADE_STATS_SHORT") % FormatUtils.short(short_by)
+			afford_label.modulate = Color(1, 1, 1, 0.6)
+
+	# 買える時だけ脈動。MAX / 買えない時は通常表示で固定。
+	_set_glow(card, can_buy)
+	# 買えない・MAX のときは少し暗くする
+	var sbox: StyleBoxFlat = card.get_meta("stylebox")
+	if maxed:
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_DISABLED
+	elif can_buy:
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG
+	else:
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_DISABLED
 
 
-func _on_buy_pressed() -> void:
-	if _selected_id == &"":
+func _set_glow(card: PanelContainer, on: bool) -> void:
+	var existing: Tween = card.get_meta("glow_tween")
+	if existing != null and existing.is_valid():
+		existing.kill()
+		card.set_meta("glow_tween", null)
+	if not on:
+		card.modulate = Color(1, 1, 1, 1)
 		return
-	EconomyService.buy_upgrade(_selected_id)
+	var tw := create_tween().set_loops().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var half := UIConstants.CARD_GLOW_PERIOD * 0.5
+	var hi := Color(UIConstants.CARD_GLOW_MAX, UIConstants.CARD_GLOW_MAX, UIConstants.CARD_GLOW_MAX, 1.0)
+	var lo := Color(UIConstants.CARD_GLOW_MIN, UIConstants.CARD_GLOW_MIN, UIConstants.CARD_GLOW_MIN, 1.0)
+	tw.tween_property(card, "modulate", hi, half)
+	tw.tween_property(card, "modulate", lo, half)
+	card.set_meta("glow_tween", tw)
 
 
-func _on_upgrade_purchased(_id: StringName, _lv: int) -> void:
-	_refresh_upgrade_buttons()
+# --- インタラクション ---------------------------------------------------
+
+func _on_card_gui_input(event: InputEvent, id: StringName) -> void:
+	if event is InputEventMouseButton:
+		var mb: InputEventMouseButton = event
+		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
+			_toggle_expand(id)
 
 
-func _format_upgrade(u: UpgradeData) -> String:
-	var lv := GameState.get_upgrade_level(u.id)
-	var cost := EconomyService.current_cost(u.id)
-	return tr("WORK_UPGRADE_FMT") % [tr(u.display_name), lv, FormatUtils.short(cost)]
+func _toggle_expand(id: StringName) -> void:
+	if _expanded_id == id:
+		_set_expanded(id, false)
+		_expanded_id = &""
+		return
+	if _expanded_id != &"":
+		_set_expanded(_expanded_id, false)
+	_set_expanded(id, true)
+	_expanded_id = id
+
+
+func _set_expanded(id: StringName, on: bool) -> void:
+	var card: PanelContainer = _cards.get(id)
+	if card == null:
+		return
+	var expand: VBoxContainer = card.get_meta("expand")
+	expand.visible = on
+
+
+func _on_buy_pressed(id: StringName) -> void:
+	EconomyService.buy_upgrade(id)
+
+
+func _on_upgrade_purchased(id: StringName, _lv: int) -> void:
+	_refresh_card(id)
+
+
+func _on_meta_purchased(_id: StringName, _lv: int) -> void:
+	# メタ強化購入で requires_meta 解放されたカードが増える可能性 → 再構築
+	_build_upgrade_cards()
+
+
+# --- プレステージ -------------------------------------------------------
+
+func _refresh_prestige_bar(_v: int = 0) -> void:
+	if not GameState.is_prestige_unlocked():
+		prestige_bar.visible = false
+		return
+	prestige_bar.visible = true
+	var gain := GameState.compute_prestige_currency_gained()
+	prestige_preview.text = tr("WORK_PRESTIGE_PREVIEW_FMT") % FormatUtils.short(gain)
+	prestige_button.disabled = gain <= 0
+
+
+func _on_prestige_button_pressed() -> void:
+	var gain := GameState.compute_prestige_currency_gained()
+	var pc := GameState.prestige_count
+	var lines := [
+		tr("WORK_PRESTIGE_CONFIRM_BODY_LOSS"),
+		tr("WORK_PRESTIGE_CONFIRM_BODY_KEEP"),
+		"",
+		tr("WORK_PRESTIGE_CONFIRM_BODY_GAIN") % FormatUtils.short(gain),
+		tr("WORK_PRESTIGE_CONFIRM_BODY_RUN") % [pc, pc + 1],
+	]
+	prestige_confirm.dialog_text = "\n".join(lines)
+	prestige_confirm.popup_centered()
+
+
+func _on_prestige_confirmed() -> void:
+	GameState.do_prestige_reset()
+	# 走行リセットされたので強化カードを再構築 + プレステージバーも更新
+	_build_upgrade_cards()
+	_refresh_prestige_bar(0)
 
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
-		_refresh_upgrade_buttons()
+		_rebuild_static_text()
+
+
+func _rebuild_static_text() -> void:
+	for id in _cards.keys():
+		var card: PanelContainer = _cards[id]
+		var u := DataRegistry.get_upgrade(id)
+		if u == null:
+			continue
+		(card.get_meta("name_label") as Label).text = tr(u.display_name)
+		(card.get_meta("desc_label") as Label).text = tr(u.description)
+		(card.get_meta("effect_label") as Label).text = _format_effect(u)
+		(card.get_meta("buy_button") as Button).text = tr("WORK_UPGRADE_BUY_BUTTON")
+	_refresh_all_cards(0)
 
 
 # --- ゴールデン書類 -----------------------------------------------------

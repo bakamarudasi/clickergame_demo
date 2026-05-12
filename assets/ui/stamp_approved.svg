@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Double-ring stamp -->
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#C03028" stroke-width="4.5"/>
+  <circle cx="50" cy="50" r="36" fill="none" stroke="#C03028" stroke-width="2"/>
+  <!-- Big check mark -->
+  <path d="M28 52 L44 70 L74 34" fill="none" stroke="#C03028" stroke-width="8.5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Slight ink imperfections -->
+  <circle cx="22" cy="30" r="1.4" fill="#C03028" opacity="0.7"/>
+  <circle cx="78" cy="70" r="1.2" fill="#C03028" opacity="0.6"/>
+  <circle cx="80" cy="22" r="0.9" fill="#C03028" opacity="0.5"/>
+</svg>

@@ -8,5 +8,6 @@ extends Resource
 @export var effect_kind: Enums.UpgradeEffectKind = Enums.UpgradeEffectKind.ADD_CLICK
 @export var effect_amount: float = 1.0
 @export var max_level: int = -1
+@export var rarity: Enums.UpgradeRarity = Enums.UpgradeRarity.COMMON
 @export var requires_meta: StringName = &""          # 空でない場合、当該メタ強化が解放されている時だけ Workタブに出現
 @export_multiline var description: String = ""

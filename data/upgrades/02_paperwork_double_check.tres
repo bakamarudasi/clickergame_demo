@@ -11,4 +11,5 @@ cost_growth = 1.6
 effect_kind = 0
 effect_amount = 5.0
 max_level = -1
+rarity = 1
 description = "UPGRADE_PAPERWORK_DOUBLE_CHECK_DESC"

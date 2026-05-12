@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 110">
+  <g transform="rotate(-4 60 55)">
+    <!-- Drop shadow -->
+    <rect x="9" y="10" width="104" height="92" fill="#000" opacity="0.22"/>
+    <!-- Note body -->
+    <rect x="6" y="6" width="104" height="92" fill="#FFE680" stroke="#D4B850" stroke-width="0.6"/>
+    <!-- Folded corner -->
+    <path d="M110 6 L110 22 L94 6 Z" fill="#E0C040" opacity="0.55"/>
+    <!-- Adhesive strip at top -->
+    <rect x="22" y="3" width="76" height="6" fill="#E0C040" opacity="0.5"/>
+  </g>
+</svg>

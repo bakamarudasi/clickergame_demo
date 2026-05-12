@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MetaUpgradeData" load_steps=2 format=3 uid="uid://metabondlemuen0"]
+
+[ext_resource type="Script" path="res://scripts/data/meta_upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"bond_lemuen"
+display_name = "META_BOND_LEMUEN_NAME"
+pillar = 0
+base_cost = 10
+cost_growth = 2.2
+max_level = 5
+target_id = &"lemuen"
+description = "META_BOND_LEMUEN_DESC"

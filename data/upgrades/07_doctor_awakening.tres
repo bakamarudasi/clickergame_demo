@@ -11,4 +11,5 @@ cost_growth = 3.0
 effect_kind = 2
 effect_amount = 2.0
 max_level = 3
+rarity = 3
 description = "UPGRADE_DOCTOR_AWAKENING_DESC"
