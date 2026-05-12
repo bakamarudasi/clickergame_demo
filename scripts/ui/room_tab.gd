@@ -355,22 +355,18 @@ func _refresh_portrait() -> void:
 		face_overlay.visible = false
 		_clear_portrait_scene()
 		return
+	var op := DataRegistry.get_operator(_current_op)
 	var rt := GameState.get_runtime(_current_op)
-	if rt == null:
+	if op == null or rt == null:
 		portrait_view.texture = null
 		face_overlay.visible = false
 		_clear_portrait_scene()
 		return
 	var costume := DataRegistry.get_costume(rt.equipped_costume)
-	if costume == null:
-		portrait_view.texture = null
-		face_overlay.visible = false
-		_clear_portrait_scene()
-		return
 	# シーン方式（Spine / Live2D / AnimationPlayer 等）が指定されてればそちらを優先。
 	# シーンルート側で表情・ポーズ・xray・arousal を全部捌くので、静的 PNG 系の
 	# 表示は止める。
-	if costume.portrait_scene != null:
+	if costume != null and costume.portrait_scene != null:
 		_ensure_portrait_scene(costume.portrait_scene)
 		portrait_view.visible = false
 		face_overlay.visible = false
@@ -378,14 +374,22 @@ func _refresh_portrait() -> void:
 		return
 	_clear_portrait_scene()
 	portrait_view.visible = true
+	# 体スプライト：costume.sprite が最優先、未設定なら op.portrait_idle にフォールバック。
+	# 衣装を一切組まずに portrait_idle だけ差した運用でも立ち絵が出る。
+	var base_sprite: Texture2D = null
+	if costume != null and costume.sprite != null:
+		base_sprite = costume.sprite
+	else:
+		base_sprite = op.portrait_idle
 	# 表情フラッシュ中はそれを最優先。顔差分（layered）→ 全身差し替え（full swap）の順に解決。
 	if _expression_show_until_unix > Time.get_unix_time_from_system() and _active_expression != &"":
 		var face_tex := _face_overlay_texture(_active_expression)
 		if face_tex != null:
 			# 顔レイヤー方式：体は通常 sprite を出して、顔だけ重ねる
-			portrait_view.texture = costume.sprite
+			portrait_view.texture = base_sprite
 			face_overlay.texture = face_tex
-			_position_face_overlay(costume)
+			if costume != null:
+				_position_face_overlay(costume)
 			face_overlay.visible = true
 			_apply_arousal_tint()
 			return
@@ -398,12 +402,12 @@ func _refresh_portrait() -> void:
 			return
 	# フラッシュ無し（または該当テクスチャ無し）→ 顔オーバレイは隠す
 	face_overlay.visible = false
-	if _pose_show_until_unix > Time.get_unix_time_from_system():
-		portrait_view.texture = costume.sprite_pose_seductive if costume.sprite_pose_seductive != null else costume.sprite
-	elif GameState.xray_active:
+	if _pose_show_until_unix > Time.get_unix_time_from_system() and costume != null:
+		portrait_view.texture = costume.sprite_pose_seductive if costume.sprite_pose_seductive != null else base_sprite
+	elif GameState.xray_active and costume != null:
 		portrait_view.texture = costume.get_xray_sprite(ScopeService.current_view_kind())
 	else:
-		portrait_view.texture = costume.sprite
+		portrait_view.texture = base_sprite
 	_apply_arousal_tint()
 
 
