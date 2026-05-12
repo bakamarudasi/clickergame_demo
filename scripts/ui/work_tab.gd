@@ -252,16 +252,39 @@ func _make_card(u: UpgradeData) -> PanelContainer:
 	cost_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	vb.add_child(cost_label)
 
-	# --- 展開領域（説明 + 購入） -------------------------------------------
+	# --- 展開領域（リッチ詳細パネル） --------------------------------------
 	var expand := VBoxContainer.new()
 	expand.visible = false
-	expand.add_theme_constant_override("separation", 6)
+	expand.add_theme_constant_override("separation", 8)
 	expand.mouse_filter = Control.MOUSE_FILTER_PASS
 	vb.add_child(expand)
 
-	var divider := HSeparator.new()
-	expand.add_child(divider)
+	expand.add_child(HSeparator.new())
 
+	# ヘッダ行：大アイコン + レア度バッジ
+	var detail_head := HBoxContainer.new()
+	detail_head.add_theme_constant_override("separation", 10)
+	detail_head.mouse_filter = Control.MOUSE_FILTER_PASS
+	expand.add_child(detail_head)
+
+	var big_icon := TextureRect.new()
+	big_icon.texture = _icon_for_effect(u.effect_kind)
+	big_icon.custom_minimum_size = Vector2(56, 56)
+	big_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	big_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	big_icon.mouse_filter = Control.MOUSE_FILTER_PASS
+	detail_head.add_child(big_icon)
+
+	var rarity_badge := Label.new()
+	rarity_badge.text = _rarity_key(u.rarity)
+	rarity_badge.theme_type_variation = UIConstants.VAR_TITLE_LABEL
+	rarity_badge.modulate = rarity_color
+	rarity_badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rarity_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	rarity_badge.mouse_filter = Control.MOUSE_FILTER_PASS
+	detail_head.add_child(rarity_badge)
+
+	# 説明文
 	var desc_label := Label.new()
 	desc_label.text = tr(u.description)
 	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -269,8 +292,50 @@ func _make_card(u: UpgradeData) -> PanelContainer:
 	desc_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	expand.add_child(desc_label)
 
+	expand.add_child(HSeparator.new())
+
+	# 統計グリッド（ラベル｜値 の2列）
+	var stats := GridContainer.new()
+	stats.columns = 2
+	stats.add_theme_constant_override("h_separation", 12)
+	stats.add_theme_constant_override("v_separation", 4)
+	stats.mouse_filter = Control.MOUSE_FILTER_PASS
+	expand.add_child(stats)
+
+	var per_lv_label := _make_stat_key_label("WORK_UPGRADE_STATS_PER_LV")
+	var per_lv_value := _make_stat_value_label()
+	per_lv_value.text = _format_effect(u)
+	stats.add_child(per_lv_label)
+	stats.add_child(per_lv_value)
+
+	var total_label := _make_stat_key_label("WORK_UPGRADE_STATS_TOTAL")
+	var total_value := _make_stat_value_label()
+	stats.add_child(total_label)
+	stats.add_child(total_value)
+
+	var invested_label := _make_stat_key_label("WORK_UPGRADE_STATS_INVESTED")
+	var invested_value := _make_stat_value_label()
+	stats.add_child(invested_label)
+	stats.add_child(invested_value)
+
+	var next_label := _make_stat_key_label("WORK_UPGRADE_STATS_NEXT_COST")
+	var next_value := _make_stat_value_label()
+	stats.add_child(next_label)
+	stats.add_child(next_value)
+
+	# 不足額 or 「購入可」のヒント
+	var afford_label := Label.new()
+	afford_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	afford_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	afford_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	expand.add_child(afford_label)
+
+	# 購入ボタン（広め・レア度色アクセント）
 	var buy_button := Button.new()
 	buy_button.text = tr("WORK_UPGRADE_BUY_BUTTON")
+	buy_button.custom_minimum_size = Vector2(0, 36)
+	buy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buy_button.add_theme_color_override("font_color", rarity_color)
 	buy_button.pressed.connect(_on_buy_pressed.bind(u.id))
 	expand.add_child(buy_button)
 
@@ -279,14 +344,73 @@ func _make_card(u: UpgradeData) -> PanelContainer:
 
 	panel.set_meta("name_label", name_label)
 	panel.set_meta("lv_label", lv_label)
+	panel.set_meta("effect_label", effect_label)
 	panel.set_meta("cost_label", cost_label)
 	panel.set_meta("desc_label", desc_label)
 	panel.set_meta("expand", expand)
 	panel.set_meta("buy_button", buy_button)
 	panel.set_meta("stylebox", sbox)
+	panel.set_meta("rarity_badge", rarity_badge)
+	panel.set_meta("total_value", total_value)
+	panel.set_meta("invested_value", invested_value)
+	panel.set_meta("next_value", next_value)
+	panel.set_meta("afford_label", afford_label)
 	panel.set_meta("glow_tween", null)
 
 	return panel
+
+
+func _make_stat_key_label(key: String) -> Label:
+	var l := Label.new()
+	# Godot は Label.text に翻訳キーが入っていれば自動で tr する。
+	# 静的キーラベルはこの仕組みでロケール切替に追従させる。
+	l.text = key
+	l.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	l.modulate = Color(1, 1, 1, 0.75)
+	l.mouse_filter = Control.MOUSE_FILTER_PASS
+	return l
+
+
+func _make_stat_value_label() -> Label:
+	var l := Label.new()
+	l.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	l.mouse_filter = Control.MOUSE_FILTER_PASS
+	return l
+
+
+func _rarity_key(r: Enums.UpgradeRarity) -> String:
+	match r:
+		Enums.UpgradeRarity.LEGENDARY: return "WORK_UPGRADE_RARITY_LEGENDARY"
+		Enums.UpgradeRarity.EPIC: return "WORK_UPGRADE_RARITY_EPIC"
+		Enums.UpgradeRarity.RARE: return "WORK_UPGRADE_RARITY_RARE"
+		_: return "WORK_UPGRADE_RARITY_COMMON"
+
+
+func _cumulative_invested(u: UpgradeData, level: int) -> int:
+	if level <= 0:
+		return 0
+	var sum := 0.0
+	var c := float(u.base_cost)
+	for i in level:
+		sum += c
+		c *= u.cost_growth
+	return int(sum)
+
+
+func _format_total_contribution(u: UpgradeData, level: int) -> String:
+	var amt := u.effect_amount * float(level)
+	match u.effect_kind:
+		Enums.UpgradeEffectKind.ADD_CLICK:
+			return tr("WORK_UPGRADE_EFFECT_CLICK") % FormatUtils.short(int(round(amt)))
+		Enums.UpgradeEffectKind.ADD_PER_SEC:
+			return tr("WORK_UPGRADE_EFFECT_SEC") % FormatUtils.short(int(round(amt)))
+		Enums.UpgradeEffectKind.MULT_CLICK:
+			# 倍率は重ねがけ：effect_amount^level
+			var mult := pow(u.effect_amount, level)
+			return tr("WORK_UPGRADE_EFFECT_MULT") % ("%.1f" % mult)
+	return ""
 
 
 func _icon_for_effect(kind: Enums.UpgradeEffectKind) -> Texture2D:
@@ -333,16 +457,34 @@ func _refresh_card(id: StringName) -> void:
 	var lv_label: Label = card.get_meta("lv_label")
 	var cost_label: Label = card.get_meta("cost_label")
 	var buy_button: Button = card.get_meta("buy_button")
+	var total_value: Label = card.get_meta("total_value")
+	var invested_value: Label = card.get_meta("invested_value")
+	var next_value: Label = card.get_meta("next_value")
+	var afford_label: Label = card.get_meta("afford_label")
+
+	total_value.text = _format_total_contribution(u, lv)
+	invested_value.text = tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(_cumulative_invested(u, lv))
 
 	if maxed:
 		lv_label.text = tr("WORK_UPGRADE_LV_MAX_FMT") % lv
 		cost_label.text = tr("WORK_UPGRADE_COST_MAX")
+		next_value.text = tr("WORK_UPGRADE_COST_MAX")
+		afford_label.text = ""
 		buy_button.disabled = true
 	else:
 		lv_label.text = tr("WORK_UPGRADE_LV_FMT") % lv
 		var cost := EconomyService.current_cost(id)
-		cost_label.text = tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(cost)
+		var cost_str := tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(cost)
+		cost_label.text = cost_str
+		next_value.text = cost_str
 		buy_button.disabled = not can_buy
+		if can_buy:
+			afford_label.text = tr("WORK_UPGRADE_STATS_AFFORD")
+			afford_label.modulate = UIConstants.RARITY_COLORS[u.rarity]
+		else:
+			var short_by := cost - GameState.currency
+			afford_label.text = tr("WORK_UPGRADE_STATS_SHORT") % FormatUtils.short(short_by)
+			afford_label.modulate = Color(1, 1, 1, 0.6)
 
 	# 買える時だけ脈動。MAX / 買えない時は通常表示で固定。
 	_set_glow(card, can_buy)
@@ -422,6 +564,7 @@ func _rebuild_static_text() -> void:
 			continue
 		(card.get_meta("name_label") as Label).text = tr(u.display_name)
 		(card.get_meta("desc_label") as Label).text = tr(u.description)
+		(card.get_meta("effect_label") as Label).text = _format_effect(u)
 		(card.get_meta("buy_button") as Button).text = tr("WORK_UPGRADE_BUY_BUTTON")
 	_refresh_all_cards(0)
 

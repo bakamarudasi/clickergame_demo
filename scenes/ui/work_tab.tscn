@@ -26,7 +26,7 @@ theme_override_constants/separation = 24
 [node name="LeftCol" type="VBoxContainer" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.0
+size_flags_stretch_ratio = 4.0
 theme_override_constants/separation = 16
 
 [node name="DocumentButton" type="TextureButton" parent="HBox/LeftCol"]
@@ -40,7 +40,7 @@ stretch_mode = 5
 [node name="RightCol" type="VBoxContainer" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.1
+size_flags_stretch_ratio = 6.0
 theme_override_constants/separation = 12
 
 [node name="UpgradesTitle" type="Label" parent="HBox/RightCol"]

@@ -21,6 +21,16 @@ WORK_UPGRADE_COST_MAX,—— MAX ——,—— MAX ——,—— 已满 ——
 WORK_UPGRADE_EFFECT_CLICK,+%s / クリック,+%s / click,+%s / 点击
 WORK_UPGRADE_EFFECT_SEC,+%s / 秒,+%s / s,+%s / 秒
 WORK_UPGRADE_EFFECT_MULT,クリック ×%s,Click ×%s,点击 ×%s
+WORK_UPGRADE_STATS_PER_LV,Lvあたり,Per level,每级
+WORK_UPGRADE_STATS_TOTAL,合計貢献,Total contribution,总贡献
+WORK_UPGRADE_STATS_INVESTED,累計投資,Total invested,累计投资
+WORK_UPGRADE_STATS_NEXT_COST,次Lvコスト,Next level cost,下级费用
+WORK_UPGRADE_STATS_SHORT,あと ¥%s で購入可,Need ¥%s more,还差 ¥%s 可购买
+WORK_UPGRADE_STATS_AFFORD,購入可能！,Affordable!,可购买！
+WORK_UPGRADE_RARITY_COMMON,コモン,Common,普通
+WORK_UPGRADE_RARITY_RARE,レア,Rare,稀有
+WORK_UPGRADE_RARITY_EPIC,エピック,Epic,史诗
+WORK_UPGRADE_RARITY_LEGENDARY,レジェンダリー,Legendary,传说
 UPGRADE_CLICK_PLUS_ONE_NAME,ケルシーの無言の圧力,Kal'tsit's Silent Pressure,凯尔希的无言压力
 UPGRADE_CLICK_PLUS_ONE_DESC,「……。」背後に立つ彼女の冷ややかな視線を感じるだけで、ペンの走りが少しだけ速くなる。背筋は凍る。,"""…"" Just feeling her icy gaze from behind speeds up your pen a little. Your spine, on the other hand, freezes.",“……。”仅仅感受到站在身后的她那冰冷的视线，笔尖的速度便会稍稍加快。而脊背则瞬间冻住。
 UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アーミヤの「まだ休んじゃダメですよ」,"Amiya — ""You Can't Rest Yet""",阿米娅的“现在还不能休息哦”
