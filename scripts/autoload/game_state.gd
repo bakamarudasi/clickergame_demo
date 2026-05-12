@@ -433,11 +433,14 @@ func is_prestige_unlocked() -> bool:
 
 
 # 今リセットしたら何源石片もらえるかのプレビュー。
-# 計算式: floor(sqrt(total_earned_this_run / 1M))
+# 計算式: floor(sqrt((total_earned_this_run + currency) / 1M))
+# Cookie Clicker 方式：累計獲得 + 現在手持ちの合算。
+# 手元¥は実質二重カウントになり、抱え込みにも報酬を出すバランス設計。
 func compute_prestige_currency_gained() -> int:
-	if total_earned_this_run < PRESTIGE_CURRENCY_DIVISOR:
+	var pool := total_earned_this_run + currency
+	if pool < PRESTIGE_CURRENCY_DIVISOR:
 		return 0
-	return int(floor(sqrt(float(total_earned_this_run) / float(PRESTIGE_CURRENCY_DIVISOR))))
+	return int(floor(sqrt(float(pool) / float(PRESTIGE_CURRENCY_DIVISOR))))
 
 
 # プレステージ実行：周回通貨を確定して獲得、走行中の進行をリセット。
