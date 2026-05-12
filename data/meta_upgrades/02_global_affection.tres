@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MetaUpgradeData" load_steps=2 format=3 uid="uid://metaglobalaffect0"]
+
+[ext_resource type="Script" path="res://scripts/data/meta_upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"global_affection"
+display_name = "META_GLOBAL_AFFECTION_NAME"
+pillar = 0
+base_cost = 4
+cost_growth = 1.7
+max_level = 8
+target_id = &""
+description = "META_GLOBAL_AFFECTION_DESC"

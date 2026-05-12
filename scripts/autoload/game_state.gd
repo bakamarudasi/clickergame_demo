@@ -42,6 +42,14 @@ var prestige_currency: int = 0
 var bond: Dictionary = {}                    # StringName -> int
 var meta_upgrade_levels: Dictionary = {}     # StringName -> int
 
+# プレステージ通貨の獲得計算用。
+# total_earned_this_run は周回ごとにリセット、total_earned_ever は永続。
+# 「累計¥1M到達でプレステージ系統解放」の判定に total_earned_ever を使う。
+const PRESTIGE_UNLOCK_THRESHOLD := 1_000_000
+const PRESTIGE_CURRENCY_DIVISOR := 1_000_000
+var total_earned_this_run: int = 0
+var total_earned_ever: int = 0
+
 
 func _ready() -> void:
 	# project.godot の autoload 順序により、ここに来る時点で DataRegistry はロード済み。
@@ -54,6 +62,9 @@ func _ready() -> void:
 
 func add_currency(amount: int) -> void:
 	currency += amount
+	if amount > 0:
+		total_earned_this_run += amount
+		total_earned_ever += amount
 	EventBus.currency_changed.emit(currency)
 
 func try_spend(amount: int) -> bool:
@@ -79,11 +90,26 @@ func apply_click_buff(multiplier: float, duration_sec: float) -> void:
 	EventBus.click_power_changed.emit(click_power)
 
 
-# バフ込みの実効 click_power。EconomyService.click() などはこれを使う。
+# バフ + メタ強化込みの実効 click_power。EconomyService.click() などはこれを使う。
+# メタ強化 click_perm_mult: ×1.05 / Lv（PROGRESSION.md §2.6）
 func effective_click_power() -> int:
+	var base := click_power
 	if Time.get_unix_time_from_system() < click_buff_until_unix:
-		return int(click_power * click_buff_multiplier)
-	return click_power
+		base = int(base * click_buff_multiplier)
+	var meta_lv := get_meta_level(&"click_perm_mult")
+	if meta_lv > 0:
+		base = int(base * pow(1.05, meta_lv))
+	return base
+
+
+# メタ強化込みの実効 per_second。
+func effective_per_second() -> int:
+	var base := per_second
+	var meta_lv := get_meta_level(&"per_sec_perm_mult")
+	if meta_lv > 0:
+		base = int(base * pow(1.05, meta_lv))
+	return base
+
 
 func set_per_second(v: int) -> void:
 	per_second = v
@@ -398,3 +424,46 @@ func has_meta_unlock(meta_id: StringName) -> bool:
 	if meta_id == &"":
 		return true
 	return get_meta_level(meta_id) >= 1
+
+
+# プレステージ系統の解放判定。累計¥1Mを一度でも超えていれば永続的に解放。
+# UI（メタタブ表示・リセットボタン）は全てこれを参照する。
+func is_prestige_unlocked() -> bool:
+	return total_earned_ever >= PRESTIGE_UNLOCK_THRESHOLD
+
+
+# 今リセットしたら何源石片もらえるかのプレビュー。
+# 計算式: floor(sqrt(total_earned_this_run / 1M))
+func compute_prestige_currency_gained() -> int:
+	if total_earned_this_run < PRESTIGE_CURRENCY_DIVISOR:
+		return 0
+	return int(floor(sqrt(float(total_earned_this_run) / float(PRESTIGE_CURRENCY_DIVISOR))))
+
+
+# プレステージ実行：周回通貨を確定して獲得、走行中の進行をリセット。
+# 保持: prestige_count / prestige_currency / meta_upgrade_levels / オペ trust / CG / Memory
+# 初期化: currency / owned_upgrades / click_power / per_second / total_earned_this_run / 一時バフ
+func do_prestige_reset() -> void:
+	var gained := compute_prestige_currency_gained()
+	add_prestige_currency(gained)
+	add_prestige_count(1)
+
+	# 走行中の進行をリセット
+	currency = 0
+	owned_upgrades.clear()
+	click_power = 1
+	per_second = 0
+	total_earned_this_run = 0
+	click_buff_multiplier = 1.0
+	click_buff_until_unix = 0.0
+
+	# starter_funds メタ強化分の初期資金を付与（Lv * 1000）
+	var sf_lv := get_meta_level(&"starter_funds")
+	if sf_lv > 0:
+		currency = sf_lv * 1000
+		total_earned_this_run += currency
+
+	# UI同期
+	EventBus.currency_changed.emit(currency)
+	EventBus.click_power_changed.emit(click_power)
+	EventBus.per_second_changed.emit(per_second)

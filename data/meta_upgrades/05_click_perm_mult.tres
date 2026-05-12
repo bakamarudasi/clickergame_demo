@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MetaUpgradeData" load_steps=2 format=3 uid="uid://metaclickperm0"]
+
+[ext_resource type="Script" path="res://scripts/data/meta_upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"click_perm_mult"
+display_name = "META_CLICK_PERM_MULT_NAME"
+pillar = 1
+base_cost = 2
+cost_growth = 1.6
+max_level = 10
+target_id = &""
+description = "META_CLICK_PERM_MULT_DESC"

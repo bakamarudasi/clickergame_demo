@@ -70,8 +70,8 @@ func _switch_to(tab_id: StringName) -> void:
 func _refresh_status_bar() -> void:
 	currency_label.text = tr("UI_CURRENCY_FMT") % FormatUtils.short(GameState.currency)
 	prestige_label.text = tr("UI_PRESTIGE_FMT") % FormatUtils.short(GameState.prestige_currency)
-	per_sec_label.text = tr("UI_PER_SEC_FMT") % FormatUtils.short(GameState.per_second)
-	click_power_label.text = tr("UI_CLICK_POWER_FMT") % FormatUtils.short(GameState.click_power)
+	per_sec_label.text = tr("UI_PER_SEC_FMT") % FormatUtils.short(GameState.effective_per_second())
+	click_power_label.text = tr("UI_CLICK_POWER_FMT") % FormatUtils.short(GameState.effective_click_power())
 
 
 func _on_currency_changed(_v: int) -> void:

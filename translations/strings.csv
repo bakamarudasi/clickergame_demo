@@ -33,6 +33,50 @@ WORK_UPGRADE_RARITY_EPIC,エピック,Epic,史诗
 WORK_UPGRADE_RARITY_LEGENDARY,レジェンダリー,Legendary,传说
 WORK_STICKY_HEADING,次の目標,Next goal,下个目标
 WORK_STICKY_ALL_MAX,全 MAX 達成！,All maxed!,全部满级！
+UI_TAB_META,Prestige,Prestige,源石
+META_PILLAR_AFFINITY,💞 親愛,💞 Affinity,💞 亲爱
+META_PILLAR_ECONOMY,💰 効率,💰 Economy,💰 效率
+META_PILLAR_CATALOG,🎁 開放,🎁 Catalog,🎁 解锁
+META_TAB_TITLE,プレステージ強化,Prestige Upgrades,源石强化
+META_BUY_BUTTON,獲得する,Acquire,获取
+META_COST_FMT,💎 %s,💎 %s,💎 %s
+META_LV_FMT,Lv.%d,Lv.%d,Lv.%d
+META_LV_MAX_FMT,Lv.%d / MAX,Lv.%d / MAX,Lv.%d / 满
+META_CURRENCY_LABEL,💎 源石片: %s,💎 Originium Shards: %s,💎 源石碎片: %s
+META_LOCKED_HINT,累計 ¥1,000,000 稼ぐとプレステージ解放,Earn ¥1,000,000 total to unlock Prestige,累计赚取 ¥1,000,000 解锁源石转生
+WORK_PRESTIGE_BUTTON,プレステージ実行,Prestige,执行源石转生
+WORK_PRESTIGE_PREVIEW_FMT,獲得予定 💎 %s,Will gain 💎 %s,将获得 💎 %s
+WORK_PRESTIGE_CONFIRM_TITLE,プレステージしますか？,Prestige now?,确定要源石转生吗？
+WORK_PRESTIGE_CONFIRM_BODY_LOSS,通貨と強化Lvがリセットされます。,Currency and upgrade levels reset.,通货和强化等级将重置。
+WORK_PRESTIGE_CONFIRM_BODY_KEEP,オペとの関係・メタ強化は保持されます。,Operator bonds and meta upgrades are kept.,干员关系和源石强化保留。
+WORK_PRESTIGE_CONFIRM_BODY_GAIN,獲得: 💎 %s,Gain: 💎 %s,获得: 💎 %s
+WORK_PRESTIGE_CONFIRM_BODY_RUN,周回数: %d → %d,Run: %d → %d,周目: %d → %d
+WORK_PRESTIGE_CONFIRM_YES,実行,Confirm,执行
+WORK_PRESTIGE_CONFIRM_NO,キャンセル,Cancel,取消
+META_BOND_LEMUEN_NAME,レミュアンとの絆,Bond with Lemuen,与雷穆恩之绊
+META_BOND_LEMUEN_DESC,レミュアン専用リアクションの bond 段階が +1。彼女との会話に深い距離感の変化が刻まれる。,"Raises Lemuen's bond tier by 1, unlocking deeper reactions in her dialogue.",将雷穆恩专用反应的羁绊阶段 +1，解锁更深层的对话变化。
+META_GLOBAL_AFFECTION_NAME,全オペ親愛ボーナス,Affection Boost (All),全员亲爱加成
+META_GLOBAL_AFFECTION_DESC,trust 獲得量が永続的に +5% / Lv。オペとの距離が縮みやすくなる。,"Trust gain +5% per level, permanently. All operators warm up faster.",所有干员的 trust 获取量永久 +5% / Lv，关系升温更快。
+META_ROOM_BUFF_TO_WORK_NAME,業務への激励,Bond to Work Bonus,信赖加成至工作
+META_ROOM_BUFF_TO_WORK_DESC,オペの信頼度ステージ合計 × N% を click_power に加算。ドクター、まだ頑張れますね。,"Adds (summed operator trust stages) × N% to click_power per level.",将所有干员的信赖度阶段合计 × N% 加成至 click_power。
+META_STARTER_FUNDS_NAME,初期資金,Starter Funds,初始资金
+META_STARTER_FUNDS_DESC,周回開始時に通貨 +1,000 / Lv が口座に振り込まれている。やる気が出る。,"Start each run with +1,000 currency per level.",每个周目开始时账户多 +1,000 / Lv 通货。
+META_CLICK_PERM_MULT_NAME,永続クリック倍率,Click Permanence,永久点击倍率
+META_CLICK_PERM_MULT_DESC,click_power に ×1.05 / Lv（複利）。地味だが効く。,"click_power ×1.05 per level (compound). Quiet but effective.",click_power 永久 ×1.05 / Lv（复利）。隐性强化。
+META_PER_SEC_PERM_MULT_NAME,永続自動収益倍率,Auto-income Permanence,永久自动收益倍率
+META_PER_SEC_PERM_MULT_DESC,per_second に ×1.05 / Lv（複利）。寝ている間も少しずつ伸びる。,"per_second ×1.05 per level (compound).",per_second 永久 ×1.05 / Lv（复利）。
+META_UNLOCK_DOCTRINE_NAME,ドクトリン強化解放,Unlock Doctrine,解锁理论强化
+META_UNLOCK_DOCTRINE_DESC,Workタブに「ドクトリン系」強化群（クリティカル・コンボ等）が出現する。,"Reveals the Doctrine upgrades (crits / combo) in the Work tab.",在工作页签解锁“理论系”强化群（暴击 / 连击）。
+META_UNLOCK_ORIGINIUM_NAME,源石技芸強化解放,Unlock Originium Arts,解锁源石技艺强化
+META_UNLOCK_ORIGINIUM_DESC,Workタブに「源石技芸系」強化群（指数的自動収益・バースト）が出現する。,"Reveals the Originium Arts upgrades (exponential / burst) in the Work tab.",在工作页签解锁“源石技艺系”强化群（指数自动收益 / 爆发）。
+META_UNLOCK_AUTOCLICK_NAME,自動クリック解放,Unlock Auto-Click,解锁自动点击
+META_UNLOCK_AUTOCLICK_DESC,自動クリック強化が購入可能になる。ハンズフリー化への第一歩。,"Unlocks auto-click upgrades. The first step to hands-free.",解锁自动点击强化。迈向无手化的第一步。
+META_UNLOCK_CAT_DRUG_NAME,薬品カテゴリ解放,Unlock Drugs,解锁药品类
+META_UNLOCK_CAT_DRUG_DESC,ショップに「薬品（DIRECT_DRUG）」カテゴリが陳列される。,"Reveals the DIRECT_DRUG category in the Shop.",在商店中解锁“药品（DIRECT_DRUG）”分类。
+META_UNLOCK_CAT_BIND_NAME,拘束カテゴリ解放,Unlock Bindings,解锁束缚类
+META_UNLOCK_CAT_BIND_DESC,ショップに「拘束（DIRECT_BIND）」カテゴリが陳列される。,"Reveals the DIRECT_BIND category in the Shop.",在商店中解锁“束缚（DIRECT_BIND）”分类。
+META_SHOP_DISCOUNT_NAME,取引交渉,Trade Bargain,交易议价
+META_SHOP_DISCOUNT_DESC,全アイテム価格 -5% / Lv（上限あり）。チリも積もれば山。,"All item prices -5% per level (capped). It adds up.",所有物品价格 -5% / Lv（有上限）。积少成多。
 UPGRADE_CLICK_PLUS_ONE_NAME,ケルシーの無言の圧力,Kal'tsit's Silent Pressure,凯尔希的无言压力
 UPGRADE_CLICK_PLUS_ONE_DESC,「……。」背後に立つ彼女の冷ややかな視線を感じるだけで、ペンの走りが少しだけ速くなる。背筋は凍る。,"""…"" Just feeling her icy gaze from behind speeds up your pen a little. Your spine, on the other hand, freezes.",“……。”仅仅感受到站在身后的她那冰冷的视线，笔尖的速度便会稍稍加快。而脊背则瞬间冻住。
 UPGRADE_PAPERWORK_DOUBLE_CHECK_NAME,アーミヤの「まだ休んじゃダメですよ」,"Amiya — ""You Can't Rest Yet""",阿米娅的“现在还不能休息哦”

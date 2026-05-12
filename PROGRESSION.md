@@ -189,6 +189,41 @@ prestige_currency_gained = floor(sqrt(total_earned_this_run / 1_000_000))
 
 → **「アイテムが買えるかどうか」が Catalog 柱、「使ったときの反応」が Affinity 柱、「お金を稼ぐ手段」が Economy 柱。** 役割が独立しており、3軸独立に投資できる。
 
+#### コスト式（2タイプ運用・確定仕様）
+
+`MetaUpgradeData` の既存フィールド (`base_cost` / `cost_growth` / `max_level`) をそのまま使い、運用ルールで2タイプを区別する。判定ロジックは `EconomyService.current_cost` と同じ指数式 `cost = base * growth^lv`。
+
+| タイプ | 用途 | base_cost | cost_growth | max_level | 例 |
+|---|---|---|---|---|---|
+| **Type A: 一発購入（解放）** | カテゴリ・強化群・キャラの解放 | 重要度別 3〜30 | 1.0（未使用） | 1 | `meta_unlock_doctrine` (base=5) |
+| **Type B: 段階購入（永続バフ）** | 倍率・ボーナス・絆 | 用途別 | 1.5〜2.2 | 5〜10 | `meta_click_perm_mult` (base=2, growth=1.6, max=10) |
+
+**確定バランス参考値：**
+
+| 用途 | base | growth | max_lv | 合計コスト |
+|---|---|---|---|---|
+| キャラ別絆 `meta_bond_<op>` | **10** | **2.2** | **5** | **~419**（高め） |
+| 永続クリック倍率 | 2 | 1.6 | 10 | ~372 |
+| 永続自動収益倍率 | 2 | 1.6 | 10 | ~372 |
+| 全オペ親愛度 +X% | 4 | 1.7 | 8 | ~210 |
+| 初期資金 | 1 | 1.5 | 10 | ~58 |
+| 取引交渉（割引） | 3 | 1.8 | 5 | ~62 |
+| カテゴリ解放（紳士枠） | 8 | - | 1 | 8 |
+| 強化解放（Doctrine等） | 5 | - | 1 | 5 |
+| 上位強化解放（Originium） | 15 | - | 1 | 15 |
+| AutoClick解放 | 30 | - | 1 | 30 |
+| 衣装1着解放 | 8 | - | 1 | 8 |
+
+### 2.5.1 仕様確定事項（実装ロック）
+
+| 項目 | 決定 |
+|---|---|
+| **メタショップ UI 位置** | サイドバーに新タブ追加（4タブ目「💎 Prestige」） |
+| **メタタブの解放条件** | 累計獲得¥ ≥ 1,000,000 を**一度でも**満たした瞬間に解放、以後常時表示 |
+| **`prestige_count` の意味** | ReactionRule.min_tier に直結（別 Tier 変数は作らない） |
+| **コスト式** | 上記 Type A / Type B、`base * growth^lv` 指数式で統一 |
+| **`prestige_currency_gained`** | `floor(sqrt(total_earned_this_run / 1_000_000))` |
+
 ### 2.6 新カテゴリ強化の解放例（💰の中身）
 
 **ドクトリン強化**（`meta_unlock_doctrine` 購入後に Workタブに出現）:
