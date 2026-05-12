@@ -23,6 +23,7 @@ const STAMP_LIFETIME := 0.45
 
 @onready var document_button: TextureButton = %DocumentButton
 @onready var upgrade_grid: GridContainer = %UpgradeGrid
+@onready var sticky_target_label: Label = %StickyTargetLabel
 
 var _click_tween: Tween
 
@@ -441,6 +442,33 @@ func _format_effect(u: UpgradeData) -> String:
 func _refresh_all_cards(_v: int = 0) -> void:
 	for id in _cards.keys():
 		_refresh_card(id)
+	_refresh_sticky_target()
+
+
+func _refresh_sticky_target() -> void:
+	# 「次の目標」付箋：未MAX強化の中で最も安いものを指す。
+	var min_cost := -1
+	var target_id: StringName = &""
+	for id in DataRegistry.upgrades:
+		var u := DataRegistry.get_upgrade(id)
+		if u == null:
+			continue
+		var lv := GameState.get_upgrade_level(id)
+		if u.max_level > 0 and lv >= u.max_level:
+			continue
+		var c := EconomyService.current_cost(id)
+		if min_cost < 0 or c < min_cost:
+			min_cost = c
+			target_id = id
+	if target_id == &"":
+		sticky_target_label.text = tr("WORK_STICKY_ALL_MAX")
+		return
+	var u := DataRegistry.get_upgrade(target_id)
+	sticky_target_label.text = "%s\n%s\n¥ %s" % [
+		tr("WORK_STICKY_HEADING"),
+		tr(u.display_name),
+		FormatUtils.short(min_cost),
+	]
 
 
 func _refresh_card(id: StringName) -> void:
