@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://clickergameworktab0"]
+[gd_scene load_steps=9 format=3 uid="uid://clickergameworktab0"]
 
 [ext_resource type="Script" path="res://scripts/ui/work_tab.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://paperworkasset0" path="res://assets/paperwork.svg" id="2_paper"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://uigamemug0" path="res://assets/ui/mug.svg" id="5_mug"]
 [ext_resource type="Texture2D" uid="uid://uigamestickynote0" path="res://assets/ui/sticky_note.svg" id="6_sticky"]
 [ext_resource type="Texture2D" uid="uid://uigamepen0" path="res://assets/ui/pen.svg" id="7_pen"]
+[ext_resource type="Texture2D" uid="uid://uigamecorkboard0" path="res://assets/ui/corkboard.svg" id="8_cork"]
 
 [node name="WorkTab" type="Control"]
 anchors_preset = 15
@@ -194,26 +195,60 @@ texture = ExtResource("7_pen")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RightCol" type="VBoxContainer" parent="HBox"]
+[node name="RightCol" type="Control" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 6.0
+mouse_filter = 1
+
+[node name="CorkBG" type="TextureRect" parent="HBox/RightCol"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_cork")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Inner" type="MarginContainer" parent="HBox/RightCol"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="HBox/RightCol/Inner"]
+layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="UpgradesTitle" type="Label" parent="HBox/RightCol"]
+[node name="TitlePanel" type="PanelContainer" parent="HBox/RightCol/Inner/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="UpgradesTitle" type="Label" parent="HBox/RightCol/Inner/VBox/TitlePanel"]
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
 text = "WORK_UPGRADE_TITLE"
 
-[node name="UpgradeListScroll" type="ScrollContainer" parent="HBox/RightCol"]
+[node name="UpgradeListScroll" type="ScrollContainer" parent="HBox/RightCol/Inner/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="UpgradeGrid" type="GridContainer" parent="HBox/RightCol/UpgradeListScroll"]
+[node name="UpgradeGrid" type="GridContainer" parent="HBox/RightCol/Inner/VBox/UpgradeListScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 2
-theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 12
+columns = 1
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 14

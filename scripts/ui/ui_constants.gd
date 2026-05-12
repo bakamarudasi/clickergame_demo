@@ -62,8 +62,6 @@ const PORTRAIT_CLICK_DURATION := 0.08
 const CLICK_WIGGLE_DEG := 2.5                # クリック時のランダム回転幅（±度）
 const CLICK_POPUP_RISE_PX := 90.0            # +N ポップアップの上昇量
 const CLICK_POPUP_DURATION := 0.7            # +N ポップアップの寿命（秒）
-const CURRENCY_POP_SCALE := 1.18             # 通貨ラベル弾みの最大倍率
-const CURRENCY_POP_DURATION := 0.10          # 通貨ラベル弾みの片道時間
 
 # --- ゲームバランス --------------------------------------------------------
 const INSPECTION_COOLDOWN_SEC := 300.0       # 検査クールダウン（実時間秒、テスト時は短く）
