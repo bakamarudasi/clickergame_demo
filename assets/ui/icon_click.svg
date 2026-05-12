@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Pen body (diagonal, from bottom-left to upper-right) -->
+  <path d="M14 50 L46 18 L52 24 L20 56 Z" fill="#E6E8EE"/>
+  <!-- Pen barrel highlight -->
+  <path d="M16 48 L44 20 L46 22 L18 50 Z" fill="#FFFFFF" opacity="0.45"/>
+  <!-- Cap / ferrule -->
+  <path d="M46 18 L52 24 L57 19 L51 13 Z" fill="#7C8492"/>
+  <!-- Tip (ink point) -->
+  <path d="M14 50 L19 55 L11 60 L9 58 Z" fill="#1C1F26"/>
+  <!-- Ink dot -->
+  <circle cx="11" cy="58" r="2.2" fill="#1C1F26"/>
+</svg>

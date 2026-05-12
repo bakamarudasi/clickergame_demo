@@ -4,6 +4,22 @@ extends Control
 # 他タブを直接参照しない。EconomyService 経由でのみ状態を変える。
 
 const GOLDEN_TEXTURE := preload("res://assets/paperwork.svg")
+const ICON_CLICK := preload("res://assets/ui/icon_click.svg")
+const ICON_AUTO := preload("res://assets/ui/icon_auto.svg")
+const ICON_MULT := preload("res://assets/ui/icon_mult.svg")
+const STAMP_APPROVED := preload("res://assets/ui/stamp_approved.svg")
+const PARTICLE_PAPER := preload("res://assets/ui/particle_paper.svg")
+const PARTICLE_INK := preload("res://assets/ui/particle_ink.svg")
+
+const CARD_ICON_SIZE := 28
+const PARTICLE_COUNT := 7
+const PARTICLE_SPEED_MIN := 140.0
+const PARTICLE_SPEED_MAX := 280.0
+const PARTICLE_LIFETIME := 0.65
+const PARTICLE_SIZE := 24.0
+const STAMP_CHANCE := 0.18
+const STAMP_SIZE := 180.0
+const STAMP_LIFETIME := 0.45
 
 @onready var document_button: TextureButton = %DocumentButton
 @onready var upgrade_grid: GridContainer = %UpgradeGrid
@@ -37,8 +53,79 @@ func _setup_golden_timer() -> void:
 func _on_click_pressed() -> void:
 	var gained := GameState.click_power
 	EconomyService.click()
+	# 押下位置（document_button 上のローカル座標を WorkTab 座標へ変換）
+	var btn_rect := document_button.get_global_rect()
+	var click_global := document_button.get_global_mouse_position()
+	if not btn_rect.has_point(click_global):
+		click_global = btn_rect.get_center()
+	var click_local := click_global - global_position
 	_animate_click_squash()
+	_flash_document()
 	_spawn_click_popup(gained)
+	_spawn_click_particles(click_local)
+	if randf() < STAMP_CHANCE:
+		_spawn_approved_stamp(click_local)
+
+
+func _flash_document() -> void:
+	# クリックの瞬間に書類を一瞬白くする → 押した感触
+	var flash_tw := create_tween()
+	document_button.modulate = Color(1.3, 1.3, 1.3, 1.0)
+	flash_tw.tween_property(document_button, "modulate", Color(1, 1, 1, 1), 0.12)
+
+
+func _spawn_click_particles(origin: Vector2) -> void:
+	for i in PARTICLE_COUNT:
+		var tex: Texture2D = PARTICLE_PAPER if (i % 2 == 0) else PARTICLE_INK
+		var p := TextureRect.new()
+		p.texture = tex
+		p.custom_minimum_size = Vector2(PARTICLE_SIZE, PARTICLE_SIZE)
+		p.size = Vector2(PARTICLE_SIZE, PARTICLE_SIZE)
+		p.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		p.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		p.z_index = 90
+		p.pivot_offset = Vector2(PARTICLE_SIZE, PARTICLE_SIZE) * 0.5
+		p.position = origin - p.pivot_offset
+		add_child(p)
+		var angle := randf() * TAU
+		var speed := randf_range(PARTICLE_SPEED_MIN, PARTICLE_SPEED_MAX)
+		var velocity := Vector2(cos(angle), sin(angle)) * speed
+		var gravity := Vector2(0, 320.0)
+		# 終了位置（弾道近似）と回転終了角
+		var dur := PARTICLE_LIFETIME * randf_range(0.85, 1.15)
+		var end_pos := p.position + velocity * dur + gravity * dur * dur * 0.5
+		var end_rot := deg_to_rad(randf_range(-360.0, 360.0))
+		var tw := create_tween().set_parallel(true)
+		tw.tween_property(p, "position", end_pos, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.tween_property(p, "rotation", end_rot, dur)
+		tw.tween_property(p, "modulate:a", 0.0, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tw.tween_property(p, "scale", Vector2(0.6, 0.6), dur)
+		tw.chain().tween_callback(p.queue_free)
+
+
+func _spawn_approved_stamp(origin: Vector2) -> void:
+	var stamp := TextureRect.new()
+	stamp.texture = STAMP_APPROVED
+	stamp.custom_minimum_size = Vector2(STAMP_SIZE, STAMP_SIZE)
+	stamp.size = Vector2(STAMP_SIZE, STAMP_SIZE)
+	stamp.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	stamp.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamp.z_index = 95
+	stamp.pivot_offset = Vector2(STAMP_SIZE, STAMP_SIZE) * 0.5
+	stamp.position = origin - stamp.pivot_offset
+	stamp.scale = Vector2(2.4, 2.4)
+	stamp.modulate = Color(1, 1, 1, 0)
+	stamp.rotation = deg_to_rad(randf_range(-14.0, 14.0))
+	add_child(stamp)
+	var tw := create_tween().set_parallel(true)
+	# スタンプ叩きつけ：大きく出てキュッと縮む + 不透明度立ち上げ
+	tw.tween_property(stamp, "scale", Vector2(1.0, 1.0), 0.10).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(stamp, "modulate:a", 1.0, 0.06)
+	# 一拍置いてフェードアウト
+	tw.chain().tween_property(stamp, "modulate:a", 0.0, STAMP_LIFETIME).set_delay(0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.chain().tween_callback(stamp.queue_free)
 
 
 func _animate_click_squash() -> void:
@@ -126,11 +213,19 @@ func _make_card(u: UpgradeData) -> PanelContainer:
 	vb.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(vb)
 
-	# --- ヘッダ：名前 + Lv -------------------------------------------------
+	# --- ヘッダ：アイコン + 名前 + Lv --------------------------------------
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 8)
 	header.mouse_filter = Control.MOUSE_FILTER_PASS
 	vb.add_child(header)
+
+	var icon := TextureRect.new()
+	icon.texture = _icon_for_effect(u.effect_kind)
+	icon.custom_minimum_size = Vector2(CARD_ICON_SIZE, CARD_ICON_SIZE)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_PASS
+	header.add_child(icon)
 
 	var name_label := Label.new()
 	name_label.text = tr(u.display_name)
@@ -192,6 +287,17 @@ func _make_card(u: UpgradeData) -> PanelContainer:
 	panel.set_meta("glow_tween", null)
 
 	return panel
+
+
+func _icon_for_effect(kind: Enums.UpgradeEffectKind) -> Texture2D:
+	match kind:
+		Enums.UpgradeEffectKind.ADD_CLICK:
+			return ICON_CLICK
+		Enums.UpgradeEffectKind.ADD_PER_SEC:
+			return ICON_AUTO
+		Enums.UpgradeEffectKind.MULT_CLICK:
+			return ICON_MULT
+	return ICON_CLICK
 
 
 func _format_effect(u: UpgradeData) -> String:
