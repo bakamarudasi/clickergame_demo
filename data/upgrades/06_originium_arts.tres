@@ -11,4 +11,5 @@ cost_growth = 1.7
 effect_kind = 1
 effect_amount = 20.0
 max_level = -1
+rarity = 2
 description = "UPGRADE_ORIGINIUM_ARTS_DESC"

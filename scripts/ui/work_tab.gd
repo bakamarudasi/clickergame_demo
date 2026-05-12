@@ -6,28 +6,23 @@ extends Control
 const GOLDEN_TEXTURE := preload("res://assets/paperwork.svg")
 
 @onready var document_button: TextureButton = %DocumentButton
-@onready var upgrade_list: VBoxContainer = %UpgradeList
-@onready var detail_name: Label = %DetailName
-@onready var detail_desc: Label = %DetailDesc
-@onready var detail_meta: Label = %DetailMeta
-@onready var buy_button: Button = %BuyButton
+@onready var upgrade_grid: GridContainer = %UpgradeGrid
 
 var _click_tween: Tween
-var _selected_id: StringName = &""
-var _button_group: ButtonGroup
 
 var _golden_timer: Timer
 var _golden_active_node: TextureButton = null
 
+# id → カード Dict（再構築せず差分更新するための索引）
+var _cards: Dictionary = {}
+var _expanded_id: StringName = &""
+
 
 func _ready() -> void:
-	_button_group = ButtonGroup.new()
 	document_button.pressed.connect(_on_click_pressed)
-	buy_button.pressed.connect(_on_buy_pressed)
-	EventBus.currency_changed.connect(_refresh_upgrade_buttons)
+	EventBus.currency_changed.connect(_refresh_all_cards)
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
-	_build_upgrade_buttons()
-	_refresh_detail()
+	_build_upgrade_cards()
 	_setup_golden_timer()
 
 
@@ -86,75 +81,243 @@ func _spawn_click_popup(amount: int) -> void:
 	tw.chain().tween_callback(popup.queue_free)
 
 
-func _build_upgrade_buttons() -> void:
-	for child in upgrade_list.get_children():
+# --- カードビルド -------------------------------------------------------
+
+func _build_upgrade_cards() -> void:
+	for child in upgrade_grid.get_children():
 		child.queue_free()
-	for u: UpgradeData in DataRegistry.upgrades.values():
-		var b := Button.new()
-		b.toggle_mode = true
-		b.button_group = _button_group
-		b.text = _format_upgrade(u)
-		b.set_meta("upgrade_id", u.id)
-		b.pressed.connect(_on_upgrade_selected.bind(u.id))
-		upgrade_list.add_child(b)
-	_refresh_upgrade_buttons(0)
+	_cards.clear()
+	# レア度降順 → コスト昇順で並べる（強いやつが上に来る）
+	var upgrades: Array = DataRegistry.upgrades.values()
+	upgrades.sort_custom(func(a: UpgradeData, b: UpgradeData) -> bool:
+		if a.rarity != b.rarity:
+			return a.rarity > b.rarity
+		return a.base_cost < b.base_cost)
+	for u: UpgradeData in upgrades:
+		var card := _make_card(u)
+		upgrade_grid.add_child(card)
+		_cards[u.id] = card
+	_refresh_all_cards(0)
 
 
-func _on_upgrade_selected(id: StringName) -> void:
-	_selected_id = id
-	_refresh_detail()
+func _make_card(u: UpgradeData) -> PanelContainer:
+	var rarity_color: Color = UIConstants.RARITY_COLORS.get(u.rarity, UIConstants.RARITY_COLORS[Enums.UpgradeRarity.COMMON])
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	panel.set_meta("upgrade_id", u.id)
+	panel.set_meta("rarity_color", rarity_color)
+
+	var sbox := StyleBoxFlat.new()
+	sbox.bg_color = UIConstants.RARITY_PANEL_BG
+	sbox.border_color = rarity_color
+	sbox.set_border_width_all(2)
+	sbox.set_corner_radius_all(8)
+	sbox.content_margin_left = 12
+	sbox.content_margin_right = 12
+	sbox.content_margin_top = 10
+	sbox.content_margin_bottom = 10
+	panel.add_theme_stylebox_override("panel", sbox)
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 4)
+	vb.mouse_filter = Control.MOUSE_FILTER_PASS
+	panel.add_child(vb)
+
+	# --- ヘッダ：名前 + Lv -------------------------------------------------
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 8)
+	header.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(header)
+
+	var name_label := Label.new()
+	name_label.text = tr(u.display_name)
+	name_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	name_label.modulate = rarity_color
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	header.add_child(name_label)
+
+	var lv_label := Label.new()
+	lv_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	lv_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	header.add_child(lv_label)
+
+	# --- 効果ライン ---------------------------------------------------------
+	var effect_label := Label.new()
+	effect_label.text = _format_effect(u)
+	effect_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(effect_label)
+
+	# --- コストライン -------------------------------------------------------
+	var cost_label := Label.new()
+	cost_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(cost_label)
+
+	# --- 展開領域（説明 + 購入） -------------------------------------------
+	var expand := VBoxContainer.new()
+	expand.visible = false
+	expand.add_theme_constant_override("separation", 6)
+	expand.mouse_filter = Control.MOUSE_FILTER_PASS
+	vb.add_child(expand)
+
+	var divider := HSeparator.new()
+	expand.add_child(divider)
+
+	var desc_label := Label.new()
+	desc_label.text = tr(u.description)
+	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	desc_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	expand.add_child(desc_label)
+
+	var buy_button := Button.new()
+	buy_button.text = tr("WORK_UPGRADE_BUY_BUTTON")
+	buy_button.pressed.connect(_on_buy_pressed.bind(u.id))
+	expand.add_child(buy_button)
+
+	# クリックでアコーディオン展開（buy_button は STOP で食う）
+	panel.gui_input.connect(_on_card_gui_input.bind(u.id))
+
+	panel.set_meta("name_label", name_label)
+	panel.set_meta("lv_label", lv_label)
+	panel.set_meta("cost_label", cost_label)
+	panel.set_meta("desc_label", desc_label)
+	panel.set_meta("expand", expand)
+	panel.set_meta("buy_button", buy_button)
+	panel.set_meta("stylebox", sbox)
+	panel.set_meta("glow_tween", null)
+
+	return panel
 
 
-func _refresh_upgrade_buttons(_v: int = 0) -> void:
-	for child in upgrade_list.get_children():
-		if child is Button:
-			var id: StringName = child.get_meta("upgrade_id")
-			var u := DataRegistry.get_upgrade(id)
-			if u == null:
-				continue
-			child.text = _format_upgrade(u)
-	_refresh_detail()
+func _format_effect(u: UpgradeData) -> String:
+	var amt := FormatUtils.short(int(round(u.effect_amount)))
+	match u.effect_kind:
+		Enums.UpgradeEffectKind.ADD_CLICK:
+			return tr("WORK_UPGRADE_EFFECT_CLICK") % amt
+		Enums.UpgradeEffectKind.ADD_PER_SEC:
+			return tr("WORK_UPGRADE_EFFECT_SEC") % amt
+		Enums.UpgradeEffectKind.MULT_CLICK:
+			return tr("WORK_UPGRADE_EFFECT_MULT") % ("%.1f" % u.effect_amount)
+	return ""
 
 
-func _refresh_detail() -> void:
-	if _selected_id == &"":
-		detail_name.text = ""
-		detail_desc.text = tr("WORK_UPGRADE_DETAIL_NONE")
-		detail_meta.text = ""
-		buy_button.disabled = true
+# --- 状態更新 -----------------------------------------------------------
+
+func _refresh_all_cards(_v: int = 0) -> void:
+	for id in _cards.keys():
+		_refresh_card(id)
+
+
+func _refresh_card(id: StringName) -> void:
+	var card: PanelContainer = _cards.get(id)
+	if card == null:
 		return
-	var u := DataRegistry.get_upgrade(_selected_id)
+	var u := DataRegistry.get_upgrade(id)
 	if u == null:
-		_selected_id = &""
-		_refresh_detail()
 		return
-	var lv := GameState.get_upgrade_level(_selected_id)
-	var cost := EconomyService.current_cost(_selected_id)
-	detail_name.text = tr(u.display_name)
-	detail_desc.text = tr(u.description)
-	detail_meta.text = tr("WORK_UPGRADE_DETAIL_FMT") % [lv, FormatUtils.short(cost)]
-	buy_button.disabled = not EconomyService.can_buy_upgrade(_selected_id)
+	var lv := GameState.get_upgrade_level(id)
+	var maxed := u.max_level > 0 and lv >= u.max_level
+	var can_buy := EconomyService.can_buy_upgrade(id) and not maxed
+
+	var lv_label: Label = card.get_meta("lv_label")
+	var cost_label: Label = card.get_meta("cost_label")
+	var buy_button: Button = card.get_meta("buy_button")
+
+	if maxed:
+		lv_label.text = tr("WORK_UPGRADE_LV_MAX_FMT") % lv
+		cost_label.text = tr("WORK_UPGRADE_COST_MAX")
+		buy_button.disabled = true
+	else:
+		lv_label.text = tr("WORK_UPGRADE_LV_FMT") % lv
+		var cost := EconomyService.current_cost(id)
+		cost_label.text = tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(cost)
+		buy_button.disabled = not can_buy
+
+	# 買える時だけ脈動。MAX / 買えない時は通常表示で固定。
+	_set_glow(card, can_buy)
+	# 買えない・MAX のときは少し暗くする
+	var sbox: StyleBoxFlat = card.get_meta("stylebox")
+	if maxed:
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_DISABLED
+	elif can_buy:
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG
+	else:
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_DISABLED
 
 
-func _on_buy_pressed() -> void:
-	if _selected_id == &"":
+func _set_glow(card: PanelContainer, on: bool) -> void:
+	var existing: Tween = card.get_meta("glow_tween")
+	if existing != null and existing.is_valid():
+		existing.kill()
+		card.set_meta("glow_tween", null)
+	if not on:
+		card.modulate = Color(1, 1, 1, 1)
 		return
-	EconomyService.buy_upgrade(_selected_id)
+	var tw := create_tween().set_loops().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var half := UIConstants.CARD_GLOW_PERIOD * 0.5
+	var hi := Color(UIConstants.CARD_GLOW_MAX, UIConstants.CARD_GLOW_MAX, UIConstants.CARD_GLOW_MAX, 1.0)
+	var lo := Color(UIConstants.CARD_GLOW_MIN, UIConstants.CARD_GLOW_MIN, UIConstants.CARD_GLOW_MIN, 1.0)
+	tw.tween_property(card, "modulate", hi, half)
+	tw.tween_property(card, "modulate", lo, half)
+	card.set_meta("glow_tween", tw)
 
 
-func _on_upgrade_purchased(_id: StringName, _lv: int) -> void:
-	_refresh_upgrade_buttons()
+# --- インタラクション ---------------------------------------------------
+
+func _on_card_gui_input(event: InputEvent, id: StringName) -> void:
+	if event is InputEventMouseButton:
+		var mb: InputEventMouseButton = event
+		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
+			_toggle_expand(id)
 
 
-func _format_upgrade(u: UpgradeData) -> String:
-	var lv := GameState.get_upgrade_level(u.id)
-	var cost := EconomyService.current_cost(u.id)
-	return tr("WORK_UPGRADE_FMT") % [tr(u.display_name), lv, FormatUtils.short(cost)]
+func _toggle_expand(id: StringName) -> void:
+	if _expanded_id == id:
+		_set_expanded(id, false)
+		_expanded_id = &""
+		return
+	if _expanded_id != &"":
+		_set_expanded(_expanded_id, false)
+	_set_expanded(id, true)
+	_expanded_id = id
+
+
+func _set_expanded(id: StringName, on: bool) -> void:
+	var card: PanelContainer = _cards.get(id)
+	if card == null:
+		return
+	var expand: VBoxContainer = card.get_meta("expand")
+	expand.visible = on
+
+
+func _on_buy_pressed(id: StringName) -> void:
+	EconomyService.buy_upgrade(id)
+
+
+func _on_upgrade_purchased(id: StringName, _lv: int) -> void:
+	_refresh_card(id)
 
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
-		_refresh_upgrade_buttons()
+		_rebuild_static_text()
+
+
+func _rebuild_static_text() -> void:
+	for id in _cards.keys():
+		var card: PanelContainer = _cards[id]
+		var u := DataRegistry.get_upgrade(id)
+		if u == null:
+			continue
+		(card.get_meta("name_label") as Label).text = tr(u.display_name)
+		(card.get_meta("desc_label") as Label).text = tr(u.description)
+		(card.get_meta("buy_button") as Button).text = tr("WORK_UPGRADE_BUY_BUTTON")
+	_refresh_all_cards(0)
 
 
 # --- ゴールデン書類 -----------------------------------------------------

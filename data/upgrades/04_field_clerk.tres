@@ -11,4 +11,5 @@ cost_growth = 1.5
 effect_kind = 1
 effect_amount = 1.0
 max_level = -1
+rarity = 0
 description = "UPGRADE_FIELD_CLERK_DESC"

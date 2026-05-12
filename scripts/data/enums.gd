@@ -78,6 +78,13 @@ enum UpgradeEffectKind {
 	MULT_CLICK,
 }
 
+enum UpgradeRarity {
+	COMMON,
+	RARE,
+	EPIC,
+	LEGENDARY,
+}
+
 enum UnlockTrigger {
 	AUTO_ON_STAGE,
 	ITEM_USE,
