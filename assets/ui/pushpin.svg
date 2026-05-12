@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Shadow on board -->
+  <ellipse cx="17.5" cy="22" rx="7.5" ry="2.2" fill="#000" opacity="0.32"/>
+  <!-- Needle hint (tiny visible base) -->
+  <rect x="15" y="17" width="2" height="6" fill="#888" />
+  <!-- Pin head: red sphere with highlight -->
+  <radialGradient id="pin" cx="35%" cy="32%" r="70%">
+    <stop offset="0%" stop-color="#FF8B7A"/>
+    <stop offset="55%" stop-color="#D8323A"/>
+    <stop offset="100%" stop-color="#7A0E15"/>
+  </radialGradient>
+  <circle cx="16" cy="14" r="9" fill="url(#pin)" stroke="#4A0508" stroke-width="0.6"/>
+  <ellipse cx="12.5" cy="10.5" rx="3.0" ry="1.8" fill="#FFE2DA" opacity="0.85"/>
+</svg>

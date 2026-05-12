@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" preserveAspectRatio="none">
+  <!-- Base cork color -->
+  <rect width="400" height="400" fill="#C49262"/>
+  <!-- Cork grain layered noise: many tiny rotated ellipses for organic texture -->
+  <g fill="#9C6B3B" opacity="0.45">
+    <ellipse cx="22" cy="14" rx="3.2" ry="1.4" transform="rotate(18 22 14)"/>
+    <ellipse cx="58" cy="36" rx="2.4" ry="1.1" transform="rotate(-22 58 36)"/>
+    <ellipse cx="94" cy="22" rx="3.6" ry="1.6" transform="rotate(45 94 22)"/>
+    <ellipse cx="138" cy="48" rx="2.0" ry="1.0" transform="rotate(-10 138 48)"/>
+    <ellipse cx="172" cy="18" rx="3.0" ry="1.3" transform="rotate(28 172 18)"/>
+    <ellipse cx="216" cy="42" rx="2.6" ry="1.2" transform="rotate(-35 216 42)"/>
+    <ellipse cx="262" cy="20" rx="3.8" ry="1.6" transform="rotate(12 262 20)"/>
+    <ellipse cx="304" cy="50" rx="2.2" ry="1.1" transform="rotate(-44 304 50)"/>
+    <ellipse cx="346" cy="28" rx="3.4" ry="1.5" transform="rotate(30 346 28)"/>
+    <ellipse cx="380" cy="56" rx="2.8" ry="1.3" transform="rotate(-18 380 56)"/>
+
+    <ellipse cx="14" cy="86" rx="3.0" ry="1.3" transform="rotate(-25 14 86)"/>
+    <ellipse cx="46" cy="110" rx="2.6" ry="1.2" transform="rotate(40 46 110)"/>
+    <ellipse cx="82" cy="92" rx="3.4" ry="1.5" transform="rotate(-15 82 92)"/>
+    <ellipse cx="124" cy="118" rx="2.0" ry="1.0" transform="rotate(20 124 118)"/>
+    <ellipse cx="158" cy="84" rx="3.6" ry="1.6" transform="rotate(-30 158 84)"/>
+    <ellipse cx="198" cy="122" rx="2.4" ry="1.1" transform="rotate(8 198 122)"/>
+    <ellipse cx="238" cy="92" rx="3.2" ry="1.4" transform="rotate(-22 238 92)"/>
+    <ellipse cx="282" cy="116" rx="2.8" ry="1.3" transform="rotate(46 282 116)"/>
+    <ellipse cx="326" cy="88" rx="3.0" ry="1.3" transform="rotate(-12 326 88)"/>
+    <ellipse cx="368" cy="120" rx="2.6" ry="1.2" transform="rotate(28 368 120)"/>
+
+    <ellipse cx="26" cy="160" rx="3.4" ry="1.5" transform="rotate(36 26 160)"/>
+    <ellipse cx="64" cy="186" rx="2.2" ry="1.0" transform="rotate(-18 64 186)"/>
+    <ellipse cx="102" cy="164" rx="3.0" ry="1.3" transform="rotate(22 102 164)"/>
+    <ellipse cx="144" cy="190" rx="2.8" ry="1.3" transform="rotate(-40 144 190)"/>
+    <ellipse cx="182" cy="158" rx="3.6" ry="1.6" transform="rotate(15 182 158)"/>
+    <ellipse cx="224" cy="194" rx="2.0" ry="1.0" transform="rotate(-26 224 194)"/>
+    <ellipse cx="266" cy="166" rx="3.2" ry="1.4" transform="rotate(32 266 166)"/>
+    <ellipse cx="306" cy="188" rx="2.6" ry="1.2" transform="rotate(-14 306 188)"/>
+    <ellipse cx="348" cy="160" rx="3.4" ry="1.5" transform="rotate(24 348 160)"/>
+    <ellipse cx="384" cy="190" rx="2.4" ry="1.1" transform="rotate(-38 384 190)"/>
+
+    <ellipse cx="18" cy="232" rx="3.0" ry="1.3" transform="rotate(20 18 232)"/>
+    <ellipse cx="54" cy="258" rx="3.4" ry="1.5" transform="rotate(-30 54 258)"/>
+    <ellipse cx="92" cy="234" rx="2.4" ry="1.1" transform="rotate(14 92 234)"/>
+    <ellipse cx="132" cy="262" rx="2.8" ry="1.3" transform="rotate(-22 132 262)"/>
+    <ellipse cx="170" cy="230" rx="3.6" ry="1.6" transform="rotate(42 170 230)"/>
+    <ellipse cx="208" cy="264" rx="2.0" ry="1.0" transform="rotate(-12 208 264)"/>
+    <ellipse cx="250" cy="232" rx="3.2" ry="1.4" transform="rotate(30 250 232)"/>
+    <ellipse cx="292" cy="258" rx="2.6" ry="1.2" transform="rotate(-18 292 258)"/>
+    <ellipse cx="334" cy="230" rx="3.0" ry="1.3" transform="rotate(36 334 230)"/>
+    <ellipse cx="372" cy="262" rx="3.4" ry="1.5" transform="rotate(-28 372 262)"/>
+
+    <ellipse cx="30" cy="304" rx="2.6" ry="1.2" transform="rotate(16 30 304)"/>
+    <ellipse cx="68" cy="332" rx="3.2" ry="1.4" transform="rotate(-24 68 332)"/>
+    <ellipse cx="108" cy="306" rx="2.8" ry="1.3" transform="rotate(38 108 306)"/>
+    <ellipse cx="148" cy="330" rx="3.6" ry="1.6" transform="rotate(-16 148 330)"/>
+    <ellipse cx="186" cy="302" rx="2.0" ry="1.0" transform="rotate(28 186 302)"/>
+    <ellipse cx="228" cy="334" rx="3.0" ry="1.3" transform="rotate(-40 228 334)"/>
+    <ellipse cx="268" cy="306" rx="2.4" ry="1.1" transform="rotate(10 268 306)"/>
+    <ellipse cx="310" cy="332" rx="3.4" ry="1.5" transform="rotate(-32 310 332)"/>
+    <ellipse cx="352" cy="304" rx="2.6" ry="1.2" transform="rotate(22 352 304)"/>
+    <ellipse cx="388" cy="330" rx="3.0" ry="1.3" transform="rotate(-14 388 330)"/>
+
+    <ellipse cx="22" cy="372" rx="3.6" ry="1.6" transform="rotate(32 22 372)"/>
+    <ellipse cx="62" cy="394" rx="2.0" ry="1.0" transform="rotate(-22 62 394)"/>
+    <ellipse cx="102" cy="370" rx="3.0" ry="1.3" transform="rotate(18 102 370)"/>
+    <ellipse cx="142" cy="392" rx="3.4" ry="1.5" transform="rotate(-38 142 392)"/>
+    <ellipse cx="184" cy="372" rx="2.4" ry="1.1" transform="rotate(26 184 372)"/>
+    <ellipse cx="224" cy="394" rx="3.2" ry="1.4" transform="rotate(-12 224 394)"/>
+    <ellipse cx="266" cy="370" rx="2.8" ry="1.3" transform="rotate(44 266 370)"/>
+    <ellipse cx="308" cy="394" rx="2.0" ry="1.0" transform="rotate(-20 308 394)"/>
+    <ellipse cx="350" cy="372" rx="3.6" ry="1.6" transform="rotate(28 350 372)"/>
+    <ellipse cx="388" cy="394" rx="2.6" ry="1.2" transform="rotate(-36 388 394)"/>
+  </g>
+  <!-- Lighter speckle highlights for cork pop -->
+  <g fill="#E0B585" opacity="0.30">
+    <circle cx="40" cy="60" r="1.0"/>
+    <circle cx="120" cy="36" r="0.8"/>
+    <circle cx="200" cy="78" r="1.2"/>
+    <circle cx="280" cy="40" r="0.9"/>
+    <circle cx="360" cy="74" r="1.1"/>
+    <circle cx="68" cy="146" r="0.9"/>
+    <circle cx="148" cy="172" r="1.0"/>
+    <circle cx="228" cy="142" r="1.1"/>
+    <circle cx="308" cy="174" r="0.8"/>
+    <circle cx="380" cy="148" r="1.2"/>
+    <circle cx="44" cy="220" r="1.0"/>
+    <circle cx="124" cy="248" r="0.9"/>
+    <circle cx="204" cy="218" r="1.1"/>
+    <circle cx="284" cy="246" r="0.8"/>
+    <circle cx="364" cy="220" r="1.0"/>
+    <circle cx="60" cy="316" r="1.2"/>
+    <circle cx="140" cy="346" r="0.9"/>
+    <circle cx="220" cy="316" r="1.0"/>
+    <circle cx="300" cy="346" r="1.1"/>
+    <circle cx="380" cy="316" r="0.8"/>
+  </g>
+  <!-- Vignette for depth -->
+  <radialGradient id="vg" cx="50%" cy="50%" r="80%">
+    <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#3A2410" stop-opacity="0.45"/>
+  </radialGradient>
+  <rect width="400" height="400" fill="url(#vg)"/>
+  <!-- Wooden frame edges (subtle) -->
+  <rect x="0" y="0" width="400" height="6" fill="#5A3A1E" opacity="0.55"/>
+  <rect x="0" y="394" width="400" height="6" fill="#3D2812" opacity="0.6"/>
+  <rect x="0" y="0" width="6" height="400" fill="#5A3A1E" opacity="0.5"/>
+  <rect x="394" y="0" width="6" height="400" fill="#3D2812" opacity="0.55"/>
+</svg>
