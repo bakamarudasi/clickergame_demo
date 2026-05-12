@@ -24,6 +24,10 @@ const STAMP_LIFETIME := 0.45
 @onready var document_button: TextureButton = %DocumentButton
 @onready var upgrade_grid: GridContainer = %UpgradeGrid
 @onready var sticky_target_label: Label = %StickyTargetLabel
+@onready var prestige_bar: PanelContainer = %PrestigeBar
+@onready var prestige_preview: Label = %PrestigePreview
+@onready var prestige_button: Button = %PrestigeButton
+@onready var prestige_confirm: ConfirmationDialog = %PrestigeConfirm
 
 var _click_tween: Tween
 
@@ -38,8 +42,13 @@ var _expanded_id: StringName = &""
 func _ready() -> void:
 	document_button.pressed.connect(_on_click_pressed)
 	EventBus.currency_changed.connect(_refresh_all_cards)
+	EventBus.currency_changed.connect(_refresh_prestige_bar)
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
+	EventBus.meta_upgrade_purchased.connect(_on_meta_purchased)
+	prestige_button.pressed.connect(_on_prestige_button_pressed)
+	prestige_confirm.confirmed.connect(_on_prestige_confirmed)
 	_build_upgrade_cards()
+	_refresh_prestige_bar(0)
 	_setup_golden_timer()
 
 
@@ -182,6 +191,9 @@ func _build_upgrade_cards() -> void:
 			return a.rarity > b.rarity
 		return a.base_cost < b.base_cost)
 	for u: UpgradeData in upgrades:
+		# メタ強化によるゲート：requires_meta が未解放なら表示しない
+		if not GameState.has_meta_unlock(u.requires_meta):
+			continue
 		var card := _make_card(u)
 		upgrade_grid.add_child(card)
 		_cards[u.id] = card
@@ -577,6 +589,44 @@ func _on_buy_pressed(id: StringName) -> void:
 
 func _on_upgrade_purchased(id: StringName, _lv: int) -> void:
 	_refresh_card(id)
+
+
+func _on_meta_purchased(_id: StringName, _lv: int) -> void:
+	# メタ強化購入で requires_meta 解放されたカードが増える可能性 → 再構築
+	_build_upgrade_cards()
+
+
+# --- プレステージ -------------------------------------------------------
+
+func _refresh_prestige_bar(_v: int = 0) -> void:
+	if not GameState.is_prestige_unlocked():
+		prestige_bar.visible = false
+		return
+	prestige_bar.visible = true
+	var gain := GameState.compute_prestige_currency_gained()
+	prestige_preview.text = tr("WORK_PRESTIGE_PREVIEW_FMT") % FormatUtils.short(gain)
+	prestige_button.disabled = gain <= 0
+
+
+func _on_prestige_button_pressed() -> void:
+	var gain := GameState.compute_prestige_currency_gained()
+	var pc := GameState.prestige_count
+	var lines := [
+		tr("WORK_PRESTIGE_CONFIRM_BODY_LOSS"),
+		tr("WORK_PRESTIGE_CONFIRM_BODY_KEEP"),
+		"",
+		tr("WORK_PRESTIGE_CONFIRM_BODY_GAIN") % FormatUtils.short(gain),
+		tr("WORK_PRESTIGE_CONFIRM_BODY_RUN") % [pc, pc + 1],
+	]
+	prestige_confirm.dialog_text = "\n".join(lines)
+	prestige_confirm.popup_centered()
+
+
+func _on_prestige_confirmed() -> void:
+	GameState.do_prestige_reset()
+	# 走行リセットされたので強化カードを再構築 + プレステージバーも更新
+	_build_upgrade_cards()
+	_refresh_prestige_bar(0)
 
 
 func _notification(what: int) -> void:

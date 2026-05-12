@@ -25,8 +25,49 @@ grow_vertical = 2
 offset_left = 24.0
 offset_top = 24.0
 offset_right = -24.0
-offset_bottom = -24.0
+offset_bottom = -92.0
 theme_override_constants/separation = 24
+
+[node name="PrestigeBar" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -76.0
+offset_right = -24.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+visible = false
+
+[node name="PrestigeBox" type="HBoxContainer" parent="PrestigeBar"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PrestigePreview" type="Label" parent="PrestigeBar/PrestigeBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+vertical_alignment = 1
+theme_type_variation = &"TitleLabel"
+text = ""
+
+[node name="PrestigeButton" type="Button" parent="PrestigeBar/PrestigeBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+custom_minimum_size = Vector2(220, 0)
+text = "WORK_PRESTIGE_BUTTON"
+
+[node name="PrestigeConfirm" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "WORK_PRESTIGE_CONFIRM_TITLE"
+ok_button_text = "WORK_PRESTIGE_CONFIRM_YES"
+cancel_button_text = "WORK_PRESTIGE_CONFIRM_NO"
+dialog_autowrap = true
 
 [node name="LeftCol" type="Control" parent="HBox"]
 layout_mode = 2

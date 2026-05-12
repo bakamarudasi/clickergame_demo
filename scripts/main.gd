@@ -7,6 +7,7 @@ const TAB_WORK := &"work"
 const TAB_ROOM := &"room"
 const TAB_SHOP := &"shop"
 const TAB_STATUS := &"status"
+const TAB_META := &"meta"
 
 @onready var currency_label: Label = %CurrencyLabel
 @onready var prestige_label: Label = %PrestigeLabel
@@ -17,12 +18,14 @@ const TAB_STATUS := &"status"
 @onready var tab_room_button: Button = %TabRoom
 @onready var tab_shop_button: Button = %TabShop
 @onready var tab_status_button: Button = %TabStatus
+@onready var tab_meta_button: Button = %TabMeta
 
 @onready var tab_holder: Control = %TabHolder
 @onready var work_tab: Control = %WorkTab
 @onready var room_tab: Control = %RoomTab
 @onready var shop_tab: Control = %ShopTab
 @onready var status_tab: Control = %StatusTab
+@onready var meta_tab: Control = %MetaTab
 
 @onready var auto_timer: Timer = %AutoTimer
 @onready var toast_label: Label = %ToastLabel
@@ -49,11 +52,22 @@ func _ready() -> void:
 	tab_room_button.pressed.connect(_switch_to.bind(TAB_ROOM))
 	tab_shop_button.pressed.connect(_switch_to.bind(TAB_SHOP))
 	tab_status_button.pressed.connect(_switch_to.bind(TAB_STATUS))
+	tab_meta_button.pressed.connect(_switch_to.bind(TAB_META))
 
 	auto_timer.timeout.connect(_on_auto_tick)
 
 	_refresh_status_bar()
+	_refresh_meta_tab_visibility()
 	_switch_to(TAB_WORK)
+
+
+func _refresh_meta_tab_visibility() -> void:
+	# 累計¥1M に一度到達してれば永続表示。
+	var unlocked := GameState.is_prestige_unlocked()
+	tab_meta_button.visible = unlocked
+	if not unlocked and meta_tab.visible:
+		# 解放前にメタタブを開かれていたら Work に戻す（基本起こらないがガード）
+		_switch_to(TAB_WORK)
 
 
 func _switch_to(tab_id: StringName) -> void:
@@ -61,10 +75,12 @@ func _switch_to(tab_id: StringName) -> void:
 	room_tab.visible = (tab_id == TAB_ROOM)
 	shop_tab.visible = (tab_id == TAB_SHOP)
 	status_tab.visible = (tab_id == TAB_STATUS)
+	meta_tab.visible = (tab_id == TAB_META)
 	tab_work_button.button_pressed = (tab_id == TAB_WORK)
 	tab_room_button.button_pressed = (tab_id == TAB_ROOM)
 	tab_shop_button.button_pressed = (tab_id == TAB_SHOP)
 	tab_status_button.button_pressed = (tab_id == TAB_STATUS)
+	tab_meta_button.button_pressed = (tab_id == TAB_META)
 
 
 func _refresh_status_bar() -> void:
@@ -77,6 +93,10 @@ func _refresh_status_bar() -> void:
 func _on_currency_changed(_v: int) -> void:
 	_refresh_status_bar()
 	_pop_currency_label()
+	# 累計¥1M を初回越えしたタイミングでメタタブが解放される。
+	# 一度出した後は条件チェックしても変わらないのでこのまま回しっぱなしでOK。
+	if not tab_meta_button.visible:
+		_refresh_meta_tab_visibility()
 
 
 func _pop_currency_label() -> void:

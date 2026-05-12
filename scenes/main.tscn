@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://clickergamemain0"]
+[gd_scene load_steps=8 format=3 uid="uid://clickergamemain0"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://clickergameworktab0" path="res://scenes/ui/work_tab.tscn" id="2_work"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://clickergameshoptab0" path="res://scenes/ui/shop_tab.tscn" id="4_shop"]
 [ext_resource type="PackedScene" uid="uid://clickergamestatustab0" path="res://scenes/ui/status_tab.tscn" id="5_status"]
 [ext_resource type="PackedScene" uid="uid://cgviewer000000" path="res://scenes/ui/cg_viewer.tscn" id="6_cgv"]
+[ext_resource type="PackedScene" uid="uid://clickergamemetatab0" path="res://scenes/ui/meta_tab.tscn" id="7_meta"]
 
 [node name="Main" type="Control"]
 anchors_preset = 15
@@ -108,6 +109,14 @@ theme_type_variation = &"TabButton"
 toggle_mode = true
 text = "UI_TAB_STATUS"
 
+[node name="TabMeta" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TabButton"
+toggle_mode = true
+visible = false
+text = "UI_TAB_META"
+
 [node name="TabHolder" type="Control" parent="Root/Body"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -126,6 +135,10 @@ unique_name_in_owner = true
 visible = false
 
 [node name="StatusTab" parent="Root/Body/TabHolder" instance=ExtResource("5_status")]
+unique_name_in_owner = true
+visible = false
+
+[node name="MetaTab" parent="Root/Body/TabHolder" instance=ExtResource("7_meta")]
 unique_name_in_owner = true
 visible = false
 

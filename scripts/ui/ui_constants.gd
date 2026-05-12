@@ -47,6 +47,13 @@ const CARD_GLOW_PERIOD := 1.6      # 買えるカードの脈動周期（秒）
 const CARD_GLOW_MIN := 0.85        # 脈動最小 modulate.v
 const CARD_GLOW_MAX := 1.15        # 脈動最大 modulate.v
 
+# メタ強化の3柱カラー（カード枠・名前色用）
+const PILLAR_COLORS := {
+	Enums.MetaPillar.AFFINITY: Color(0.95, 0.45, 0.65, 1.0),
+	Enums.MetaPillar.ECONOMY: Color(0.95, 0.78, 0.30, 1.0),
+	Enums.MetaPillar.CATALOG: Color(0.55, 0.70, 0.98, 1.0),
+}
+
 # --- アニメーション・時間 -----------------------------------------------
 const TOAST_HOLD_SEC := 1.4
 const TOAST_FADE_SEC := 0.6
