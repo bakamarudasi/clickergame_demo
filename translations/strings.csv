@@ -43,7 +43,7 @@ META_COST_FMT,💎 %s,💎 %s,💎 %s
 META_LV_FMT,Lv.%d,Lv.%d,Lv.%d
 META_LV_MAX_FMT,Lv.%d / MAX,Lv.%d / MAX,Lv.%d / 满
 META_CURRENCY_LABEL,💎 源石片: %s,💎 Originium Shards: %s,💎 源石碎片: %s
-META_LOCKED_HINT,累計 ¥1,000,000 稼ぐとプレステージ解放,Earn ¥1,000,000 total to unlock Prestige,累计赚取 ¥1,000,000 解锁源石转生
+META_LOCKED_HINT,累計 ¥100,000 稼ぐとプレステージ解放,Earn ¥100,000 total to unlock Prestige,累计赚取 ¥100,000 解锁源石转生
 WORK_PRESTIGE_BUTTON,プレステージ実行,Prestige,执行源石转生
 WORK_PRESTIGE_PREVIEW_FMT,獲得予定 💎 %s,Will gain 💎 %s,将获得 💎 %s
 WORK_PRESTIGE_CONFIRM_TITLE,プレステージしますか？,Prestige now?,确定要源石转生吗？

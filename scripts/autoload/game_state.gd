@@ -44,9 +44,11 @@ var meta_upgrade_levels: Dictionary = {}     # StringName -> int
 
 # プレステージ通貨の獲得計算用。
 # total_earned_this_run は周回ごとにリセット、total_earned_ever は永続。
-# 「累計¥1M到達でプレステージ系統解放」の判定に total_earned_ever を使う。
-const PRESTIGE_UNLOCK_THRESHOLD := 1_000_000
-const PRESTIGE_CURRENCY_DIVISOR := 1_000_000
+# 「累計¥100K到達でプレステージ系統解放」の判定に total_earned_ever を使う。
+# 獲得式: floor( cube_root( (total_earned_this_run + currency) / 100_000 ) )
+# Cookie Clicker 方式（cube_root + 累計＋手元）、ただし規模をこのゲームに合わせて圧縮。
+const PRESTIGE_UNLOCK_THRESHOLD := 100_000
+const PRESTIGE_CURRENCY_DIVISOR := 100_000
 var total_earned_this_run: int = 0
 var total_earned_ever: int = 0
 
@@ -433,14 +435,15 @@ func is_prestige_unlocked() -> bool:
 
 
 # 今リセットしたら何源石片もらえるかのプレビュー。
-# 計算式: floor(sqrt((total_earned_this_run + currency) / 1M))
-# Cookie Clicker 方式：累計獲得 + 現在手持ちの合算。
-# 手元¥は実質二重カウントになり、抱え込みにも報酬を出すバランス設計。
+# 計算式: floor( cube_root( (total_earned_this_run + currency) / 100_000 ) )
+# - 立方根：序盤厚め・後半は穏やかに伸びる Cookie Clicker と同形のカーブ
+# - 累計獲得 + 現在手持ち：手元¥に二重カウント効果を持たせて、抱え込みにも報酬
+# - 100K で divisor を割るので「閾値ピッタリ到達 = 1個」のクリーンな下限
 func compute_prestige_currency_gained() -> int:
 	var pool := total_earned_this_run + currency
 	if pool < PRESTIGE_CURRENCY_DIVISOR:
 		return 0
-	return int(floor(sqrt(float(pool) / float(PRESTIGE_CURRENCY_DIVISOR))))
+	return int(floor(pow(float(pool) / float(PRESTIGE_CURRENCY_DIVISOR), 1.0 / 3.0)))
 
 
 # プレステージ実行：周回通貨を確定して獲得、走行中の進行をリセット。
