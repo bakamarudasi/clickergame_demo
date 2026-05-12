@@ -41,21 +41,6 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="CurrencyLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"LargeLabel"
-text = "¥ 0"
-vertical_alignment = 1
-
-[node name="PrestigeLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"LargeLabel"
-text = "💎 0"
-vertical_alignment = 1
-
 [node name="PerSecLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -67,6 +52,26 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "+1 / click"
 vertical_alignment = 1
+
+[node name="PrestigeLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"LargeLabel"
+text = "💎 0"
+vertical_alignment = 1
+
+[node name="StatusSpacer" type="Control" parent="Root/StatusBar/StatusHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="CurrencyLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DisplayLabel"
+text = "¥ 0"
+vertical_alignment = 1
+horizontal_alignment = 2
 
 [node name="Body" type="HBoxContainer" parent="Root"]
 layout_mode = 2

@@ -33,7 +33,13 @@ const TAB_META := &"meta"
 @onready var cg_viewer: Control = %CGViewer
 
 var _toast_tween: Tween
-var _currency_pop_tween: Tween
+var _currency_count_tween: Tween
+var _currency_flash_tween: Tween
+# 表示中の通貨値（実値とは別に持って、lerp で実値へ追いつかせる）
+var _currency_display: float = 0.0
+const CURRENCY_TWEEN_SEC := 0.25
+const CURRENCY_FLASH_COLOR := Color(0.55, 1.10, 0.55, 1.0)
+const CURRENCY_FLASH_FADE_SEC := 0.35
 
 
 func _ready() -> void:
@@ -56,6 +62,7 @@ func _ready() -> void:
 
 	auto_timer.timeout.connect(_on_auto_tick)
 
+	_currency_display = float(GameState.currency)
 	_refresh_status_bar()
 	_refresh_meta_tab_visibility()
 	_switch_to(TAB_WORK)
@@ -84,31 +91,47 @@ func _switch_to(tab_id: StringName) -> void:
 
 
 func _refresh_status_bar() -> void:
-	currency_label.text = tr("UI_CURRENCY_FMT") % FormatUtils.short(GameState.currency)
+	# 通貨ラベルは _currency_display を経由してカウントアップさせる。
+	# 直接 GameState.currency を書かないことで「数字がぱっと跳ねる」表示を回避。
+	currency_label.text = tr("UI_CURRENCY_FMT") % FormatUtils.short(int(round(_currency_display)))
 	prestige_label.text = tr("UI_PRESTIGE_FMT") % FormatUtils.short(GameState.prestige_currency)
 	per_sec_label.text = tr("UI_PER_SEC_FMT") % FormatUtils.short(GameState.effective_per_second())
 	click_power_label.text = tr("UI_CLICK_POWER_FMT") % FormatUtils.short(GameState.effective_click_power())
 
 
 func _on_currency_changed(_v: int) -> void:
-	_refresh_status_bar()
-	_pop_currency_label()
+	_animate_currency_to(GameState.currency)
 	# 累計¥1M を初回越えしたタイミングでメタタブが解放される。
 	# 一度出した後は条件チェックしても変わらないのでこのまま回しっぱなしでOK。
 	if not tab_meta_button.visible:
 		_refresh_meta_tab_visibility()
 
 
-func _pop_currency_label() -> void:
-	if _currency_pop_tween != null and _currency_pop_tween.is_valid():
-		_currency_pop_tween.kill()
-	currency_label.pivot_offset = currency_label.size * 0.5
-	currency_label.scale = Vector2.ONE
-	var peak := Vector2.ONE * UIConstants.CURRENCY_POP_SCALE
-	var dur := UIConstants.CURRENCY_POP_DURATION
-	_currency_pop_tween = create_tween()
-	_currency_pop_tween.tween_property(currency_label, "scale", peak, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	_currency_pop_tween.tween_property(currency_label, "scale", Vector2.ONE, dur).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+# _currency_display を新しい値へなめらかに引き寄せる。
+# tween の値変化フックで毎フレーム再描画して数字がカチャカチャ動いて見せる。
+func _animate_currency_to(new_value: int) -> void:
+	if _currency_count_tween != null and _currency_count_tween.is_valid():
+		_currency_count_tween.kill()
+	var from := _currency_display
+	var to := float(new_value)
+	_currency_count_tween = create_tween()
+	_currency_count_tween.tween_method(_set_currency_display, from, to, CURRENCY_TWEEN_SEC).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# 増加時のみ緑にフラッシュ（消費 = 通貨減少 では出さない）
+	if to > from:
+		_flash_currency_label()
+
+
+func _set_currency_display(v: float) -> void:
+	_currency_display = v
+	currency_label.text = tr("UI_CURRENCY_FMT") % FormatUtils.short(int(round(_currency_display)))
+
+
+func _flash_currency_label() -> void:
+	if _currency_flash_tween != null and _currency_flash_tween.is_valid():
+		_currency_flash_tween.kill()
+	currency_label.modulate = CURRENCY_FLASH_COLOR
+	_currency_flash_tween = create_tween()
+	_currency_flash_tween.tween_property(currency_label, "modulate", Color(1, 1, 1, 1), CURRENCY_FLASH_FADE_SEC).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _on_per_second_changed(_v: int) -> void:
 	_refresh_status_bar()
