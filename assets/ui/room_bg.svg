@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+	<!-- Roomタブ用プレースホルダ背景。
+	     特定キャラに依存しない汎用ルーム。壁・窓・カーテン・ベッド影・床の境界線で
+	     「私室っぽさ」を出す。立ち絵を前に出した時に主役を食わないよう、
+	     彩度低め・コントラスト弱めにしてある。実イラスト差し替え推奨。 -->
+	<defs>
+		<linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0%" stop-color="#f5e6d3"/>
+			<stop offset="60%" stop-color="#ecd0b3"/>
+			<stop offset="100%" stop-color="#d8b394"/>
+		</linearGradient>
+		<radialGradient id="lightBeam" cx="0.22" cy="0.18" r="0.55">
+			<stop offset="0%" stop-color="#fff5e0" stop-opacity="0.85"/>
+			<stop offset="60%" stop-color="#fff5e0" stop-opacity="0.25"/>
+			<stop offset="100%" stop-color="#fff5e0" stop-opacity="0"/>
+		</radialGradient>
+		<linearGradient id="curtainL" x1="0" y1="0" x2="1" y2="0">
+			<stop offset="0%" stop-color="#c97070" stop-opacity="0.85"/>
+			<stop offset="100%" stop-color="#c97070" stop-opacity="0"/>
+		</linearGradient>
+		<linearGradient id="curtainR" x1="1" y1="0" x2="0" y2="0">
+			<stop offset="0%" stop-color="#c97070" stop-opacity="0.85"/>
+			<stop offset="100%" stop-color="#c97070" stop-opacity="0"/>
+		</linearGradient>
+	</defs>
+	<!-- 壁 -->
+	<rect width="1920" height="1080" fill="url(#wall)"/>
+
+	<!-- 床の境界（ラフな水平線） -->
+	<line x1="0" y1="780" x2="1920" y2="780" stroke="#9b6f4e" stroke-width="4" opacity="0.45"/>
+
+	<!-- 窓（左上）：枠+ガラス+クロス桟 -->
+	<g transform="translate(220,140)">
+		<rect width="360" height="430" fill="#b9deec" stroke="#8b6f47" stroke-width="16" rx="6"/>
+		<line x1="180" y1="0" x2="180" y2="430" stroke="#8b6f47" stroke-width="8"/>
+		<line x1="0" y1="215" x2="360" y2="215" stroke="#8b6f47" stroke-width="8"/>
+		<!-- 雲っぽい白 -->
+		<ellipse cx="100" cy="120" rx="60" ry="20" fill="#fff" opacity="0.7"/>
+		<ellipse cx="240" cy="170" rx="80" ry="22" fill="#fff" opacity="0.55"/>
+	</g>
+
+	<!-- 窓から差し込む光 -->
+	<rect width="1920" height="1080" fill="url(#lightBeam)"/>
+
+	<!-- ベッドの影（右下、薄め） -->
+	<g opacity="0.42" transform="translate(1180,640)">
+		<rect width="680" height="280" fill="#b88370" rx="22"/>
+		<rect y="-104" x="60" width="220" height="120" fill="#a06b58" rx="16"/>
+		<rect y="50" x="40" width="600" height="60" fill="#e9d4c0" rx="8" opacity="0.85"/>
+	</g>
+
+	<!-- 左カーテン -->
+	<path d="M0,0 L240,0 Q200,540 120,1080 L0,1080 Z" fill="url(#curtainL)"/>
+	<!-- 右カーテン -->
+	<path d="M1920,0 L1680,0 Q1720,540 1800,1080 L1920,1080 Z" fill="url(#curtainR)"/>
+
+	<!-- 雑な装飾：壁の小さなハートシール（うっすら） -->
+	<g opacity="0.18" fill="#d96974">
+		<path d="M860 220 a14 14 0 0 1 28 0 a14 14 0 0 1 28 0 q0 28 -28 44 q-28 -16 -28 -44 z"/>
+		<path d="M1490 320 a10 10 0 0 1 20 0 a10 10 0 0 1 20 0 q0 20 -20 32 q-20 -12 -20 -32 z"/>
+	</g>
+</svg>

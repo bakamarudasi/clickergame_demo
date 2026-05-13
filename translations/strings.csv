@@ -9,8 +9,8 @@ UI_PER_SEC_FMT,%s / sec,%s / sec,%s / 秒
 UI_CLICK_POWER_FMT,+%s / click,+%s / click,+%s / 点击
 STATUS_TITLE,ステータス,Status,状态
 STATUS_TRUST_FMT,信頼度 %d,Trust %d,信赖度 %d
-STATUS_INTIMACY_FMT,親密度 %d,Intimacy %d,亲密度 %d
-STATUS_AROUSAL_FMT,発情度 %d,Arousal %d,兴奋度 %d
+STATUS_INTIMACY_FMT,💗 親密度 %d,💗 Intimacy %d,💗 亲密度 %d
+STATUS_AROUSAL_FMT,🔥 発情度 %d,🔥 Arousal %d,🔥 兴奋度 %d
 WORK_CLICK_BUTTON,CLICK!,CLICK!,点击！
 WORK_UPGRADE_TITLE,アップグレード,Upgrades,强化
 WORK_UPGRADE_BUY_BUTTON,購入する,Purchase,购买
@@ -151,8 +151,8 @@ SCOPE_ADVANCED_DESC,服の透過と心拍可視化を兼ねる改造枠。長時
 CG_LEMUEN_INTIMATE_FIRST_CAPTION,初めての夜,The First Night,初次共度的夜
 ROOM_OPERATOR_TITLE,オペレータ,Operators,干员
 ROOM_DETAIL_PLACEHOLDER,—,—,—
-ROOM_TRUST_FMT,信頼度 %d,Trust %d,信赖度 %d
-ROOM_STAGE_FMT,段階 %d  %s,Stage %d  %s,阶段 %d  %s
+ROOM_TRUST_FMT,❤️ 信頼度 %d,❤️ Trust %d,❤️ 信赖度 %d
+ROOM_STAGE_FMT,✦ 段階 %d  %s,✦ Stage %d  %s,✦ 阶段 %d  %s
 ROOM_GIVE_BUTTON,渡す,Give,赠送
 ROOM_TOUCH_TITLE,触れる,Touch,触碰
 ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)",“%s”  (信赖度 %+d)
