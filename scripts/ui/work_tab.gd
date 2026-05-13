@@ -51,6 +51,9 @@ var _golden_active_node: TextureButton = null
 # id → カード Dict（再構築せず差分更新するための索引）
 var _cards: Dictionary = {}
 var _expanded_id: StringName = &""
+# 数量モード（×1 / ×10 / ×100 / ×Max）。Shopタブと同じ流儀で全カード共有。
+# 0=×1, 1=×10, 2=×100, 3=×Max
+var _qty_mode: int = 0
 
 
 func _ready() -> void:
@@ -428,6 +431,34 @@ func _make_card(u: UpgradeData) -> PanelContainer:
 	stats.add_child(next_label)
 	stats.add_child(next_value)
 
+	# 数量セレクタ（×1 / ×10 / ×100 / ×Max）
+	# 4ボタンを排他選択にして _qty_mode を更新。全カードで同じモードを共有する。
+	var qty_row := HBoxContainer.new()
+	qty_row.add_theme_constant_override("separation", 4)
+	qty_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	qty_row.mouse_filter = Control.MOUSE_FILTER_PASS
+	expand.add_child(qty_row)
+
+	var qty_group := ButtonGroup.new()
+	var qty_btns: Array[Button] = []
+	for i in 4:
+		var b := Button.new()
+		b.toggle_mode = true
+		b.button_group = qty_group
+		b.custom_minimum_size = Vector2(56, 28)
+		b.add_theme_color_override("font_color", CARD_INK_COLOR)
+		qty_row.add_child(b)
+		qty_btns.append(b)
+	qty_btns[0].text = "×1"
+	qty_btns[1].text = "×10"
+	qty_btns[2].text = "×100"
+	qty_btns[3].text = tr("WORK_UPGRADE_QTY_MAX")
+	qty_btns[_qty_mode].set_pressed_no_signal(true)
+	qty_btns[0].toggled.connect(func(p: bool) -> void: if p: _set_qty_mode(0))
+	qty_btns[1].toggled.connect(func(p: bool) -> void: if p: _set_qty_mode(1))
+	qty_btns[2].toggled.connect(func(p: bool) -> void: if p: _set_qty_mode(2))
+	qty_btns[3].toggled.connect(func(p: bool) -> void: if p: _set_qty_mode(3))
+
 	# 不足額 or 「購入可」のヒント
 	var afford_label := Label.new()
 	afford_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
@@ -461,6 +492,7 @@ func _make_card(u: UpgradeData) -> PanelContainer:
 	panel.set_meta("invested_value", invested_value)
 	panel.set_meta("next_value", next_value)
 	panel.set_meta("afford_label", afford_label)
+	panel.set_meta("qty_btns", qty_btns)
 	panel.set_meta("glow_tween", null)
 
 	return panel
@@ -592,7 +624,6 @@ func _refresh_card(id: StringName) -> void:
 		return
 	var lv := GameState.get_upgrade_level(id)
 	var maxed := u.max_level > 0 and lv >= u.max_level
-	var can_buy := EconomyService.can_buy_upgrade(id) and not maxed
 
 	var lv_label: Label = card.get_meta("lv_label")
 	var cost_label: Label = card.get_meta("cost_label")
@@ -601,9 +632,26 @@ func _refresh_card(id: StringName) -> void:
 	var invested_value: Label = card.get_meta("invested_value")
 	var next_value: Label = card.get_meta("next_value")
 	var afford_label: Label = card.get_meta("afford_label")
+	var qty_btns: Array = card.get_meta("qty_btns")
 
 	total_value.text = _format_total_contribution(u, lv)
 	invested_value.text = tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(_cumulative_invested(u, lv))
+
+	# 数量ボタンの押下状態を共有モードに同期（toggled シグナルを撃たないよう no_signal）
+	for i in qty_btns.size():
+		(qty_btns[i] as Button).set_pressed_no_signal(i == _qty_mode)
+
+	# 数量モードに応じた購入数と合計コスト。MAX状態ならどちらも 0。
+	var qty := 0
+	var total_cost := 0
+	if not maxed:
+		qty = _resolve_qty_for(id)
+		total_cost = EconomyService.cumulative_cost(id, qty)
+
+	var can_buy := qty > 0 and GameState.currency >= total_cost
+
+	# 折りたたみ時のコスト表示は常に「次の1Lv分」で読みやすさを優先。
+	var single_cost := EconomyService.current_cost(id) if not maxed else -1
 
 	if maxed:
 		lv_label.text = tr("WORK_UPGRADE_LV_MAX_FMT") % lv
@@ -611,18 +659,31 @@ func _refresh_card(id: StringName) -> void:
 		next_value.text = tr("WORK_UPGRADE_COST_MAX")
 		afford_label.text = ""
 		buy_button.disabled = true
+		buy_button.text = tr("WORK_UPGRADE_BUY_BUTTON")
+		for b in qty_btns:
+			(b as Button).disabled = true
 	else:
 		lv_label.text = tr("WORK_UPGRADE_LV_FMT") % lv
-		var cost := EconomyService.current_cost(id)
-		var cost_str := tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(cost)
-		cost_label.text = cost_str
-		next_value.text = cost_str
+		cost_label.text = tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(single_cost)
+		# 展開部の「次Lvコスト」は qty を考慮した合計を出す（×1 なら従来通り）。
+		var total_cost_str := tr("WORK_UPGRADE_COST_FMT") % FormatUtils.short(total_cost)
+		next_value.text = total_cost_str
+		for b in qty_btns:
+			(b as Button).disabled = false
 		buy_button.disabled = not can_buy
+		# ×Max でも qty=1 なら "購入する"、それ以外は数量つきフォーマット。
+		if qty > 1:
+			buy_button.text = tr("WORK_UPGRADE_BUY_BUTTON_QTY_FMT") % [qty, FormatUtils.short(total_cost)]
+		else:
+			buy_button.text = tr("WORK_UPGRADE_BUY_BUTTON")
 		if can_buy:
 			afford_label.text = tr("WORK_UPGRADE_STATS_AFFORD")
 			afford_label.add_theme_color_override("font_color", _ink_rarity_color(UIConstants.RARITY_COLORS[u.rarity]))
 		else:
-			var short_by := cost - GameState.currency
+			# 不足表示は実際に買おうとしているコスト基準で。
+			# ×Max で qty=0（=単発も買えない）の時は 1Lv 分の不足額を出す方が親切。
+			var ref_cost := total_cost if qty > 0 else single_cost
+			var short_by := ref_cost - GameState.currency
 			afford_label.text = tr("WORK_UPGRADE_STATS_SHORT") % FormatUtils.short(short_by)
 			afford_label.add_theme_color_override("font_color", CARD_INK_SUB_COLOR)
 
@@ -683,8 +744,33 @@ func _set_expanded(id: StringName, on: bool) -> void:
 	expand.visible = on
 
 
+func _resolve_qty_for(id: StringName) -> int:
+	match _qty_mode:
+		0:
+			return 1
+		1:
+			return 10
+		2:
+			return 100
+		3:
+			return EconomyService.max_affordable_qty(id)
+		_:
+			return 1
+
+
+func _set_qty_mode(mode: int) -> void:
+	if _qty_mode == mode:
+		return
+	_qty_mode = mode
+	# 他カードのトグル状態と表示（コスト/購入可否）を一斉同期。
+	_refresh_all_cards(0)
+
+
 func _on_buy_pressed(id: StringName) -> void:
-	EconomyService.buy_upgrade(id)
+	var qty := _resolve_qty_for(id)
+	if qty <= 0:
+		return
+	EconomyService.buy_upgrade_bulk(id, qty)
 
 
 func _on_upgrade_purchased(id: StringName, _lv: int) -> void:
@@ -745,6 +831,10 @@ func _rebuild_static_text() -> void:
 		(card.get_meta("desc_label") as Label).text = tr(u.description)
 		(card.get_meta("effect_label") as Label).text = _format_effect(u)
 		(card.get_meta("buy_button") as Button).text = tr("WORK_UPGRADE_BUY_BUTTON")
+		# ×Max ボタンだけ tr が必要。残り3つは記号リテラルなのでそのまま。
+		var qty_btns: Array = card.get_meta("qty_btns")
+		if qty_btns.size() >= 4:
+			(qty_btns[3] as Button).text = tr("WORK_UPGRADE_QTY_MAX")
 	_refresh_all_cards(0)
 
 
