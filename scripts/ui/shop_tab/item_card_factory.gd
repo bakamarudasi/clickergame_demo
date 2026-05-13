@@ -12,6 +12,25 @@ signal buy_requested(id: StringName, qty: int)
 
 const PRICE_TAG := preload("res://assets/ui/shop_price_tag.svg")
 
+# カテゴリ別デフォルトアイコン。ItemData.icon が未設定なら category から引く。
+# .tres 側で icon を上書き設定すればその個別アイコンが優先される。
+const CATEGORY_ICONS := {
+	Enums.ItemCategory.DAILY: preload("res://assets/items/category/cat_daily.svg"),
+	Enums.ItemCategory.HOBBY: preload("res://assets/items/category/cat_hobby.svg"),
+	Enums.ItemCategory.BODY_CARE: preload("res://assets/items/category/cat_body_care.svg"),
+	Enums.ItemCategory.ROMANCE: preload("res://assets/items/category/cat_romance.svg"),
+	Enums.ItemCategory.DIRECT_TOY: preload("res://assets/items/category/cat_direct_toy.svg"),
+	Enums.ItemCategory.DIRECT_DRUG: preload("res://assets/items/category/cat_direct_drug.svg"),
+	Enums.ItemCategory.DIRECT_BIND: preload("res://assets/items/category/cat_direct_bind.svg"),
+	Enums.ItemCategory.DIRECT_PROT: preload("res://assets/items/category/cat_direct_prot.svg"),
+	Enums.ItemCategory.COS_OUTFIT: preload("res://assets/items/category/cat_cos_outfit.svg"),
+	Enums.ItemCategory.COS_PARTS: preload("res://assets/items/category/cat_cos_parts.svg"),
+	Enums.ItemCategory.INVITATION: preload("res://assets/items/category/cat_invitation.svg"),
+	Enums.ItemCategory.RULE: preload("res://assets/items/category/cat_rule.svg"),
+	Enums.ItemCategory.SCOPE: preload("res://assets/items/category/cat_scope.svg"),
+}
+const CARD_ICON_SIZE := 56
+
 # カード（商品ラベル紙）のトーン。雑貨店の値札紙イメージ。
 const CARD_PAPER_BG := Color(0.95, 0.89, 0.74, 1.0)
 const CARD_PAPER_BG_LOCKED := Color(0.74, 0.70, 0.60, 1.0)
@@ -50,11 +69,20 @@ func build(it: ItemData) -> PanelContainer:
 	vb.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(vb)
 
-	# 上段：商品名（左、伸縮）＋ 値札（右、固定）
+	# 上段：アイコン（左）＋ 商品名（中、伸縮）＋ 値札（右）
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 10)
 	header.mouse_filter = Control.MOUSE_FILTER_PASS
 	vb.add_child(header)
+
+	var icon_rect := TextureRect.new()
+	icon_rect.texture = _resolve_icon(it)
+	icon_rect.custom_minimum_size = Vector2(CARD_ICON_SIZE, CARD_ICON_SIZE)
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header.add_child(icon_rect)
 
 	var name_label := Label.new()
 	name_label.text = _t(it.display_name)
@@ -87,6 +115,15 @@ func build(it: ItemData) -> PanelContainer:
 	gate_label.visible = false
 	vb.add_child(gate_label)
 
+	# 所持数表示（消耗品のみ）。inventory_changed で都度更新される。
+	var owned_label := Label.new()
+	owned_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	owned_label.add_theme_color_override("font_color", CARD_INK_SUB_COLOR)
+	owned_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	owned_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	owned_label.visible = it.is_consumable
+	vb.add_child(owned_label)
+
 	# 数量セレクタ（消耗品のみ visible）
 	var qty_row := HBoxContainer.new()
 	qty_row.add_theme_constant_override("separation", 4)
@@ -113,17 +150,19 @@ func build(it: ItemData) -> PanelContainer:
 	panel.set_meta("desc_label", desc_label)
 	panel.set_meta("price_label", price_label)
 	panel.set_meta("gate_label", gate_label)
+	panel.set_meta("owned_label", owned_label)
 	panel.set_meta("qty_selector", qty_selector)
 	panel.set_meta("buy_button", buy_button)
 	panel.set_meta("stylebox", sbox)
 	return panel
 
 
-# 通貨や購入状態の変化に応じて、値札・購入ボタン・紙の色を更新する。
+# 通貨や購入状態の変化に応じて、値札・購入ボタン・紙の色・所持数を更新する。
 func refresh(card: PanelContainer, it: ItemData) -> void:
 	var buy_button: Button = card.get_meta("buy_button")
 	var price_label: Label = card.get_meta("price_label")
 	var gate_label: Label = card.get_meta("gate_label")
+	var owned_label: Label = card.get_meta("owned_label")
 	var qty_selector: QuantitySelector = card.get_meta("qty_selector")
 	var sbox: StyleBoxFlat = card.get_meta("stylebox")
 
@@ -133,6 +172,13 @@ func refresh(card: PanelContainer, it: ItemData) -> void:
 		gate_label.text = _t("SHOP_DETAIL_GATE_FMT") % it.trust_gate_min
 	else:
 		gate_label.visible = false
+
+	# 消耗品の所持数表示
+	if it.is_consumable:
+		owned_label.visible = true
+		owned_label.text = _t("SHOP_OWNED_COUNT_FMT") % GameState.item_count(it.id)
+	else:
+		owned_label.visible = false
 
 	# 非消耗品：すでに永続効果適用済みなら「所持済」表記＆ボタン無効
 	var already_owned := not it.is_consumable and _is_permanent_effect_applied(it)
@@ -231,6 +277,13 @@ func _make_price_tag(price: int) -> Control:
 	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	label.offset_left = 14
 	return tag
+
+
+# ItemData.icon を優先し、未設定ならカテゴリ別デフォルトアイコンに落とす。
+func _resolve_icon(it: ItemData) -> Texture2D:
+	if it.icon != null:
+		return it.icon
+	return CATEGORY_ICONS.get(it.category, null)
 
 
 # 数量モード → 実際の購入数。Max のときは所持金上限を引く。

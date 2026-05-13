@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Heart pendant -->
+  <path d="M 32 52 C 14 38, 8 24, 18 18 C 24 14, 30 18, 32 24 C 34 18, 40 14, 46 18 C 56 24, 50 38, 32 52 Z"
+        fill="#C24A3A" stroke="#5A1A12" stroke-width="2.5"/>
+  <!-- Highlight -->
+  <path d="M 22 22 Q 20 26 24 30" stroke="#F4B6A8" stroke-width="2" fill="none" opacity="0.8"/>
+  <!-- Chain (top) -->
+  <circle cx="28" cy="10" r="2" fill="none" stroke="#C9A227" stroke-width="1.6"/>
+  <circle cx="32" cy="8" r="2" fill="none" stroke="#C9A227" stroke-width="1.6"/>
+  <circle cx="36" cy="10" r="2" fill="none" stroke="#C9A227" stroke-width="1.6"/>
+</svg>

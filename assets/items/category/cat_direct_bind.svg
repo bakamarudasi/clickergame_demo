@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Coiled rope: nested ellipses (perspective) -->
+  <ellipse cx="32" cy="48" rx="22" ry="8" fill="#B48050" stroke="#5A3416" stroke-width="2"/>
+  <ellipse cx="32" cy="40" rx="22" ry="8" fill="#C48E58" stroke="#5A3416" stroke-width="2"/>
+  <ellipse cx="32" cy="32" rx="22" ry="8" fill="#D49C66" stroke="#5A3416" stroke-width="2"/>
+  <ellipse cx="32" cy="24" rx="22" ry="8" fill="#DCA672" stroke="#5A3416" stroke-width="2"/>
+  <!-- Loose end coming out the top -->
+  <path d="M 38 22 Q 44 12 50 14" stroke="#5A3416" stroke-width="3" fill="none"/>
+  <path d="M 38 22 Q 44 12 50 14" stroke="#D49C66" stroke-width="1.6" fill="none"/>
+  <!-- Rope twist hatching on each loop -->
+  <g stroke="#5A3416" stroke-width="0.9" opacity="0.5">
+    <path d="M 14 24 L 18 28"/>
+    <path d="M 24 21 L 28 25"/>
+    <path d="M 36 21 L 40 25"/>
+    <path d="M 46 24 L 50 28"/>
+    <path d="M 14 40 L 18 44"/>
+    <path d="M 30 37 L 34 41"/>
+    <path d="M 46 40 L 50 44"/>
+  </g>
+</svg>

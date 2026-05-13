@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Envelope body -->
+  <rect x="6" y="14" width="52" height="36" fill="#F0E2C2" stroke="#3A2410" stroke-width="2.5"/>
+  <!-- Flap (closed) -->
+  <path d="M 6 14 L 32 36 L 58 14" fill="none" stroke="#3A2410" stroke-width="2.5"/>
+  <!-- Body folds (back lines visible at edges) -->
+  <path d="M 6 50 L 28 32" stroke="#3A2410" stroke-width="1.5" opacity="0.5"/>
+  <path d="M 58 50 L 36 32" stroke="#3A2410" stroke-width="1.5" opacity="0.5"/>
+  <!-- Wax seal -->
+  <circle cx="32" cy="36" r="6" fill="#C24A3A" stroke="#5A1A12" stroke-width="2"/>
+  <path d="M 29 33 L 35 39 M 35 33 L 29 39" stroke="#5A1A12" stroke-width="1.6"/>
+</svg>

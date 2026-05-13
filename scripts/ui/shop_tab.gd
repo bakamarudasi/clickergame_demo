@@ -55,6 +55,8 @@ func _ready() -> void:
 
 	EventBus.currency_changed.connect(_refresh_all_cards)
 	EventBus.item_purchased.connect(_on_item_purchased)
+	# Room タブ等での消費で在庫が変わったら所持数表示を更新する
+	EventBus.inventory_changed.connect(_on_inventory_changed)
 	# メタ強化購入で requires_meta 解放されたアイテムが陳列に増える可能性 → 再構築
 	EventBus.meta_upgrade_purchased.connect(_on_meta_upgrade_purchased)
 
@@ -191,6 +193,15 @@ func _on_item_purchased(id: StringName) -> void:
 		if it != null:
 			_card_factory.play_purchase_feedback(card, it)
 	_refresh_all_cards()
+
+
+func _on_inventory_changed(id: StringName, _new_count: int) -> void:
+	var card: PanelContainer = _cards.get(id)
+	if card == null:
+		return
+	var it := DataRegistry.get_item(id)
+	if it != null:
+		_card_factory.refresh(card, it)
 
 
 func _on_meta_upgrade_purchased(_meta_id: StringName, _new_level: int) -> void:

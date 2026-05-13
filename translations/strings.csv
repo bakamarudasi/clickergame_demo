@@ -187,6 +187,7 @@ SHOP_PRICE_TAG_FMT,¥%s,¥%s,¥%s
 SHOP_PRICE_OWNED,所持済,Owned,已持有
 SHOP_BUY_BUTTON_OWNED,所持済,Owned,已持有
 SHOP_EMPTY_CATEGORY,この棚にはまだ何もない,Nothing on this shelf yet,这层货架还空着
+SHOP_OWNED_COUNT_FMT,所持 %d,Owned %d,持有 %d
 TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…,现在还不肯见你…
 TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s,%s 不够
 TOAST_TOUCH_GATED,まだ無理だ…,Not yet…,还不行…

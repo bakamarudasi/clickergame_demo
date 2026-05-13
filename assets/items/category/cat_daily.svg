@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Cookie body -->
+  <circle cx="32" cy="34" r="22" fill="#C68A52" stroke="#5A3416" stroke-width="2.5"/>
+  <!-- Chocolate chips -->
+  <circle cx="22" cy="28" r="2.6" fill="#3A1F0A"/>
+  <circle cx="38" cy="24" r="2.2" fill="#3A1F0A"/>
+  <circle cx="44" cy="36" r="2.8" fill="#3A1F0A"/>
+  <circle cx="26" cy="42" r="2.4" fill="#3A1F0A"/>
+  <circle cx="36" cy="44" r="2.0" fill="#3A1F0A"/>
+  <!-- Steam wisps -->
+  <path d="M 24 8 Q 22 12 26 14 Q 30 16 28 10" fill="none" stroke="#9C7A56" stroke-width="1.6" opacity="0.65"/>
+  <path d="M 38 6 Q 36 10 40 12 Q 44 14 42 8" fill="none" stroke="#9C7A56" stroke-width="1.6" opacity="0.65"/>
+</svg>
