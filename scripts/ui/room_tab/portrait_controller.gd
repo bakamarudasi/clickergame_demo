@@ -276,10 +276,21 @@ func _ensure_scene(scene: PackedScene) -> void:
 		return
 	_clear_scene()
 	_portrait_scene_node = scene.instantiate()
-	# PortraitView の親（PortraitArea）にぶら下げる。PortraitArea が
-	# CenterContainer なのでサイズは中央で自動配置される。
+	# PortraitView の親（PortraitArea）にぶら下げる。PortraitArea は clip_contents 付きの
+	# Control なので、子は anchors で自分でサイズを取りに行く必要がある。
+	# ルートが Control 系ならフルレクトに引き伸ばす。それ以外は元の挙動に任せる。
 	var holder := _portrait_view.get_parent()
 	holder.add_child(_portrait_scene_node)
+	if _portrait_scene_node is Control:
+		var c: Control = _portrait_scene_node
+		c.anchor_left = 0.0
+		c.anchor_top = 0.0
+		c.anchor_right = 1.0
+		c.anchor_bottom = 1.0
+		c.offset_left = 0.0
+		c.offset_top = 0.0
+		c.offset_right = 0.0
+		c.offset_bottom = 0.0
 	_portrait_scene_path = path
 
 

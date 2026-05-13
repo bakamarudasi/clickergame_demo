@@ -88,14 +88,20 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.5
 theme_override_constants/separation = 8
 
-[node name="PortraitArea" type="CenterContainer" parent="HBox/CenterPanel"]
+[node name="PortraitArea" type="Control" parent="HBox/CenterPanel"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 260)
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="PortraitView" type="TextureRect" parent="HBox/CenterPanel/PortraitArea"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(560, 840)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 expand_mode = 1
 stretch_mode = 5
 
@@ -219,7 +225,7 @@ step = 0.01
 show_percentage = false
 
 [node name="DialoguePanel" type="PanelContainer" parent="HBox/CenterPanel"]
-custom_minimum_size = Vector2(0, 140)
+custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
