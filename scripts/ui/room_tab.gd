@@ -41,6 +41,9 @@ var _dialogue: DialogueLogView
 
 
 func _ready() -> void:
+	# 部屋の背景がクリーム色なので、ここだけ文字色を暗系に差し替える小テーマを被せる。
+	# サイズや variation は親（Main）の Theme にフォールバックするので影響しない。
+	theme = ThemeFactory.build_room_overlay()
 	_portrait = PortraitController.new(portrait_view, face_overlay, scope_window)
 	_idle = IdleFlavorTracker.new()
 	_idle.fire_buff_applied.connect(_on_idle_fire_buff)
