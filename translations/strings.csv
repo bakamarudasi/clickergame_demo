@@ -31,6 +31,11 @@ WORK_UPGRADE_RARITY_COMMON,コモン,Common,普通
 WORK_UPGRADE_RARITY_RARE,レア,Rare,稀有
 WORK_UPGRADE_RARITY_EPIC,エピック,Epic,史诗
 WORK_UPGRADE_RARITY_LEGENDARY,レジェンダリー,Legendary,传说
+WORK_UPGRADE_TAB_CLICK,クリック強化,Click,点击强化
+WORK_UPGRADE_TAB_AUTO,自動収入,Auto,自动收入
+WORK_UPGRADE_TAB_MULT,倍率強化,Multiplier,倍率强化
+WORK_UPGRADE_QTY_MAX,×Max,×Max,×Max
+WORK_UPGRADE_BUY_BUTTON_QTY_FMT,購入する ×%d  (¥ %s),Buy ×%d  (¥ %s),购买 ×%d  (¥ %s)
 WORK_STICKY_HEADING,次の目標,Next goal,下个目标
 WORK_STICKY_ALL_MAX,全 MAX 達成！,All maxed!,全部满级！
 UI_TAB_META,Prestige,Prestige,源石
