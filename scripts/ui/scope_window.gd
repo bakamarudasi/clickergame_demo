@@ -65,14 +65,14 @@ func _sync_overlay_offset() -> void:
 
 
 func _clamp_position_in_parent() -> void:
-	var parent_rect := get_parent().get_rect()
+	var parent_rect: Rect2 = (get_parent() as Control).get_rect()
 	var max_x := maxf(0.0, parent_rect.size.x - size.x)
 	var max_y := maxf(0.0, parent_rect.size.y - size.y)
 	position = Vector2(clampf(position.x, 0.0, max_x), clampf(position.y, 0.0, max_y))
 
 
 func center_in_parent() -> void:
-	var parent_rect := get_parent().get_rect()
+	var parent_rect: Rect2 = (get_parent() as Control).get_rect()
 	position = (parent_rect.size - size) * 0.5
 	_clamp_position_in_parent()
 	_sync_overlay_offset()
@@ -122,7 +122,7 @@ func _on_handle_input(event: InputEvent) -> void:
 		new_size.x = clampf(new_size.x, MIN_SIZE.x, _max_size.x)
 		new_size.y = clampf(new_size.y, MIN_SIZE.y, _max_size.y)
 		# 親の右端／下端を超えないようにもクランプ（位置固定でリサイズなので）
-		var parent_rect := get_parent().get_rect()
+		var parent_rect: Rect2 = (get_parent() as Control).get_rect()
 		new_size.x = minf(new_size.x, parent_rect.size.x - position.x)
 		new_size.y = minf(new_size.y, parent_rect.size.y - position.y)
 		size = new_size
