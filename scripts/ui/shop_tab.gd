@@ -32,9 +32,7 @@ const CATEGORY_ENTRIES := [
 
 var _selected_id: StringName = &""
 var _button_group: ButtonGroup
-# 0=×1, 1=×10, 2=×100, 3=×Max
-var _qty_mode: int = 0
-var _qty_button_group: ButtonGroup
+var _qty_selector: QuantitySelector
 
 
 func _ready() -> void:
@@ -45,16 +43,10 @@ func _ready() -> void:
 	EventBus.meta_upgrade_purchased.connect(_on_meta_upgrade_purchased)
 	category_select.item_selected.connect(_on_category_changed)
 	buy_button.pressed.connect(_on_buy_pressed)
-	# 数量セレクタ：4 ボタンを排他選択にしてモードを保持
-	_qty_button_group = ButtonGroup.new()
-	qty_btn_1.button_group = _qty_button_group
-	qty_btn_10.button_group = _qty_button_group
-	qty_btn_100.button_group = _qty_button_group
-	qty_btn_max.button_group = _qty_button_group
-	qty_btn_1.toggled.connect(func(p): if p: _qty_mode = 0; _refresh_detail())
-	qty_btn_10.toggled.connect(func(p): if p: _qty_mode = 1; _refresh_detail())
-	qty_btn_100.toggled.connect(func(p): if p: _qty_mode = 2; _refresh_detail())
-	qty_btn_max.toggled.connect(func(p): if p: _qty_mode = 3; _refresh_detail())
+	# 数量セレクタ：.tscn に配置済みの 4 ボタンを QuantitySelector に束ねる
+	_qty_selector = QuantitySelector.new()
+	_qty_selector.bind_buttons([qty_btn_1, qty_btn_10, qty_btn_100, qty_btn_max], "SHOP_QTY_MAX")
+	_qty_selector.mode_changed.connect(func(_m: int) -> void: _refresh_detail())
 	_populate_categories()
 	_rebuild_item_list()
 
@@ -108,7 +100,8 @@ func _refresh_detail() -> void:
 		detail_gate.text = ""
 		buy_button.disabled = true
 		buy_button.text = tr("SHOP_BUY_BUTTON")
-		_set_qty_buttons_enabled(false)
+		_qty_selector.set_enabled(false)
+		_qty_selector.set_mode_silent(QuantitySelector.MODE_X1)
 		return
 	var it := DataRegistry.get_item(_selected_id)
 	if it == null:
@@ -122,8 +115,10 @@ func _refresh_detail() -> void:
 		detail_gate.text = tr("SHOP_DETAIL_GATE_FMT") % it.trust_gate_min
 	else:
 		detail_gate.text = ""
-	# 数量セレクタは消耗品のみ有効
-	_set_qty_buttons_enabled(it.is_consumable)
+	# 数量セレクタは消耗品のみ有効。非消耗品では ×1 に戻して見た目を整える。
+	_qty_selector.set_enabled(it.is_consumable)
+	if not it.is_consumable:
+		_qty_selector.set_mode_silent(QuantitySelector.MODE_X1)
 	var qty := _resolve_qty()
 	buy_button.disabled = qty <= 0 or not ShopService.can_buy(_selected_id, qty)
 	if it.is_consumable and qty > 1:
@@ -132,31 +127,11 @@ func _refresh_detail() -> void:
 		buy_button.text = tr("SHOP_BUY_BUTTON")
 
 
-# 現在の _qty_mode に対応する実購入数を返す。Max モードは選択中アイテムの所持金上限を引く。
+# 現在のモードに対応する実購入数を返す。Max モードは選択中アイテムの所持金上限を引く。
 func _resolve_qty() -> int:
 	if _selected_id == &"":
 		return 0
-	match _qty_mode:
-		0:
-			return 1
-		1:
-			return 10
-		2:
-			return 100
-		3:
-			return ShopService.max_affordable(_selected_id)
-		_:
-			return 1
-
-
-func _set_qty_buttons_enabled(enabled: bool) -> void:
-	qty_btn_1.disabled = not enabled
-	qty_btn_10.disabled = not enabled
-	qty_btn_100.disabled = not enabled
-	qty_btn_max.disabled = not enabled
-	if not enabled:
-		_qty_mode = 0
-		qty_btn_1.set_pressed_no_signal(true)
+	return _qty_selector.resolve_qty(func() -> int: return ShopService.max_affordable(_selected_id))
 
 
 func _notification(what: int) -> void:
