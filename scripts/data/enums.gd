@@ -64,6 +64,7 @@ enum TriggerKind {
 	AROUSAL_MAX,      # 発情度が AROUSAL_MAX に到達した瞬間。trigger_id は空
 	LOCKED_REVISIT,   # ロック中のオペにアクション試行。trigger_id は空
 	IDLE,             # アイドルフレーバー。trigger_id は &"stage_1" / &"stage_2" / &"stage_3" / &"fire"
+	TALK,             # 「話しかける」ボタン。trigger_id は空（カジュアル会話）
 }
 
 # CG ビューアの 1 ステップ表示モード。

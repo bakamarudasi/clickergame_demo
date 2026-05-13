@@ -36,6 +36,24 @@ corner_radius_bottom_left = 10
 shadow_color = Color(0, 0, 0, 0.18)
 shadow_size = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_solid"]
+bg_color = Color(0.97, 0.92, 0.84, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.78, 0.62, 0.45, 0.6)
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.22)
+shadow_size = 6
+
 [node name="RoomTab" type="Control"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -225,9 +243,9 @@ step = 0.01
 show_percentage = false
 
 [node name="DialoguePanel" type="PanelContainer" parent="HBox/CenterPanel"]
-custom_minimum_size = Vector2(0, 96)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_solid")
 
 [node name="DialogueScroll" type="ScrollContainer" parent="HBox/CenterPanel/DialoguePanel"]
 unique_name_in_owner = true
@@ -239,6 +257,23 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
+
+[node name="TalkRow" type="HBoxContainer" parent="HBox/CenterPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TalkButton" type="Button" parent="HBox/CenterPanel/TalkRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "ROOM_TALK_BUTTON"
+
+[node name="InspectionButton" type="Button" parent="HBox/CenterPanel/TalkRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ROOM_INSPECTION_BUTTON"
 
 [node name="ActionBar" type="HBoxContainer" parent="HBox/CenterPanel"]
 layout_mode = 2
@@ -259,11 +294,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "ROOM_GIVE_BUTTON"
 
-[node name="InspectionButton" type="Button" parent="HBox/CenterPanel/ActionBar"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "ROOM_INSPECTION_BUTTON"
-
 [node name="TouchHBox" type="HBoxContainer" parent="HBox/CenterPanel/ActionBar"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -282,7 +312,7 @@ text = "ROOM_TOUCH_BUTTON"
 [node name="DetailWrap" type="PanelContainer" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_solid")
 
 [node name="DetailPanel" type="VBoxContainer" parent="HBox/DetailWrap"]
 unique_name_in_owner = true

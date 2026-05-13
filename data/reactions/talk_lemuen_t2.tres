@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://rrlemtalk20"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 10
+trigger_id = &""
+operator_id = &"lemuen"
+match_category = false
+min_trust = 60
+max_trust = 99999
+reaction = 0
+trust_delta = 3
+expression = &"shy"
+dialogue = "DIALOGUE_LEMUEN_TALK_T2_0"
+dialogue_alternates = ["DIALOGUE_LEMUEN_TALK_T2_1", "DIALOGUE_LEMUEN_TALK_T2_2"]
+priority = 10

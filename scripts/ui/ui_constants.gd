@@ -33,9 +33,9 @@ const COLOR_BG_PANEL := Color(0.16, 0.18, 0.24, 1.0)
 const COLOR_TEXT := Color(0.92, 0.92, 0.95, 1.0)
 const COLOR_ACCENT := Color(0.85, 0.45, 0.55, 1.0)
 const COLOR_WARN := Color(0.95, 0.6, 0.3, 1.0)
-# Room タブは背景が明るいクリーム系なので、ラベル/ボタンの文字色は暗茶系で上書きする。
+# Room タブは背景が明るいクリーム系なので、Label の文字色は暗茶系で上書きする。
+# Button は Godot 既定の暗背景＋白文字のままで読めるため触らない。
 const COLOR_ROOM_TEXT := Color(0.18, 0.13, 0.10, 1.0)
-const COLOR_ROOM_TEXT_DIM := Color(0.36, 0.28, 0.22, 1.0)
 
 # レア度カラー（強化カードの枠・名前色）
 const RARITY_COLORS := {

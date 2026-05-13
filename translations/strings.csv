@@ -197,6 +197,13 @@ TOAST_GOLDEN_BONUS,ゴールデン書類！ +¥%s,Golden Paperwork! +¥%s,黄金
 ROOM_INSPECTION_BUTTON,🔍 身だしなみ検査,🔍 Inspection,🔍 仪容检查
 ROOM_INSPECTION_COOLDOWN_FMT,検査 (残り %d 秒),Inspection (cooldown %d s),检查 (剩余 %d 秒)
 ROOM_SCOPE_TOGGLE,🔲 紳士枠,🔲 Scope,🔲 绅士眼镜
+ROOM_TALK_BUTTON,💬 話しかける,💬 Talk,💬 搭话
+ROOM_TALK_SECTION,会話,Talk,对话
+ROOM_GIFT_SECTION,贈る,Gift,赠送
+ROOM_TOUCH_SECTION,触れる,Touch,触碰
+DIALOGUE_TALK_FALLBACK_0,……（会話は途切れた）,...(the conversation trails off),……（话题就这么断了）
+DIALOGUE_TALK_FALLBACK_1,……何を話せばいいか、思いつかないみたい,...She doesn't seem to know what to say,……她似乎不知道该说什么
+DIALOGUE_TALK_FALLBACK_2,沈黙が落ちる。今は話す気分じゃないらしい,Silence falls. Not in the mood to talk right now,沉默降临。看来现在不想说话
 TOUCH_LEMUEN_HAIR,髪を撫でる,Stroke her hair,抚摸她的头发
 TOUCH_LEMUEN_HAND,手を取る,Take her hand,牵起她的手
 TOUCH_LEMUEN_PAT,頭をぽんぽん,Pat her head,摸摸头
