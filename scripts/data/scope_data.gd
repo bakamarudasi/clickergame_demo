@@ -21,8 +21,10 @@ extends Resource
 # - is_inverse = true  : 枠の内側だけ通常服が残り、外側が xray になる（逆紳士枠）
 # 全身切替モードは廃止。常に窓方式で重ねる。
 @export var is_inverse: bool = false
-# 枠の表示サイズ（PortraitView 内のピクセル）。ドラッグで位置だけ動く。
-@export var window_size: Vector2 = Vector2(220, 220)
+# 枠の最大サイズ（PortraitView 内のピクセル）。プレイヤーは右下ハンドルで
+# 縮小できる。スコープを買い替えると max が変わる＝「上位枠ほど大きく覗ける」
+# というアップグレード軸を作る。最小は ScopeWindow.MIN_SIZE 定数。
+@export var max_window_size: Vector2 = Vector2(220, 220)
 
 # 枠の見た目（NinePatchRect 用テクスチャ）。null ならコード側の既定ボーダー。
 @export var frame_overlay: Texture2D

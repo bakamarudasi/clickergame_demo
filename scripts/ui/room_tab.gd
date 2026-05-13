@@ -441,10 +441,12 @@ func _refresh_scope_window(costume: CostumeData, body_tex: Texture2D) -> void:
 	if scope.is_inverse:
 		portrait_view.texture = xray_tex
 		overlay_tex = body_tex
-	scope_window.size = scope.window_size
-	# 初回 ON 時に中央寄せ。以降はプレイヤーが動かした位置を維持。
+	# 初回 ON 時は max サイズで中央寄せ、以降はプレイヤーが動かした位置・縮めたサイズを維持
 	if not scope_window.visible:
+		scope_window.size = scope.max_window_size
 		scope_window.center_in_parent()
+	# スコープ買い替えで max が変わった場合に縮める（拡大はしない、プレイヤーが意図的に縮めた可能性があるので）
+	scope_window.set_max_size(scope.max_window_size)
 	scope_window.visible = true
 	scope_window.set_overlay(overlay_tex, portrait_view.size)
 
