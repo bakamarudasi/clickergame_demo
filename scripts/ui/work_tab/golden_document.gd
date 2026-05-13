@@ -6,6 +6,11 @@ extends RefCounted
 # 大きめのボーナス通貨を付与する。タブが非表示なら出現は見送る。
 
 const GOLDEN_TEXTURE := preload("res://assets/paperwork.svg")
+# 出現Y座標を画面高さの何割の範囲に置くか（端ギリギリは避けて読みやすく）。
+const SPAWN_Y_TOP_RATIO := 0.2
+const SPAWN_Y_BOTTOM_RATIO := 0.7
+const TRAVEL_ROTATION_DEG := 20.0  # 横断中にゆっくり傾けて目立たせる
+const STRETCH_MODE_KEEP_ASPECT_CENTERED := 5  # TextureButton.STRETCH_KEEP_ASPECT_CENTERED と同値
 
 var _host: Control
 var _timer: Timer
@@ -41,14 +46,14 @@ func _spawn() -> void:
 	btn.texture_normal = GOLDEN_TEXTURE
 	btn.modulate = UIConstants.GOLDEN_TINT_COLOR
 	btn.ignore_texture_size = true
-	btn.stretch_mode = 5
+	btn.stretch_mode = STRETCH_MODE_KEEP_ASPECT_CENTERED
 	var sz := UIConstants.GOLDEN_SIZE_PX
 	btn.custom_minimum_size = Vector2(sz, sz)
 	btn.size = Vector2(sz, sz)
 	# WorkTab の中で適当な高さのランダム位置に出す
 	var w := _host.size.x
 	var h := _host.size.y
-	var y := randf_range(h * 0.2, h * 0.7)
+	var y := randf_range(h * SPAWN_Y_TOP_RATIO, h * SPAWN_Y_BOTTOM_RATIO)
 	btn.position = Vector2(-sz, y)
 	btn.z_index = 50
 	_host.add_child(btn)
@@ -58,7 +63,7 @@ func _spawn() -> void:
 	var dur := UIConstants.GOLDEN_LIFETIME_SEC
 	var tw := _host.create_tween().set_parallel(true)
 	tw.tween_property(btn, "position:x", w + sz, dur)
-	tw.tween_property(btn, "rotation", deg_to_rad(20.0), dur)
+	tw.tween_property(btn, "rotation", deg_to_rad(TRAVEL_ROTATION_DEG), dur)
 	tw.chain().tween_callback(func() -> void: _expire(btn))
 
 

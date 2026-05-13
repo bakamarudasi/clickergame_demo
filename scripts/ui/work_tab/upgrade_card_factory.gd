@@ -25,6 +25,13 @@ const CARD_INK_SUB_COLOR := Color(0.28, 0.22, 0.16, 0.85)
 const CARD_PIN_SIZE := 26
 const CARD_ICON_SIZE := 28
 const ICON_TINT_ON_PAPER := Color(0.32, 0.26, 0.20, 1.0)
+const CARD_BORDER_COLOR := Color(0.45, 0.35, 0.22, 0.55)   # 紙のフチ（控えめ）
+const CARD_SHADOW_COLOR := Color(0, 0, 0, 0.45)            # 紙の落ち影
+const CARD_SHADOW_OFFSET := Vector2(2, 4)
+const RARITY_RIBBON_HEIGHT := 4                             # レア度カラーリボンの太さ
+# レア度色を「紙の上の文字色」として使う際の暗さ補正。
+# .darkened(amount) は v=0 寄りに線形補完。0.55 程度で淡い色も十分に読める。
+const RARITY_INK_DARKEN := 0.55
 
 var _host: Control
 
@@ -212,7 +219,7 @@ func _make_paper_stylebox() -> StyleBoxFlat:
 	var sbox := StyleBoxFlat.new()
 	sbox.bg_color = CARD_PAPER_BG
 	# 紙のフチは抑え気味、レア度はリボン + 文字色で示す
-	sbox.border_color = Color(0.45, 0.35, 0.22, 0.55)
+	sbox.border_color = CARD_BORDER_COLOR
 	sbox.set_border_width_all(1)
 	sbox.set_corner_radius_all(3)
 	sbox.content_margin_left = 14
@@ -221,9 +228,9 @@ func _make_paper_stylebox() -> StyleBoxFlat:
 	sbox.content_margin_top = 6
 	sbox.content_margin_bottom = 12
 	# 紙の影
-	sbox.shadow_color = Color(0, 0, 0, 0.45)
+	sbox.shadow_color = CARD_SHADOW_COLOR
 	sbox.shadow_size = 6
-	sbox.shadow_offset = Vector2(2, 4)
+	sbox.shadow_offset = CARD_SHADOW_OFFSET
 	return sbox
 
 
@@ -243,7 +250,7 @@ func _add_pin_row(parent: VBoxContainer) -> void:
 func _add_rarity_ribbon(parent: VBoxContainer, rarity_color: Color) -> void:
 	var ribbon := ColorRect.new()
 	ribbon.color = rarity_color
-	ribbon.custom_minimum_size = Vector2(0, 4)
+	ribbon.custom_minimum_size = Vector2(0, RARITY_RIBBON_HEIGHT)
 	ribbon.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(ribbon)
 
@@ -428,10 +435,8 @@ func _make_effect_icon(kind: Enums.UpgradeEffectKind, size: int) -> TextureRect:
 
 # --- 純粋関数 -----------------------------------------------------------
 
-# レア度色をそのまま紙の上に置くと薄く見えるため、彩度を保ったまま暗めへ補正する。
-# Color.darkened(amount) は v=0 寄りに線形補完するので 0.5 程度で十分視認できる。
 func _ink_rarity_color(c: Color) -> Color:
-	return c.darkened(0.55)
+	return c.darkened(RARITY_INK_DARKEN)
 
 
 func _rarity_key(r: Enums.UpgradeRarity) -> String:

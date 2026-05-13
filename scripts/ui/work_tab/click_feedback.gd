@@ -18,6 +18,14 @@ const PARTICLE_GRAVITY := Vector2(0, 320.0)
 const STAMP_CHANCE := 0.18
 const STAMP_SIZE := 180.0
 const STAMP_LIFETIME := 0.45
+# クリック瞬間に書類を「白っぽく光らせる」ハイライト色（modulate に乗せる）。
+# r/g/b すべて 1.0 超え → ピーク輝度を一瞬上げてフラッシュ感を出す。
+const FLASH_COLOR := Color(1.3, 1.3, 1.3, 1.0)
+const FLASH_FADE_SEC := 0.12
+# スタンプの「叩きつけ」アニメの各タイミング。
+const STAMP_HIT_SCALE_SEC := 0.10
+const STAMP_HIT_FADE_IN_SEC := 0.06
+const STAMP_HOLD_BEFORE_FADE_SEC := 0.18
 
 var _host: Control
 var _document: TextureButton
@@ -67,8 +75,8 @@ func _animate_squash() -> void:
 func _flash_document() -> void:
 	# クリックの瞬間に書類を一瞬白くする → 押した感触
 	var tw := _host.create_tween()
-	_document.modulate = Color(1.3, 1.3, 1.3, 1.0)
-	tw.tween_property(_document, "modulate", Color(1, 1, 1, 1), 0.12)
+	_document.modulate = FLASH_COLOR
+	tw.tween_property(_document, "modulate", Color(1, 1, 1, 1), FLASH_FADE_SEC)
 
 
 func _spawn_popup(amount: int) -> void:
@@ -141,8 +149,8 @@ func _spawn_stamp(origin: Vector2) -> void:
 	_host.add_child(stamp)
 	var tw := _host.create_tween().set_parallel(true)
 	# スタンプ叩きつけ：大きく出てキュッと縮む + 不透明度立ち上げ
-	tw.tween_property(stamp, "scale", Vector2(1.0, 1.0), 0.10).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.tween_property(stamp, "modulate:a", 1.0, 0.06)
+	tw.tween_property(stamp, "scale", Vector2.ONE, STAMP_HIT_SCALE_SEC).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(stamp, "modulate:a", 1.0, STAMP_HIT_FADE_IN_SEC)
 	# 一拍置いてフェードアウト
-	tw.chain().tween_property(stamp, "modulate:a", 0.0, STAMP_LIFETIME).set_delay(0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.chain().tween_property(stamp, "modulate:a", 0.0, STAMP_LIFETIME).set_delay(STAMP_HOLD_BEFORE_FADE_SEC).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.chain().tween_callback(stamp.queue_free)
