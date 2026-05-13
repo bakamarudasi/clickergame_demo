@@ -11,4 +11,6 @@ view_kind = &"thermal"
 battery_max_sec = 60.0
 resolution_level = 3
 suspicion_rate = 1.5
+is_inverse = true
+max_window_size = Vector2(180, 180)
 description = "SCOPE_ADVANCED_DESC"

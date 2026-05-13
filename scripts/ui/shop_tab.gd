@@ -41,6 +41,8 @@ func _ready() -> void:
 	_button_group = ButtonGroup.new()
 	EventBus.currency_changed.connect(_refresh_buttons)
 	EventBus.item_purchased.connect(_on_item_purchased)
+	# メタ強化購入で requires_meta 解放されたアイテムが陳列に増える可能性 → 再構築
+	EventBus.meta_upgrade_purchased.connect(_on_meta_upgrade_purchased)
 	category_select.item_selected.connect(_on_category_changed)
 	buy_button.pressed.connect(_on_buy_pressed)
 	# 数量セレクタ：4 ボタンを排他選択にしてモードを保持
@@ -79,6 +81,9 @@ func _rebuild_item_list() -> void:
 	for child in item_list.get_children():
 		child.queue_free()
 	for it: ItemData in DataRegistry.get_items_by_category(_selected_category()):
+		# メタ強化によるゲート：requires_meta が未解放なら陳列しない
+		if it.requires_meta != &"" and not GameState.has_meta_unlock(it.requires_meta):
+			continue
 		var b := Button.new()
 		b.toggle_mode = true
 		b.button_group = _button_group
@@ -180,3 +185,7 @@ func _on_buy_pressed() -> void:
 func _on_item_purchased(_id: StringName) -> void:
 	_refresh_buttons()
 	_refresh_detail()
+
+
+func _on_meta_upgrade_purchased(_meta_id: StringName, _new_level: int) -> void:
+	_rebuild_item_list()

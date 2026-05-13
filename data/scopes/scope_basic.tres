@@ -11,4 +11,6 @@ view_kind = &"underwear"
 battery_max_sec = 30.0
 resolution_level = 1
 suspicion_rate = 1.0
+is_inverse = false
+max_window_size = Vector2(220, 220)
 description = "SCOPE_BASIC_DESC"
