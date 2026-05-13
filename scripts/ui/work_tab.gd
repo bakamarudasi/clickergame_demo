@@ -32,7 +32,10 @@ const STAMP_SIZE := 180.0
 const STAMP_LIFETIME := 0.45
 
 @onready var document_button: TextureButton = %DocumentButton
-@onready var upgrade_grid: GridContainer = %UpgradeGrid
+@onready var upgrade_tabs: TabContainer = %UpgradeTabs
+@onready var upgrade_grid_click: GridContainer = %UpgradeGridClick
+@onready var upgrade_grid_auto: GridContainer = %UpgradeGridAuto
+@onready var upgrade_grid_mult: GridContainer = %UpgradeGridMult
 @onready var sticky_target_label: Label = %StickyTargetLabel
 @onready var prestige_bar: PanelContainer = %PrestigeBar
 @onready var prestige_preview: Label = %PrestigePreview
@@ -59,9 +62,20 @@ func _ready() -> void:
 	prestige_button.pressed.connect(_on_prestige_button_pressed)
 	prestige_confirm.confirmed.connect(_on_prestige_confirmed)
 	_style_title_panel()
+	_apply_tab_titles()
 	_build_upgrade_cards()
 	_refresh_prestige_bar(0)
 	_setup_golden_timer()
+
+
+# TabContainer のタブ名は子ノード名 or set_tab_title。
+# ロケール切替で追従させるため、translation key を tr() で展開して入れる。
+func _apply_tab_titles() -> void:
+	if upgrade_tabs == null:
+		return
+	upgrade_tabs.set_tab_title(0, tr("WORK_UPGRADE_TAB_CLICK"))
+	upgrade_tabs.set_tab_title(1, tr("WORK_UPGRADE_TAB_AUTO"))
+	upgrade_tabs.set_tab_title(2, tr("WORK_UPGRADE_TAB_MULT"))
 
 
 # 「アップグレード」見出しを木の名札風に。コルクボード上で浮いて見えるよう影付き。
@@ -213,23 +227,32 @@ func _spawn_click_popup(amount: int) -> void:
 # --- カードビルド -------------------------------------------------------
 
 func _build_upgrade_cards() -> void:
-	for child in upgrade_grid.get_children():
-		child.queue_free()
+	for g in [upgrade_grid_click, upgrade_grid_auto, upgrade_grid_mult]:
+		for child in g.get_children():
+			child.queue_free()
 	_cards.clear()
-	# レア度降順 → コスト昇順で並べる（強いやつが上に来る）
+	# 効果種類タブ別に base_cost 昇順（安いやつが上）で並べる。
 	var upgrades: Array = DataRegistry.upgrades.values()
 	upgrades.sort_custom(func(a: UpgradeData, b: UpgradeData) -> bool:
-		if a.rarity != b.rarity:
-			return a.rarity > b.rarity
 		return a.base_cost < b.base_cost)
 	for u: UpgradeData in upgrades:
 		# メタ強化によるゲート：requires_meta が未解放なら表示しない
 		if not GameState.has_meta_unlock(u.requires_meta):
 			continue
 		var card := _make_card(u)
-		upgrade_grid.add_child(card)
+		_grid_for_effect(u.effect_kind).add_child(card)
 		_cards[u.id] = card
 	_refresh_all_cards(0)
+
+
+func _grid_for_effect(kind: Enums.UpgradeEffectKind) -> GridContainer:
+	match kind:
+		Enums.UpgradeEffectKind.ADD_PER_SEC:
+			return upgrade_grid_auto
+		Enums.UpgradeEffectKind.MULT_CLICK:
+			return upgrade_grid_mult
+		_:
+			return upgrade_grid_click
 
 
 func _make_card(u: UpgradeData) -> PanelContainer:
@@ -712,6 +735,7 @@ func _notification(what: int) -> void:
 
 
 func _rebuild_static_text() -> void:
+	_apply_tab_titles()
 	for id in _cards.keys():
 		var card: PanelContainer = _cards[id]
 		var u := DataRegistry.get_upgrade(id)

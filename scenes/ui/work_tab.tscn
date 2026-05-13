@@ -240,12 +240,43 @@ layout_mode = 2
 theme_type_variation = &"TitleLabel"
 text = "WORK_UPGRADE_TITLE"
 
-[node name="UpgradeListScroll" type="ScrollContainer" parent="HBox/RightCol/Inner/VBox"]
+[node name="UpgradeTabs" type="TabContainer" parent="HBox/RightCol/Inner/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+clip_tabs = false
+
+[node name="ClickScroll" type="ScrollContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs"]
+layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="UpgradeGrid" type="GridContainer" parent="HBox/RightCol/Inner/VBox/UpgradeListScroll"]
+[node name="UpgradeGridClick" type="GridContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs/ClickScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 1
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 14
+
+[node name="AutoScroll" type="ScrollContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="UpgradeGridAuto" type="GridContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs/AutoScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 1
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 14
+
+[node name="MultScroll" type="ScrollContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="UpgradeGridMult" type="GridContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs/MultScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
