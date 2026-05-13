@@ -78,6 +78,14 @@ func center_in_parent() -> void:
 	_sync_overlay_offset()
 
 
+# 枠内側の TextureRect にシェーダーマテリアルを噛ませる。null で素通し。
+# モザイク（resolution_level）演出は room_tab がここを叩く。
+func set_overlay_material(mat: Material) -> void:
+	if _overlay_inner == null:
+		return
+	_overlay_inner.material = mat
+
+
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
