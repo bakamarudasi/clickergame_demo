@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Rounded device body -->
+  <rect x="22" y="8" width="20" height="48" rx="10" fill="#D8C0E0" stroke="#4A2860" stroke-width="2.5"/>
+  <!-- Tip highlight (rounded top half) -->
+  <path d="M 22 18 Q 22 8 32 8 Q 42 8 42 18 L 42 22 L 22 22 Z" fill="#F2E2F2" opacity="0.7"/>
+  <!-- Control button -->
+  <circle cx="32" cy="36" r="4" fill="#4A2860" stroke="#1A0820" stroke-width="1.5"/>
+  <circle cx="32" cy="36" r="1.4" fill="#F2E2F2"/>
+  <!-- Indicator dots -->
+  <circle cx="32" cy="46" r="1.4" fill="#4A2860"/>
+  <circle cx="28" cy="50" r="1.0" fill="#4A2860"/>
+  <circle cx="36" cy="50" r="1.0" fill="#4A2860"/>
+  <!-- Wave / vibration lines -->
+  <path d="M 12 22 Q 16 18 12 14" stroke="#4A2860" stroke-width="1.6" fill="none" opacity="0.7"/>
+  <path d="M 52 22 Q 48 18 52 14" stroke="#4A2860" stroke-width="1.6" fill="none" opacity="0.7"/>
+</svg>

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://clickergameshoptab0"]
+[gd_scene load_steps=4 format=3 uid="uid://clickergameshoptab0"]
 
 [ext_resource type="Script" path="res://scripts/ui/shop_tab.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://uigameshopplanks0" path="res://assets/ui/shop_planks.svg" id="2_planks"]
+[ext_resource type="Texture2D" uid="uid://uigameshopshelf0" path="res://assets/ui/shop_shelf_board.svg" id="3_shelf"]
 
 [node name="ShopTab" type="Control"]
 anchors_preset = 15
@@ -10,120 +12,101 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="PlanksBG" type="TextureRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
-theme_override_constants/separation = 12
+mouse_filter = 2
+texture = ExtResource("2_planks")
+expand_mode = 1
+stretch_mode = 0
 
-[node name="HeaderHBox" type="HBoxContainer" parent="VBox"]
+[node name="Inner" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="Inner"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 14
 
-[node name="Title" type="Label" parent="VBox/HeaderHBox"]
+[node name="HeaderHBox" type="HBoxContainer" parent="Inner/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitlePanel" type="PanelContainer" parent="Inner/VBox/HeaderHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Title" type="Label" parent="Inner/VBox/HeaderHBox/TitlePanel"]
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
 text = "SHOP_TITLE"
 
-[node name="CategorySelect" type="OptionButton" parent="VBox/HeaderHBox"]
+[node name="CategoryScroll" type="ScrollContainer" parent="Inner/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+vertical_scroll_mode = 0
+
+[node name="CategoryBar" type="HBoxContainer" parent="Inner/VBox/HeaderHBox/CategoryScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 4
 
-[node name="BodyHBox" type="HBoxContainer" parent="VBox"]
+[node name="ShelfTop" type="TextureRect" parent="Inner/VBox"]
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 16
+mouse_filter = 2
+texture = ExtResource("3_shelf")
+expand_mode = 1
+stretch_mode = 0
 
-[node name="ItemListScroll" type="ScrollContainer" parent="VBox/BodyHBox"]
+[node name="GridScroll" type="ScrollContainer" parent="Inner/VBox"]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="ItemList" type="VBoxContainer" parent="VBox/BodyHBox/ItemListScroll"]
-unique_name_in_owner = true
+[node name="GridWrap" type="MarginContainer" parent="Inner/VBox/GridScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="DetailPanel" type="PanelContainer" parent="VBox/BodyHBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="DetailVBox" type="VBoxContainer" parent="VBox/BodyHBox/DetailPanel"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="DetailName" type="Label" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"TitleLabel"
-text = ""
-
-[node name="DetailDesc" type="Label" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
-unique_name_in_owner = true
-layout_mode = 2
 size_flags_vertical = 3
-theme_type_variation = &"SubtitleLabel"
-text = "SHOP_DETAIL_NONE"
-autowrap_mode = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
 
-[node name="DetailMeta" type="Label" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-text = ""
-
-[node name="DetailGate" type="Label" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SubtitleLabel"
-modulate = Color(0.95, 0.6, 0.3, 1)
-text = ""
-
-[node name="QtyHBox" type="HBoxContainer" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="QtyLabel" type="Label" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+[node name="GridStack" type="VBoxContainer" parent="Inner/VBox/GridScroll/GridWrap"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "SHOP_QTY_LABEL"
+size_flags_vertical = 3
+theme_override_constants/separation = 12
 
-[node name="QtyBtn1" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+[node name="ItemGrid" type="GridContainer" parent="Inner/VBox/GridScroll/GridWrap/GridStack"]
 unique_name_in_owner = true
 layout_mode = 2
-toggle_mode = true
-button_pressed = true
-text = "×1"
+size_flags_horizontal = 3
+columns = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
 
-[node name="QtyBtn10" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
+[node name="EmptyLabel" type="Label" parent="Inner/VBox/GridScroll/GridWrap/GridStack"]
 unique_name_in_owner = true
 layout_mode = 2
-toggle_mode = true
-text = "×10"
-
-[node name="QtyBtn100" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-text = "×100"
-
-[node name="QtyBtnMax" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox/QtyHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-text = "SHOP_QTY_MAX"
-
-[node name="BuyButton" type="Button" parent="VBox/BodyHBox/DetailPanel/DetailVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-disabled = true
-text = "SHOP_BUY_BUTTON"
+size_flags_horizontal = 3
+horizontal_alignment = 1
+theme_type_variation = &"SubtitleLabel"
+text = "SHOP_EMPTY_CATEGORY"
+visible = false

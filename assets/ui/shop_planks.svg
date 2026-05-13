@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" preserveAspectRatio="none">
+  <!-- Base warm wood color -->
+  <rect width="480" height="360" fill="#A87545"/>
+  <!-- Vertical plank seams: darker gaps every 96px -->
+  <g fill="#5E3919" opacity="0.55">
+    <rect x="95" y="0" width="2" height="360"/>
+    <rect x="191" y="0" width="2" height="360"/>
+    <rect x="287" y="0" width="2" height="360"/>
+    <rect x="383" y="0" width="2" height="360"/>
+  </g>
+  <!-- Subtle highlight strip alongside each plank (left edge) -->
+  <g fill="#D9A77A" opacity="0.20">
+    <rect x="0" y="0" width="3" height="360"/>
+    <rect x="97" y="0" width="3" height="360"/>
+    <rect x="193" y="0" width="3" height="360"/>
+    <rect x="289" y="0" width="3" height="360"/>
+    <rect x="385" y="0" width="3" height="360"/>
+  </g>
+  <!-- Wood grain streaks: long thin ellipses, scattered per plank -->
+  <g fill="#704621" opacity="0.32">
+    <ellipse cx="36" cy="48" rx="22" ry="1.1"/>
+    <ellipse cx="58" cy="118" rx="28" ry="0.9"/>
+    <ellipse cx="24" cy="186" rx="18" ry="1.0"/>
+    <ellipse cx="52" cy="254" rx="26" ry="1.2"/>
+    <ellipse cx="34" cy="318" rx="20" ry="0.9"/>
+    <ellipse cx="138" cy="40" rx="24" ry="0.9"/>
+    <ellipse cx="116" cy="108" rx="20" ry="1.1"/>
+    <ellipse cx="144" cy="178" rx="28" ry="1.0"/>
+    <ellipse cx="118" cy="246" rx="22" ry="1.2"/>
+    <ellipse cx="148" cy="310" rx="24" ry="0.9"/>
+    <ellipse cx="228" cy="52" rx="26" ry="1.1"/>
+    <ellipse cx="208" cy="124" rx="22" ry="0.9"/>
+    <ellipse cx="236" cy="190" rx="20" ry="1.2"/>
+    <ellipse cx="214" cy="258" rx="28" ry="1.0"/>
+    <ellipse cx="232" cy="322" rx="24" ry="1.1"/>
+    <ellipse cx="324" cy="44" rx="20" ry="0.9"/>
+    <ellipse cx="306" cy="112" rx="26" ry="1.1"/>
+    <ellipse cx="332" cy="184" rx="22" ry="0.9"/>
+    <ellipse cx="310" cy="250" rx="24" ry="1.2"/>
+    <ellipse cx="328" cy="316" rx="20" ry="1.0"/>
+    <ellipse cx="424" cy="50" rx="22" ry="1.0"/>
+    <ellipse cx="406" cy="120" rx="28" ry="1.1"/>
+    <ellipse cx="430" cy="188" rx="20" ry="0.9"/>
+    <ellipse cx="408" cy="256" rx="26" ry="1.0"/>
+    <ellipse cx="426" cy="320" rx="22" ry="1.1"/>
+  </g>
+  <!-- Tiny knots: small dark circles -->
+  <g fill="#3D2410" opacity="0.55">
+    <circle cx="42" cy="86" r="2.2"/>
+    <circle cx="138" cy="218" r="1.8"/>
+    <circle cx="222" cy="92" r="2.0"/>
+    <circle cx="318" cy="226" r="2.4"/>
+    <circle cx="412" cy="82" r="1.7"/>
+    <circle cx="56" cy="290" r="2.0"/>
+    <circle cx="146" cy="60" r="1.6"/>
+    <circle cx="240" cy="296" r="2.3"/>
+    <circle cx="304" cy="148" r="1.9"/>
+    <circle cx="434" cy="288" r="2.1"/>
+  </g>
+  <!-- Knot ring highlight -->
+  <g stroke="#5C3818" stroke-width="0.4" fill="none" opacity="0.45">
+    <circle cx="42" cy="86" r="4"/>
+    <circle cx="138" cy="218" r="3.4"/>
+    <circle cx="222" cy="92" r="3.8"/>
+    <circle cx="318" cy="226" r="4.2"/>
+    <circle cx="412" cy="82" r="3.2"/>
+    <circle cx="56" cy="290" r="3.6"/>
+    <circle cx="146" cy="60" r="3.0"/>
+    <circle cx="240" cy="296" r="4.0"/>
+    <circle cx="304" cy="148" r="3.6"/>
+    <circle cx="434" cy="288" r="3.8"/>
+  </g>
+  <!-- Vignette for depth -->
+  <radialGradient id="vg" cx="50%" cy="50%" r="80%">
+    <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#2E1A08" stop-opacity="0.55"/>
+  </radialGradient>
+  <rect width="480" height="360" fill="url(#vg)"/>
+</svg>

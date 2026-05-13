@@ -181,6 +181,13 @@ CATEGORY_DIRECT_PROT,保護,Protection,防护
 CATEGORY_COS_OUTFIT,衣装,Outfits,服装
 CATEGORY_COS_PARTS,パーツ,Parts,配件
 CATEGORY_INVITATION,招待状,Invitations,邀请函
+CATEGORY_RULE,規則,Rules,规则
+CATEGORY_SCOPE,紳士枠,Scope,绅士眼镜
+SHOP_PRICE_TAG_FMT,¥%s,¥%s,¥%s
+SHOP_PRICE_OWNED,所持済,Owned,已持有
+SHOP_BUY_BUTTON_OWNED,所持済,Owned,已持有
+SHOP_EMPTY_CATEGORY,この棚にはまだ何もない,Nothing on this shelf yet,这层货架还空着
+SHOP_OWNED_COUNT_FMT,所持 %d,Owned %d,持有 %d
 TOAST_OPERATOR_LOCKED,今は会ってくれない…,She won't see you now…,现在还不肯见你…
 TOAST_ITEM_EMPTY_FMT,%s が足りない,Not enough %s,%s 不够
 TOAST_TOUCH_GATED,まだ無理だ…,Not yet…,还不行…
