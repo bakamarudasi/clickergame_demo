@@ -26,6 +26,7 @@ const INTIMACY_BAR_DISPLAY_MAX := 200                 # 親密度バーの目盛
 @onready var inspection_button: Button = %InspectionButton
 @onready var portrait_view: TextureRect = %PortraitView
 @onready var face_overlay: TextureRect = %FaceOverlay
+@onready var scope_window: ScopeWindow = %ScopeWindow
 @onready var scope_toggle: Button = %ScopeToggle
 @onready var battery_bar: ProgressBar = %BatteryBar
 @onready var suspicion_bar: ProgressBar = %SuspicionBar
@@ -353,6 +354,7 @@ func _refresh_portrait() -> void:
 		portrait_view.texture = null
 		portrait_view.modulate = Color.WHITE
 		face_overlay.visible = false
+		scope_window.visible = false
 		_clear_portrait_scene()
 		return
 	var op := DataRegistry.get_operator(_current_op)
@@ -360,6 +362,7 @@ func _refresh_portrait() -> void:
 	if op == null or rt == null:
 		portrait_view.texture = null
 		face_overlay.visible = false
+		scope_window.visible = false
 		_clear_portrait_scene()
 		return
 	var costume := DataRegistry.get_costume(rt.equipped_costume)
@@ -370,6 +373,7 @@ func _refresh_portrait() -> void:
 		_ensure_portrait_scene(costume.portrait_scene)
 		portrait_view.visible = false
 		face_overlay.visible = false
+		scope_window.visible = false
 		_dispatch_portrait_scene_state()
 		return
 	_clear_portrait_scene()
@@ -392,6 +396,7 @@ func _refresh_portrait() -> void:
 				_position_face_overlay(costume)
 			face_overlay.visible = true
 			_apply_arousal_tint()
+			_refresh_scope_window(costume, base_sprite)
 			return
 		var flash_tex := _expression_texture(_active_expression)
 		if flash_tex != null:
@@ -399,16 +404,49 @@ func _refresh_portrait() -> void:
 			portrait_view.texture = flash_tex
 			face_overlay.visible = false
 			_apply_arousal_tint()
+			_refresh_scope_window(costume, flash_tex)
 			return
 	# フラッシュ無し（または該当テクスチャ無し）→ 顔オーバレイは隠す
 	face_overlay.visible = false
 	if _pose_show_until_unix > Time.get_unix_time_from_system() and costume != null:
 		portrait_view.texture = costume.sprite_pose_seductive if costume.sprite_pose_seductive != null else base_sprite
-	elif GameState.xray_active and costume != null:
-		portrait_view.texture = costume.get_xray_sprite(ScopeService.current_view_kind())
 	else:
+		# 紳士枠は ON でも全身は通常スプライトのまま。窓の中だけ差分を見せる。
 		portrait_view.texture = base_sprite
 	_apply_arousal_tint()
+	_refresh_scope_window(costume, portrait_view.texture)
+
+
+# 紳士枠：装備中スコープの設定にしたがって、PortraitView の上に動かせる窓を貼る。
+# base / overlay の組合せ:
+#   通常モード (is_inverse=false): base=通常服, window 内=xray 差分
+#   逆紳士枠   (is_inverse=true ): base=xray 差分, window 内=通常服
+# scope_window.set_overlay() に window の中身として見せたい方を渡す。
+# 全身のテクスチャは呼び出し側で portrait_view.texture に積んでもらった body_tex を信頼する。
+func _refresh_scope_window(costume: CostumeData, body_tex: Texture2D) -> void:
+	if not GameState.xray_active or costume == null or body_tex == null:
+		scope_window.visible = false
+		return
+	var scope := ScopeService.equipped()
+	if scope == null:
+		scope_window.visible = false
+		return
+	var xray_tex := costume.get_xray_sprite(scope.view_kind)
+	# xray 差分が未登録 → 切替表示しても何も変わらないので枠を出さない
+	if xray_tex == null or xray_tex == body_tex:
+		scope_window.visible = false
+		return
+	# 逆モードのときは「全身を xray」「窓を通常服」に役割を反転
+	var overlay_tex: Texture2D = xray_tex
+	if scope.is_inverse:
+		portrait_view.texture = xray_tex
+		overlay_tex = body_tex
+	scope_window.size = scope.window_size
+	# 初回 ON 時に中央寄せ。以降はプレイヤーが動かした位置を維持。
+	if not scope_window.visible:
+		scope_window.center_in_parent()
+	scope_window.visible = true
+	scope_window.set_overlay(overlay_tex, portrait_view.size)
 
 
 func _flash_expression(expr: StringName) -> void:

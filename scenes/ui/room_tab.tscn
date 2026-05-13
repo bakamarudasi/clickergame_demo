@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://clickergameroomtab0"]
+[gd_scene load_steps=4 format=3 uid="uid://clickergameroomtab0"]
 
 [ext_resource type="Script" path="res://scripts/ui/room_tab.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/scope_window.gd" id="2_scope_win"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scope_frame"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.85, 0.4, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="RoomTab" type="Control"]
 anchors_preset = 15
@@ -65,6 +78,32 @@ grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
+
+[node name="ScopeWindow" type="Control" parent="HBox/CenterPanel/PortraitArea/PortraitView"]
+unique_name_in_owner = true
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+offset_right = 220.0
+offset_bottom = 220.0
+script = ExtResource("2_scope_win")
+
+[node name="OverlayInner" type="TextureRect" parent="HBox/CenterPanel/PortraitArea/PortraitView/ScopeWindow"]
+layout_mode = 0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Frame" type="Panel" parent="HBox/CenterPanel/PortraitArea/PortraitView/ScopeWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_scope_frame")
 
 [node name="ScopeRow" type="HBoxContainer" parent="HBox/CenterPanel"]
 unique_name_in_owner = true
