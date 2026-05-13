@@ -151,6 +151,48 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_scope_handle")
 
+[node name="StatusBars" type="VBoxContainer" parent="HBox/CenterPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="IntimacyRow" type="HBoxContainer" parent="HBox/CenterPanel/StatusBars"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IntimacyLabel" type="Label" parent="HBox/CenterPanel/StatusBars/IntimacyRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = ""
+
+[node name="IntimacyBar" type="ProgressBar" parent="HBox/CenterPanel/StatusBars/IntimacyRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 200.0
+step = 1.0
+show_percentage = false
+
+[node name="ArousalRow" type="HBoxContainer" parent="HBox/CenterPanel/StatusBars"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ArousalLabel" type="Label" parent="HBox/CenterPanel/StatusBars/ArousalRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = ""
+
+[node name="ArousalBar" type="ProgressBar" parent="HBox/CenterPanel/StatusBars/ArousalRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+step = 1.0
+show_percentage = false
+
 [node name="ScopeRow" type="HBoxContainer" parent="HBox/CenterPanel"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -192,6 +234,45 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
+[node name="ActionBar" type="HBoxContainer" parent="HBox/CenterPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="GiftHBox" type="HBoxContainer" parent="HBox/CenterPanel/ActionBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="GiftSelect" type="OptionButton" parent="HBox/CenterPanel/ActionBar/GiftHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GiveButton" type="Button" parent="HBox/CenterPanel/ActionBar/GiftHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ROOM_GIVE_BUTTON"
+
+[node name="InspectionButton" type="Button" parent="HBox/CenterPanel/ActionBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ROOM_INSPECTION_BUTTON"
+
+[node name="TouchHBox" type="HBoxContainer" parent="HBox/CenterPanel/ActionBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="TouchSelect" type="OptionButton" parent="HBox/CenterPanel/ActionBar/TouchHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TouchButton" type="Button" parent="HBox/CenterPanel/ActionBar/TouchHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ROOM_TOUCH_BUTTON"
+
 [node name="DetailWrap" type="PanelContainer" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -218,55 +299,3 @@ text = ""
 unique_name_in_owner = true
 layout_mode = 2
 text = ""
-
-[node name="IntimacyLabel" type="Label" parent="HBox/DetailWrap/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-text = ""
-
-[node name="IntimacyBar" type="ProgressBar" parent="HBox/DetailWrap/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-max_value = 200.0
-step = 1.0
-show_percentage = false
-
-[node name="ArousalLabel" type="Label" parent="HBox/DetailWrap/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-text = ""
-
-[node name="ArousalBar" type="ProgressBar" parent="HBox/DetailWrap/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-max_value = 100.0
-step = 1.0
-show_percentage = false
-
-[node name="GiftHBox" type="HBoxContainer" parent="HBox/DetailWrap/DetailPanel"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="GiftSelect" type="OptionButton" parent="HBox/DetailWrap/DetailPanel/GiftHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="GiveButton" type="Button" parent="HBox/DetailWrap/DetailPanel/GiftHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "ROOM_GIVE_BUTTON"
-
-[node name="InspectionButton" type="Button" parent="HBox/DetailWrap/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "ROOM_INSPECTION_BUTTON"
-
-[node name="TouchTitle" type="Label" parent="HBox/DetailWrap/DetailPanel"]
-layout_mode = 2
-text = "ROOM_TOUCH_TITLE"
-
-[node name="TouchList" type="VBoxContainer" parent="HBox/DetailWrap/DetailPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 4

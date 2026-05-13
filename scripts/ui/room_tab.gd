@@ -30,7 +30,8 @@ const SCOPE_MOSAIC_SHADER := preload("res://assets/shaders/scope_mosaic.gdshader
 @onready var arousal_bar: ProgressBar = %ArousalBar
 @onready var gift_select: OptionButton = %GiftSelect
 @onready var give_button: Button = %GiveButton
-@onready var touch_list: VBoxContainer = %TouchList
+@onready var touch_select: OptionButton = %TouchSelect
+@onready var touch_button: Button = %TouchButton
 @onready var inspection_button: Button = %InspectionButton
 @onready var portrait_view: TextureRect = %PortraitView
 @onready var face_overlay: TextureRect = %FaceOverlay
@@ -69,6 +70,7 @@ func _ready() -> void:
 	EventBus.xray_caught.connect(_on_xray_caught)
 	EventBus.costume_equipped.connect(_on_costume_equipped)
 	give_button.pressed.connect(_on_give_pressed)
+	touch_button.pressed.connect(_on_touch_pressed)
 	inspection_button.pressed.connect(_on_inspection_pressed)
 	scope_toggle.toggled.connect(_on_scope_toggled)
 	visibility_changed.connect(_on_self_visibility_changed)
@@ -260,18 +262,29 @@ func _rebuild_gift_select() -> void:
 
 
 func _rebuild_touch_list() -> void:
-	for child in touch_list.get_children():
-		child.queue_free()
+	# 名前は歴史的経緯で _list のまま。中身は OptionButton 再生成。
+	# - 解禁段階未満は set_item_disabled で灰色化（リスト自体には残す＝
+	#   「次の段階で開く操作」がプレイヤーに見える）
+	# - 全項目 disabled の場合は触れるボタン自体を無効化
+	touch_select.clear()
+	touch_button.disabled = true
 	if _current_op == &"":
 		return
 	var rt := GameState.get_runtime(_current_op)
+	var idx := 0
+	var first_enabled := -1
 	for spot: TouchSpotData in DataRegistry.get_touch_spots_for(_current_op):
-		var b := Button.new()
 		var prefix := "⚠ " if spot.is_harassment else ""
-		b.text = "%s%s" % [prefix, tr(spot.display_name)]
-		b.disabled = rt == null or rt.current_stage < spot.unlock_at_stage
-		b.pressed.connect(TouchService.touch.bind(_current_op, spot.id))
-		touch_list.add_child(b)
+		touch_select.add_item("%s%s" % [prefix, tr(spot.display_name)], idx)
+		touch_select.set_item_metadata(idx, spot.id)
+		var locked := rt == null or rt.current_stage < spot.unlock_at_stage
+		touch_select.set_item_disabled(idx, locked)
+		if not locked and first_enabled < 0:
+			first_enabled = idx
+		idx += 1
+	if first_enabled >= 0:
+		touch_select.select(first_enabled)
+		touch_button.disabled = false
 
 
 func _on_give_pressed() -> void:
@@ -282,6 +295,19 @@ func _on_give_pressed() -> void:
 		return
 	var item_id: StringName = gift_select.get_item_metadata(sel)
 	GiftService.give(_current_op, item_id)
+
+
+func _on_touch_pressed() -> void:
+	if _current_op == &"":
+		return
+	var sel := touch_select.get_selected_id()
+	if sel < 0:
+		return
+	# disabled 項目を select() しても OptionButton は素直に通すので、念のため弾く
+	if touch_select.is_item_disabled(touch_select.get_item_index(sel)):
+		return
+	var spot_id: StringName = touch_select.get_item_metadata(sel)
+	TouchService.touch(_current_op, spot_id)
 
 
 func _on_operator_unlocked(_op_id: StringName) -> void:
