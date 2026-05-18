@@ -47,6 +47,12 @@ extends Resource
 @export var side_effects: Array[ItemEffect] = []
 @export var priority: int = 0
 
+# --- 選択肢分岐（任意） -------------------------------------------------
+# 空でない時、本体台詞が流れた後にプレイヤーへ選択肢ボタン群を提示する。
+# どれかを選ぶと、その ReactionChoice の trust_delta / side_effects / response が
+# 適用される。Undertale 風の軽め分岐用。
+@export var choices: Array[ReactionChoice] = []
+
 
 func pick_dialogue() -> String:
 	if dialogue_alternates.is_empty():

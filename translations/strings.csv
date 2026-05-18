@@ -158,10 +158,22 @@ ROOM_OPERATOR_TITLE,オペレータ,Operators,干员
 ROOM_DETAIL_PLACEHOLDER,—,—,—
 ROOM_TRUST_FMT,❤️ 信頼度 %d,❤️ Trust %d,❤️ 信赖度 %d
 ROOM_STAGE_FMT,✦ 段階 %d  %s,✦ Stage %d  %s,✦ 阶段 %d  %s
+UI_ROOM_NEXT_HEADER,🔒 次の解禁,🔒 Next Unlock,🔒 下次解锁
+UI_ROOM_NEXT_STAGE_FMT,段階 %d — ???,Stage %d — ???,阶段 %d — ???
+UI_ROOM_NEXT_TRUST_FMT,信頼 %d / %d,Trust %d / %d,信赖 %d / %d
+UI_ROOM_NEXT_COSTUMES_FMT,??? 衣装 × %d,??? Costume × %d,??? 服装 × %d
+UI_ROOM_NEXT_CGS_FMT,??? CG × %d,??? CG × %d,??? CG × %d
+UI_ROOM_NEXT_NO_REWARDS,—,—,—
+UI_ROOM_NEXT_READY,✦ 解禁可能,✦ Ready to Unlock,✦ 可解锁
+UI_ROOM_NEXT_MAX,✦ 最高段階,✦ Max Stage,✦ 最高阶段
+UI_ROOM_NEXT_TOOLTIP_HEADER,このステージで解禁:,Unlocks at this stage:,此阶段解锁：
+UI_ROOM_NEXT_LOCKED_COSTUME,??? 衣装,??? Costume,??? 服装
+UI_ROOM_NEXT_LOCKED_CG,??? CG,??? CG,??? CG
+UI_HUD_SUBJECT_FMT,[SUBJECT // %s] CLEARANCE.%02d,[SUBJECT // %s] CLEARANCE.%02d,[对象 // %s] 权限.%02d
+UI_HUD_REC,● REC,● REC,● REC
 ROOM_GIVE_BUTTON,🎁 渡す,🎁 Give,🎁 赠送
 ROOM_TOUCH_TITLE,触れる,Touch,触碰
 ROOM_TOUCH_BUTTON,👆 触れる,👆 Touch,👆 触碰
-ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)",“%s”  (信赖度 %+d)
 ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining,锁定中… 剩余 %d 秒
 ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d,%s ×%d
 SHOP_TITLE,ショップ,Shop,商店
