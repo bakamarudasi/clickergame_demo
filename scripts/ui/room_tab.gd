@@ -327,7 +327,10 @@ func _on_inventory_changed(_id: StringName, _n: int) -> void:
 func _on_reaction_played(op_id: StringName, rule: ReactionRule) -> void:
 	if op_id != _current_op:
 		return
-	_dialogue.append(tr("ROOM_REACTION_FMT") % [tr(rule.pick_dialogue()), rule.trust_delta])
+	# 話者は現在オペ。display_name は翻訳キーなのでログ側で翻訳する。
+	var op := DataRegistry.get_operator(op_id)
+	var speaker_key := op.display_name if op != null else ""
+	_dialogue.append_reaction(speaker_key, rule.pick_dialogue(), rule.trust_delta)
 	_portrait.flash_expression(rule.expression)
 	# IDLE 反応は「アイドル経過の結果」なのでタイマーをリセットしない
 	# （リセットすると stage_1 → 待機 → stage_1 のループになる）。
@@ -339,7 +342,7 @@ func _on_reaction_played(op_id: StringName, rule: ReactionRule) -> void:
 func _on_operator_locked(op_id: StringName, until_unix: float) -> void:
 	if op_id == _current_op:
 		var sec := int(until_unix - Time.get_unix_time_from_system())
-		_dialogue.append(tr("ROOM_LOCK_FMT") % max(0, sec))
+		_dialogue.append_system(tr("ROOM_LOCK_FMT") % max(0, sec))
 
 
 func _on_inspection_performed(op_id: StringName) -> void:
@@ -390,3 +393,5 @@ func _notification(what: int) -> void:
 		_rebuild_touch_list()
 		_refresh_inspection_button()
 		_refresh_scope_ui()
+		if _dialogue != null:
+			_dialogue.rebuild_views()

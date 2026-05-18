@@ -1,13 +1,30 @@
 class_name DialogueLogView
 extends RefCounted
 
-# Room タブの会話ログ表示。Label を VBox に積み、末尾自動スクロールと
-# 上限本数の打ち切りだけを担当する。会話の中身（誰が何を言ったか）は呼び出し側で組み立てる。
+# Room タブの会話ログ表示。RichTextLabel を VBox に積み、末尾自動スクロールと
+# 上限本数の打ち切りを担当する。
+#
+# エントリは2種類：
+#   - reaction: 話者名（accent色）＋セリフ＋信頼度デルタ（色つき）
+#   - system  : 説明文だけ（ロック通知など。dim色・italic）
+#
+# 翻訳キーを保持しておくことでロケール切替時に再描画できる。
 
 const MAX_ENTRIES := 10
 
+# BBCode 用の色（Color → "#rrggbb" 文字列に焼く）
+const HEX_SPEAKER := "#5DCFF7"   # COLOR_ACCENT_CYAN
+const HEX_DELTA_PLUS := "#FFC857"  # 信頼度+
+const HEX_DELTA_MINUS := "#FF5A6E"  # 信頼度-
+const HEX_DELTA_ZERO := "#7B8B9E"   # 0 の時は dim
+const HEX_SYSTEM := "#7B8B9E"
+
 var _scroll: ScrollContainer
 var _log: VBoxContainer
+
+# 既存エントリの「キー」を保持して翻訳変更時に再構築できるようにする。
+# 各要素は Dictionary { kind, speaker_key, dialogue_key, trust_delta, system_text }
+var _entries: Array = []
 
 
 func _init(scroll: ScrollContainer, log_box: VBoxContainer) -> void:
@@ -16,17 +33,92 @@ func _init(scroll: ScrollContainer, log_box: VBoxContainer) -> void:
 
 
 func clear() -> void:
+	_entries.clear()
 	for child in _log.get_children():
 		child.queue_free()
 
 
-func append(text: String) -> void:
-	var l := Label.new()
-	l.autowrap_mode = TextServer.AUTOWRAP_WORD
-	l.text = text
-	_log.add_child(l)
+# キャラの反応をログに積む。speaker_key / dialogue_key は翻訳キー。
+func append_reaction(speaker_key: String, dialogue_key: String, trust_delta: int) -> void:
+	_entries.append({
+		"kind": "reaction",
+		"speaker_key": speaker_key,
+		"dialogue_key": dialogue_key,
+		"trust_delta": trust_delta,
+	})
+	_append_entry_view(_entries[_entries.size() - 1])
+	_trim_and_scroll()
+
+
+# システム通知（ロック残り時間など。話者なし）。
+# text は既に翻訳・フォーマット済みの完成文字列を渡す。
+# locale 切替で再翻訳したい場合は ROOM_LOCK_FMT のようなキー＋引数を保持する形に
+# 変更する余地あり（現状は ROOM_LOCK_FMT の % が外で適用される設計のまま）。
+func append_system(text: String) -> void:
+	_entries.append({
+		"kind": "system",
+		"text": text,
+	})
+	_append_entry_view(_entries[_entries.size() - 1])
+	_trim_and_scroll()
+
+
+# 翻訳変更時に呼ぶ。エントリは保持したまま見た目だけ作り直す。
+func rebuild_views() -> void:
+	for child in _log.get_children():
+		child.queue_free()
+	for entry in _entries:
+		_append_entry_view(entry)
+	_scroll_to_bottom()
+
+
+# --- 内部 ---------------------------------------------------------------
+
+func _append_entry_view(entry: Dictionary) -> void:
+	var rt := RichTextLabel.new()
+	rt.bbcode_enabled = true
+	rt.fit_content = true
+	rt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rt.mouse_filter = Control.MOUSE_FILTER_PASS
+	rt.scroll_active = false
+	rt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rt.text = _format_entry(entry)
+	_log.add_child(rt)
+
+
+func _format_entry(entry: Dictionary) -> String:
+	match entry.kind:
+		"reaction":
+			var speaker := TranslationServer.translate(entry.speaker_key)
+			var line := TranslationServer.translate(entry.dialogue_key)
+			var delta: int = entry.trust_delta
+			var delta_str := _format_delta(delta)
+			# 「話者：『セリフ』  +5」のレイアウト。BBCode で色を分ける。
+			return "[color=%s][b]%s[/b][/color]  %s%s" % [
+				HEX_SPEAKER,
+				speaker,
+				line,
+				delta_str,
+			]
+		"system":
+			return "[color=%s][i]%s[/i][/color]" % [HEX_SYSTEM, entry.text]
+		_:
+			return ""
+
+
+func _format_delta(delta: int) -> String:
+	if delta == 0:
+		return ""
+	var hex := HEX_DELTA_PLUS if delta > 0 else HEX_DELTA_MINUS
+	# 例: "  [color=#FFC857]+5[/color]"
+	return "  [color=%s]%+d[/color]" % [hex, delta]
+
+
+func _trim_and_scroll() -> void:
 	while _log.get_child_count() > MAX_ENTRIES:
 		_log.get_child(0).queue_free()
+	while _entries.size() > MAX_ENTRIES:
+		_entries.pop_front()
 	_scroll_to_bottom()
 
 

@@ -161,7 +161,6 @@ ROOM_STAGE_FMT,✦ 段階 %d  %s,✦ Stage %d  %s,✦ 阶段 %d  %s
 ROOM_GIVE_BUTTON,🎁 渡す,🎁 Give,🎁 赠送
 ROOM_TOUCH_TITLE,触れる,Touch,触碰
 ROOM_TOUCH_BUTTON,👆 触れる,👆 Touch,👆 触碰
-ROOM_REACTION_FMT,「%s」  (信頼度 %+d),"""%s""  (Trust %+d)",“%s”  (信赖度 %+d)
 ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining,锁定中… 剩余 %d 秒
 ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d,%s ×%d
 SHOP_TITLE,ショップ,Shop,商店
