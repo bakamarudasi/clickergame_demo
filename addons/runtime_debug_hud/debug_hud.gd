@@ -185,7 +185,7 @@ func _get_event_bus() -> Node:
 	return tree.root.get_node_or_null("EventBus")
 
 
-func _log_emit(name: String, args: Array) -> void:
+func _log_emit(sig_name: String, args: Array) -> void:
 	# args は _subscribe_one のラムダから渡される [a0, a1, a2, a3]。
 	# 実 emit 引数が無かった位置は null（このシグナル群は全部非 null を渡す前提）。
 	var parts: Array = []
@@ -194,7 +194,7 @@ func _log_emit(name: String, args: Array) -> void:
 			continue
 		parts.append(str(v))
 	var time_str := "%5.1f" % (Time.get_ticks_msec() / 1000.0)
-	var line := "[color=#888]%s[/color] [color=#7cf]%s[/color]" % [time_str, name]
+	var line := "[color=#888]%s[/color] [color=#7cf]%s[/color]" % [time_str, sig_name]
 	if not parts.is_empty():
 		line += " [color=#ddd](%s)[/color]" % ", ".join(parts)
 	_log_lines.append(line)
