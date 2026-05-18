@@ -18,6 +18,7 @@ const HEX_DELTA_PLUS := "#FFC857"  # 信頼度+
 const HEX_DELTA_MINUS := "#FF5A6E"  # 信頼度-
 const HEX_DELTA_ZERO := "#7B8B9E"   # 0 の時は dim
 const HEX_SYSTEM := "#7B8B9E"
+const HEX_TC := "#3F5670"   # COLOR_BORDER_BRIGHT 相当、観測ログのタイムコード用
 
 var _scroll: ScrollContainer
 var _log: VBoxContainer
@@ -39,12 +40,15 @@ func clear() -> void:
 
 
 # キャラの反応をログに積む。speaker_key / dialogue_key は翻訳キー。
+# 追加時のシステム時刻を TC として刻み、ロケール切替で再描画しても
+# 時刻が動かないように entry に焼いておく。
 func append_reaction(speaker_key: String, dialogue_key: String, trust_delta: int) -> void:
 	_entries.append({
 		"kind": "reaction",
 		"speaker_key": speaker_key,
 		"dialogue_key": dialogue_key,
 		"trust_delta": trust_delta,
+		"tc": _now_tc(),
 	})
 	_append_entry_view(_entries[_entries.size() - 1])
 	_trim_and_scroll()
@@ -58,6 +62,7 @@ func append_system(text: String) -> void:
 	_entries.append({
 		"kind": "system",
 		"text": text,
+		"tc": _now_tc(),
 	})
 	_append_entry_view(_entries[_entries.size() - 1])
 	_trim_and_scroll()
@@ -87,23 +92,39 @@ func _append_entry_view(entry: Dictionary) -> void:
 
 
 func _format_entry(entry: Dictionary) -> String:
+	# サイバー観測ログ風の TC プレフィックス。
+	# entry.get("tc", "") で旧データ（フィールド無し）にも耐える。
+	var tc_str := ""
+	var tc: String = entry.get("tc", "")
+	if tc != "":
+		tc_str = "[color=%s]%s[/color] " % [HEX_TC, tc]
 	match entry.kind:
 		"reaction":
 			var speaker := TranslationServer.translate(entry.speaker_key)
 			var line := TranslationServer.translate(entry.dialogue_key)
 			var delta: int = entry.trust_delta
 			var delta_str := _format_delta(delta)
-			# 「話者：『セリフ』  +5」のレイアウト。BBCode で色を分ける。
-			return "[color=%s][b]%s[/b][/color]  %s%s" % [
+			# 「[TC ...] > 話者：『セリフ』  +5」のレイアウト。
+			return "%s[color=%s]>[/color] [color=%s][b]%s[/b][/color]  %s%s" % [
+				tc_str,
+				HEX_TC,
 				HEX_SPEAKER,
 				speaker,
 				line,
 				delta_str,
 			]
 		"system":
-			return "[color=%s][i]%s[/i][/color]" % [HEX_SYSTEM, entry.text]
+			# システム行は >> プレフィックス。例: [TC 00:24:13] >> 選択: ...
+			return "%s[color=%s][i]>> %s[/i][/color]" % [tc_str, HEX_SYSTEM, entry.text]
 		_:
 			return ""
+
+
+# 「TC HH:MM:SS」風プレフィックス。実時間ベースで簡易に出す。
+# ゲーム内時刻が将来実装されたらそっちに差し替える。
+func _now_tc() -> String:
+	var t := Time.get_time_dict_from_system()
+	return "[TC %02d:%02d:%02d]" % [int(t.hour), int(t.minute), int(t.second)]
 
 
 func _format_delta(delta: int) -> String:
