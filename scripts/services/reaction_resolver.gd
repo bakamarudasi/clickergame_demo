@@ -157,3 +157,34 @@ static func apply_side_effects(rule: ReactionRule, op_id: StringName) -> void:
 			Enums.EffectKind.CG_PLAY:
 				# 解放フラグは触らず、ビューア起動だけ要求する。
 				EventBus.cg_play_requested.emit(eff.target_id)
+
+
+# 選択肢の確定処理。プレイヤーが ReactionChoice を選んだら呼ぶ。
+# trust_delta と side_effects を ReactionRule と同じ規約で適用する。
+# 戻り値はランダム抽選後のレスポンス文字列（翻訳キー）。
+static func apply_choice(choice: ReactionChoice, op_id: StringName) -> String:
+	if choice == null:
+		return ""
+	if choice.trust_delta != 0:
+		GameState.add_trust(op_id, choice.trust_delta)
+	for eff: ItemEffect in choice.side_effects:
+		match eff.kind:
+			Enums.EffectKind.TRUST_ADD:
+				GameState.add_trust(op_id, eff.amount)
+			Enums.EffectKind.CG_UNLOCK:
+				GameState.unlock_cg(eff.target_id)
+			Enums.EffectKind.OPERATOR_UNLOCK:
+				GameState.unlock_operator(eff.target_id)
+			Enums.EffectKind.COSTUME_UNLOCK:
+				GameState.unlock_costume(op_id, eff.target_id)
+			Enums.EffectKind.HARASSMENT_LOCK:
+				GameState.add_harassment(op_id, eff.amount)
+			Enums.EffectKind.INTIMACY_ADD:
+				GameState.add_intimacy(op_id, eff.amount)
+			Enums.EffectKind.AROUSAL_ADD:
+				GameState.add_arousal(op_id, float(eff.amount))
+			Enums.EffectKind.MEMORY_UNLOCK:
+				GameState.unlock_memory(eff.target_id)
+			Enums.EffectKind.CG_PLAY:
+				EventBus.cg_play_requested.emit(eff.target_id)
+	return choice.pick_response()

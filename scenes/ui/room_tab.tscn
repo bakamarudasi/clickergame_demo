@@ -237,6 +237,24 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
+[node name="ChoicePanel" type="PanelContainer" parent="HBox/CenterPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+
+[node name="ChoiceInner" type="MarginContainer" parent="HBox/CenterPanel/ChoicePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="ChoiceVBox" type="VBoxContainer" parent="HBox/CenterPanel/ChoicePanel/ChoiceInner"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
 [node name="ActionBar" type="HBoxContainer" parent="HBox/CenterPanel"]
 layout_mode = 2
 theme_override_constants/separation = 12
