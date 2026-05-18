@@ -22,10 +22,11 @@ DataRegistry="*res://scripts/autoload/data_registry.gd"
 GameState="*res://scripts/autoload/game_state.gd"
 ReactionDispatcher="*res://scripts/autoload/reaction_dispatcher.gd"
 LocaleService="*res://scripts/autoload/locale_service.gd"
+DebugHUD="*res://addons/runtime_debug_hud/debug_hud.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/asset_audit/plugin.cfg")
+enabled=PackedStringArray("res://addons/asset_audit/plugin.cfg", "res://addons/i18n_audit/plugin.cfg", "res://addons/runtime_debug_hud/plugin.cfg")
 
 [internationalization]
 
