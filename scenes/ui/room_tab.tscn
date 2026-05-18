@@ -333,3 +333,59 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"DimLabel"
 text = ""
+
+[node name="NextUnlockPanel" type="PanelContainer" parent="HBox/DetailWrap/DetailInner/DetailPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="NextMargin" type="MarginContainer" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="NextVBox" type="VBoxContainer" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HeaderRow" type="HBoxContainer" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderLabel" type="Label" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox/HeaderRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "UI_ROOM_NEXT_HEADER"
+
+[node name="NextStageLabel" type="Label" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox/HeaderRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+
+[node name="ProgressRow" type="HBoxContainer" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NextProgressBar" type="ProgressBar" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox/ProgressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 8)
+show_percentage = false
+max_value = 100.0
+value = 0.0
+
+[node name="NextProgressLabel" type="Label" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox/ProgressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = ""
+
+[node name="NextUnlocksLabel" type="Label" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = ""
