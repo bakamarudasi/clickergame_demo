@@ -1,11 +1,10 @@
 class_name UpgradeCardFactory
 extends RefCounted
 
-# Work タブの強化カード（コルクボードの書類）を構築・更新するファクトリ。
-# UI ノードの生成・スタイリング・差分更新の責務を一手に引き受け、
-# WorkTab 本体はカードを並べてイベントを束ねるだけになる。
-#
-# シグナル：カードからの操作はすべてここで受け取り、上位（WorkTab）へ転送する。
+# Work タブの強化カードを構築・更新するファクトリ。
+# 「ダーク基調＋左端 rarity アクセント＋シアン購入ボタン」のサイバー寄り意匠。
+# UI ノードの生成・スタイリング・差分更新を一手に引き受け、WorkTab 本体は
+# カードを並べてイベントを束ねるだけになる。
 
 signal expand_requested(id: StringName)
 signal buy_requested(id: StringName)
@@ -14,24 +13,9 @@ signal qty_mode_changed(mode: int)
 const ICON_CLICK := preload("res://assets/ui/icon_click.svg")
 const ICON_AUTO := preload("res://assets/ui/icon_auto.svg")
 const ICON_MULT := preload("res://assets/ui/icon_mult.svg")
-const PUSHPIN := preload("res://assets/ui/pushpin.svg")
 
-# 強化カードを「コルクボードに留めた書類」風に表示するためのトーン。
-const CARD_PAPER_BG := Color(0.96, 0.93, 0.84, 1.0)
-const CARD_PAPER_BG_DISABLED := Color(0.78, 0.74, 0.66, 1.0)
-const CARD_PAPER_BG_MAXED := Color(0.70, 0.78, 0.68, 1.0)
-const CARD_INK_COLOR := Color(0.18, 0.14, 0.10, 1.0)
-const CARD_INK_SUB_COLOR := Color(0.28, 0.22, 0.16, 0.85)
-const CARD_PIN_SIZE := 26
-const CARD_ICON_SIZE := 28
-const ICON_TINT_ON_PAPER := Color(0.32, 0.26, 0.20, 1.0)
-const CARD_BORDER_COLOR := Color(0.45, 0.35, 0.22, 0.55)   # 紙のフチ（控えめ）
-const CARD_SHADOW_COLOR := Color(0, 0, 0, 0.45)            # 紙の落ち影
-const CARD_SHADOW_OFFSET := Vector2(2, 4)
-const RARITY_RIBBON_HEIGHT := 4                             # レア度カラーリボンの太さ
-# レア度色を「紙の上の文字色」として使う際の暗さ補正。
-# .darkened(amount) は v=0 寄りに線形補完。0.55 程度で淡い色も十分に読める。
-const RARITY_INK_DARKEN := 0.55
+const CARD_ICON_SIZE := 32
+const BUY_BUTTON_HEIGHT := 36
 
 var _host: Control
 
@@ -46,7 +30,6 @@ func build(u: UpgradeData, initial_qty_mode: int) -> PanelContainer:
 	var rarity_color: Color = UIConstants.RARITY_COLORS.get(
 		u.rarity, UIConstants.RARITY_COLORS[Enums.UpgradeRarity.COMMON]
 	)
-	var name_color := _ink_rarity_color(rarity_color)
 
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -55,28 +38,25 @@ func build(u: UpgradeData, initial_qty_mode: int) -> PanelContainer:
 	panel.set_meta("upgrade_id", u.id)
 	panel.set_meta("rarity_color", rarity_color)
 
-	var sbox := _make_paper_stylebox()
+	var sbox := PanelStyler.card(rarity_color)
 	panel.add_theme_stylebox_override("panel", sbox)
 
 	var vb := VBoxContainer.new()
-	vb.add_theme_constant_override("separation", 4)
+	vb.add_theme_constant_override("separation", UIConstants.SEP_SMALL)
 	vb.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(vb)
 
-	_add_pin_row(vb)
-	_add_rarity_ribbon(vb, rarity_color)
-
-	var name_label := _add_header_row(vb, u, name_color)
+	var name_label := _add_header_row(vb, u, rarity_color)
 	var lv_label := name_label.get_meta("lv_label") as Label
 
 	var effect_label := _add_effect_label(vb, u)
 	var cost_label := _add_cost_label(vb)
 
 	var expand := _add_expand_section(vb)
-	var detail := _add_expand_detail(expand, u, name_color)
+	var detail := _add_expand_detail(expand, u, rarity_color)
 	var qty_selector := _add_qty_selector(expand, initial_qty_mode)
 	var afford_label := _add_afford_label(expand)
-	var buy_button := _add_buy_button(expand, u, name_color)
+	var buy_button := _add_buy_button(expand, u)
 
 	# クリックでアコーディオン展開（buy_button は STOP で食う）
 	panel.gui_input.connect(_on_card_gui_input.bind(u.id))
@@ -118,10 +98,8 @@ func refresh(card: PanelContainer, u: UpgradeData, qty_mode: int, qty_resolver: 
 	total_value.text = _format_total_contribution(u, lv)
 	invested_value.text = _t("WORK_UPGRADE_COST_FMT") % FormatUtils.short(_cumulative_invested(u, lv))
 
-	# 数量ボタンの押下状態を共有モードに同期（他カードからの伝搬を反映）
 	qty_selector.set_mode_silent(qty_mode)
 
-	# 数量モードに応じた購入数と合計コスト。MAX状態ならどちらも 0。
 	var qty := 0
 	var total_cost := 0
 	if not maxed:
@@ -129,7 +107,6 @@ func refresh(card: PanelContainer, u: UpgradeData, qty_mode: int, qty_resolver: 
 		total_cost = EconomyService.cumulative_cost(u.id, qty)
 
 	var can_buy := qty > 0 and GameState.currency >= total_cost
-	# 折りたたみ時のコスト表示は常に「次の1Lv分」で読みやすさを優先。
 	var single_cost := EconomyService.current_cost(u.id) if not maxed else -1
 
 	if maxed:
@@ -146,41 +123,35 @@ func refresh(card: PanelContainer, u: UpgradeData, qty_mode: int, qty_resolver: 
 		next_value.text = _t("WORK_UPGRADE_COST_FMT") % FormatUtils.short(total_cost)
 		qty_selector.set_enabled(true)
 		buy_button.disabled = not can_buy
-		# ×Max でも qty=1 なら "購入する"、それ以外は数量つきフォーマット。
 		if qty > 1:
 			buy_button.text = _t("WORK_UPGRADE_BUY_BUTTON_QTY_FMT") % [qty, FormatUtils.short(total_cost)]
 		else:
 			buy_button.text = _t("WORK_UPGRADE_BUY_BUTTON")
 		if can_buy:
 			afford_label.text = _t("WORK_UPGRADE_STATS_AFFORD")
-			afford_label.add_theme_color_override("font_color",
-				_ink_rarity_color(UIConstants.RARITY_COLORS[u.rarity]))
+			afford_label.add_theme_color_override("font_color", UIConstants.COLOR_SUCCESS)
 		else:
-			# ×Max で qty=0（=単発も買えない）の時は 1Lv 分の不足額を出す方が親切。
 			var ref_cost := total_cost if qty > 0 else single_cost
 			var short_by := ref_cost - GameState.currency
 			afford_label.text = _t("WORK_UPGRADE_STATS_SHORT") % FormatUtils.short(short_by)
-			afford_label.add_theme_color_override("font_color", CARD_INK_SUB_COLOR)
+			afford_label.add_theme_color_override("font_color", UIConstants.COLOR_WARN)
 
-	# 買える時だけ脈動。MAX / 買えない時は通常表示で固定。
 	set_glow(card, can_buy)
-	# 買えない時は紙が褪色、MAX 時はアーカイブ色（達成感）に切替
 	var sbox: StyleBoxFlat = card.get_meta("stylebox")
 	if maxed:
-		sbox.bg_color = CARD_PAPER_BG_MAXED
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_MAXED
 	elif can_buy:
-		sbox.bg_color = CARD_PAPER_BG
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG
 	else:
-		sbox.bg_color = CARD_PAPER_BG_DISABLED
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_DISABLED
 
 
-# 静的ラベル（名前・説明・効果文・購入ボタン）の翻訳を更新する。
-# NOTIFICATION_TRANSLATION_CHANGED で呼び出す。
 func rebuild_static_text(card: PanelContainer, u: UpgradeData) -> void:
 	(card.get_meta("name_label") as Label).text = _t(u.display_name)
 	(card.get_meta("desc_label") as Label).text = _t(u.description)
 	(card.get_meta("effect_label") as Label).text = _format_effect(u)
 	(card.get_meta("buy_button") as Button).text = _t("WORK_UPGRADE_BUY_BUTTON")
+	(card.get_meta("rarity_badge") as Label).text = _t(_rarity_key(u.rarity))
 
 
 func set_expanded(card: PanelContainer, on: bool) -> void:
@@ -205,7 +176,6 @@ func set_glow(card: PanelContainer, on: bool) -> void:
 	card.set_meta("glow_tween", tw)
 
 
-# どの効果種別タブに属するかを返す。WorkTab 側で 3 つの GridContainer を出し分ける。
 static func grid_index_for_effect(kind: Enums.UpgradeEffectKind) -> int:
 	match kind:
 		Enums.UpgradeEffectKind.ADD_PER_SEC: return 1
@@ -215,68 +185,28 @@ static func grid_index_for_effect(kind: Enums.UpgradeEffectKind) -> int:
 
 # --- 内部ビルダー -------------------------------------------------------
 
-func _make_paper_stylebox() -> StyleBoxFlat:
-	var sbox := StyleBoxFlat.new()
-	sbox.bg_color = CARD_PAPER_BG
-	# 紙のフチは抑え気味、レア度はリボン + 文字色で示す
-	sbox.border_color = CARD_BORDER_COLOR
-	sbox.set_border_width_all(1)
-	sbox.set_corner_radius_all(3)
-	sbox.content_margin_left = 14
-	sbox.content_margin_right = 14
-	# 上部はピン分の余白を確保
-	sbox.content_margin_top = 6
-	sbox.content_margin_bottom = 12
-	# 紙の影
-	sbox.shadow_color = CARD_SHADOW_COLOR
-	sbox.shadow_size = 6
-	sbox.shadow_offset = CARD_SHADOW_OFFSET
-	return sbox
-
-
-func _add_pin_row(parent: VBoxContainer) -> void:
-	var pin_row := CenterContainer.new()
-	pin_row.mouse_filter = Control.MOUSE_FILTER_PASS
-	parent.add_child(pin_row)
-	var pin := TextureRect.new()
-	pin.texture = PUSHPIN
-	pin.custom_minimum_size = Vector2(CARD_PIN_SIZE, CARD_PIN_SIZE)
-	pin.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	pin.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	pin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	pin_row.add_child(pin)
-
-
-func _add_rarity_ribbon(parent: VBoxContainer, rarity_color: Color) -> void:
-	var ribbon := ColorRect.new()
-	ribbon.color = rarity_color
-	ribbon.custom_minimum_size = Vector2(0, RARITY_RIBBON_HEIGHT)
-	ribbon.mouse_filter = Control.MOUSE_FILTER_PASS
-	parent.add_child(ribbon)
-
-
 # 名前ラベルを返す（Lv ラベルは meta に格納）。
-func _add_header_row(parent: VBoxContainer, u: UpgradeData, name_color: Color) -> Label:
+func _add_header_row(parent: VBoxContainer, u: UpgradeData, rarity_color: Color) -> Label:
 	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 8)
+	header.add_theme_constant_override("separation", UIConstants.SEP_DEFAULT)
 	header.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(header)
 
-	var icon := _make_effect_icon(u.effect_kind, CARD_ICON_SIZE)
+	var icon := _make_effect_icon(u.effect_kind, CARD_ICON_SIZE, rarity_color)
 	header.add_child(icon)
 
 	var name_label := Label.new()
 	name_label.text = _t(u.display_name)
 	name_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	name_label.add_theme_color_override("font_color", name_color)
+	name_label.add_theme_color_override("font_color", UIConstants.COLOR_TEXT)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	header.add_child(name_label)
 
 	var lv_label := Label.new()
-	lv_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	lv_label.add_theme_color_override("font_color", CARD_INK_COLOR)
+	lv_label.theme_type_variation = UIConstants.VAR_NUMERIC_LABEL
+	lv_label.add_theme_color_override("font_color", rarity_color)
 	lv_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	header.add_child(lv_label)
 	name_label.set_meta("lv_label", lv_label)
@@ -286,7 +216,7 @@ func _add_header_row(parent: VBoxContainer, u: UpgradeData, name_color: Color) -
 func _add_effect_label(parent: VBoxContainer, u: UpgradeData) -> Label:
 	var l := Label.new()
 	l.text = _format_effect(u)
-	l.add_theme_color_override("font_color", CARD_INK_COLOR)
+	l.theme_type_variation = UIConstants.VAR_DIM_LABEL
 	l.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(l)
 	return l
@@ -294,7 +224,8 @@ func _add_effect_label(parent: VBoxContainer, u: UpgradeData) -> Label:
 
 func _add_cost_label(parent: VBoxContainer) -> Label:
 	var l := Label.new()
-	l.add_theme_color_override("font_color", CARD_INK_SUB_COLOR)
+	l.theme_type_variation = UIConstants.VAR_NUMERIC_LABEL
+	l.add_theme_color_override("font_color", UIConstants.COLOR_ACCENT_CYAN)
 	l.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(l)
 	return l
@@ -303,28 +234,27 @@ func _add_cost_label(parent: VBoxContainer) -> Label:
 func _add_expand_section(parent: VBoxContainer) -> VBoxContainer:
 	var expand := VBoxContainer.new()
 	expand.visible = false
-	expand.add_theme_constant_override("separation", 8)
+	expand.add_theme_constant_override("separation", UIConstants.SEP_DEFAULT)
 	expand.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(expand)
 	expand.add_child(HSeparator.new())
 	return expand
 
 
-# 詳細領域を組み立て、refresh で参照する 4 ラベル + バッジ + 説明文を返す。
-func _add_expand_detail(expand: VBoxContainer, u: UpgradeData, name_color: Color) -> Dictionary:
+func _add_expand_detail(expand: VBoxContainer, u: UpgradeData, rarity_color: Color) -> Dictionary:
 	# ヘッダ行：大アイコン + レア度バッジ
 	var detail_head := HBoxContainer.new()
-	detail_head.add_theme_constant_override("separation", 10)
+	detail_head.add_theme_constant_override("separation", UIConstants.SEP_MEDIUM)
 	detail_head.mouse_filter = Control.MOUSE_FILTER_PASS
 	expand.add_child(detail_head)
 
-	var big_icon := _make_effect_icon(u.effect_kind, 56)
+	var big_icon := _make_effect_icon(u.effect_kind, 56, rarity_color)
 	detail_head.add_child(big_icon)
 
 	var rarity_badge := Label.new()
-	rarity_badge.text = _rarity_key(u.rarity)
+	rarity_badge.text = _t(_rarity_key(u.rarity))
 	rarity_badge.theme_type_variation = UIConstants.VAR_TITLE_LABEL
-	rarity_badge.add_theme_color_override("font_color", name_color)
+	rarity_badge.add_theme_color_override("font_color", rarity_color)
 	rarity_badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rarity_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	rarity_badge.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -334,8 +264,7 @@ func _add_expand_detail(expand: VBoxContainer, u: UpgradeData, name_color: Color
 	var desc_label := Label.new()
 	desc_label.text = _t(u.description)
 	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	desc_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	desc_label.add_theme_color_override("font_color", CARD_INK_COLOR)
+	desc_label.theme_type_variation = UIConstants.VAR_DIM_LABEL
 	desc_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	expand.add_child(desc_label)
 
@@ -344,8 +273,8 @@ func _add_expand_detail(expand: VBoxContainer, u: UpgradeData, name_color: Color
 	# 統計グリッド（ラベル｜値 の2列）
 	var stats := GridContainer.new()
 	stats.columns = 2
-	stats.add_theme_constant_override("h_separation", 12)
-	stats.add_theme_constant_override("v_separation", 4)
+	stats.add_theme_constant_override("h_separation", UIConstants.SEP_MEDIUM)
+	stats.add_theme_constant_override("v_separation", UIConstants.SEP_TIGHT)
 	stats.mouse_filter = Control.MOUSE_FILTER_PASS
 	expand.add_child(stats)
 
@@ -364,20 +293,15 @@ func _add_expand_detail(expand: VBoxContainer, u: UpgradeData, name_color: Color
 	}
 
 
-# 1 行ぶんのラベル/値ペアを stats グリッドに追加し、値ラベルを返す。
 func _add_stat_row(stats: GridContainer, key: String) -> Label:
 	var key_label := Label.new()
-	# Godot は Label.text に翻訳キーが入っていれば自動で tr する。
-	# 静的キーラベルはこの仕組みでロケール切替に追従させる。
-	key_label.text = key
-	key_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	key_label.add_theme_color_override("font_color", CARD_INK_SUB_COLOR)
+	key_label.text = key  # Button/Label.text に翻訳キーがそのまま入れば自動 tr。
+	key_label.theme_type_variation = UIConstants.VAR_DIM_LABEL
 	key_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	stats.add_child(key_label)
 
 	var value_label := Label.new()
-	value_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	value_label.add_theme_color_override("font_color", CARD_INK_COLOR)
+	value_label.theme_type_variation = UIConstants.VAR_NUMERIC_LABEL
 	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	value_label.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -385,16 +309,18 @@ func _add_stat_row(stats: GridContainer, key: String) -> Label:
 	return value_label
 
 
-# 数量セレクタ（×1 / ×10 / ×100 / ×Max）。全カードで同じモードを共有する前提。
 func _add_qty_selector(expand: VBoxContainer, initial_mode: int) -> QuantitySelector:
 	var qty_row := HBoxContainer.new()
-	qty_row.add_theme_constant_override("separation", 4)
+	qty_row.add_theme_constant_override("separation", UIConstants.SEP_TIGHT)
 	qty_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	qty_row.mouse_filter = Control.MOUSE_FILTER_PASS
 	expand.add_child(qty_row)
 
 	var sel := QuantitySelector.new()
-	sel.build_into(qty_row, "WORK_UPGRADE_QTY_MAX", Vector2(56, 28), CARD_INK_COLOR)
+	sel.build_into(qty_row, "WORK_UPGRADE_QTY_MAX", Vector2(56, 28))
+	# 数量ボタンは PillButton 変種に揃える
+	for b in sel.buttons:
+		b.theme_type_variation = UIConstants.VAR_PILL_BUTTON
 	sel.set_mode_silent(initial_mode)
 	sel.mode_changed.connect(_on_qty_mode_changed)
 	return sel
@@ -405,39 +331,33 @@ func _add_afford_label(expand: VBoxContainer) -> Label:
 	l.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
 	l.mouse_filter = Control.MOUSE_FILTER_PASS
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.add_theme_color_override("font_color", CARD_INK_COLOR)
 	expand.add_child(l)
 	return l
 
 
-func _add_buy_button(expand: VBoxContainer, u: UpgradeData, name_color: Color) -> Button:
+func _add_buy_button(expand: VBoxContainer, u: UpgradeData) -> Button:
 	var b := Button.new()
+	b.theme_type_variation = UIConstants.VAR_ACCENT_BUTTON
 	b.text = _t("WORK_UPGRADE_BUY_BUTTON")
-	b.custom_minimum_size = Vector2(0, 36)
+	b.custom_minimum_size = Vector2(0, BUY_BUTTON_HEIGHT)
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	b.add_theme_color_override("font_color", name_color)
 	b.pressed.connect(_on_buy_pressed.bind(u.id))
 	expand.add_child(b)
 	return b
 
 
-func _make_effect_icon(kind: Enums.UpgradeEffectKind, size: int) -> TextureRect:
+func _make_effect_icon(kind: Enums.UpgradeEffectKind, size: int, tint: Color) -> TextureRect:
 	var icon := TextureRect.new()
 	icon.texture = _icon_for_effect(kind)
 	icon.custom_minimum_size = Vector2(size, size)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.mouse_filter = Control.MOUSE_FILTER_PASS
-	# アイコンは元々ダーク背景向け。紙の上では暗めにトーン調整
-	icon.modulate = ICON_TINT_ON_PAPER
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.modulate = tint
 	return icon
 
 
 # --- 純粋関数 -----------------------------------------------------------
-
-func _ink_rarity_color(c: Color) -> Color:
-	return c.darkened(RARITY_INK_DARKEN)
-
 
 func _rarity_key(r: Enums.UpgradeRarity) -> String:
 	match r:
@@ -475,13 +395,11 @@ func _format_total_contribution(u: UpgradeData, level: int) -> String:
 		Enums.UpgradeEffectKind.ADD_PER_SEC:
 			return _t("WORK_UPGRADE_EFFECT_SEC") % FormatUtils.short(int(round(amt)))
 		Enums.UpgradeEffectKind.MULT_CLICK:
-			# 倍率は重ねがけ：effect_amount^level
 			var mult := pow(u.effect_amount, level)
 			return _t("WORK_UPGRADE_EFFECT_MULT") % ("%.1f" % mult)
 	return ""
 
 
-# 等比級数による「これまでに投資した累計コスト」を返す。
 func _cumulative_invested(u: UpgradeData, level: int) -> int:
 	if level <= 0:
 		return 0
@@ -493,7 +411,6 @@ func _cumulative_invested(u: UpgradeData, level: int) -> int:
 	return int(sum)
 
 
-# RefCounted には tr() が無いので TranslationServer 経由で翻訳する。
 func _t(key: String) -> String:
 	return TranslationServer.translate(key)
 

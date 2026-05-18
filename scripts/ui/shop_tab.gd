@@ -1,11 +1,11 @@
 extends Control
 
-# Shopタブ。雑貨店の棚をめくる感覚で商品を選んで買う。
+# Shopタブ。雑貨店ではなく「ターミナル端末で物資をオーダー」する想定。
 # 他タブを直接参照しない。ShopService 経由でのみ購入処理を行う。
 #
 # 役割は orchestrator に絞り、カード組み立て・更新は ItemCardFactory に委譲。
+# 見出し・カテゴリピル等のスタイルは ThemeFactory が一元管理。
 
-@onready var title_panel: PanelContainer = %TitlePanel
 @onready var category_bar: HBoxContainer = %CategoryBar
 @onready var item_grid: GridContainer = %ItemGrid
 @onready var empty_label: Label = %EmptyLabel
@@ -26,26 +26,10 @@ const CATEGORY_ENTRIES := [
 	{ "label_key": "CATEGORY_SCOPE", "value": Enums.ItemCategory.SCOPE },
 ]
 
-# カテゴリ見出し（木の名札風）のトーン
-const CAT_BTN_BG := Color(0.42, 0.27, 0.13, 1.0)
-const CAT_BTN_BG_ACTIVE := Color(0.65, 0.45, 0.22, 1.0)
-const CAT_BTN_BG_HOVER := Color(0.50, 0.33, 0.16, 1.0)
-const CAT_BTN_INK := Color(0.97, 0.91, 0.75, 1.0)
-const CAT_BTN_INK_ACTIVE := Color(1.0, 0.97, 0.85, 1.0)
-const CAT_BTN_BORDER := Color(0.30, 0.18, 0.08, 1.0)
-
-# 「ショップ」看板（木札風）のトーン。Work タブ の見出しと揃える。
-const TITLE_PANEL_BG := Color(0.25, 0.16, 0.09, 1.0)
-const TITLE_PANEL_BORDER := Color(0.55, 0.40, 0.20, 1.0)
-const TITLE_PANEL_FONT := Color(0.97, 0.91, 0.75, 1.0)
-const TITLE_PANEL_SHADOW := Color(0, 0, 0, 0.45)
-
 var _selected_category: int = Enums.ItemCategory.DAILY
 var _card_factory: ItemCardFactory
-# item_id → カード（差分更新のための索引）
 var _cards: Dictionary = {}
 var _category_group: ButtonGroup
-# category 値 → 対応 Button（翻訳変更で再ラベルする時に使う）
 var _category_buttons: Dictionary = {}
 
 
@@ -55,34 +39,11 @@ func _ready() -> void:
 
 	EventBus.currency_changed.connect(_refresh_all_cards)
 	EventBus.item_purchased.connect(_on_item_purchased)
-	# Room タブ等での消費で在庫が変わったら所持数表示を更新する
 	EventBus.inventory_changed.connect(_on_inventory_changed)
-	# メタ強化購入で requires_meta 解放されたアイテムが陳列に増える可能性 → 再構築
 	EventBus.meta_upgrade_purchased.connect(_on_meta_upgrade_purchased)
 
-	_style_title_panel()
 	_build_category_buttons()
 	_rebuild_item_grid()
-
-
-# 「ショップ」見出しを木札風に。雑貨店の入口看板イメージ。
-func _style_title_panel() -> void:
-	var sbox := StyleBoxFlat.new()
-	sbox.bg_color = TITLE_PANEL_BG
-	sbox.border_color = TITLE_PANEL_BORDER
-	sbox.set_border_width_all(1)
-	sbox.set_corner_radius_all(4)
-	sbox.content_margin_left = 18
-	sbox.content_margin_right = 18
-	sbox.content_margin_top = 8
-	sbox.content_margin_bottom = 8
-	sbox.shadow_color = TITLE_PANEL_SHADOW
-	sbox.shadow_size = 4
-	sbox.shadow_offset = Vector2(1, 2)
-	title_panel.add_theme_stylebox_override("panel", sbox)
-	var title_label := title_panel.get_child(0) as Label
-	if title_label != null:
-		title_label.add_theme_color_override("font_color", TITLE_PANEL_FONT)
 
 
 # --- カテゴリバー -------------------------------------------------------
@@ -106,40 +67,11 @@ func _make_category_button(label_key: String, cat: int) -> Button:
 	var b := Button.new()
 	b.toggle_mode = true
 	b.button_group = _category_group
-	b.text = label_key  # Button.text は翻訳キーで自動 tr 追従
-	b.add_theme_stylebox_override("normal", _make_cat_stylebox(CAT_BTN_BG))
-	b.add_theme_stylebox_override("hover", _make_cat_stylebox(CAT_BTN_BG_HOVER))
-	b.add_theme_stylebox_override("pressed", _make_cat_stylebox(CAT_BTN_BG_ACTIVE, true))
-	b.add_theme_stylebox_override("focus", _make_cat_stylebox(CAT_BTN_BG_HOVER))
-	# トグル ON 時の見た目を pressed と揃える
-	b.add_theme_stylebox_override("hover_pressed", _make_cat_stylebox(CAT_BTN_BG_ACTIVE, true))
-	b.add_theme_color_override("font_color", CAT_BTN_INK)
-	b.add_theme_color_override("font_pressed_color", CAT_BTN_INK_ACTIVE)
-	b.add_theme_color_override("font_hover_color", CAT_BTN_INK_ACTIVE)
-	b.custom_minimum_size = Vector2(0, 36)
+	b.text = label_key  # Button.text に翻訳キー → 自動 tr 追従
+	b.theme_type_variation = UIConstants.VAR_PILL_BUTTON
+	b.custom_minimum_size = Vector2(0, 32)
 	b.pressed.connect(_on_category_pressed.bind(cat))
 	return b
-
-
-func _make_cat_stylebox(bg: Color, active: bool = false) -> StyleBoxFlat:
-	var sbox := StyleBoxFlat.new()
-	sbox.bg_color = bg
-	sbox.border_color = CAT_BTN_BORDER
-	sbox.set_border_width_all(1)
-	# 「タブの見出し」感を出すため、選択中は下角を平らに（紙が下に続いている表現）
-	sbox.corner_radius_top_left = 6
-	sbox.corner_radius_top_right = 6
-	sbox.corner_radius_bottom_left = 0 if active else 6
-	sbox.corner_radius_bottom_right = 0 if active else 6
-	sbox.content_margin_left = 14
-	sbox.content_margin_right = 14
-	sbox.content_margin_top = 6
-	sbox.content_margin_bottom = 6
-	if active:
-		sbox.shadow_color = Color(0, 0, 0, 0.35)
-		sbox.shadow_size = 3
-		sbox.shadow_offset = Vector2(0, 2)
-	return sbox
 
 
 func _on_category_pressed(cat: int) -> void:
@@ -162,7 +94,7 @@ func _rebuild_item_grid() -> void:
 		if it.requires_meta != &"" and not GameState.has_meta_unlock(it.requires_meta):
 			continue
 		items.append(it)
-	# 価格昇順で並べる（買いやすい順 = 棚の手前から）
+	# 価格昇順で並べる
 	items.sort_custom(func(a: ItemData, b: ItemData) -> bool: return a.price < b.price)
 
 	empty_label.visible = items.is_empty()

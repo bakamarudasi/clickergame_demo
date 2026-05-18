@@ -1,13 +1,25 @@
-[gd_scene load_steps=9 format=3 uid="uid://clickergameworktab0"]
+[gd_scene load_steps=4 format=3 uid="uid://clickergameworktab0"]
 
 [ext_resource type="Script" path="res://scripts/ui/work_tab.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://paperworkasset0" path="res://assets/paperwork.svg" id="2_paper"]
-[ext_resource type="Texture2D" uid="uid://uigamedesksurface0" path="res://assets/ui/desk_surface.svg" id="3_desk"]
-[ext_resource type="Texture2D" uid="uid://uigamepaperstack0" path="res://assets/ui/paper_stack.svg" id="4_stack"]
-[ext_resource type="Texture2D" uid="uid://uigamemug0" path="res://assets/ui/mug.svg" id="5_mug"]
-[ext_resource type="Texture2D" uid="uid://uigamestickynote0" path="res://assets/ui/sticky_note.svg" id="6_sticky"]
-[ext_resource type="Texture2D" uid="uid://uigamepen0" path="res://assets/ui/pen.svg" id="7_pen"]
-[ext_resource type="Texture2D" uid="uid://uigamecorkboard0" path="res://assets/ui/corkboard.svg" id="8_cork"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_click_panel"]
+bg_color = Color(0.043, 0.067, 0.094, 1)
+border_color = Color(0.176, 0.231, 0.306, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 8
 
 [node name="WorkTab" type="Control"]
 anchors_preset = 15
@@ -23,11 +35,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -92.0
-theme_override_constants/separation = 24
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -90.0
+theme_override_constants/separation = 16
 
 [node name="PrestigeBar" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -35,9 +47,9 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
+offset_left = 20.0
 offset_top = -76.0
-offset_right = -24.0
+offset_right = -20.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -61,6 +73,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 custom_minimum_size = Vector2(220, 0)
+theme_type_variation = &"AccentButton"
 text = "WORK_PRESTIGE_BUTTON"
 
 [node name="PrestigeConfirm" type="ConfirmationDialog" parent="."]
@@ -70,174 +83,67 @@ ok_button_text = "WORK_PRESTIGE_CONFIRM_YES"
 cancel_button_text = "WORK_PRESTIGE_CONFIRM_NO"
 dialog_autowrap = true
 
-[node name="LeftCol" type="Control" parent="HBox"]
+[node name="LeftCol" type="PanelContainer" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_click_panel")
 
-[node name="DeskBG" type="TextureRect" parent="HBox/LeftCol"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("3_desk")
-expand_mode = 1
-stretch_mode = 0
+[node name="ClickArea" type="CenterContainer" parent="HBox/LeftCol"]
+layout_mode = 2
 
-[node name="PaperStack" type="TextureRect" parent="HBox/LeftCol"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -270.0
-offset_top = -295.0
-offset_right = 270.0
-offset_bottom = 295.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("4_stack")
-expand_mode = 1
-stretch_mode = 5
+[node name="ClickStack" type="VBoxContainer" parent="HBox/LeftCol/ClickArea"]
+layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="DocumentButton" type="TextureButton" parent="HBox/LeftCol"]
+[node name="StickyTargetLabel" type="Label" parent="HBox/LeftCol/ClickArea/ClickStack"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -215.0
-offset_top = -250.0
-offset_right = 215.0
-offset_bottom = 230.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("2_paper")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Mug" type="TextureRect" parent="HBox/LeftCol"]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 156.0
-offset_bottom = 156.0
+layout_mode = 2
+custom_minimum_size = Vector2(360, 0)
 mouse_filter = 2
-texture = ExtResource("5_mug")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="StickyNote" type="Control" parent="HBox/LeftCol"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -250.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = 234.0
-grow_horizontal = 0
-mouse_filter = 2
-
-[node name="StickyBG" type="TextureRect" parent="HBox/LeftCol/StickyNote"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("6_sticky")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="StickyTargetLabel" type="Label" parent="HBox/LeftCol/StickyNote"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 28.0
-offset_right = -20.0
-offset_bottom = -20.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-modulate = Color(0.22, 0.18, 0.1, 1)
 theme_type_variation = &"SubtitleLabel"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 text = ""
 
-[node name="Pen" type="TextureRect" parent="HBox/LeftCol"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = -120.0
-offset_right = 304.0
-offset_bottom = -24.0
-grow_vertical = 0
-mouse_filter = 2
-texture = ExtResource("7_pen")
-expand_mode = 1
+[node name="DocumentButton" type="TextureButton" parent="HBox/LeftCol/ClickArea/ClickStack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 460)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+modulate = Color(0.55, 0.85, 1, 1)
+texture_normal = ExtResource("2_paper")
+ignore_texture_size = true
 stretch_mode = 5
 
-[node name="RightCol" type="Control" parent="HBox"]
+[node name="RightCol" type="PanelContainer" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 6.0
 mouse_filter = 1
 
-[node name="CorkBG" type="TextureRect" parent="HBox/RightCol"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("8_cork")
-expand_mode = 1
-stretch_mode = 0
-
 [node name="Inner" type="MarginContainer" parent="HBox/RightCol"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 14
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
 
 [node name="VBox" type="VBoxContainer" parent="HBox/RightCol/Inner"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
-[node name="TitlePanel" type="PanelContainer" parent="HBox/RightCol/Inner/VBox"]
-unique_name_in_owner = true
+[node name="TitleBar" type="PanelContainer" parent="HBox/RightCol/Inner/VBox"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_type_variation = &"SectionHeader"
 
-[node name="UpgradesTitle" type="Label" parent="HBox/RightCol/Inner/VBox/TitlePanel"]
+[node name="UpgradesTitle" type="Label" parent="HBox/RightCol/Inner/VBox/TitleBar"]
 layout_mode = 2
-theme_type_variation = &"TitleLabel"
+theme_type_variation = &"SectionHeader"
 text = "WORK_UPGRADE_TITLE"
 
 [node name="UpgradeTabs" type="TabContainer" parent="HBox/RightCol/Inner/VBox"]
@@ -255,8 +161,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 1
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 14
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 10
 
 [node name="AutoScroll" type="ScrollContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs"]
 visible = false
@@ -268,8 +174,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 1
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 14
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 10
 
 [node name="MultScroll" type="ScrollContainer" parent="HBox/RightCol/Inner/VBox/UpgradeTabs"]
 visible = false
@@ -281,5 +187,5 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 1
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 14
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 10

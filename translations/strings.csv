@@ -221,3 +221,6 @@ CG_LEMUEN_INTIMATE_BREAK_CAPTION,誓約,The Vow,誓约
 SHOP_QTY_LABEL,数量:,Qty:,数量:
 SHOP_QTY_MAX,×Max,×Max,×Max
 SHOP_BUY_BUTTON_QTY_FMT,購入する ×%d  (¥ %s),Buy ×%d  (¥ %s),购买 ×%d  (¥ %s)
+CG_PLACEHOLDER_NO_IMAGE,(画像未登録),(Image not set),(图像未注册)
+CG_PLACEHOLDER_NO_IMAGE_HINT_FMT,(画像未登録: %s),(Image not set: %s),(图像未注册: %s)
+CG_NEXT_HINT,▼ クリックで進む,▼ Click to continue,▼ 点击继续

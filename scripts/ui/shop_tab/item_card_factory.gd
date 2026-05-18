@@ -2,18 +2,28 @@ class_name ItemCardFactory
 extends RefCounted
 
 # Shop タブの商品カードを構築・更新するファクトリ。
-# 各カードは「棚に置かれた紙ラベル＋赤い値札」風で、上部に名前、右端に値札、
-# 下に説明・信頼度ゲート・数量セレクタ・購入ボタンが並ぶ。
-# 状態はすべて refresh() に集約し、build() は構造だけを組み立てる。
-#
-# シグナル：購入は ShopTab に転送する。
+# 「ダーク基調＋カテゴリ色アクセント＋シアン値札」のサイバー寄り意匠。
 
 signal buy_requested(id: StringName, qty: int)
 
-const PRICE_TAG := preload("res://assets/ui/shop_price_tag.svg")
+# カテゴリ別アクセント色（カードの左バー／アイコン tint に使用）。
+const CATEGORY_ACCENTS := {
+	Enums.ItemCategory.DAILY: Color(0.604, 0.647, 0.690, 1.0),
+	Enums.ItemCategory.HOBBY: Color(0.416, 0.910, 0.612, 1.0),
+	Enums.ItemCategory.BODY_CARE: Color(0.965, 0.700, 0.890, 1.0),
+	Enums.ItemCategory.ROMANCE: Color(0.949, 0.451, 0.651, 1.0),
+	Enums.ItemCategory.DIRECT_TOY: Color(0.780, 0.478, 0.910, 1.0),
+	Enums.ItemCategory.DIRECT_DRUG: Color(0.700, 0.560, 0.980, 1.0),
+	Enums.ItemCategory.DIRECT_BIND: Color(1.0, 0.353, 0.431, 1.0),
+	Enums.ItemCategory.DIRECT_PROT: Color(0.302, 0.816, 0.882, 1.0),
+	Enums.ItemCategory.COS_OUTFIT: Color(1.0, 0.784, 0.341, 1.0),
+	Enums.ItemCategory.COS_PARTS: Color(1.0, 0.627, 0.251, 1.0),
+	Enums.ItemCategory.INVITATION: Color(0.247, 0.663, 0.961, 1.0),
+	Enums.ItemCategory.RULE: Color(0.365, 0.812, 0.969, 1.0),
+	Enums.ItemCategory.SCOPE: Color(0.302, 0.816, 0.882, 1.0),
+}
 
 # カテゴリ別デフォルトアイコン。ItemData.icon が未設定なら category から引く。
-# .tres 側で icon を上書き設定すればその個別アイコンが優先される。
 const CATEGORY_ICONS := {
 	Enums.ItemCategory.DAILY: preload("res://assets/items/category/cat_daily.svg"),
 	Enums.ItemCategory.HOBBY: preload("res://assets/items/category/cat_hobby.svg"),
@@ -30,21 +40,10 @@ const CATEGORY_ICONS := {
 	Enums.ItemCategory.SCOPE: preload("res://assets/items/category/cat_scope.svg"),
 }
 const CARD_ICON_SIZE := 56
-
-# カード（商品ラベル紙）のトーン。雑貨店の値札紙イメージ。
-const CARD_PAPER_BG := Color(0.95, 0.89, 0.74, 1.0)
-const CARD_PAPER_BG_LOCKED := Color(0.74, 0.70, 0.60, 1.0)
-const CARD_PAPER_BG_OWNED := Color(0.78, 0.86, 0.76, 1.0)
-const CARD_BORDER_COLOR := Color(0.45, 0.32, 0.18, 0.75)
-const CARD_SHADOW_COLOR := Color(0, 0, 0, 0.55)
-const CARD_SHADOW_OFFSET := Vector2(2, 5)
-const CARD_INK_COLOR := Color(0.18, 0.12, 0.08, 1.0)
-const CARD_INK_SUB_COLOR := Color(0.32, 0.24, 0.16, 0.90)
-const CARD_INK_GATE_COLOR := Color(0.70, 0.30, 0.10, 1.0)
-const PRICE_TAG_SIZE := Vector2(108, 60)
-const PRICE_TAG_FONT_COLOR := Color(1.0, 0.97, 0.88, 1.0)
-# 通貨では「¥」を使わない方が短くて読みやすい。値札はとにかく金額の見やすさ優先。
-const PRICE_TAG_FONT_SIZE := 22
+const BUY_BUTTON_HEIGHT := 36
+# 値札の高さ。コンパクトに収めつつ金額が読みやすいサイズ。
+const PRICE_TAG_HEIGHT := 38
+const PRICE_TAG_MIN_WIDTH := 112
 
 var _host: Control
 
@@ -53,25 +52,27 @@ func _init(host: Control) -> void:
 	_host = host
 
 
-# 1 枚分のカードを組み立てる。返した PanelContainer は親に add_child するだけ。
 func build(it: ItemData) -> PanelContainer:
+	var accent: Color = CATEGORY_ACCENTS.get(it.category, UIConstants.COLOR_ACCENT_CYAN)
+
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	panel.set_meta("item_id", it.id)
+	panel.set_meta("accent_color", accent)
 
-	var sbox := _make_paper_stylebox()
+	var sbox := PanelStyler.card(accent)
 	panel.add_theme_stylebox_override("panel", sbox)
 
 	var vb := VBoxContainer.new()
-	vb.add_theme_constant_override("separation", 6)
+	vb.add_theme_constant_override("separation", UIConstants.SEP_SMALL)
 	vb.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(vb)
 
 	# 上段：アイコン（左）＋ 商品名（中、伸縮）＋ 値札（右）
 	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 10)
+	header.add_theme_constant_override("separation", UIConstants.SEP_MEDIUM)
 	header.mouse_filter = Control.MOUSE_FILTER_PASS
 	vb.add_child(header)
 
@@ -82,27 +83,26 @@ func build(it: ItemData) -> PanelContainer:
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon_rect.modulate = accent
 	header.add_child(icon_rect)
 
 	var name_label := Label.new()
 	name_label.text = _t(it.display_name)
 	name_label.theme_type_variation = UIConstants.VAR_TITLE_LABEL
-	name_label.add_theme_color_override("font_color", CARD_INK_COLOR)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	header.add_child(name_label)
 
-	var price_tag := _make_price_tag(it.price)
-	header.add_child(price_tag)
-	var price_label: Label = price_tag.get_node("PriceLabel")
+	var price_panel := _make_price_tag(it.price)
+	header.add_child(price_panel)
+	var price_label: Label = price_panel.get_node("PriceLabel")
 
 	# 説明文
 	var desc_label := Label.new()
 	desc_label.text = _t(it.description)
-	desc_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	desc_label.add_theme_color_override("font_color", CARD_INK_SUB_COLOR)
+	desc_label.theme_type_variation = UIConstants.VAR_DIM_LABEL
 	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	desc_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	vb.add_child(desc_label)
@@ -110,15 +110,14 @@ func build(it: ItemData) -> PanelContainer:
 	# 信頼度ゲート（必要時のみ visible）
 	var gate_label := Label.new()
 	gate_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	gate_label.add_theme_color_override("font_color", CARD_INK_GATE_COLOR)
+	gate_label.add_theme_color_override("font_color", UIConstants.COLOR_WARN)
 	gate_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	gate_label.visible = false
 	vb.add_child(gate_label)
 
-	# 所持数表示（消耗品のみ）。inventory_changed で都度更新される。
+	# 所持数表示（消耗品のみ）
 	var owned_label := Label.new()
-	owned_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
-	owned_label.add_theme_color_override("font_color", CARD_INK_SUB_COLOR)
+	owned_label.theme_type_variation = UIConstants.VAR_DIM_LABEL
 	owned_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	owned_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	owned_label.visible = it.is_consumable
@@ -126,7 +125,7 @@ func build(it: ItemData) -> PanelContainer:
 
 	# 数量セレクタ（消耗品のみ visible）
 	var qty_row := HBoxContainer.new()
-	qty_row.add_theme_constant_override("separation", 4)
+	qty_row.add_theme_constant_override("separation", UIConstants.SEP_TIGHT)
 	qty_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	qty_row.mouse_filter = Control.MOUSE_FILTER_PASS
 	qty_row.visible = it.is_consumable
@@ -134,15 +133,17 @@ func build(it: ItemData) -> PanelContainer:
 
 	var qty_selector := QuantitySelector.new()
 	if it.is_consumable:
-		qty_selector.build_into(qty_row, "SHOP_QTY_MAX", Vector2(52, 28), CARD_INK_COLOR)
+		qty_selector.build_into(qty_row, "SHOP_QTY_MAX", Vector2(52, 28))
+		for b in qty_selector.buttons:
+			b.theme_type_variation = UIConstants.VAR_PILL_BUTTON
 		qty_selector.mode_changed.connect(_on_qty_changed.bind(panel))
 
 	# 購入ボタン
 	var buy_button := Button.new()
+	buy_button.theme_type_variation = UIConstants.VAR_ACCENT_BUTTON
 	buy_button.text = _t("SHOP_BUY_BUTTON")
-	buy_button.custom_minimum_size = Vector2(0, 36)
+	buy_button.custom_minimum_size = Vector2(0, BUY_BUTTON_HEIGHT)
 	buy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	buy_button.add_theme_color_override("font_color", CARD_INK_COLOR)
 	buy_button.pressed.connect(_on_buy_pressed.bind(panel))
 	vb.add_child(buy_button)
 
@@ -157,7 +158,7 @@ func build(it: ItemData) -> PanelContainer:
 	return panel
 
 
-# 通貨や購入状態の変化に応じて、値札・購入ボタン・紙の色・所持数を更新する。
+# 通貨や購入状態の変化に応じて、値札・購入ボタン・パネル色・所持数を更新する。
 func refresh(card: PanelContainer, it: ItemData) -> void:
 	var buy_button: Button = card.get_meta("buy_button")
 	var price_label: Label = card.get_meta("price_label")
@@ -166,27 +167,24 @@ func refresh(card: PanelContainer, it: ItemData) -> void:
 	var qty_selector: QuantitySelector = card.get_meta("qty_selector")
 	var sbox: StyleBoxFlat = card.get_meta("stylebox")
 
-	# 信頼度ゲート文言（あれば常に見せておく。実際の使用時ゲートは Service が判定）
 	if it.trust_gate_min > 0:
 		gate_label.visible = true
 		gate_label.text = _t("SHOP_DETAIL_GATE_FMT") % it.trust_gate_min
 	else:
 		gate_label.visible = false
 
-	# 消耗品の所持数表示
 	if it.is_consumable:
 		owned_label.visible = true
 		owned_label.text = _t("SHOP_OWNED_COUNT_FMT") % GameState.item_count(it.id)
 	else:
 		owned_label.visible = false
 
-	# 非消耗品：すでに永続効果適用済みなら「所持済」表記＆ボタン無効
 	var already_owned := not it.is_consumable and _is_permanent_effect_applied(it)
 	if already_owned:
 		buy_button.disabled = true
 		buy_button.text = _t("SHOP_BUY_BUTTON_OWNED")
 		price_label.text = _t("SHOP_PRICE_OWNED")
-		sbox.bg_color = CARD_PAPER_BG_OWNED
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_MAXED
 		return
 
 	var qty := _resolve_qty(it, qty_selector)
@@ -202,100 +200,72 @@ func refresh(card: PanelContainer, it: ItemData) -> void:
 		buy_button.text = _t("SHOP_BUY_BUTTON")
 
 	if can_buy:
-		sbox.bg_color = CARD_PAPER_BG
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG
 	else:
-		sbox.bg_color = CARD_PAPER_BG_LOCKED
+		sbox.bg_color = UIConstants.RARITY_PANEL_BG_DISABLED
 
 
-# 名前・説明・ボタン静的テキストの翻訳を更新する（NOTIFICATION_TRANSLATION_CHANGED 用）。
 func rebuild_static_text(card: PanelContainer, it: ItemData) -> void:
 	(card.get_meta("name_label") as Label).text = _t(it.display_name)
 	(card.get_meta("desc_label") as Label).text = _t(it.description)
 
 
-# 購入成功時にカード全体を弾ませて、明るくフラッシュさせる。
-# アニメーションは host の create_tween 経由で生成（RefCounted は自前で Tween を作れない）。
+# 購入成功時にカード全体を弾ませて、シアン寄りにフラッシュさせる。
 func play_purchase_feedback(card: PanelContainer, _it: ItemData) -> void:
 	card.pivot_offset = card.size * 0.5
 	card.scale = Vector2.ONE
 	var tw := _host.create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.tween_property(card, "scale", Vector2(1.06, 0.94), 0.08)
+	tw.tween_property(card, "scale", Vector2(1.04, 0.96), 0.08)
 	tw.tween_property(card, "scale", Vector2.ONE, 0.18)
 	var flash := _host.create_tween()
-	flash.tween_property(card, "modulate", Color(1.25, 1.20, 1.0, 1.0), 0.08)
+	flash.tween_property(card, "modulate", Color(1.20, 1.30, 1.40, 1.0), 0.08)
 	flash.tween_property(card, "modulate", Color(1, 1, 1, 1), 0.32)
 
 
 # --- 内部ビルダー -------------------------------------------------------
 
-func _make_paper_stylebox() -> StyleBoxFlat:
-	var sbox := StyleBoxFlat.new()
-	sbox.bg_color = CARD_PAPER_BG
-	sbox.border_color = CARD_BORDER_COLOR
-	sbox.set_border_width_all(1)
-	sbox.set_corner_radius_all(4)
-	sbox.content_margin_left = 14
-	sbox.content_margin_right = 14
-	sbox.content_margin_top = 12
-	sbox.content_margin_bottom = 12
-	sbox.shadow_color = CARD_SHADOW_COLOR
-	sbox.shadow_size = 5
-	sbox.shadow_offset = CARD_SHADOW_OFFSET
-	return sbox
-
-
-# 価格表示用の赤い値札。背景に PRICE_TAG テクスチャを敷き、上に金額ラベルを乗せる。
-func _make_price_tag(price: int) -> Control:
-	var tag := Control.new()
-	tag.custom_minimum_size = PRICE_TAG_SIZE
+# 値札：シアンの太枠＋黒寄り背景、中央に金額。
+func _make_price_tag(price: int) -> PanelContainer:
+	var tag := PanelContainer.new()
+	tag.custom_minimum_size = Vector2(PRICE_TAG_MIN_WIDTH, PRICE_TAG_HEIGHT)
 	tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	var bg := TextureRect.new()
-	bg.name = "TagBG"
-	bg.texture = PRICE_TAG
-	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	tag.add_child(bg)
+	var sbox := StyleBoxFlat.new()
+	sbox.bg_color = UIConstants.COLOR_BG_PANEL_DEEP
+	sbox.border_color = UIConstants.COLOR_ACCENT_CYAN
+	sbox.set_border_width_all(UIConstants.HAIRLINE)
+	sbox.set_corner_radius_all(UIConstants.PANEL_CORNER_RADIUS)
+	sbox.content_margin_left = UIConstants.SEP_MEDIUM
+	sbox.content_margin_right = UIConstants.SEP_MEDIUM
+	sbox.content_margin_top = UIConstants.SEP_TIGHT
+	sbox.content_margin_bottom = UIConstants.SEP_TIGHT
+	tag.add_theme_stylebox_override("panel", sbox)
 
 	var label := Label.new()
 	label.name = "PriceLabel"
 	label.text = _t("SHOP_PRICE_TAG_FMT") % FormatUtils.short(price)
-	label.add_theme_color_override("font_color", PRICE_TAG_FONT_COLOR)
-	label.add_theme_font_size_override("font_size", PRICE_TAG_FONT_SIZE)
-	label.add_theme_color_override("font_shadow_color", Color(0.2, 0.05, 0.02, 0.9))
-	label.add_theme_constant_override("shadow_offset_x", 1)
-	label.add_theme_constant_override("shadow_offset_y", 1)
+	label.theme_type_variation = UIConstants.VAR_NUMERIC_LABEL
+	label.add_theme_color_override("font_color", UIConstants.COLOR_ACCENT_CYAN)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tag.add_child(label)
-	# 値札テクスチャの「紐穴」分（左端の三角形）はテキスト領域から避ける。
-	# anchors_preset を先に当ててから offsets を上書きする（preset がリセットするため）。
-	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	label.offset_left = 14
 	return tag
 
 
-# ItemData.icon を優先し、未設定ならカテゴリ別デフォルトアイコンに落とす。
 func _resolve_icon(it: ItemData) -> Texture2D:
 	if it.icon != null:
 		return it.icon
 	return CATEGORY_ICONS.get(it.category, null)
 
 
-# 数量モード → 実際の購入数。Max のときは所持金上限を引く。
 func _resolve_qty(it: ItemData, qty_selector: QuantitySelector) -> int:
 	if not it.is_consumable:
 		return 1
 	return qty_selector.resolve_qty(func() -> int: return ShopService.max_affordable(it.id))
 
 
-# 既に永続効果が適用済みかを判定する。OPERATOR_UNLOCK / COSTUME_UNLOCK / RULE_ACTIVATE /
-# SCOPE_GRANT は GameState 側で重複付与しても害は無いが、ボタン無効化で
-# 「もう買えない」を明示する方が UX として親切。
 func _is_permanent_effect_applied(it: ItemData) -> bool:
 	if it.effects.is_empty():
 		return false
@@ -318,12 +288,10 @@ func _is_permanent_effect_applied(it: ItemData) -> bool:
 				if not (eff.target_id in GameState.owned_scopes):
 					return false
 			_:
-				# 補充系（SCOPE_BATTERY_REFILL 等）は何度でも買えるので所持判定対象外
 				return false
 	return true
 
 
-# RefCounted には tr() が無いので TranslationServer 経由で翻訳する。
 func _t(key: String) -> String:
 	return TranslationServer.translate(key)
 

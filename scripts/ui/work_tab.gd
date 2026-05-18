@@ -8,6 +8,7 @@ extends Control
 #  - ゴールデン書類のスポーン/取得      → GoldenDocument
 #  - 強化カードの構築/差分更新           → UpgradeCardFactory
 #  - 数量セレクタ（×1/×10/×100/×Max）    → QuantitySelector
+# 見出しや TabContainer 等のスタイルは ThemeFactory が一元管理。
 
 @onready var document_button: TextureButton = %DocumentButton
 @onready var upgrade_tabs: TabContainer = %UpgradeTabs
@@ -19,22 +20,14 @@ extends Control
 @onready var prestige_preview: Label = %PrestigePreview
 @onready var prestige_button: Button = %PrestigeButton
 @onready var prestige_confirm: ConfirmationDialog = %PrestigeConfirm
-@onready var title_panel: PanelContainer = %TitlePanel
 
 var _click_feedback: ClickFeedback
 var _golden: GoldenDocument
 var _card_factory: UpgradeCardFactory
 
-# 「アップグレード」見出しの木札風スタイル。
-const TITLE_PANEL_BG := Color(0.25, 0.16, 0.09, 1.0)       # こげ茶の木目
-const TITLE_PANEL_BORDER := Color(0.55, 0.40, 0.20, 1.0)   # 縁の明るい木目
-const TITLE_PANEL_FONT := Color(0.97, 0.91, 0.75, 1.0)     # 木札の上の文字色
-const TITLE_PANEL_SHADOW := Color(0, 0, 0, 0.45)           # 浮き上がり影
-
 # id → カード Dict（再構築せず差分更新するための索引）
 var _cards: Dictionary = {}
 var _expanded_id: StringName = &""
-# 数量モード（×1 / ×10 / ×100 / ×Max）。Shopタブと同じ流儀で全カード共有。
 var _qty_mode: int = QuantitySelector.MODE_X1
 
 
@@ -54,7 +47,6 @@ func _ready() -> void:
 	_card_factory.buy_requested.connect(_on_buy_pressed)
 	_card_factory.qty_mode_changed.connect(_set_qty_mode)
 
-	_style_title_panel()
 	_apply_tab_titles()
 	_build_upgrade_cards()
 	_refresh_prestige_bar(0)
@@ -68,26 +60,6 @@ func _apply_tab_titles() -> void:
 	upgrade_tabs.set_tab_title(0, tr("WORK_UPGRADE_TAB_CLICK"))
 	upgrade_tabs.set_tab_title(1, tr("WORK_UPGRADE_TAB_AUTO"))
 	upgrade_tabs.set_tab_title(2, tr("WORK_UPGRADE_TAB_MULT"))
-
-
-# 「アップグレード」見出しを木の名札風に。コルクボード上で浮いて見えるよう影付き。
-func _style_title_panel() -> void:
-	var sbox := StyleBoxFlat.new()
-	sbox.bg_color = TITLE_PANEL_BG
-	sbox.border_color = TITLE_PANEL_BORDER
-	sbox.set_border_width_all(1)
-	sbox.set_corner_radius_all(4)
-	sbox.content_margin_left = 14
-	sbox.content_margin_right = 14
-	sbox.content_margin_top = 6
-	sbox.content_margin_bottom = 6
-	sbox.shadow_color = TITLE_PANEL_SHADOW
-	sbox.shadow_size = 4
-	sbox.shadow_offset = Vector2(1, 2)
-	title_panel.add_theme_stylebox_override("panel", sbox)
-	var title_label := title_panel.get_child(0) as Label
-	if title_label != null:
-		title_label.add_theme_color_override("font_color", TITLE_PANEL_FONT)
 
 
 func _on_click_pressed() -> void:

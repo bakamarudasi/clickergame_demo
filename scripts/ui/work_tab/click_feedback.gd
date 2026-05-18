@@ -85,7 +85,7 @@ func _spawn_popup(amount: int) -> void:
 	var popup := Label.new()
 	popup.text = "+%s" % FormatUtils.short(amount)
 	popup.theme_type_variation = UIConstants.VAR_TITLE_LABEL
-	popup.modulate = UIConstants.COLOR_ACCENT
+	popup.modulate = UIConstants.COLOR_ACCENT_CYAN
 	popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	popup.z_index = 100
 	_host.add_child(popup)

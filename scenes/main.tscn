@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://clickergamemain0"]
+[gd_scene load_steps=10 format=3 uid="uid://clickergamemain0"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://clickergameworktab0" path="res://scenes/ui/work_tab.tscn" id="2_work"]
@@ -7,6 +7,40 @@
 [ext_resource type="PackedScene" uid="uid://clickergamestatustab0" path="res://scenes/ui/status_tab.tscn" id="5_status"]
 [ext_resource type="PackedScene" uid="uid://cgviewer000000" path="res://scenes/ui/cg_viewer.tscn" id="6_cgv"]
 [ext_resource type="PackedScene" uid="uid://clickergamemetatab0" path="res://scenes/ui/meta_tab.tscn" id="7_meta"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_statusbar"]
+bg_color = Color(0.086, 0.122, 0.165, 1)
+border_color = Color(0.365, 0.812, 0.969, 1)
+border_width_bottom = 2
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sidebar"]
+bg_color = Color(0.055, 0.078, 0.106, 1)
+border_color = Color(0.176, 0.231, 0.306, 1)
+border_width_right = 1
+content_margin_left = 0.0
+content_margin_top = 8.0
+content_margin_right = 0.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+bg_color = Color(0.043, 0.067, 0.094, 0.92)
+border_color = Color(0.365, 0.812, 0.969, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
 
 [node name="Main" type="Control"]
 anchors_preset = 15
@@ -23,7 +57,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.12, 0.14, 0.2, 1)
+color = Color(0.055, 0.078, 0.106, 1)
 
 [node name="Root" type="VBoxContainer" parent="."]
 anchors_preset = 15
@@ -36,20 +70,23 @@ theme_override_constants/separation = 0
 [node name="StatusBar" type="PanelContainer" parent="Root"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_statusbar")
 
 [node name="StatusHBox" type="HBoxContainer" parent="Root/StatusBar"]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 28
 
 [node name="PerSecLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"DimLabel"
 text = "0 / sec"
 vertical_alignment = 1
 
 [node name="ClickPowerLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"DimLabel"
 text = "+1 / click"
 vertical_alignment = 1
 
@@ -57,7 +94,7 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"LargeLabel"
-text = "💎 0"
+text = "◆ 0"
 vertical_alignment = 1
 
 [node name="StatusSpacer" type="Control" parent="Root/StatusBar/StatusHBox"]
@@ -79,18 +116,20 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 
 [node name="Sidebar" type="PanelContainer" parent="Root/Body"]
-custom_minimum_size = Vector2(140, 0)
+custom_minimum_size = Vector2(156, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sidebar")
 
 [node name="SidebarVBox" type="VBoxContainer" parent="Root/Body/Sidebar"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 2
 
 [node name="TabWork" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
+alignment = 0
 text = "UI_TAB_WORK"
 
 [node name="TabRoom" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
@@ -98,6 +137,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
+alignment = 0
 text = "UI_TAB_ROOM"
 
 [node name="TabShop" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
@@ -105,6 +145,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
+alignment = 0
 text = "UI_TAB_SHOP"
 
 [node name="TabStatus" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
@@ -112,6 +153,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
+alignment = 0
 text = "UI_TAB_STATUS"
 
 [node name="TabMeta" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
@@ -119,6 +161,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
+alignment = 0
 visible = false
 text = "UI_TAB_META"
 
@@ -147,7 +190,7 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
-[node name="ToastLabel" type="Label" parent="."]
+[node name="ToastPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 7
@@ -155,17 +198,24 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -200.0
+offset_left = -240.0
 offset_top = -120.0
-offset_right = 200.0
-offset_bottom = -60.0
+offset_right = 240.0
+offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+
+[node name="ToastLabel" type="Label" parent="ToastPanel"]
+unique_name_in_owner = true
+layout_mode = 2
 mouse_filter = 2
 theme_type_variation = &"SubtitleLabel"
 text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="AutoTimer" type="Timer" parent="."]
 unique_name_in_owner = true

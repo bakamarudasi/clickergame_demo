@@ -234,15 +234,17 @@ func _on_touch_pressed() -> void:
 func _refresh_inspection_button() -> void:
 	if _current_op == &"":
 		inspection_button.disabled = true
-		inspection_button.text = TranslationServer.translate("ROOM_INSPECTION_BUTTON")
+		# Button.text に翻訳キーをそのまま入れれば Godot が自動翻訳・自動再翻訳する
+		inspection_button.text = "ROOM_INSPECTION_BUTTON"
 		return
 	var remaining := InspectionService.cooldown_remaining_sec(_current_op)
 	if remaining <= 0.0:
 		inspection_button.disabled = false
-		inspection_button.text = TranslationServer.translate("ROOM_INSPECTION_BUTTON")
+		inspection_button.text = "ROOM_INSPECTION_BUTTON"
 	else:
 		inspection_button.disabled = true
-		inspection_button.text = TranslationServer.translate("ROOM_INSPECTION_COOLDOWN_FMT") % int(ceil(remaining))
+		# 動的フォーマット文字列なので tr() で展開する必要がある
+		inspection_button.text = tr("ROOM_INSPECTION_COOLDOWN_FMT") % int(ceil(remaining))
 
 
 func _on_inspection_pressed() -> void:

@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://clickergameshoptab0"]
+[gd_scene load_steps=2 format=3 uid="uid://clickergameshoptab0"]
 
 [ext_resource type="Script" path="res://scripts/ui/shop_tab.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://uigameshopplanks0" path="res://assets/ui/shop_planks.svg" id="2_planks"]
-[ext_resource type="Texture2D" uid="uid://uigameshopshelf0" path="res://assets/ui/shop_shelf_board.svg" id="3_shelf"]
 
 [node name="ShopTab" type="Control"]
 anchors_preset = 15
@@ -12,18 +10,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="PlanksBG" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("2_planks")
-expand_mode = 1
-stretch_mode = 0
-
 [node name="Inner" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -32,9 +18,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 18
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 18
+theme_override_constants/margin_bottom = 20
 
 [node name="VBox" type="VBoxContainer" parent="Inner"]
 layout_mode = 2
@@ -44,14 +30,14 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TitlePanel" type="PanelContainer" parent="Inner/VBox/HeaderHBox"]
-unique_name_in_owner = true
+[node name="TitleBar" type="PanelContainer" parent="Inner/VBox/HeaderHBox"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_type_variation = &"SectionHeader"
 
-[node name="Title" type="Label" parent="Inner/VBox/HeaderHBox/TitlePanel"]
+[node name="Title" type="Label" parent="Inner/VBox/HeaderHBox/TitleBar"]
 layout_mode = 2
-theme_type_variation = &"TitleLabel"
+theme_type_variation = &"SectionHeader"
 text = "SHOP_TITLE"
 
 [node name="CategoryScroll" type="ScrollContainer" parent="Inner/VBox/HeaderHBox"]
@@ -64,15 +50,7 @@ vertical_scroll_mode = 0
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 4
-
-[node name="ShelfTop" type="TextureRect" parent="Inner/VBox"]
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("3_shelf")
-expand_mode = 1
-stretch_mode = 0
+theme_override_constants/separation = 6
 
 [node name="GridScroll" type="ScrollContainer" parent="Inner/VBox"]
 layout_mode = 2
@@ -83,9 +61,9 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 8
 
 [node name="GridStack" type="VBoxContainer" parent="Inner/VBox/GridScroll/GridWrap"]
@@ -99,14 +77,14 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 16
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
 
 [node name="EmptyLabel" type="Label" parent="Inner/VBox/GridScroll/GridWrap/GridStack"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 horizontal_alignment = 1
-theme_type_variation = &"SubtitleLabel"
+theme_type_variation = &"DimLabel"
 text = "SHOP_EMPTY_CATEGORY"
 visible = false
