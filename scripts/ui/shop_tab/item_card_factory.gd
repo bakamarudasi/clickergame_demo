@@ -39,11 +39,17 @@ const CATEGORY_ICONS := {
 	Enums.ItemCategory.RULE: preload("res://assets/items/category/cat_rule.svg"),
 	Enums.ItemCategory.SCOPE: preload("res://assets/items/category/cat_scope.svg"),
 }
-const CARD_ICON_SIZE := 56
-const BUY_BUTTON_HEIGHT := 36
+const CARD_ICON_SIZE := 78
+const BUY_BUTTON_HEIGHT := 32
 # 値札の高さ。コンパクトに収めつつ金額が読みやすいサイズ。
-const PRICE_TAG_HEIGHT := 38
-const PRICE_TAG_MIN_WIDTH := 112
+const PRICE_TAG_HEIGHT := 34
+const PRICE_TAG_MIN_WIDTH := 0
+# 縦バナーカードの最小サイズ。GridContainer のセル幅・高さの下限になる。
+const CARD_MIN_WIDTH := 156
+const CARD_MIN_HEIGHT := 270
+# カード上部「掛け軸を吊るす」装飾バーの寸法。
+const HANG_BAR_WIDTH := 48
+const HANG_BAR_HEIGHT := 2
 
 var _host: Control
 
@@ -55,7 +61,10 @@ func _init(host: Control) -> void:
 func build(it: ItemData) -> PanelContainer:
 	var accent: Color = CATEGORY_ACCENTS.get(it.category, UIConstants.COLOR_ACCENT_CYAN)
 
+	# 縦バナー型カード。上から：吊り棒 → アイコン枠 → 名前 → 値札 → 数量＋購入。
+	# 説明文は tooltip に逃がす。所持数バッジは右上にオーバーレイ。
 	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(CARD_MIN_WIDTH, CARD_MIN_HEIGHT)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -65,65 +74,78 @@ func build(it: ItemData) -> PanelContainer:
 	var sbox := PanelStyler.card(accent)
 	panel.add_theme_stylebox_override("panel", sbox)
 
+	# PanelContainer の子は全部 fill されてしまうので、内側に「非 Container ラッパー」を
+	# 1 枚噛ます。これで主フロー（VBox）とアンカー配置のバッジオーバーレイを共存させる。
+	var layer := Control.new()
+	layer.mouse_filter = Control.MOUSE_FILTER_PASS
+	panel.add_child(layer)
+
 	var vb := VBoxContainer.new()
+	vb.set_anchors_preset(Control.PRESET_FULL_RECT)
 	vb.add_theme_constant_override("separation", UIConstants.SEP_SMALL)
 	vb.mouse_filter = Control.MOUSE_FILTER_PASS
-	panel.add_child(vb)
+	layer.add_child(vb)
 
-	# 上段：アイコン（左）＋ 商品名（中、伸縮）＋ 値札（右）
-	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", UIConstants.SEP_MEDIUM)
-	header.mouse_filter = Control.MOUSE_FILTER_PASS
-	vb.add_child(header)
+	# 「掛け軸を吊るす横棒」装飾。カテゴリアクセント色の細い水平バー。
+	var hang := ColorRect.new()
+	hang.color = accent
+	hang.custom_minimum_size = Vector2(HANG_BAR_WIDTH, HANG_BAR_HEIGHT)
+	hang.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	hang.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.add_child(hang)
+
+	# アイコン枠（暗背景＋細アクセント枠で「展示窓」感）。
+	var icon_wrap := PanelContainer.new()
+	icon_wrap.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	icon_wrap.add_theme_stylebox_override("panel", _make_icon_window(accent))
+	vb.add_child(icon_wrap)
 
 	var icon_rect := TextureRect.new()
 	icon_rect.texture = _resolve_icon(it)
 	icon_rect.custom_minimum_size = Vector2(CARD_ICON_SIZE, CARD_ICON_SIZE)
 	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_rect.modulate = accent
-	header.add_child(icon_rect)
+	icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon_wrap.add_child(icon_rect)
 
+	# 名前（中央寄せ、auto-wrap）
 	var name_label := Label.new()
 	name_label.text = _t(it.display_name)
-	name_label.theme_type_variation = UIConstants.VAR_TITLE_LABEL
-	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	name_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	name_label.mouse_filter = Control.MOUSE_FILTER_PASS
-	header.add_child(name_label)
+	name_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.add_child(name_label)
 
-	var price_panel := _make_price_tag(it.price)
-	header.add_child(price_panel)
-	var price_label: Label = price_panel.get_node("PriceLabel")
+	# バナー形式に説明文を入れる余地がない。tooltip に逃がす。
+	panel.tooltip_text = _t(it.description)
 
-	# 説明文
-	var desc_label := Label.new()
-	desc_label.text = _t(it.description)
-	desc_label.theme_type_variation = UIConstants.VAR_DIM_LABEL
-	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	desc_label.mouse_filter = Control.MOUSE_FILTER_PASS
-	vb.add_child(desc_label)
-
-	# 信頼度ゲート（必要時のみ visible）
+	# 信頼ゲート（必要時のみ visible、コンパクト表示）
 	var gate_label := Label.new()
-	gate_label.theme_type_variation = UIConstants.VAR_SUBTITLE_LABEL
+	gate_label.theme_type_variation = UIConstants.VAR_DIM_LABEL
 	gate_label.add_theme_color_override("font_color", UIConstants.COLOR_WARN)
-	gate_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	gate_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	gate_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	gate_label.visible = false
 	vb.add_child(gate_label)
 
-	# 所持数表示（消耗品のみ）
+	# 所持数（消耗品のみ）
 	var owned_label := Label.new()
 	owned_label.theme_type_variation = UIConstants.VAR_DIM_LABEL
-	owned_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	owned_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	owned_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	owned_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	owned_label.visible = it.is_consumable
 	vb.add_child(owned_label)
 
-	# 数量セレクタ（消耗品のみ visible）
+	# 値札（カード幅いっぱい）
+	var price_panel := _make_price_tag(it.price)
+	price_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vb.add_child(price_panel)
+	var price_label: Label = price_panel.get_node("PriceLabel")
+
+	# 数量セレクタ（消耗品のみ）。バナー幅に合わせて小さめ。
 	var qty_row := HBoxContainer.new()
 	qty_row.add_theme_constant_override("separation", UIConstants.SEP_TIGHT)
 	qty_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -133,12 +155,12 @@ func build(it: ItemData) -> PanelContainer:
 
 	var qty_selector := QuantitySelector.new()
 	if it.is_consumable:
-		qty_selector.build_into(qty_row, "SHOP_QTY_MAX", Vector2(52, 28))
+		qty_selector.build_into(qty_row, "SHOP_QTY_MAX", Vector2(34, 22))
 		for b in qty_selector.buttons:
 			b.theme_type_variation = UIConstants.VAR_PILL_BUTTON
 		qty_selector.mode_changed.connect(_on_qty_changed.bind(panel))
 
-	# 購入ボタン
+	# 購入ボタン（カード下端、カード幅いっぱい）
 	var buy_button := Button.new()
 	buy_button.theme_type_variation = UIConstants.VAR_ACCENT_BUTTON
 	buy_button.text = _t("SHOP_BUY_BUTTON")
@@ -147,14 +169,35 @@ func build(it: ItemData) -> PanelContainer:
 	buy_button.pressed.connect(_on_buy_pressed.bind(panel))
 	vb.add_child(buy_button)
 
+	# 右上の状態バッジ（OWNED / STK ∞）。layer 直下にアンカーで貼る。
+	var badge_panel := PanelContainer.new()
+	badge_panel.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	badge_panel.offset_left = -68.0
+	badge_panel.offset_top = 6.0
+	badge_panel.offset_right = -6.0
+	badge_panel.offset_bottom = 26.0
+	badge_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge_panel.add_theme_stylebox_override("panel", _make_badge_stylebox(accent))
+	badge_panel.visible = false
+	layer.add_child(badge_panel)
+
+	var badge_label := Label.new()
+	badge_label.add_theme_font_size_override("font_size", UIConstants.FONT_SMALL)
+	badge_label.add_theme_color_override("font_color", accent)
+	badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge_panel.add_child(badge_label)
+
 	panel.set_meta("name_label", name_label)
-	panel.set_meta("desc_label", desc_label)
 	panel.set_meta("price_label", price_label)
 	panel.set_meta("gate_label", gate_label)
 	panel.set_meta("owned_label", owned_label)
 	panel.set_meta("qty_selector", qty_selector)
 	panel.set_meta("buy_button", buy_button)
 	panel.set_meta("stylebox", sbox)
+	panel.set_meta("badge_panel", badge_panel)
+	panel.set_meta("badge_label", badge_label)
 	return panel
 
 
@@ -166,6 +209,8 @@ func refresh(card: PanelContainer, it: ItemData) -> void:
 	var owned_label: Label = card.get_meta("owned_label")
 	var qty_selector: QuantitySelector = card.get_meta("qty_selector")
 	var sbox: StyleBoxFlat = card.get_meta("stylebox")
+	var badge_panel: PanelContainer = card.get_meta("badge_panel")
+	var badge_label: Label = card.get_meta("badge_label")
 
 	if it.trust_gate_min > 0:
 		gate_label.visible = true
@@ -176,8 +221,12 @@ func refresh(card: PanelContainer, it: ItemData) -> void:
 	if it.is_consumable:
 		owned_label.visible = true
 		owned_label.text = _t("SHOP_OWNED_COUNT_FMT") % GameState.item_count(it.id)
+		# 消耗品は補充可能なので「STK ∞」バッジ。
+		badge_panel.visible = true
+		badge_label.text = _t("SHOP_BADGE_STOCK_INFINITE")
 	else:
 		owned_label.visible = false
+		badge_panel.visible = false
 
 	var already_owned := not it.is_consumable and _is_permanent_effect_applied(it)
 	if already_owned:
@@ -185,6 +234,9 @@ func refresh(card: PanelContainer, it: ItemData) -> void:
 		buy_button.text = _t("SHOP_BUY_BUTTON_OWNED")
 		price_label.text = _t("SHOP_PRICE_OWNED")
 		sbox.bg_color = UIConstants.RARITY_PANEL_BG_MAXED
+		# 既取得アイテムは右上に「OWNED」バッジで識別。
+		badge_panel.visible = true
+		badge_label.text = _t("SHOP_BADGE_OWNED")
 		return
 
 	var qty := _resolve_qty(it, qty_selector)
@@ -207,7 +259,7 @@ func refresh(card: PanelContainer, it: ItemData) -> void:
 
 func rebuild_static_text(card: PanelContainer, it: ItemData) -> void:
 	(card.get_meta("name_label") as Label).text = _t(it.display_name)
-	(card.get_meta("desc_label") as Label).text = _t(it.description)
+	card.tooltip_text = _t(it.description)
 
 
 # 購入成功時にカード全体を弾ませて、シアン寄りにフラッシュさせる。
@@ -252,6 +304,34 @@ func _make_price_tag(price: int) -> PanelContainer:
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tag.add_child(label)
 	return tag
+
+
+# アイコン枠（展示窓風）。深い背景＋カテゴリアクセント枠。
+func _make_icon_window(accent: Color) -> StyleBoxFlat:
+	var sbox := StyleBoxFlat.new()
+	sbox.bg_color = UIConstants.COLOR_BG_PANEL_DEEP
+	sbox.border_color = accent
+	sbox.set_border_width_all(UIConstants.HAIRLINE)
+	sbox.set_corner_radius_all(UIConstants.PANEL_CORNER_RADIUS)
+	sbox.content_margin_left = 6
+	sbox.content_margin_right = 6
+	sbox.content_margin_top = 6
+	sbox.content_margin_bottom = 6
+	return sbox
+
+
+# 右上バッジの StyleBox。極端に小さい角丸＋カテゴリ色の細枠。
+func _make_badge_stylebox(accent: Color) -> StyleBoxFlat:
+	var sbox := StyleBoxFlat.new()
+	sbox.bg_color = UIConstants.COLOR_BG_PANEL_DEEP
+	sbox.border_color = accent
+	sbox.set_border_width_all(UIConstants.HAIRLINE)
+	sbox.set_corner_radius_all(2)
+	sbox.content_margin_left = 6
+	sbox.content_margin_right = 6
+	sbox.content_margin_top = 2
+	sbox.content_margin_bottom = 2
+	return sbox
 
 
 func _resolve_icon(it: ItemData) -> Texture2D:

@@ -6,7 +6,7 @@ extends Control
 # 役割は orchestrator に絞り、カード組み立て・更新は ItemCardFactory に委譲。
 # 見出し・カテゴリピル等のスタイルは ThemeFactory が一元管理。
 
-@onready var category_bar: HBoxContainer = %CategoryBar
+@onready var category_bar: VBoxContainer = %CategoryBar
 @onready var item_grid: GridContainer = %ItemGrid
 @onready var empty_label: Label = %EmptyLabel
 
@@ -29,8 +29,8 @@ const CATEGORY_ENTRIES := [
 var _selected_category: int = Enums.ItemCategory.DAILY
 var _card_factory: ItemCardFactory
 var _cards: Dictionary = {}
-var _category_group: ButtonGroup
-var _category_buttons: Dictionary = {}
+# カテゴリタイル：cat -> PanelContainer。選択中タイルだけアクセント表示にする。
+var _category_tiles: Dictionary = {}
 
 
 func _ready() -> void:
@@ -49,35 +49,99 @@ func _ready() -> void:
 # --- カテゴリバー -------------------------------------------------------
 
 func _build_category_buttons() -> void:
-	_category_group = ButtonGroup.new()
-	_category_buttons.clear()
+	_category_tiles.clear()
 	for child in category_bar.get_children():
 		child.queue_free()
 	for entry in CATEGORY_ENTRIES:
-		var b := _make_category_button(entry.label_key, entry.value)
-		category_bar.add_child(b)
-		_category_buttons[entry.value] = b
-	# 初期選択
-	var initial: Button = _category_buttons.get(_selected_category)
-	if initial != null:
-		initial.set_pressed_no_signal(true)
+		var tile := _make_category_tile(entry.label_key, entry.value)
+		category_bar.add_child(tile)
+		_category_tiles[entry.value] = tile
+	_update_tile_selection()
 
 
-func _make_category_button(label_key: String, cat: int) -> Button:
-	var b := Button.new()
-	b.toggle_mode = true
-	b.button_group = _category_group
-	b.text = label_key  # Button.text に翻訳キー → 自動 tr 追従
-	b.theme_type_variation = UIConstants.VAR_PILL_BUTTON
-	b.custom_minimum_size = Vector2(0, 32)
-	b.pressed.connect(_on_category_pressed.bind(cat))
-	return b
+# カテゴリタイル：アイコン上＋ラベル下の縦レイアウト。Button の標準レイアウトでは
+# 縦並びが組めないので、PanelContainer + VBox(TextureRect/Label) で作って
+# gui_input をクリック検出に使う。OperatorCardFactory と同じパターン。
+func _make_category_tile(label_key: String, cat: int) -> PanelContainer:
+	var accent: Color = ItemCardFactory.CATEGORY_ACCENTS.get(cat, UIConstants.COLOR_ACCENT_CYAN)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(0, 68)
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	panel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	panel.set_meta("cat", cat)
+	panel.set_meta("accent", accent)
+	panel.add_theme_stylebox_override("panel", _make_tile_stylebox(accent, false))
+	panel.gui_input.connect(_on_tile_input.bind(cat))
+
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 2)
+	vb.alignment = BoxContainer.ALIGNMENT_CENTER
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(vb)
+
+	var icon_rect := TextureRect.new()
+	icon_rect.texture = ItemCardFactory.CATEGORY_ICONS.get(cat, null)
+	icon_rect.custom_minimum_size = Vector2(28, 28)
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_rect.modulate = accent
+	icon_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.add_child(icon_rect)
+
+	var label := Label.new()
+	label.text = label_key  # Button.text と同様、Label.text に翻訳キーを入れれば Godot が自動 tr する
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", UIConstants.FONT_SMALL)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.add_child(label)
+
+	return panel
+
+
+# 選択中だけ太枠＋背景色違いに切り替える StyleBox を生成。
+func _make_tile_stylebox(accent: Color, is_selected: bool) -> StyleBoxFlat:
+	var sbox := StyleBoxFlat.new()
+	if is_selected:
+		sbox.bg_color = UIConstants.COLOR_BG_HEADER
+		sbox.border_color = accent
+		sbox.border_width_left = UIConstants.ACCENT_STRIPE_WIDTH
+		sbox.border_width_top = UIConstants.HAIRLINE
+		sbox.border_width_right = UIConstants.HAIRLINE
+		sbox.border_width_bottom = UIConstants.HAIRLINE
+	else:
+		sbox.bg_color = UIConstants.COLOR_BG_PANEL_DEEP
+		sbox.border_color = UIConstants.COLOR_BORDER
+		sbox.set_border_width_all(UIConstants.HAIRLINE)
+	sbox.set_corner_radius_all(UIConstants.PANEL_CORNER_RADIUS)
+	sbox.content_margin_left = 8
+	sbox.content_margin_right = 8
+	sbox.content_margin_top = 8
+	sbox.content_margin_bottom = 8
+	return sbox
+
+
+func _update_tile_selection() -> void:
+	for cat in _category_tiles:
+		var tile: PanelContainer = _category_tiles[cat]
+		var accent: Color = tile.get_meta("accent")
+		var is_sel: bool = (cat == _selected_category)
+		tile.add_theme_stylebox_override("panel", _make_tile_stylebox(accent, is_sel))
+
+
+func _on_tile_input(event: InputEvent, cat: int) -> void:
+	if event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
+			_on_category_pressed(cat)
 
 
 func _on_category_pressed(cat: int) -> void:
 	if _selected_category == cat:
 		return
 	_selected_category = cat
+	_update_tile_selection()
 	_rebuild_item_grid()
 
 

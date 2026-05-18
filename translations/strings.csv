@@ -177,6 +177,9 @@ ROOM_TOUCH_BUTTON,👆 触れる,👆 Touch,👆 触碰
 ROOM_LOCK_FMT,ロック中… 残り %d 秒,Locked… %d s remaining,锁定中… 剩余 %d 秒
 ROOM_GIFT_INV_FMT,%s ×%d,%s ×%d,%s ×%d
 SHOP_TITLE,ショップ,Shop,商店
+SHOP_CATEGORY_TITLE,カテゴリ,Category,分类
+SHOP_BADGE_STOCK_INFINITE,STK ∞,STK ∞,STK ∞
+SHOP_BADGE_OWNED,OWNED,OWNED,已获取
 SHOP_ITEM_FMT,%s — ¥%s,%s — ¥%s,%s — ¥%s
 SHOP_DETAIL_NONE,アイテムを選んでください,Select an item to see details,请选择物品查看详情
 SHOP_DETAIL_PRICE_FMT,価格 ¥ %s,Price ¥ %s,价格 ¥ %s
