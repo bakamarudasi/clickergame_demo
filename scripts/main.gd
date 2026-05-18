@@ -28,6 +28,7 @@ const TAB_META := &"meta"
 @onready var meta_tab: Control = %MetaTab
 
 @onready var auto_timer: Timer = %AutoTimer
+@onready var toast_panel: PanelContainer = %ToastPanel
 @onready var toast_label: Label = %ToastLabel
 @onready var background: ColorRect = $Background
 @onready var cg_viewer: Control = %CGViewer
@@ -156,10 +157,11 @@ func _show_toast(text: String) -> void:
 	if _toast_tween != null and _toast_tween.is_valid():
 		_toast_tween.kill()
 	toast_label.text = text
-	toast_label.modulate.a = 1.0
+	# パネルごとフェードさせて BG も一緒に消す（modulate は子に伝播する）
+	toast_panel.modulate.a = 1.0
 	_toast_tween = create_tween()
 	_toast_tween.tween_interval(UIConstants.TOAST_HOLD_SEC)
-	_toast_tween.tween_property(toast_label, "modulate:a", 0.0, UIConstants.TOAST_FADE_SEC)
+	_toast_tween.tween_property(toast_panel, "modulate:a", 0.0, UIConstants.TOAST_FADE_SEC)
 
 
 # CG が解放された瞬間に CGViewer をフルスクリーンで開く。

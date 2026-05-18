@@ -20,20 +20,21 @@ offset_left = 24.0
 offset_top = 24.0
 offset_right = -24.0
 offset_bottom = -24.0
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
 [node name="Header" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="VBox/Header"]
-layout_mode = 2
-theme_type_variation = &"TitleLabel"
-text = "META_TAB_TITLE"
-
-[node name="HeaderSpacer" type="Control" parent="VBox/Header"]
+[node name="TitleBar" type="PanelContainer" parent="VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"SectionHeader"
+
+[node name="Title" type="Label" parent="VBox/Header/TitleBar"]
+layout_mode = 2
+theme_type_variation = &"SectionHeader"
+text = "META_TAB_TITLE"
 
 [node name="CurrencyLabel" type="Label" parent="VBox/Header"]
 unique_name_in_owner = true
@@ -50,6 +51,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
+theme_type_variation = &"PillButton"
 text = "META_PILLAR_AFFINITY"
 
 [node name="TabEconomy" type="Button" parent="VBox/PillarTabs"]
@@ -58,6 +60,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
 button_pressed = true
+theme_type_variation = &"PillButton"
 text = "META_PILLAR_ECONOMY"
 
 [node name="TabCatalog" type="Button" parent="VBox/PillarTabs"]
@@ -65,6 +68,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
+theme_type_variation = &"PillButton"
 text = "META_PILLAR_CATALOG"
 
 [node name="GridScroll" type="ScrollContainer" parent="VBox"]

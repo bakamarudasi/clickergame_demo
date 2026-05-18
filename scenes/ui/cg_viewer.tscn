@@ -19,7 +19,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0.96)
+color = Color(0.022, 0.039, 0.055, 0.97)
 
 [node name="CGImage" type="TextureRect" parent="."]
 unique_name_in_owner = true
@@ -78,10 +78,10 @@ offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-text = "(画像未登録)"
+text = "CG_PLACEHOLDER_NO_IMAGE"
 horizontal_alignment = 1
 vertical_alignment = 1
-modulate = Color(1, 1, 1, 0.6)
+theme_type_variation = &"DimLabel"
 
 [node name="DialoguePanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -124,16 +124,16 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -200.0
-offset_top = -28.0
+offset_left = -220.0
+offset_top = -32.0
 offset_right = -40.0
 offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
-text = "▼ クリックで進む"
+theme_type_variation = &"DimLabel"
+text = "CG_NEXT_HINT"
 horizontal_alignment = 2
-modulate = Color(1, 1, 1, 0.5)
 
 [node name="CloseButton" type="Button" parent="."]
 unique_name_in_owner = true
@@ -145,6 +145,7 @@ offset_top = 16.0
 offset_right = -16.0
 offset_bottom = 56.0
 grow_horizontal = 0
+theme_type_variation = &"PillButton"
 text = "✕"
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="."]

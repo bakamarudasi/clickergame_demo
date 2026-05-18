@@ -112,9 +112,10 @@ func _apply_full_cg(step: CGStep) -> void:
 		placeholder_label.visible = false
 	else:
 		cg_image.visible = false
-		placeholder_label.text = "(画像未登録%s)" % (
-			": " + step.image_path_hint if step.image_path_hint != "" else ""
-		)
+		if step.image_path_hint != "":
+			placeholder_label.text = tr("CG_PLACEHOLDER_NO_IMAGE_HINT_FMT") % step.image_path_hint
+		else:
+			placeholder_label.text = tr("CG_PLACEHOLDER_NO_IMAGE")
 		placeholder_label.visible = true
 
 
@@ -158,7 +159,7 @@ func _show_simple_image_caption() -> void:
 		placeholder_label.visible = false
 	else:
 		cg_image.visible = false
-		placeholder_label.text = "(画像未登録)"
+		placeholder_label.text = tr("CG_PLACEHOLDER_NO_IMAGE")
 		placeholder_label.visible = true
 	speaker_label.visible = false
 	dialogue_text.text = tr(_cg.caption)
