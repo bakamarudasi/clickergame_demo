@@ -37,6 +37,7 @@ var _audit_refs_tree: Tree
 var _audit_expr_tree: Tree
 var _audit_dangling_tree: Tree
 var _audit_translation_tree: Tree
+var _audit_dead_slots_tree: Tree
 var _dashboard_op_picker: OptionButton
 var _dashboard_tree: Tree
 var _preview_category_picker: OptionButton
@@ -210,6 +211,11 @@ func _build_audit_tab() -> Control:
 	refresh_missing.text = "再スキャン"
 	refresh_missing.pressed.connect(_populate_missing_cg_tree)
 	missing_top.add_child(refresh_missing)
+	var copy_md_btn := Button.new()
+	copy_md_btn.text = "Markdown コピー"
+	copy_md_btn.tooltip_text = "未着手 CG の punch list をクリップボードにコピー"
+	copy_md_btn.pressed.connect(_copy_missing_cg_as_markdown)
+	missing_top.add_child(copy_md_btn)
 	var missing_hint := Label.new()
 	missing_hint.text = "step に画像をドロップして埋める"
 	missing_hint.modulate = Color(1, 1, 1, 0.6)
@@ -360,6 +366,41 @@ func _build_audit_tab() -> Control:
 	tr_box.add_child(_audit_translation_tree)
 	outer.add_child(tr_box)
 
+	# Dead Slots（定義済みだがどこからも参照されてないスロット）
+	var dead_box := VBoxContainer.new()
+	dead_box.name = "Dead Slots"
+	var dead_top := HBoxContainer.new()
+	dead_box.add_child(dead_top)
+	var refresh_dead := Button.new()
+	refresh_dead.text = "再スキャン"
+	refresh_dead.pressed.connect(_populate_dead_slots_tree)
+	dead_top.add_child(refresh_dead)
+	var dead_hint := Label.new()
+	dead_hint.text = "定義済みだが参照されていない expression/view_kind スロット（消去候補）"
+	dead_hint.modulate = Color(1, 1, 1, 0.6)
+	dead_top.add_child(dead_hint)
+
+	_audit_dead_slots_tree = Tree.new()
+	_audit_dead_slots_tree.hide_root = true
+	_audit_dead_slots_tree.size_flags_horizontal = SIZE_EXPAND_FILL
+	_audit_dead_slots_tree.size_flags_vertical = SIZE_EXPAND_FILL
+	_audit_dead_slots_tree.columns = 4
+	_audit_dead_slots_tree.set_column_titles_visible(true)
+	_audit_dead_slots_tree.set_column_title(0, "Source")
+	_audit_dead_slots_tree.set_column_title(1, "op_id")
+	_audit_dead_slots_tree.set_column_title(2, "field")
+	_audit_dead_slots_tree.set_column_title(3, "key")
+	_audit_dead_slots_tree.set_column_expand(0, true)
+	_audit_dead_slots_tree.set_column_expand(1, false)
+	_audit_dead_slots_tree.set_column_expand(2, false)
+	_audit_dead_slots_tree.set_column_expand(3, false)
+	_audit_dead_slots_tree.set_column_custom_minimum_width(1, 120)
+	_audit_dead_slots_tree.set_column_custom_minimum_width(2, 180)
+	_audit_dead_slots_tree.set_column_custom_minimum_width(3, 140)
+	_audit_dead_slots_tree.item_activated.connect(_on_dead_slots_activated)
+	dead_box.add_child(_audit_dead_slots_tree)
+	outer.add_child(dead_box)
+
 	return outer
 
 
@@ -378,6 +419,7 @@ func _refresh_all() -> void:
 	_populate_expr_tree()
 	_populate_dangling_tree()
 	_populate_translation_tree()
+	_populate_dead_slots_tree()
 	_populate_dashboard()
 	_refresh_preview_source_picker()
 	_populate_graph()
@@ -1941,3 +1983,79 @@ func _refresh_filesystem() -> void:
 			fs.scan()
 	else:
 		EditorInterface.get_resource_filesystem().scan()
+
+
+# -------------------------------------------------------------------------
+# Dead Slots
+# -------------------------------------------------------------------------
+
+func _populate_dead_slots_tree() -> void:
+	if _audit_dead_slots_tree == null:
+		return
+	_audit_dead_slots_tree.clear()
+	var root := _audit_dead_slots_tree.create_item()
+	var dead := AssetAuditScanner.scan_dead_slots()
+	for d in dead:
+		var it := _audit_dead_slots_tree.create_item(root)
+		it.set_text(0, "%s  (%s)" % [(d.source_path as String).get_file(), d.source_kind])
+		it.set_text(1, str(d.op_id))
+		it.set_text(2, d.slot_field)
+		it.set_text(3, d.key)
+		it.set_custom_color(3, Color(0.7, 0.7, 0.5))
+		it.set_metadata(0, {
+			META_KIND: "resource",
+			META_PATH: d.source_path,
+		})
+
+
+func _on_dead_slots_activated() -> void:
+	var item := _audit_dead_slots_tree.get_selected()
+	if item == null:
+		return
+	var meta: Variant = item.get_metadata(0)
+	if meta is Dictionary and meta.has(META_PATH):
+		var path: String = meta[META_PATH]
+		if ResourceLoader.exists(path):
+			EditorInterface.edit_resource(load(path))
+
+
+# -------------------------------------------------------------------------
+# Missing CG -> Markdown
+# -------------------------------------------------------------------------
+
+func _copy_missing_cg_as_markdown() -> void:
+	# 「アーティストに渡すパンチリスト」用の整形。CG ごとにグループ化して
+	# step の不足を bullet で書き出す。クリップボードへコピー。
+	var missing := AssetAuditScanner.scan_missing_cg_steps()
+	var by_cg: Dictionary = {}
+	for m in missing:
+		var key: String = m.cg_path
+		if not by_cg.has(key):
+			by_cg[key] = []
+		by_cg[key].append(m)
+	var lines: Array[String] = []
+	lines.append("# Missing CG punch list")
+	lines.append("")
+	lines.append("生成: %s  /  対象 CG: %d 件  /  total step: %d 件" % [
+		Time.get_datetime_string_from_system(false, true),
+		by_cg.size(),
+		missing.size(),
+	])
+	lines.append("")
+	for cg_path in by_cg.keys():
+		var arr: Array = by_cg[cg_path]
+		var first = arr[0]
+		var cg_id := String(first.cg_id)
+		var op_id := String(first.op_id)
+		lines.append("## `%s` (op: `%s`)" % [cg_id, op_id])
+		lines.append("- file: `%s`" % cg_path)
+		lines.append("- missing steps: %d" % arr.size())
+		for m in arr:
+			var mode_label := "PORTRAIT" if m.mode == Enums.CGStepMode.PORTRAIT else "FULL_CG"
+			var hint: String = m.hint if not (m.hint as String).is_empty() else "(no hint)"
+			lines.append("  - step %02d / %s : %s" % [m.step_index + 1, mode_label, hint])
+		lines.append("")
+	var text := "\n".join(lines)
+	DisplayServer.clipboard_set(text)
+	if _status_label != null:
+		_status_label.text = "Missing CG %d 件を Markdown でコピーしました" % missing.size()

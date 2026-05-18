@@ -457,3 +457,93 @@ static func scan_missing_expression_keys() -> Array[Dictionary]:
 					"expression_key": String(step.expression),
 				})
 	return out
+
+
+# 未参照スロット検出: Operator.portrait_expressions / portrait_face_overlays /
+# Costume.sprite_xray_variants の各キーが、どこからも参照されていない場合に拾う。
+#
+# 参照元:
+#   - ReactionRule.expression
+#   - CGStep.expression
+#   - ScopeData.view_kind (sprite_xray_variants のキーに対する参照)
+#
+# 警告: 戻り値は「クリーンアップ候補」であって、必ずしも消すべき項目ではない。
+# 将来のリアクションで使う予定がある場合もあるので一覧として提示するだけ。
+static func scan_dead_slots() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	# expression キーの全使用集合 (op_id -> Set[key]) を作る
+	var used_expr_per_op: Dictionary = {}
+	var r_entry := AssetAuditCategories.find_by_key("reactions")
+	for r in scan_category(r_entry):
+		var rule: ReactionRule = r.resource as ReactionRule
+		if rule == null or rule.expression == &"" or rule.operator_id == &"":
+			continue
+		if not used_expr_per_op.has(rule.operator_id):
+			used_expr_per_op[rule.operator_id] = {}
+		used_expr_per_op[rule.operator_id][String(rule.expression)] = true
+	var cg_entry := AssetAuditCategories.find_by_key("cgs")
+	for c in scan_category(cg_entry):
+		var cg: CGData = c.resource as CGData
+		if cg == null or cg.operator_id == &"":
+			continue
+		for step in cg.steps:
+			if step == null or step.expression == &"":
+				continue
+			if not used_expr_per_op.has(cg.operator_id):
+				used_expr_per_op[cg.operator_id] = {}
+			used_expr_per_op[cg.operator_id][String(step.expression)] = true
+
+	# scope view_kind の全使用集合 (Set[view_kind])
+	var used_view_kinds: Dictionary = {}
+	var sc_entry := AssetAuditCategories.find_by_key("scopes")
+	for s in scan_category(sc_entry):
+		var sc: ScopeData = s.resource as ScopeData
+		if sc == null or sc.view_kind == &"":
+			continue
+		used_view_kinds[String(sc.view_kind)] = true
+
+	# Operator のスロットを 1 つずつ照合
+	var op_entry := AssetAuditCategories.find_by_key("operators")
+	for o in scan_category(op_entry):
+		var op: OperatorData = o.resource as OperatorData
+		if op == null:
+			continue
+		var used: Dictionary = used_expr_per_op.get(op.id, {})
+		for k in op.portrait_expressions.keys():
+			var ks := String(k)
+			if not used.has(ks):
+				out.append({
+					"source_path": o.path,
+					"source_kind": "OperatorData",
+					"op_id": op.id,
+					"slot_field": "portrait_expressions",
+					"key": ks,
+				})
+		for k in op.portrait_face_overlays.keys():
+			var ks2 := String(k)
+			if not used.has(ks2):
+				out.append({
+					"source_path": o.path,
+					"source_kind": "OperatorData",
+					"op_id": op.id,
+					"slot_field": "portrait_face_overlays",
+					"key": ks2,
+				})
+
+	# Costume の xray variants
+	var cos_entry := AssetAuditCategories.find_by_key("costumes")
+	for c in scan_category(cos_entry):
+		var cos: CostumeData = c.resource as CostumeData
+		if cos == null:
+			continue
+		for k in cos.sprite_xray_variants.keys():
+			var ks := String(k)
+			if not used_view_kinds.has(ks):
+				out.append({
+					"source_path": c.path,
+					"source_kind": "CostumeData",
+					"op_id": cos.operator_id,
+					"slot_field": "sprite_xray_variants",
+					"key": ks,
+				})
+	return out
