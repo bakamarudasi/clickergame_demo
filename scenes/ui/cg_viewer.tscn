@@ -150,6 +150,8 @@ text = "✕"
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
+bus = &"BGM"
 
 [node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
+bus = &"SFX"

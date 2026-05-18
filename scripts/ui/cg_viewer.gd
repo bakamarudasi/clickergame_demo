@@ -36,6 +36,9 @@ var _step_index: int = 0
 var _typing_tween: Tween
 var _hint_tween: Tween
 var _is_typing: bool = false
+# CG 中だけ BGMService のタブ BGM を退避しておき、閉じる際に復帰する。
+# 復帰先が &"" の場合は BGMService.stop() 相当（=何も鳴らさない）。
+var _suspended_track: StringName = &""
 
 
 func _ready() -> void:
@@ -51,6 +54,10 @@ func play(cg: CGData) -> void:
 	_cg = cg
 	_step_index = 0
 	visible = true
+	# タブ BGM を退避してフェードアウト。CG 自前の BGM が無くても、
+	# 二重再生を避けるためタブ BGM は必ず止める。
+	_suspended_track = BGMService.current_track()
+	BGMService.stop()
 	# BGM 設定（あれば再生、無ければ停止）
 	if cg.bgm != null:
 		bgm_player.stream = cg.bgm
@@ -71,6 +78,10 @@ func close() -> void:
 	bgm_player.stop()
 	_cg = null
 	_step_index = 0
+	# 退避してたタブ BGM を復帰。トラック未差込でも BGMService 側で無音停止扱い。
+	if _suspended_track != &"":
+		BGMService.play(_suspended_track)
+	_suspended_track = &""
 
 
 func _on_gui_input(event: InputEvent) -> void:

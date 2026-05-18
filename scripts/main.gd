@@ -28,6 +28,8 @@ const TAB_META := &"meta"
 @onready var toast_panel: PanelContainer = %ToastPanel
 @onready var toast_label: Label = %ToastLabel
 @onready var toast_meta_label: Label = %ToastMetaLabel
+@onready var settings_button: Button = %SettingsButton
+@onready var audio_settings_dialog: Control = %AudioSettingsDialog
 @onready var background: ColorRect = $Background
 @onready var cg_viewer: Control = %CGViewer
 
@@ -58,6 +60,8 @@ func _ready() -> void:
 	tab_shop_button.pressed.connect(_switch_to.bind(TAB_SHOP))
 	tab_meta_button.pressed.connect(_switch_to.bind(TAB_META))
 
+	settings_button.pressed.connect(audio_settings_dialog.open)
+
 	auto_timer.timeout.connect(_on_auto_tick)
 
 	_currency_display = float(GameState.currency)
@@ -84,6 +88,9 @@ func _switch_to(tab_id: StringName) -> void:
 	tab_room_button.button_pressed = (tab_id == TAB_ROOM)
 	tab_shop_button.button_pressed = (tab_id == TAB_SHOP)
 	tab_meta_button.button_pressed = (tab_id == TAB_META)
+	# タブごとに登録済みトラックへクロスフェード。音源未差し込みのうちは
+	# BGMService 側で無音停止に落ちるので安全。
+	BGMService.play(tab_id)
 
 
 func _refresh_status_bar() -> void:
