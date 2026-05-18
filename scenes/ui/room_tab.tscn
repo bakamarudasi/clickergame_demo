@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://clickergameroomtab0"]
+[gd_scene load_steps=8 format=3 uid="uid://clickergameroomtab0"]
 
 [ext_resource type="Script" path="res://scripts/ui/room_tab.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/ui/scope_window.gd" id="2_scope_win"]
 [ext_resource type="Script" path="res://scripts/ui/hud_corner_frame.gd" id="3_hud_frame"]
 [ext_resource type="Shader" path="res://scenes/ui/shaders/scanlines.gdshader" id="4_scanlines"]
+[ext_resource type="Script" path="res://scripts/ui/segmented_bar.gd" id="5_seg_bar"]
+[ext_resource type="Script" path="res://scripts/ui/scope_crosshair.gd" id="6_crosshair"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_scanlines"]
 shader = ExtResource("4_scanlines")
@@ -141,6 +143,16 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_scope_frame")
 
+[node name="Crosshair" type="Control" parent="HBox/CenterPanel/PortraitFrame/PortraitArea/PortraitView/ScopeWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_crosshair")
+
 [node name="ResizeHandle" type="Panel" parent="HBox/CenterPanel/PortraitFrame/PortraitArea/PortraitView/ScopeWindow"]
 layout_mode = 1
 anchors_preset = 3
@@ -211,14 +223,17 @@ layout_mode = 2
 theme_type_variation = &"DimLabel"
 text = ""
 
-[node name="IntimacyBar" type="ProgressBar" parent="HBox/CenterPanel/StatusBars/IntimacyRow"]
+[node name="IntimacyBar" type="Control" parent="HBox/CenterPanel/StatusBars/IntimacyRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("5_seg_bar")
 max_value = 200.0
-step = 1.0
-show_percentage = false
+value = 0.0
+segment_count = 24
+color_filled = Color(0.949, 0.451, 0.651, 1)
+blink_when_critical = false
 
 [node name="ArousalRow" type="HBoxContainer" parent="HBox/CenterPanel/StatusBars"]
 layout_mode = 2
@@ -231,14 +246,17 @@ layout_mode = 2
 theme_type_variation = &"DimLabel"
 text = ""
 
-[node name="ArousalBar" type="ProgressBar" parent="HBox/CenterPanel/StatusBars/ArousalRow"]
+[node name="ArousalBar" type="Control" parent="HBox/CenterPanel/StatusBars/ArousalRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("5_seg_bar")
 max_value = 100.0
-step = 1.0
-show_percentage = false
+value = 0.0
+segment_count = 24
+color_filled = Color(1.0, 0.627, 0.251, 1)
+critical_threshold = 0.8
 
 [node name="ScopeRow" type="HBoxContainer" parent="HBox/CenterPanel"]
 unique_name_in_owner = true
@@ -252,22 +270,32 @@ toggle_mode = true
 theme_type_variation = &"PillButton"
 text = "ROOM_SCOPE_TOGGLE"
 
-[node name="BatteryBar" type="ProgressBar" parent="HBox/CenterPanel/ScopeRow"]
+[node name="BatteryBar" type="Control" parent="HBox/CenterPanel/ScopeRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+script = ExtResource("5_seg_bar")
 max_value = 1.0
-step = 0.01
+value = 0.0
+segment_count = 20
+segment_gap = 3.0
+color_filled = Color(0.416, 0.910, 0.612, 1)
+critical_threshold = 0.2
+invert_critical = true
 
-[node name="SuspicionBar" type="ProgressBar" parent="HBox/CenterPanel"]
+[node name="SuspicionBar" type="Control" parent="HBox/CenterPanel"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+script = ExtResource("5_seg_bar")
 max_value = 1.0
-step = 0.01
-show_percentage = false
+value = 0.0
+segment_count = 30
+segment_gap = 1.0
+color_filled = Color(1.0, 0.353, 0.431, 0.85)
+critical_threshold = 0.7
 
 [node name="DialoguePanel" type="PanelContainer" parent="HBox/CenterPanel"]
 custom_minimum_size = Vector2(0, 140)
@@ -462,14 +490,17 @@ text = ""
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="NextProgressBar" type="ProgressBar" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox/ProgressRow"]
+[node name="NextProgressBar" type="Control" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox/ProgressRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 custom_minimum_size = Vector2(0, 8)
-show_percentage = false
+script = ExtResource("5_seg_bar")
 max_value = 100.0
 value = 0.0
+segment_count = 20
+segment_gap = 2.0
+blink_when_critical = false
 
 [node name="NextProgressLabel" type="Label" parent="HBox/DetailWrap/DetailInner/DetailPanel/NextUnlockPanel/NextMargin/NextVBox/ProgressRow"]
 unique_name_in_owner = true
@@ -482,6 +513,17 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"DimLabel"
 text = ""
+
+[node name="GlitchFlash" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.353, 0.431, 0)
 
 [node name="ScanlineOverlay" type="ColorRect" parent="."]
 layout_mode = 1

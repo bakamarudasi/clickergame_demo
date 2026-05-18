@@ -17,47 +17,80 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
 
-[node name="VBox" type="VBoxContainer" parent="Inner"]
+[node name="HBox" type="HBoxContainer" parent="Inner"]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="HeaderHBox" type="HBoxContainer" parent="Inner/VBox"]
+[node name="LeftSidebar" type="PanelContainer" parent="Inner/HBox"]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-theme_override_constants/separation = 16
 
-[node name="TitleBar" type="PanelContainer" parent="Inner/VBox/HeaderHBox"]
+[node name="LeftInner" type="MarginContainer" parent="Inner/HBox/LeftSidebar"]
 layout_mode = 2
-size_flags_horizontal = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="LeftStack" type="VBoxContainer" parent="Inner/HBox/LeftSidebar/LeftInner"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CategoryTitleBar" type="PanelContainer" parent="Inner/HBox/LeftSidebar/LeftInner/LeftStack"]
+layout_mode = 2
 theme_type_variation = &"SectionHeader"
 
-[node name="Title" type="Label" parent="Inner/VBox/HeaderHBox/TitleBar"]
+[node name="CategoryTitle" type="Label" parent="Inner/HBox/LeftSidebar/LeftInner/LeftStack/CategoryTitleBar"]
 layout_mode = 2
 theme_type_variation = &"SectionHeader"
-text = "SHOP_TITLE"
+text = "SHOP_CATEGORY_TITLE"
 
-[node name="CategoryScroll" type="ScrollContainer" parent="Inner/VBox/HeaderHBox"]
+[node name="CategoryScroll" type="ScrollContainer" parent="Inner/HBox/LeftSidebar/LeftInner/LeftStack"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 5
-vertical_scroll_mode = 0
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="CategoryBar" type="HBoxContainer" parent="Inner/VBox/HeaderHBox/CategoryScroll"]
+[node name="CategoryBar" type="VBoxContainer" parent="Inner/HBox/LeftSidebar/LeftInner/LeftStack/CategoryScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
-[node name="GridScroll" type="ScrollContainer" parent="Inner/VBox"]
+[node name="RightWrap" type="VBoxContainer" parent="Inner/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Inner/HBox/RightWrap"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleBar" type="PanelContainer" parent="Inner/HBox/RightWrap/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"SectionHeader"
+
+[node name="Title" type="Label" parent="Inner/HBox/RightWrap/HeaderHBox/TitleBar"]
+layout_mode = 2
+theme_type_variation = &"SectionHeader"
+text = "SHOP_TITLE"
+
+[node name="HangRod" type="ColorRect" parent="Inner/HBox/RightWrap"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.247, 0.337, 0.439, 1)
+
+[node name="GridScroll" type="ScrollContainer" parent="Inner/HBox/RightWrap"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="GridWrap" type="MarginContainer" parent="Inner/VBox/GridScroll"]
+[node name="GridWrap" type="MarginContainer" parent="Inner/HBox/RightWrap/GridScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -66,21 +99,21 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 8
 
-[node name="GridStack" type="VBoxContainer" parent="Inner/VBox/GridScroll/GridWrap"]
+[node name="GridStack" type="VBoxContainer" parent="Inner/HBox/RightWrap/GridScroll/GridWrap"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="ItemGrid" type="GridContainer" parent="Inner/VBox/GridScroll/GridWrap/GridStack"]
+[node name="ItemGrid" type="GridContainer" parent="Inner/HBox/RightWrap/GridScroll/GridWrap/GridStack"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 2
+columns = 4
 theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 14
 
-[node name="EmptyLabel" type="Label" parent="Inner/VBox/GridScroll/GridWrap/GridStack"]
+[node name="EmptyLabel" type="Label" parent="Inner/HBox/RightWrap/GridScroll/GridWrap/GridStack"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

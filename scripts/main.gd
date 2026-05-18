@@ -6,7 +6,6 @@ extends Control
 const TAB_WORK := &"work"
 const TAB_ROOM := &"room"
 const TAB_SHOP := &"shop"
-const TAB_STATUS := &"status"
 const TAB_META := &"meta"
 
 @onready var currency_label: Label = %CurrencyLabel
@@ -17,19 +16,20 @@ const TAB_META := &"meta"
 @onready var tab_work_button: Button = %TabWork
 @onready var tab_room_button: Button = %TabRoom
 @onready var tab_shop_button: Button = %TabShop
-@onready var tab_status_button: Button = %TabStatus
 @onready var tab_meta_button: Button = %TabMeta
 
 @onready var tab_holder: Control = %TabHolder
 @onready var work_tab: Control = %WorkTab
 @onready var room_tab: Control = %RoomTab
 @onready var shop_tab: Control = %ShopTab
-@onready var status_tab: Control = %StatusTab
 @onready var meta_tab: Control = %MetaTab
 
 @onready var auto_timer: Timer = %AutoTimer
 @onready var toast_panel: PanelContainer = %ToastPanel
 @onready var toast_label: Label = %ToastLabel
+@onready var toast_meta_label: Label = %ToastMetaLabel
+@onready var settings_button: Button = %SettingsButton
+@onready var audio_settings_dialog: Control = %AudioSettingsDialog
 @onready var background: ColorRect = $Background
 @onready var cg_viewer: Control = %CGViewer
 
@@ -58,8 +58,9 @@ func _ready() -> void:
 	tab_work_button.pressed.connect(_switch_to.bind(TAB_WORK))
 	tab_room_button.pressed.connect(_switch_to.bind(TAB_ROOM))
 	tab_shop_button.pressed.connect(_switch_to.bind(TAB_SHOP))
-	tab_status_button.pressed.connect(_switch_to.bind(TAB_STATUS))
 	tab_meta_button.pressed.connect(_switch_to.bind(TAB_META))
+
+	settings_button.pressed.connect(audio_settings_dialog.open)
 
 	auto_timer.timeout.connect(_on_auto_tick)
 
@@ -82,22 +83,25 @@ func _switch_to(tab_id: StringName) -> void:
 	work_tab.visible = (tab_id == TAB_WORK)
 	room_tab.visible = (tab_id == TAB_ROOM)
 	shop_tab.visible = (tab_id == TAB_SHOP)
-	status_tab.visible = (tab_id == TAB_STATUS)
 	meta_tab.visible = (tab_id == TAB_META)
 	tab_work_button.button_pressed = (tab_id == TAB_WORK)
 	tab_room_button.button_pressed = (tab_id == TAB_ROOM)
 	tab_shop_button.button_pressed = (tab_id == TAB_SHOP)
-	tab_status_button.button_pressed = (tab_id == TAB_STATUS)
 	tab_meta_button.button_pressed = (tab_id == TAB_META)
+	# タブごとに登録済みトラックへクロスフェード。音源未差し込みのうちは
+	# BGMService 側で無音停止に落ちるので安全。
+	BGMService.play(tab_id)
 
 
 func _refresh_status_bar() -> void:
 	# 通貨ラベルは _currency_display を経由してカウントアップさせる。
 	# 直接 GameState.currency を書かないことで「数字がぱっと跳ねる」表示を回避。
+	# 単位（¥/SEC、CLK 等）はテレメトリタイルの caption に切り出してるので
+	# 各 *_label には数値だけを書き込む（FormatUtils.short で短縮表記）。
 	currency_label.text = tr("UI_CURRENCY_FMT") % FormatUtils.short(int(round(_currency_display)))
-	prestige_label.text = tr("UI_PRESTIGE_FMT") % FormatUtils.short(GameState.prestige_currency)
-	per_sec_label.text = tr("UI_PER_SEC_FMT") % FormatUtils.short(GameState.effective_per_second())
-	click_power_label.text = tr("UI_CLICK_POWER_FMT") % FormatUtils.short(GameState.effective_click_power())
+	prestige_label.text = FormatUtils.short(GameState.prestige_currency)
+	per_sec_label.text = FormatUtils.short(GameState.effective_per_second())
+	click_power_label.text = "+" + FormatUtils.short(GameState.effective_click_power())
 
 
 func _on_currency_changed(_v: int) -> void:
@@ -153,10 +157,27 @@ func _notification(what: int) -> void:
 		_refresh_status_bar()
 
 
+# 観測通知風トースト。本文の頭にある絵文字（⚠/✦/💀）からカテゴリを推測し、
+# 左側のアクセントバー色とメタ行（[NOTICE TC] CATEGORY）を切り替える。
+# EventBus.toast_requested(text) の API はそのまま維持する。
+const _TOAST_KIND_INFO := 0
+const _TOAST_KIND_WARN := 1
+const _TOAST_KIND_ALERT := 2
+
+
 func _show_toast(text: String) -> void:
 	if _toast_tween != null and _toast_tween.is_valid():
 		_toast_tween.kill()
+
+	var kind := _classify_toast(text)
+	_apply_toast_kind(kind)
 	toast_label.text = text
+	toast_meta_label.text = "[%s %s]  %s" % [
+		tr(_toast_kind_label_key(kind)),
+		_now_tc(),
+		tr(_toast_kind_category_key(kind)),
+	]
+
 	# パネルごとフェードさせて BG も一緒に消す（modulate は子に伝播する）
 	toast_panel.modulate.a = 1.0
 	_toast_tween = create_tween()
@@ -164,8 +185,60 @@ func _show_toast(text: String) -> void:
 	_toast_tween.tween_property(toast_panel, "modulate:a", 0.0, UIConstants.TOAST_FADE_SEC)
 
 
+func _classify_toast(text: String) -> int:
+	# 本文先頭の絵文字で雑にカテゴリ判定。将来 EventBus 側に kind を持たせるなら
+	# 引数で受け取るように差し替える。
+	if text.begins_with("⚠") or text.begins_with("⛔") or text.begins_with("💀"):
+		return _TOAST_KIND_ALERT
+	if text.begins_with("✦") or text.begins_with("✧"):
+		return _TOAST_KIND_INFO
+	if text.begins_with("⏱") or text.begins_with("🔋"):
+		return _TOAST_KIND_WARN
+	return _TOAST_KIND_INFO
+
+
+func _apply_toast_kind(kind: int) -> void:
+	var accent: Color = UIConstants.COLOR_ACCENT_CYAN
+	match kind:
+		_TOAST_KIND_WARN:
+			accent = UIConstants.COLOR_WARN
+		_TOAST_KIND_ALERT:
+			accent = UIConstants.COLOR_DANGER
+	# 既存の stylebox 上書き：左 4px アクセントバーをカテゴリ色に。
+	var sbox := StyleBoxFlat.new()
+	sbox.bg_color = Color(0.043, 0.067, 0.094, 0.95)
+	sbox.border_color = accent
+	sbox.border_width_left = UIConstants.ACCENT_STRIPE_WIDTH
+	sbox.set_corner_radius_all(4)
+	sbox.content_margin_left = 16
+	sbox.content_margin_right = 20
+	sbox.content_margin_top = 8
+	sbox.content_margin_bottom = 8
+	toast_panel.add_theme_stylebox_override("panel", sbox)
+	toast_meta_label.add_theme_color_override("font_color", accent)
+
+
+func _toast_kind_label_key(kind: int) -> String:
+	match kind:
+		_TOAST_KIND_WARN: return "UI_TOAST_KIND_WARN"
+		_TOAST_KIND_ALERT: return "UI_TOAST_KIND_ALERT"
+		_: return "UI_TOAST_KIND_NOTICE"
+
+
+func _toast_kind_category_key(kind: int) -> String:
+	match kind:
+		_TOAST_KIND_WARN: return "UI_TOAST_CAT_ANOMALY"
+		_TOAST_KIND_ALERT: return "UI_TOAST_CAT_ALERT"
+		_: return "UI_TOAST_CAT_NOTICE"
+
+
+func _now_tc() -> String:
+	var t := Time.get_time_dict_from_system()
+	return "TC %02d:%02d:%02d" % [int(t.hour), int(t.minute), int(t.second)]
+
+
 # CG が解放された瞬間に CGViewer をフルスクリーンで開く。
-# 同じ CG を二重に開かないようガード。閉じたあとはギャラリー（Status タブ）から再生可能。
+# 同じ CG を二重に開かないようガード。ギャラリー再生導線は今後別タブで用意する想定。
 func _on_cg_unlocked(cg_id: StringName) -> void:
 	if cg_viewer.visible:
 		return

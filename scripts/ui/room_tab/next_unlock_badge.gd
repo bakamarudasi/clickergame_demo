@@ -17,7 +17,7 @@ const PULSE_PERIOD: float = 1.4
 var _panel: PanelContainer
 var _stage_label: Label
 var _progress_label: Label
-var _progress_bar: ProgressBar
+var _progress_bar: SegmentedBar
 var _unlocks_label: Label
 var _host: Control
 var _pulse_tween: Tween
@@ -27,7 +27,7 @@ func _init(
 	panel: PanelContainer,
 	stage_label: Label,
 	progress_label: Label,
-	progress_bar: ProgressBar,
+	progress_bar: SegmentedBar,
 	unlocks_label: Label,
 	host: Control,
 ) -> void:

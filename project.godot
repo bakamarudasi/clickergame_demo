@@ -15,6 +15,10 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://default_bus_layout.tres"
+
 [autoload]
 
 EventBus="*res://scripts/autoload/event_bus.gd"
@@ -22,6 +26,7 @@ DataRegistry="*res://scripts/autoload/data_registry.gd"
 GameState="*res://scripts/autoload/game_state.gd"
 ReactionDispatcher="*res://scripts/autoload/reaction_dispatcher.gd"
 LocaleService="*res://scripts/autoload/locale_service.gd"
+BGMService="*res://scripts/autoload/bgm_service.gd"
 DebugHUD="*res://addons/runtime_debug_hud/debug_hud.gd"
 
 [editor_plugins]
