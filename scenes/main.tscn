@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://clickergamemain0"]
+[gd_scene load_steps=12 format=3 uid="uid://clickergamemain0"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://clickergameworktab0" path="res://scenes/ui/work_tab.tscn" id="2_work"]
 [ext_resource type="PackedScene" uid="uid://clickergameroomtab0" path="res://scenes/ui/room_tab.tscn" id="3_room"]
 [ext_resource type="PackedScene" uid="uid://clickergameshoptab0" path="res://scenes/ui/shop_tab.tscn" id="4_shop"]
-[ext_resource type="PackedScene" uid="uid://clickergamestatustab0" path="res://scenes/ui/status_tab.tscn" id="5_status"]
 [ext_resource type="PackedScene" uid="uid://cgviewer000000" path="res://scenes/ui/cg_viewer.tscn" id="6_cgv"]
 [ext_resource type="PackedScene" uid="uid://clickergamemetatab0" path="res://scenes/ui/meta_tab.tscn" id="7_meta"]
 
@@ -12,24 +11,56 @@
 bg_color = Color(0.086, 0.122, 0.165, 1)
 border_color = Color(0.365, 0.812, 0.969, 1)
 border_width_bottom = 2
-content_margin_left = 24.0
-content_margin_top = 8.0
-content_margin_right = 24.0
-content_margin_bottom = 8.0
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sidebar"]
 bg_color = Color(0.055, 0.078, 0.106, 1)
 border_color = Color(0.176, 0.231, 0.306, 1)
 border_width_right = 1
 content_margin_left = 0.0
-content_margin_top = 8.0
+content_margin_top = 12.0
 content_margin_right = 0.0
-content_margin_bottom = 8.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_telemetry_tile"]
+bg_color = Color(0.043, 0.067, 0.094, 1)
+border_color = Color(0.176, 0.231, 0.306, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_currency_block"]
+bg_color = Color(0.043, 0.067, 0.094, 1)
+border_color = Color(0.365, 0.812, 0.969, 1)
+border_width_left = 4
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 16.0
+content_margin_top = 4.0
+content_margin_right = 16.0
+content_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
-bg_color = Color(0.043, 0.067, 0.094, 0.92)
+bg_color = Color(0.043, 0.067, 0.094, 0.95)
 border_color = Color(0.365, 0.812, 0.969, 1)
-border_width_left = 1
+border_width_left = 4
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
@@ -37,10 +68,10 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-content_margin_left = 24.0
-content_margin_top = 12.0
-content_margin_right = 24.0
-content_margin_bottom = 12.0
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
 
 [node name="Main" type="Control"]
 anchors_preset = 15
@@ -74,27 +105,69 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_statusbar")
 
 [node name="StatusHBox" type="HBoxContainer" parent="Root/StatusBar"]
 layout_mode = 2
-theme_override_constants/separation = 28
+theme_override_constants/separation = 10
 
-[node name="PerSecLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
-unique_name_in_owner = true
+[node name="PerSecTile" type="PanelContainer" parent="Root/StatusBar/StatusHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_telemetry_tile")
+
+[node name="PerSecHBox" type="HBoxContainer" parent="Root/StatusBar/StatusHBox/PerSecTile"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PerSecCaption" type="Label" parent="Root/StatusBar/StatusHBox/PerSecTile/PerSecHBox"]
 layout_mode = 2
 theme_type_variation = &"DimLabel"
-text = "0 / sec"
+text = "UI_HUD_PER_SEC_CAP"
 vertical_alignment = 1
 
-[node name="ClickPowerLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+[node name="PerSecLabel" type="Label" parent="Root/StatusBar/StatusHBox/PerSecTile/PerSecHBox"]
 unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NumericLabel"
+text = "0"
+vertical_alignment = 1
+
+[node name="ClickTile" type="PanelContainer" parent="Root/StatusBar/StatusHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_telemetry_tile")
+
+[node name="ClickHBox" type="HBoxContainer" parent="Root/StatusBar/StatusHBox/ClickTile"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ClickCaption" type="Label" parent="Root/StatusBar/StatusHBox/ClickTile/ClickHBox"]
 layout_mode = 2
 theme_type_variation = &"DimLabel"
-text = "+1 / click"
+text = "UI_HUD_CLICK_CAP"
 vertical_alignment = 1
 
-[node name="PrestigeLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+[node name="ClickPowerLabel" type="Label" parent="Root/StatusBar/StatusHBox/ClickTile/ClickHBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"LargeLabel"
-text = "◆ 0"
+theme_type_variation = &"NumericLabel"
+text = "+1"
+vertical_alignment = 1
+
+[node name="PrestigeTile" type="PanelContainer" parent="Root/StatusBar/StatusHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_telemetry_tile")
+
+[node name="PrestigeHBox" type="HBoxContainer" parent="Root/StatusBar/StatusHBox/PrestigeTile"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PrestigeCaption" type="Label" parent="Root/StatusBar/StatusHBox/PrestigeTile/PrestigeHBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "UI_HUD_PRESTIGE_CAP"
+vertical_alignment = 1
+
+[node name="PrestigeLabel" type="Label" parent="Root/StatusBar/StatusHBox/PrestigeTile/PrestigeHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NumericLabel"
+text = "0"
 vertical_alignment = 1
 
 [node name="StatusSpacer" type="Control" parent="Root/StatusBar/StatusHBox"]
@@ -102,7 +175,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="CurrencyLabel" type="Label" parent="Root/StatusBar/StatusHBox"]
+[node name="CurrencyBlock" type="PanelContainer" parent="Root/StatusBar/StatusHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_currency_block")
+
+[node name="CurrencyHBox" type="HBoxContainer" parent="Root/StatusBar/StatusHBox/CurrencyBlock"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CurrencyCaption" type="Label" parent="Root/StatusBar/StatusHBox/CurrencyBlock/CurrencyHBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "UI_HUD_BALANCE_CAP"
+vertical_alignment = 1
+
+[node name="CurrencyLabel" type="Label" parent="Root/StatusBar/StatusHBox/CurrencyBlock/CurrencyHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"DisplayLabel"
@@ -116,54 +203,222 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 
 [node name="Sidebar" type="PanelContainer" parent="Root/Body"]
-custom_minimum_size = Vector2(156, 0)
+custom_minimum_size = Vector2(168, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sidebar")
 
 [node name="SidebarVBox" type="VBoxContainer" parent="Root/Body/Sidebar"]
 layout_mode = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 4
 
 [node name="TabWork" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
-alignment = 0
+text = ""
+
+[node name="Layout" type="MarginContainer" parent="Root/Body/Sidebar/SidebarVBox/TabWork"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="HBox" type="HBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabWork/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Num" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabWork/Layout/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"NumericLabel"
+text = "00"
+vertical_alignment = 1
+
+[node name="Stack" type="VBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabWork/Layout/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Main" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabWork/Layout/HBox/Stack"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"SubtitleLabel"
 text = "UI_TAB_WORK"
+
+[node name="Sub" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabWork/Layout/HBox/Stack"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"DimLabel"
+text = "UI_TAB_WORK_SUB"
 
 [node name="TabRoom" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
-alignment = 0
+text = ""
+
+[node name="Layout" type="MarginContainer" parent="Root/Body/Sidebar/SidebarVBox/TabRoom"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="HBox" type="HBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabRoom/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Num" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabRoom/Layout/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"NumericLabel"
+text = "01"
+vertical_alignment = 1
+
+[node name="Stack" type="VBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabRoom/Layout/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Main" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabRoom/Layout/HBox/Stack"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"SubtitleLabel"
 text = "UI_TAB_ROOM"
+
+[node name="Sub" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabRoom/Layout/HBox/Stack"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"DimLabel"
+text = "UI_TAB_ROOM_SUB"
 
 [node name="TabShop" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
-alignment = 0
+text = ""
+
+[node name="Layout" type="MarginContainer" parent="Root/Body/Sidebar/SidebarVBox/TabShop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="HBox" type="HBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabShop/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Num" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabShop/Layout/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"NumericLabel"
+text = "02"
+vertical_alignment = 1
+
+[node name="Stack" type="VBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabShop/Layout/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Main" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabShop/Layout/HBox/Stack"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"SubtitleLabel"
 text = "UI_TAB_SHOP"
 
-[node name="TabStatus" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
-unique_name_in_owner = true
+[node name="Sub" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabShop/Layout/HBox/Stack"]
 layout_mode = 2
-theme_type_variation = &"TabButton"
-toggle_mode = true
-alignment = 0
-text = "UI_TAB_STATUS"
+mouse_filter = 2
+theme_type_variation = &"DimLabel"
+text = "UI_TAB_SHOP_SUB"
 
 [node name="TabMeta" type="Button" parent="Root/Body/Sidebar/SidebarVBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_type_variation = &"TabButton"
 toggle_mode = true
-alignment = 0
 visible = false
+text = ""
+
+[node name="Layout" type="MarginContainer" parent="Root/Body/Sidebar/SidebarVBox/TabMeta"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="HBox" type="HBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabMeta/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Num" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabMeta/Layout/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"NumericLabel"
+text = "03"
+vertical_alignment = 1
+
+[node name="Stack" type="VBoxContainer" parent="Root/Body/Sidebar/SidebarVBox/TabMeta/Layout/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Main" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabMeta/Layout/HBox/Stack"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"SubtitleLabel"
 text = "UI_TAB_META"
+
+[node name="Sub" type="Label" parent="Root/Body/Sidebar/SidebarVBox/TabMeta/Layout/HBox/Stack"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"DimLabel"
+text = "UI_TAB_META_SUB"
 
 [node name="TabHolder" type="Control" parent="Root/Body"]
 unique_name_in_owner = true
@@ -182,10 +437,6 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
-[node name="StatusTab" parent="Root/Body/TabHolder" instance=ExtResource("5_status")]
-unique_name_in_owner = true
-visible = false
-
 [node name="MetaTab" parent="Root/Body/TabHolder" instance=ExtResource("7_meta")]
 unique_name_in_owner = true
 visible = false
@@ -198,22 +449,34 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -240.0
+offset_left = -260.0
 offset_top = -120.0
-offset_right = 240.0
+offset_right = 260.0
 offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
 
-[node name="ToastLabel" type="Label" parent="ToastPanel"]
+[node name="ToastVBox" type="VBoxContainer" parent="ToastPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="ToastMetaLabel" type="Label" parent="ToastPanel/ToastVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"DimLabel"
+text = ""
+
+[node name="ToastLabel" type="Label" parent="ToastPanel/ToastVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme_type_variation = &"SubtitleLabel"
 text = ""
-horizontal_alignment = 1
+horizontal_alignment = 0
 vertical_alignment = 1
 autowrap_mode = 3
 
