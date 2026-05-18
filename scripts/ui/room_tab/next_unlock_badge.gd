@@ -78,8 +78,8 @@ func refresh(op_id: StringName) -> void:
 	# 進捗 = (今の信頼 - 現ステージ閾値) / (次の閾値 - 現ステージ閾値)。
 	# 1.0 を超えてる場合は ready 表示（実際にはこの瞬間 stage_advanced が来るが、
 	# call_deferred の隙間で見える可能性があるので考慮）。
-	var span := max(1, next_stage.threshold - current_threshold)
-	var earned := max(0, rt.trust - current_threshold)
+	var span: int = max(1, next_stage.threshold - current_threshold)
+	var earned: int = max(0, rt.trust - current_threshold)
 	var ratio: float = clampf(float(earned) / float(span), 0.0, 1.0)
 	_progress_bar.value = ratio * 100.0
 	_progress_label.text = TranslationServer.translate("UI_ROOM_NEXT_TRUST_FMT") % [rt.trust, next_stage.threshold]
