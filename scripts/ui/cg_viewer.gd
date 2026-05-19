@@ -35,6 +35,7 @@ var _cg: CGData = null
 var _step_index: int = 0
 var _typing_tween: Tween
 var _hint_tween: Tween
+var _transition_tween: Tween
 var _is_typing: bool = false
 # CG 中だけ BGMService のタブ BGM を退避しておき、閉じる際に復帰する。
 # 復帰先が &"" の場合は BGMService.stop() 相当（=何も鳴らさない）。
@@ -74,6 +75,12 @@ func play(cg: CGData) -> void:
 func close() -> void:
 	_kill_typing()
 	_kill_hint()
+	if _transition_tween != null and _transition_tween.is_valid():
+		_transition_tween.kill()
+	_transition_tween = null
+	# SHAKE / FLASH が途中で閉じた時の取りこぼし対策
+	position = Vector2.ZERO
+	modulate = Color(1, 1, 1, 1)
 	visible = false
 	bgm_player.stop()
 	_cg = null
@@ -120,6 +127,8 @@ func _apply_step(idx: int) -> void:
 		placeholder_label.visible = false
 		portrait_area.visible = true
 		_apply_portrait(step)
+	# 演出（モード切替の直後、台詞流す前にかぶせる）
+	_apply_transition(step)
 	# 台詞：話者は即時、本文はタイプライターで流す
 	if step.speaker == "":
 		speaker_label.visible = false
@@ -131,6 +140,40 @@ func _apply_step(idx: int) -> void:
 	if step.sfx != null:
 		sfx_player.stream = step.sfx
 		sfx_player.play()
+
+
+# CGStep.transition を見て短い演出をかぶせる。素材が無くてもこれで動きが出る。
+# - FADE: 立ち絵 / CG レイヤを 0→1 でフェードイン
+# - SHAKE: ルート全体を左右に短く揺らす
+# - FLASH: 画面全体を白で薄く焼き、フェードアウト
+func _apply_transition(step: CGStep) -> void:
+	if _transition_tween != null and _transition_tween.is_valid():
+		_transition_tween.kill()
+	# 多くの場合 transition_sec が 0 だと NONE と同等で OK
+	var sec: float = maxf(0.05, step.transition_sec)
+	match step.transition:
+		Enums.CGStepTransition.FADE:
+			var target: CanvasItem = cg_image if step.mode == Enums.CGStepMode.FULL_CG else portrait_area
+			target.modulate.a = 0.0
+			_transition_tween = create_tween()
+			_transition_tween.tween_property(target, "modulate:a", 1.0, sec)
+		Enums.CGStepTransition.SHAKE:
+			var amp := 12.0
+			var orig := position
+			_transition_tween = create_tween()
+			_transition_tween.tween_property(self, "position:x", orig.x + amp, sec * 0.15)
+			_transition_tween.tween_property(self, "position:x", orig.x - amp, sec * 0.15)
+			_transition_tween.tween_property(self, "position:x", orig.x + amp * 0.5, sec * 0.15)
+			_transition_tween.tween_property(self, "position:x", orig.x, sec * 0.15)
+		Enums.CGStepTransition.FLASH:
+			modulate = Color(2.5, 2.5, 2.5, 1.0)
+			_transition_tween = create_tween()
+			_transition_tween.tween_property(self, "modulate", Color(1, 1, 1, 1), sec)
+		_:
+			# NONE: 透明度を念のため確定させて終わり
+			cg_image.modulate.a = 1.0
+			portrait_area.modulate.a = 1.0
+			modulate = Color(1, 1, 1, 1)
 
 
 # --- タイプライター ------------------------------------------------------

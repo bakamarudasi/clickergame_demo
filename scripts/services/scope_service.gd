@@ -72,5 +72,14 @@ static func _trigger_caught(op_id: StringName) -> void:
 	_set_off()
 	GameState.reset_xray_suspicion(op_id)
 
-	ReactionResolver.fire(Enums.TriggerKind.XRAY_CAUGHT, &"", op_id)
+	# 高信頼でのバレ累計を OperatorRuntime に貯め、ReactionResolver には
+	# consecutive 引数として渡す。これで「N 回目のバレで特別反応／CG 解放」を
+	# 既存の consecutive_count_min/max ゲートで組める。
+	var rt := GameState.get_runtime(op_id)
+	var consecutive := 1
+	if rt != null and rt.trust >= 80:
+		rt.xray_caught_high_count += 1
+		consecutive = rt.xray_caught_high_count
+
+	ReactionResolver.fire(Enums.TriggerKind.XRAY_CAUGHT, &"", op_id, -1, consecutive)
 	EventBus.xray_caught.emit(op_id)

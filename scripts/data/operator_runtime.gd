@@ -12,6 +12,9 @@ extends Resource
 @export var seen_messages: Array[StringName] = []
 @export var last_inspection_unix: float = 0.0
 @export var xray_suspicion: float = 0.0
+# trust >= 80 状態で xray バレを食らった累計回数。ReactionResolver に
+# consecutive として渡すことで「N 回目のバレで特別反応」を引ける。
+@export var xray_caught_high_count: int = 0
 
 # 親密度（永続・上昇のみ）。trust とは別軸の長期指標で、
 # arousal の増加補正に使う（B案連動）。
@@ -67,6 +70,7 @@ func to_dict() -> Dictionary:
 		"seen_messages": messages_out,
 		"last_inspection_unix": last_inspection_unix,
 		"xray_suspicion": xray_suspicion,
+		"xray_caught_high_count": xray_caught_high_count,
 		"intimacy": intimacy,
 		"arousal": arousal,
 		"arousal_last_unix": arousal_last_unix,
@@ -95,6 +99,7 @@ func apply_dict(d: Dictionary) -> void:
 		seen_messages.append(StringName(m))
 	last_inspection_unix = float(d.get("last_inspection_unix", 0.0))
 	xray_suspicion = float(d.get("xray_suspicion", 0.0))
+	xray_caught_high_count = int(d.get("xray_caught_high_count", 0))
 	intimacy = int(d.get("intimacy", 0))
 	arousal = float(d.get("arousal", 0.0))
 	arousal_last_unix = float(d.get("arousal_last_unix", 0.0))

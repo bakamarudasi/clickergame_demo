@@ -1,6 +1,13 @@
-[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://rrlemamax000"]
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=3 format=3 uid="uid://rrlemamax000"]
 
 [ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="cg_peak"]
+script = ExtResource("2_eff")
+kind = 1
+amount = 0
+target_id = &"cg_lemuen_peak_first"
 
 [resource]
 script = ExtResource("1_rr")
@@ -14,4 +21,5 @@ reaction = 6
 trust_delta = 0
 expression = &"aroused"
 dialogue = "DIALOGUE_LEMUEN_AROUSAL_MAX"
+side_effects = Array[Resource]([SubResource("cg_peak")])
 priority = 10

@@ -72,6 +72,15 @@ enum CGStepMode {
 	FULL_CG,     # 全画面イラスト + 台詞ボックス
 }
 
+# CG ステップ突入時の演出。素材が無くてもこれで「動き」を出す。
+# 既存 CG はデフォルト NONE のままなので影響なし。
+enum CGStepTransition {
+	NONE,       # 無演出（即時切替）
+	FADE,       # 立ち絵 / CG をフェードイン
+	SHAKE,      # ルート全体を短く揺らす（衝撃/赤面/銃口など）
+	FLASH,      # 白フラッシュを 1 回かぶせる（覚醒/視線交差など）
+}
+
 enum UpgradeEffectKind {
 	ADD_CLICK,
 	ADD_PER_SEC,

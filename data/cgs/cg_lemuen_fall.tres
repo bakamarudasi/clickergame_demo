@@ -1,0 +1,167 @@
+[gd_resource type="Resource" script_class="CGData" load_steps=17 format=3 uid="uid://cglemfall0000"]
+
+[ext_resource type="Script" path="res://scripts/data/cg_data.gd" id="1_cg"]
+[ext_resource type="Script" path="res://scripts/data/cg_step.gd" id="2_step"]
+
+[sub_resource type="Resource" id="step_01"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_01"
+sfx = null
+transition = 1
+
+[sub_resource type="Resource" id="step_02"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_02"
+sfx = null
+
+[sub_resource type="Resource" id="step_03"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_03"
+sfx = null
+
+[sub_resource type="Resource" id="step_04"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_04"
+sfx = null
+
+[sub_resource type="Resource" id="step_05"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_05"
+sfx = null
+
+[sub_resource type="Resource" id="step_06"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_06"
+sfx = null
+
+[sub_resource type="Resource" id="step_07"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_fall_closeup.png"
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_07"
+sfx = null
+transition = 3
+transition_sec = 0.45
+
+[sub_resource type="Resource" id="step_08"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"aroused"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_08"
+sfx = null
+
+[sub_resource type="Resource" id="step_09"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_09"
+sfx = null
+
+[sub_resource type="Resource" id="step_10"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_10"
+sfx = null
+
+[sub_resource type="Resource" id="step_11"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_11"
+sfx = null
+
+[sub_resource type="Resource" id="step_12"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_12"
+sfx = null
+
+[sub_resource type="Resource" id="step_13"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_13"
+sfx = null
+
+[sub_resource type="Resource" id="step_14"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_14"
+sfx = null
+transition = 1
+
+[sub_resource type="Resource" id="step_15"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_FALL_15"
+sfx = null
+
+[resource]
+script = ExtResource("1_cg")
+id = &"cg_lemuen_fall"
+operator_id = &"lemuen"
+stage_required = 4
+trigger_item_id = &""
+caption = "CG_LEMUEN_FALL_CAPTION"
+steps = Array[Resource]([SubResource("step_01"), SubResource("step_02"), SubResource("step_03"), SubResource("step_04"), SubResource("step_05"), SubResource("step_06"), SubResource("step_07"), SubResource("step_08"), SubResource("step_09"), SubResource("step_10"), SubResource("step_11"), SubResource("step_12"), SubResource("step_13"), SubResource("step_14"), SubResource("step_15")])

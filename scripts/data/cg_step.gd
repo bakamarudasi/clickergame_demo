@@ -26,3 +26,9 @@ extends Resource
 
 # このステップ表示時に 1 度だけ鳴らす効果音。
 @export var sfx: AudioStream = null
+
+# ステップ突入時の演出。詳細は Enums.CGStepTransition。
+# 素材待ち状態でも「動き」が出るようプレースホルダ含めて適用される。
+@export var transition: Enums.CGStepTransition = Enums.CGStepTransition.NONE
+# 演出の長さ。FADE / FLASH / SHAKE 共通。0.0 だと NONE と同等。
+@export var transition_sec: float = 0.3
