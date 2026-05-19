@@ -3,8 +3,9 @@ extends Object
 
 # Roomタブ UI が「複数アイテム同時使用（コンボ）」で渡す時の入り口。
 # 単発ギフトは GiftService.give() を引き続き使う想定（こちらは 2 個以上専用）。
-# 入力アイテムは UI 側で「異種・最大3個」を保証してくる前提だが、念のため
-# ここでも sorted/unique 化と inventory チェックを通してから消費する。
+# 入力アイテムは「最大 3 個・同一アイテム重複OK」。
+# 同一アイテムを N 回入れる（rope×3 等）が成立するよう、内部では
+# multi-set として扱い、ソートして resolve_combo に渡す。
 
 const MAX_COMBO_SIZE := 3
 
@@ -16,31 +17,30 @@ static func combine(op_id: StringName, item_ids: Array) -> ReactionRule:
 	if ReactionDispatcher.try_locked_revisit(op_id):
 		return null
 
-	# 異種 / 最大数チェック。同一 id は dedup されるので、その時点で 2 個未満なら
-	# 単発として GiftService に丸投げする（外側 UI が単発スロットを使うべきだが
-	# 念のためのフェイルセーフ）。
-	var unique := _sort_unique_stringnames(item_ids)
-	if unique.size() == 0:
+	# ソートだけ（dedup しない）。同一アイテムの重複は仕様。
+	var sorted_ids := _sort_stringnames(item_ids)
+	if sorted_ids.size() > MAX_COMBO_SIZE:
 		return null
-	if unique.size() > MAX_COMBO_SIZE:
-		return null
-	if unique.size() == 1:
-		return GiftService.give(op_id, unique[0])
+	if sorted_ids.size() == 1:
+		# 単発はギフト経路。UI 側で防いでるはずだがフェイルセーフ。
+		return GiftService.give(op_id, sorted_ids[0])
 
-	# 全アイテムを持ってるか先に確認。1個でも不足してたら何も消費せず終了。
-	for id in unique:
-		if GameState.item_count(id) <= 0:
-			var n := TranslationServer.translate("TOAST_COMBO_ITEM_MISSING")
-			EventBus.toast_requested.emit(n)
+	# 在庫一括チェック（同一 id を N 回必要なケースを正しくカウント）。
+	# 1 個でも足りなければ何も消費せず終了。
+	var counts: Dictionary = {}
+	for id in sorted_ids:
+		counts[id] = int(counts.get(id, 0)) + 1
+	for id in counts.keys():
+		if GameState.item_count(id) < int(counts[id]):
+			EventBus.toast_requested.emit(TranslationServer.translate("TOAST_COMBO_ITEM_MISSING"))
 			return null
 
-	# 反応解決（消費の前にやって、見つからなければ何も消費しない方針）。
-	var rule := ReactionResolver.resolve_combo(op_id, unique)
+	# 反応解決（消費の前）。combo_item_ids も sorted（重複込み）で比較される。
+	var rule := ReactionResolver.resolve_combo(op_id, sorted_ids)
 
 	# アイテムは見つかっても見つからなくても消費する（コンボ「試行」をした扱い）。
-	# 見つからない時は通常コンボ反応へのフォールバックを別途用意してもよいが、
-	# 現段階では「未知のコンボは null を返してトーストだけ出す」運用にする。
-	for id in unique:
+	# 同一 id を N 個入れたなら N 回 record_gift される（gift_count 累計が伸びる）。
+	for id in sorted_ids:
 		GameState.consume_item(id, 1)
 		GameState.record_gift(op_id, id)
 		GameState.decay_harassment_on_gift(op_id)
@@ -53,14 +53,13 @@ static func combine(op_id: StringName, item_ids: Array) -> ReactionRule:
 	return rule
 
 
-# 入力 Array を String/StringName 混在から StringName 化、空文字を除外、ソート＆重複排除。
-static func _sort_unique_stringnames(src: Array) -> Array:
+# 入力 Array を StringName 化＆ソート（dedup しない）。空文字は除外。
+static func _sort_stringnames(src: Array) -> Array:
 	var out: Array = []
 	for v in src:
 		var sn := StringName(v)
 		if sn == &"":
 			continue
-		if not (sn in out):
-			out.append(sn)
+		out.append(sn)
 	out.sort()
 	return out

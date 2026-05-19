@@ -299,17 +299,9 @@ func _get_combo_slot_item(slot: OptionButton) -> StringName:
 	return StringName(v) if v != null else &""
 
 
-# 重複排除：あるスロットで item_selected が発火したら、他スロットで同じ ID が
-# 選ばれていれば空きに戻す（最後に触ったスロットが優先）。
-# trigger は connect 時に bind() で渡されるスロット自身。
-func _on_combo_slot_changed(_idx: int, trigger: OptionButton) -> void:
-	var picked := _get_combo_slot_item(trigger)
-	if picked != &"":
-		for slot in [combo_slot_1, combo_slot_2, combo_slot_3]:
-			if slot == trigger:
-				continue
-			if _get_combo_slot_item(slot) == picked:
-				slot.select(0)
+# 重複排除はしない（同じアイテムを N スロットに入れる「rope×3」型コンボを許容）。
+# このハンドラは Execute ボタンの活性状態を更新するだけ。
+func _on_combo_slot_changed(_idx: int, _trigger: OptionButton) -> void:
 	_refresh_combo_execute_state()
 
 
@@ -320,12 +312,12 @@ func _refresh_combo_execute_state() -> void:
 	combo_execute_button.disabled = ids.size() < 2 or _current_op == &""
 
 
-# 空き以外の選択をユニーク順序維持で返す。
+# 空き以外の選択を入力順で返す（重複OK、CombineService 側で sorted 化される）。
 func _get_combo_selected_ids() -> Array[StringName]:
 	var out: Array[StringName] = []
 	for slot in [combo_slot_1, combo_slot_2, combo_slot_3]:
 		var id := _get_combo_slot_item(slot)
-		if id != &"" and not (id in out):
+		if id != &"":
 			out.append(id)
 	return out
 
