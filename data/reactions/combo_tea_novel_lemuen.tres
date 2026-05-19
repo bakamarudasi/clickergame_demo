@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=4 format=3 uid="uid://rrlemtnov00"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="eff_int"]
+script = ExtResource("2_eff")
+kind = 8
+amount = 5
+target_id = &""
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &""
+operator_id = &"lemuen"
+match_category = false
+min_trust = 0
+max_trust = 99999
+combo_item_ids = Array[StringName]([&"blend_tea", &"kashmir_novel"])
+recipe_known_rule = &"recipe_known_combo_tea_novel"
+reaction = 1
+trust_delta = 5
+expression = &"smile"
+dialogue = "DIALOGUE_LEMUEN_COMBO_TEA_NOVEL_INTRO"
+side_effects = Array[Resource]([SubResource("eff_int")])
+priority = 100
