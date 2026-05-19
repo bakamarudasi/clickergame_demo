@@ -276,8 +276,8 @@ func _ensure_scene(scene: PackedScene) -> void:
 		return
 	_clear_scene()
 	_portrait_scene_node = scene.instantiate()
-	# PortraitView の親（PortraitArea）にぶら下げる。PortraitArea が
-	# CenterContainer なのでサイズは中央で自動配置される。
+	# PortraitView の親（PortraitFrame PanelContainer）にぶら下げる。
+	# PanelContainer は子を内側 rect に敷き詰めるので PortraitView と並んで全面表示になる。
 	var holder := _portrait_view.get_parent()
 	holder.add_child(_portrait_scene_node)
 	_portrait_scene_path = path
