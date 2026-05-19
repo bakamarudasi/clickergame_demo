@@ -12,6 +12,8 @@ extends Resource
 @export var stages: Array[TrustStageData] = []
 @export var unlock_cost: int = 0
 @export var portrait_idle: Texture2D
+# Room タブ全面に敷く部屋の背景。null の場合は既存のダーク背景がそのまま見える。
+@export var room_background: Texture2D
 # 表情キー → 全身差し替え用 Texture2D。立ち絵 PNG を丸ごと差し替える方式。
 @export var portrait_expressions: Dictionary = {}
 # 表情キー → 顔差分用 Texture2D。CostumeData.face_anchor_rect の領域に
