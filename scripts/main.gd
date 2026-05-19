@@ -42,6 +42,11 @@ const CURRENCY_TWEEN_SEC := 0.25
 const CURRENCY_FLASH_COLOR := Color(0.55, 1.10, 0.55, 1.0)
 const CURRENCY_FLASH_FADE_SEC := 0.35
 
+# オートセーブは AutoTimer（1秒）に乗せて 30 ティックごとに発火。
+# 終了時は NOTIFICATION_WM_CLOSE_REQUEST で必ず 1 回保存してから quit。
+const AUTOSAVE_INTERVAL_TICKS := 30
+var _autosave_tick_counter: int = 0
+
 
 func _ready() -> void:
 	theme = ThemeFactory.build_default()
@@ -68,6 +73,9 @@ func _ready() -> void:
 	_refresh_status_bar()
 	_refresh_meta_tab_visibility()
 	_switch_to(TAB_WORK)
+
+	# 「閉じる」をフックして保存してから終了するため自動 quit を切る。
+	get_tree().set_auto_accept_quit(false)
 
 
 func _refresh_meta_tab_visibility() -> void:
@@ -150,11 +158,19 @@ func _on_prestige_currency_changed(_v: int) -> void:
 
 func _on_auto_tick() -> void:
 	EconomyService.tick(1.0)
+	_autosave_tick_counter += 1
+	if _autosave_tick_counter >= AUTOSAVE_INTERVAL_TICKS:
+		_autosave_tick_counter = 0
+		SaveService.save_to_disk()
 
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
 		_refresh_status_bar()
+	elif what == NOTIFICATION_WM_CLOSE_REQUEST:
+		# 閉じる前に必ず保存。失敗しても quit はする（無限ロック回避）。
+		SaveService.save_to_disk()
+		get_tree().quit()
 
 
 # 観測通知風トースト。本文の頭にある絵文字（⚠/✦/💀）からカテゴリを推測し、

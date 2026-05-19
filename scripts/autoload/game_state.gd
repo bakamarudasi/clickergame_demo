@@ -58,6 +58,10 @@ func _ready() -> void:
 	for op in DataRegistry.get_all_operators():
 		if op.unlock_cost == 0:
 			_unlock_operator_internal(op.id)
+	# セーブ存在時はここで上書きロード。シーンの _ready が走り始める前に
+	# state を確定させたいため autoload._ready の末尾で実行。
+	# 失敗（ファイル無し / 破損）時はデフォルト state のまま継続。
+	SaveService.load_from_disk()
 
 
 # --- 通貨 -----------------------------------------------------------------
@@ -473,3 +477,152 @@ func do_prestige_reset() -> void:
 	EventBus.currency_changed.emit(currency)
 	EventBus.click_power_changed.emit(click_power)
 	EventBus.per_second_changed.emit(per_second)
+
+
+# --- セーブ／ロード（SaveService からのみ呼ばれる） -----------------------
+
+# JSON 化可能な Dictionary を返す。StringName は全部 String に潰す。
+# 復元側は apply_snapshot()。
+func serialize() -> Dictionary:
+	return {
+		"currency": currency,
+		"click_power": click_power,
+		"per_second": per_second,
+		"click_buff_multiplier": click_buff_multiplier,
+		"click_buff_until_unix": click_buff_until_unix,
+		"owned_upgrades": _stringname_keyed_to_string(owned_upgrades),
+		"unlocked_operators": _stringname_array_to_string(unlocked_operators),
+		"inventory": _stringname_keyed_to_string(inventory),
+		"seen_cgs": _stringname_array_to_string(seen_cgs),
+		"unlocked_memories": _stringname_array_to_string(unlocked_memories),
+		"active_rules": _stringname_array_to_string(active_rules),
+		"owned_scopes": _stringname_array_to_string(owned_scopes),
+		"equipped_scope_id": String(equipped_scope_id),
+		"scope_battery_seconds": scope_battery_seconds,
+		"xray_active": xray_active,
+		"prestige_count": prestige_count,
+		"prestige_currency": prestige_currency,
+		"bond": _stringname_keyed_to_string(bond),
+		"meta_upgrade_levels": _stringname_keyed_to_string(meta_upgrade_levels),
+		"total_earned_this_run": total_earned_this_run,
+		"total_earned_ever": total_earned_ever,
+		"operator_runtime": _serialize_runtimes(),
+	}
+
+
+# セーブからの復元。各タブはこの後の EventBus フル再発火で同期される。
+# xray_active は battery が空なら強制 OFF（不整合ガード）。
+func apply_snapshot(d: Dictionary) -> void:
+	currency = int(d.get("currency", 0))
+	click_power = int(d.get("click_power", 1))
+	per_second = int(d.get("per_second", 0))
+	click_buff_multiplier = float(d.get("click_buff_multiplier", 1.0))
+	click_buff_until_unix = float(d.get("click_buff_until_unix", 0.0))
+
+	owned_upgrades = _to_stringname_keyed_int_dict(d.get("owned_upgrades", {}))
+	unlocked_operators = _to_stringname_array(d.get("unlocked_operators", []))
+	inventory = _to_stringname_keyed_int_dict(d.get("inventory", {}))
+	seen_cgs = _to_stringname_array(d.get("seen_cgs", []))
+	unlocked_memories = _to_stringname_array(d.get("unlocked_memories", []))
+	active_rules = _to_stringname_array(d.get("active_rules", []))
+
+	owned_scopes = _to_stringname_array(d.get("owned_scopes", []))
+	equipped_scope_id = StringName(d.get("equipped_scope_id", ""))
+	scope_battery_seconds = float(d.get("scope_battery_seconds", 0.0))
+	xray_active = bool(d.get("xray_active", false))
+	if xray_active and scope_battery_seconds <= 0.0:
+		xray_active = false
+
+	prestige_count = int(d.get("prestige_count", 0))
+	prestige_currency = int(d.get("prestige_currency", 0))
+	bond = _to_stringname_keyed_int_dict(d.get("bond", {}))
+	meta_upgrade_levels = _to_stringname_keyed_int_dict(d.get("meta_upgrade_levels", {}))
+	total_earned_this_run = int(d.get("total_earned_this_run", 0))
+	total_earned_ever = int(d.get("total_earned_ever", 0))
+
+	operator_runtime.clear()
+	var rt_dict: Dictionary = d.get("operator_runtime", {})
+	for k in rt_dict.keys():
+		var rt := OperatorRuntime.new()
+		rt.apply_dict(rt_dict[k])
+		operator_runtime[StringName(k)] = rt
+
+	# 旧セーブ + 新規追加された 0-cost オペの取りこぼしを救う。
+	# 既存ロード結果には触らず、ロードに無いオペだけ補填する。
+	for op in DataRegistry.get_all_operators():
+		if op.unlock_cost == 0 and not is_operator_unlocked(op.id):
+			_unlock_operator_internal(op.id)
+
+	_emit_full_refresh()
+
+
+# ロード直後、既に _ready 済みのタブを同期するため主要シグナルを撃ち直す。
+# UI 側は EventBus 経由で表示更新するので、ここで呼べば全タブの再描画が走る。
+func _emit_full_refresh() -> void:
+	EventBus.currency_changed.emit(currency)
+	EventBus.click_power_changed.emit(click_power)
+	EventBus.per_second_changed.emit(per_second)
+	EventBus.prestige_count_changed.emit(prestige_count)
+	EventBus.prestige_currency_changed.emit(prestige_currency)
+	EventBus.scope_battery_changed.emit(scope_battery_seconds)
+	EventBus.xray_changed.emit(xray_active)
+	if equipped_scope_id != &"":
+		EventBus.scope_equipped.emit(equipped_scope_id)
+	for op_id in unlocked_operators:
+		EventBus.operator_unlocked.emit(op_id)
+		var rt: OperatorRuntime = operator_runtime.get(op_id)
+		if rt != null:
+			EventBus.trust_changed.emit(op_id, rt.trust, rt.current_stage)
+			EventBus.intimacy_changed.emit(op_id, rt.intimacy)
+			EventBus.arousal_changed.emit(op_id, rt.arousal)
+			EventBus.xray_suspicion_changed.emit(op_id, rt.xray_suspicion)
+			if rt.equipped_costume != &"":
+				EventBus.costume_equipped.emit(op_id, rt.equipped_costume)
+	for upg_id in owned_upgrades.keys():
+		EventBus.upgrade_purchased.emit(upg_id, int(owned_upgrades[upg_id]))
+	for item_id in inventory.keys():
+		EventBus.inventory_changed.emit(item_id, int(inventory[item_id]))
+	for meta_id in meta_upgrade_levels.keys():
+		EventBus.meta_upgrade_purchased.emit(meta_id, int(meta_upgrade_levels[meta_id]))
+	for rule_id in active_rules:
+		EventBus.rule_activated.emit(rule_id)
+
+
+func _serialize_runtimes() -> Dictionary:
+	var out := {}
+	for k in operator_runtime.keys():
+		var rt: OperatorRuntime = operator_runtime[k]
+		out[String(k)] = rt.to_dict()
+	return out
+
+
+func _stringname_keyed_to_string(src: Dictionary) -> Dictionary:
+	var out := {}
+	for k in src.keys():
+		out[String(k)] = src[k]
+	return out
+
+
+func _stringname_array_to_string(src: Array) -> Array:
+	var out: Array = []
+	for v in src:
+		out.append(String(v))
+	return out
+
+
+func _to_stringname_array(src: Variant) -> Array[StringName]:
+	var out: Array[StringName] = []
+	if typeof(src) != TYPE_ARRAY:
+		return out
+	for v in src:
+		out.append(StringName(v))
+	return out
+
+
+func _to_stringname_keyed_int_dict(src: Variant) -> Dictionary:
+	var out := {}
+	if typeof(src) != TYPE_DICTIONARY:
+		return out
+	for k in (src as Dictionary).keys():
+		out[StringName(k)] = int((src as Dictionary)[k])
+	return out
