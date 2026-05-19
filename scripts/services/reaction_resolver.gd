@@ -70,9 +70,10 @@ static func resolve(
 	return best
 
 
-# コンボ用解決器。item_ids は呼出元で sorted/unique 化されてる前提。
-# combo_item_ids が完全一致するルールだけ候補にして、その他のゲート
-# （trust/intimacy/harassment/min_tier/min_bond/min_arousal/装備/xray
+# コンボ用解決器。item_ids は呼出元で sorted 化されてる前提（重複は許容）。
+# まず combo_item_ids が完全一致するルールを探し、見つからない場合は
+# is_combo_default=true で operator 一致するフォールバックルールを返す。
+# 通常ゲート（trust/intimacy/harassment/min_tier/min_bond/min_arousal/装備/xray
 #  /requires_active_rules/requires_cgs/requires_memories/probability）は
 # 通常 resolve と同じ順で評価する。consecutive は使わない（1 固定）。
 static func resolve_combo(op_id: StringName, item_ids: Array) -> ReactionRule:
@@ -86,10 +87,14 @@ static func resolve_combo(op_id: StringName, item_ids: Array) -> ReactionRule:
 
 	var best: ReactionRule = null
 	var best_score: int = -1
+	var fallback: ReactionRule = null
+	var fallback_score: int = -1
 	for rule: ReactionRule in DataRegistry.reactions:
-		if rule.combo_item_ids.is_empty():
+		# combo 系以外は無視（exact / default のどちらか）
+		var is_exact: bool = not rule.combo_item_ids.is_empty()
+		if not is_exact and not rule.is_combo_default:
 			continue
-		if not _array_set_equals(rule.combo_item_ids, item_ids):
+		if is_exact and not _array_set_equals(rule.combo_item_ids, item_ids):
 			continue
 		if rule.operator_id != &"" and rule.operator_id != op_id:
 			continue
@@ -117,11 +122,19 @@ static func resolve_combo(op_id: StringName, item_ids: Array) -> ReactionRule:
 			continue
 		if rule.probability < 1.0 and randf() > rule.probability:
 			continue
-		var score := rule.priority * 100000 + _specificity(rule) + rule.combo_item_ids.size() * 200
-		if score > best_score:
-			best = rule
-			best_score = score
-	return best
+		if is_exact:
+			var score := rule.priority * 100000 + _specificity(rule) + rule.combo_item_ids.size() * 200
+			if score > best_score:
+				best = rule
+				best_score = score
+		else:
+			# default フォールバックは exact 無しの時のみ採用される。
+			# 同じ operator に複数 default があったら priority + specificity で選別。
+			var fscore := rule.priority * 100 + _specificity(rule)
+			if fscore > fallback_score:
+				fallback = rule
+				fallback_score = fscore
+	return best if best != null else fallback
 
 
 # 2 つの配列が「集合として」一致するかをチェック（呼出元で sorted/unique 済み前提）。

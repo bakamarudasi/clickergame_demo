@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://rrlemcombodef"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &""
+operator_id = &"lemuen"
+match_category = false
+is_combo_default = true
+min_trust = 0
+max_trust = 99999
+reaction = 3
+trust_delta = 0
+expression = &"smug"
+dialogue = "DIALOGUE_LEMUEN_COMBO_DEFAULT_01"
+dialogue_alternates = Array[String](["DIALOGUE_LEMUEN_COMBO_DEFAULT_02", "DIALOGUE_LEMUEN_COMBO_DEFAULT_03"])
+priority = 0

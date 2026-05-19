@@ -36,6 +36,12 @@ extends Resource
 # 空文字なら「レシピが存在しない隠しコンボ」扱い（モーダルでも常時シルエット）。
 @export var recipe_known_rule: StringName = &""
 
+# combo の "デフォルトフォールバック" 反応。combo_item_ids に一致するルールが
+# 一つも見つからない時、resolve_combo がこのフラグの立った operator 一致ルール
+# にフォールバックする。「何やってるの？」みたいなキャラ口調の一言を返す用。
+# is_combo_default=true のルールは combo_item_ids を空にする（混在禁止）。
+@export var is_combo_default: bool = false
+
 # --- コンテンツ・コンボゲート（全て AND 評価） ----------------------------
 # requires_active_rules はアイテム使用などで立てた active rule を AND で要求する。
 # 例: ロープ + 目隠し両方使った後にしか発火しない反応 →
