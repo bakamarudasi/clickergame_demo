@@ -432,6 +432,7 @@ text = "UI_TAB_META_SUB"
 
 [node name="TabHolder" type="Control" parent="Root/Body"]
 unique_name_in_owner = true
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
