@@ -157,6 +157,10 @@ static func apply_side_effects(rule: ReactionRule, op_id: StringName) -> void:
 			Enums.EffectKind.CG_PLAY:
 				# 解放フラグは触らず、ビューア起動だけ要求する。
 				EventBus.cg_play_requested.emit(eff.target_id)
+			Enums.EffectKind.RULE_ACTIVATE:
+				# amount > 0 で時限ルール（秒）、それ以外は永続。
+				# 反応経由の時限活性化はコンボ系（rope → vibrator 等）の入り口。
+				GameState.add_rule(eff.target_id, float(eff.amount))
 
 
 # 選択肢の確定処理。プレイヤーが ReactionChoice を選んだら呼ぶ。
@@ -187,4 +191,6 @@ static func apply_choice(choice: ReactionChoice, op_id: StringName) -> String:
 				GameState.unlock_memory(eff.target_id)
 			Enums.EffectKind.CG_PLAY:
 				EventBus.cg_play_requested.emit(eff.target_id)
+			Enums.EffectKind.RULE_ACTIVATE:
+				GameState.add_rule(eff.target_id, float(eff.amount))
 	return choice.pick_response()

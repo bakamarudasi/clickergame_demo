@@ -25,6 +25,9 @@ var unlocked_memories: Array[StringName] = []
 
 # 永続的に有効なルール（ショップ購入で増える）
 var active_rules: Array[StringName] = []
+# 時限ルール用：rule_id -> 期限 (unix sec)。記載されてないルールは永続。
+# 時限切れは has_rule() 内で lazy に evict する（_process 不要）。
+var active_rule_expires: Dictionary = {}
 
 # 紳士眼鏡（Scope）の状態
 var owned_scopes: Array[StringName] = []
@@ -315,18 +318,38 @@ func record_gift(op_id: StringName, item_id: StringName) -> void:
 # --- ルール ---------------------------------------------------------------
 
 func has_rule(rule_id: StringName) -> bool:
-	return rule_id in active_rules
+	if not (rule_id in active_rules):
+		return false
+	# 時限ルール: 期限超過なら lazy に削除して false 返却。
+	# 反応 resolver も UI も毎回 has_rule() を通る前提で eviction を集約。
+	if active_rule_expires.has(rule_id):
+		if Time.get_unix_time_from_system() >= float(active_rule_expires[rule_id]):
+			remove_rule(rule_id)
+			return false
+	return true
 
-func add_rule(rule_id: StringName) -> void:
-	if rule_id == &"" or rule_id in active_rules:
+# duration_sec > 0 で時限ルール、それ以外（既定）は永続。
+# 既存ルール上書きは「期限延長」と扱う：同じ rule_id を更新時間で再活性化したい
+# ケース（例: rope 連続贈呈で combo 時計をリセット）に対応。
+func add_rule(rule_id: StringName, duration_sec: float = -1.0) -> void:
+	if rule_id == &"":
 		return
-	active_rules.append(rule_id)
-	EventBus.rule_activated.emit(rule_id)
+	var newly_activated := not (rule_id in active_rules)
+	if newly_activated:
+		active_rules.append(rule_id)
+	if duration_sec > 0.0:
+		active_rule_expires[rule_id] = Time.get_unix_time_from_system() + duration_sec
+	elif newly_activated:
+		# 永続活性化時は既存の期限を念のため消す
+		active_rule_expires.erase(rule_id)
+	if newly_activated:
+		EventBus.rule_activated.emit(rule_id)
 
 func remove_rule(rule_id: StringName) -> void:
 	if not (rule_id in active_rules):
 		return
 	active_rules.erase(rule_id)
+	active_rule_expires.erase(rule_id)
 	EventBus.rule_deactivated.emit(rule_id)
 
 
@@ -496,6 +519,7 @@ func serialize() -> Dictionary:
 		"seen_cgs": _stringname_array_to_string(seen_cgs),
 		"unlocked_memories": _stringname_array_to_string(unlocked_memories),
 		"active_rules": _stringname_array_to_string(active_rules),
+		"active_rule_expires": _stringname_keyed_to_string(active_rule_expires),
 		"owned_scopes": _stringname_array_to_string(owned_scopes),
 		"equipped_scope_id": String(equipped_scope_id),
 		"scope_battery_seconds": scope_battery_seconds,
@@ -525,6 +549,12 @@ func apply_snapshot(d: Dictionary) -> void:
 	seen_cgs = _to_stringname_array(d.get("seen_cgs", []))
 	unlocked_memories = _to_stringname_array(d.get("unlocked_memories", []))
 	active_rules = _to_stringname_array(d.get("active_rules", []))
+	# 時限ルールの期限を復元。値は float の unix sec。
+	active_rule_expires.clear()
+	var exp_in: Variant = d.get("active_rule_expires", {})
+	if typeof(exp_in) == TYPE_DICTIONARY:
+		for k in (exp_in as Dictionary).keys():
+			active_rule_expires[StringName(k)] = float((exp_in as Dictionary)[k])
 
 	owned_scopes = _to_stringname_array(d.get("owned_scopes", []))
 	equipped_scope_id = StringName(d.get("equipped_scope_id", ""))

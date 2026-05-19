@@ -1,0 +1,117 @@
+[gd_resource type="Resource" script_class="CGData" load_steps=12 format=3 uid="uid://cglembr030"]
+
+[ext_resource type="Script" path="res://scripts/data/cg_data.gd" id="1_cg"]
+[ext_resource type="Script" path="res://scripts/data/cg_step.gd" id="2_step"]
+
+[sub_resource type="Resource" id="step_01"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_01"
+sfx = null
+transition = 1
+
+[sub_resource type="Resource" id="step_02"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_02"
+sfx = null
+
+[sub_resource type="Resource" id="step_03"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_03"
+sfx = null
+
+[sub_resource type="Resource" id="step_04"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_04"
+sfx = null
+
+[sub_resource type="Resource" id="step_05"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"aroused"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_05"
+sfx = null
+
+[sub_resource type="Resource" id="step_06"]
+script = ExtResource("2_step")
+mode = 1
+cg_image = null
+image_path_hint = "art/cg/lemuen_bracelet_30.png"
+expression = &"aroused"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_06"
+sfx = null
+transition = 3
+transition_sec = 0.4
+
+[sub_resource type="Resource" id="step_07"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"aroused"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_07"
+sfx = null
+
+[sub_resource type="Resource" id="step_08"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"shy_smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_08"
+sfx = null
+
+[sub_resource type="Resource" id="step_09"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "OPERATOR_LEMUEN_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_09"
+sfx = null
+
+[sub_resource type="Resource" id="step_10"]
+script = ExtResource("2_step")
+mode = 0
+cg_image = null
+image_path_hint = ""
+expression = &"smile"
+speaker = "DOCTOR_NARRATION_NAME"
+dialogue = "DIALOGUE_LEMUEN_CG_BRACELET_30_10"
+sfx = null
+transition = 1
+
+[resource]
+script = ExtResource("1_cg")
+id = &"cg_lemuen_bracelet_30"
+operator_id = &"lemuen"
+stage_required = 3
+trigger_item_id = &"titanium_bracelet"
+caption = "CG_LEMUEN_BRACELET_30_CAPTION"
+steps = Array[Resource]([SubResource("step_01"), SubResource("step_02"), SubResource("step_03"), SubResource("step_04"), SubResource("step_05"), SubResource("step_06"), SubResource("step_07"), SubResource("step_08"), SubResource("step_09"), SubResource("step_10")])

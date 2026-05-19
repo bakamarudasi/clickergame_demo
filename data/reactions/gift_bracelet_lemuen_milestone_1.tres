@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=4 format=3 uid="uid://rrlembr0001"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="effect_cg"]
+script = ExtResource("2_eff")
+kind = 1
+amount = 0
+target_id = &"cg_lemuen_bracelet_1"
+
+[sub_resource type="Resource" id="effect_intimacy"]
+script = ExtResource("2_eff")
+kind = 8
+amount = 20
+target_id = &""
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &"titanium_bracelet"
+operator_id = &"lemuen"
+match_category = false
+min_trust = 50
+max_trust = 99999
+consecutive_count_min = 1
+consecutive_count_max = 1
+reaction = 1
+trust_delta = 10
+expression = &"shy_smile"
+dialogue = "DIALOGUE_LEMUEN_BRACELET_MILESTONE_1"
+side_effects = Array[Resource]([SubResource("effect_cg"), SubResource("effect_intimacy")])
+priority = 80

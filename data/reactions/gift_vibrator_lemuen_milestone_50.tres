@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=4 format=3 uid="uid://rrlemvib0050"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="effect_cg"]
+script = ExtResource("2_eff")
+kind = 1
+amount = 0
+target_id = &"cg_lemuen_vib_50"
+
+[sub_resource type="Resource" id="effect_arousal"]
+script = ExtResource("2_eff")
+kind = 9
+amount = 15
+target_id = &""
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &"closure_vibrator"
+operator_id = &"lemuen"
+match_category = false
+min_trust = 40
+max_trust = 99999
+consecutive_count_min = 50
+consecutive_count_max = 50
+reaction = 6
+trust_delta = 4
+expression = &"shy_smile"
+dialogue = "DIALOGUE_LEMUEN_VIB_MILESTONE_50"
+side_effects = Array[Resource]([SubResource("effect_cg"), SubResource("effect_arousal")])
+priority = 60

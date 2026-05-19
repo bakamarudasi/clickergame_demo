@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=4 format=3 uid="uid://rrlemcombrv0"]
+
+[ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
+[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
+
+[sub_resource type="Resource" id="effect_cg"]
+script = ExtResource("2_eff")
+kind = 1
+amount = 0
+target_id = &"cg_lemuen_combo_rope_vib"
+
+[sub_resource type="Resource" id="effect_arousal"]
+script = ExtResource("2_eff")
+kind = 9
+amount = 35
+target_id = &""
+
+[resource]
+script = ExtResource("1_rr")
+trigger_kind = 0
+trigger_id = &"closure_vibrator"
+operator_id = &"lemuen"
+match_category = false
+min_trust = 60
+max_trust = 99999
+requires_active_rules = Array[StringName]([&"rule_recently_roped"])
+reaction = 6
+trust_delta = 5
+expression = &"aroused"
+dialogue = "DIALOGUE_LEMUEN_COMBO_ROPE_VIB_INTRO"
+side_effects = Array[Resource]([SubResource("effect_cg"), SubResource("effect_arousal")])
+priority = 150
