@@ -23,6 +23,10 @@ static func resolve(
 	for rule: ReactionRule in DataRegistry.reactions:
 		if rule.trigger_kind != trigger_kind:
 			continue
+		# combo_item_ids が設定されてるルールは resolve_combo() 専用。
+		# 単発トリガーから引かれないようここで除外。
+		if not rule.combo_item_ids.is_empty():
+			continue
 		if rule.operator_id != &"" and rule.operator_id != op_id:
 			continue
 		if rule.match_category:
@@ -64,6 +68,70 @@ static func resolve(
 			best = rule
 			best_score = score
 	return best
+
+
+# コンボ用解決器。item_ids は呼出元で sorted/unique 化されてる前提。
+# combo_item_ids が完全一致するルールだけ候補にして、その他のゲート
+# （trust/intimacy/harassment/min_tier/min_bond/min_arousal/装備/xray
+#  /requires_active_rules/requires_cgs/requires_memories/probability）は
+# 通常 resolve と同じ順で評価する。consecutive は使わない（1 固定）。
+static func resolve_combo(op_id: StringName, item_ids: Array) -> ReactionRule:
+	if item_ids.is_empty():
+		return null
+	var rt := GameState.get_runtime(op_id)
+	var trust: int = rt.trust if rt != null else 0
+	var intimacy: int = rt.intimacy if rt != null else 0
+	var harassment: int = rt.harassment_counter if rt != null else 0
+	var equipped_costume: StringName = rt.equipped_costume if rt != null else &""
+
+	var best: ReactionRule = null
+	var best_score: int = -1
+	for rule: ReactionRule in DataRegistry.reactions:
+		if rule.combo_item_ids.is_empty():
+			continue
+		if not _array_set_equals(rule.combo_item_ids, item_ids):
+			continue
+		if rule.operator_id != &"" and rule.operator_id != op_id:
+			continue
+		if trust < rule.min_trust or trust > rule.max_trust:
+			continue
+		if intimacy < rule.min_intimacy:
+			continue
+		if harassment > rule.max_harassment:
+			continue
+		if GameState.prestige_count < rule.min_tier:
+			continue
+		if GameState.get_bond(op_id) < rule.min_bond:
+			continue
+		if rule.min_arousal > 0.0 and GameState.get_arousal(op_id) < rule.min_arousal:
+			continue
+		if rule.requires_equipped_costume != &"" and equipped_costume != rule.requires_equipped_costume:
+			continue
+		if rule.requires_xray_active and not GameState.xray_active:
+			continue
+		if not _all_active_rules_satisfied(rule.requires_active_rules):
+			continue
+		if not _all_unlocked(rule.requires_cgs, GameState.seen_cgs):
+			continue
+		if not _all_unlocked(rule.requires_memories, GameState.unlocked_memories):
+			continue
+		if rule.probability < 1.0 and randf() > rule.probability:
+			continue
+		var score := rule.priority * 100000 + _specificity(rule) + rule.combo_item_ids.size() * 200
+		if score > best_score:
+			best = rule
+			best_score = score
+	return best
+
+
+# 2 つの配列が「集合として」一致するかをチェック（呼出元で sorted/unique 済み前提）。
+static func _array_set_equals(a: Array, b: Array) -> bool:
+	if a.size() != b.size():
+		return false
+	for i in a.size():
+		if StringName(a[i]) != StringName(b[i]):
+			return false
+	return true
 
 
 # 全部 GameState.has_rule() を満たしてれば true。空配列ならゲートなしで true。

@@ -18,12 +18,13 @@ target_id = &""
 [resource]
 script = ExtResource("1_rr")
 trigger_kind = 0
-trigger_id = &"closure_vibrator"
+trigger_id = &""
 operator_id = &"lemuen"
 match_category = false
 min_trust = 60
 max_trust = 99999
-requires_active_rules = Array[StringName]([&"rule_recently_roped"])
+combo_item_ids = Array[StringName]([&"closure_vibrator", &"originium_rope"])
+recipe_known_rule = &"recipe_known_combo_rope_vib"
 reaction = 6
 trust_delta = 5
 expression = &"aroused"

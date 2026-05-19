@@ -23,6 +23,7 @@ enum ItemCategory {
 	INVITATION,
 	RULE,
 	SCOPE,
+	RECIPE,    # コンボレシピ（情報アイテム）。買うと recipe_known_* フラグが立つ
 }
 
 enum Reaction {

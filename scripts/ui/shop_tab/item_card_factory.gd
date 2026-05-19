@@ -21,6 +21,8 @@ const CATEGORY_ACCENTS := {
 	Enums.ItemCategory.INVITATION: Color(0.247, 0.663, 0.961, 1.0),
 	Enums.ItemCategory.RULE: Color(0.365, 0.812, 0.969, 1.0),
 	Enums.ItemCategory.SCOPE: Color(0.302, 0.816, 0.882, 1.0),
+	# レシピは紫寄り。RULE と区別したい時の手掛かり。
+	Enums.ItemCategory.RECIPE: Color(0.851, 0.620, 1.0, 1.0),
 }
 
 # カテゴリ別デフォルトアイコン。ItemData.icon が未設定なら category から引く。
@@ -38,6 +40,8 @@ const CATEGORY_ICONS := {
 	Enums.ItemCategory.INVITATION: preload("res://assets/items/category/cat_invitation.svg"),
 	Enums.ItemCategory.RULE: preload("res://assets/items/category/cat_rule.svg"),
 	Enums.ItemCategory.SCOPE: preload("res://assets/items/category/cat_scope.svg"),
+	# レシピアイコン未制作。とりあえず RULE のアイコンを流用しておく。
+	Enums.ItemCategory.RECIPE: preload("res://assets/items/category/cat_rule.svg"),
 }
 const CARD_ICON_SIZE := 78
 const BUY_BUTTON_HEIGHT := 32

@@ -1,13 +1,6 @@
-[gd_resource type="Resource" script_class="ReactionRule" load_steps=3 format=3 uid="uid://rrgift07"]
+[gd_resource type="Resource" script_class="ReactionRule" load_steps=2 format=3 uid="uid://rrgift07"]
 
 [ext_resource type="Script" path="res://scripts/data/reaction_rule.gd" id="1_rr"]
-[ext_resource type="Script" path="res://scripts/data/item_effect.gd" id="2_eff"]
-
-[sub_resource type="Resource" id="combo_arm"]
-script = ExtResource("2_eff")
-kind = 5
-amount = 300
-target_id = &"rule_recently_roped"
 
 [resource]
 script = ExtResource("1_rr")
@@ -22,5 +15,4 @@ reaction = 1
 trust_delta = 2
 expression = &"smile"
 dialogue = "DIALOGUE_LEMUEN_GIFT_ROPE_T0"
-side_effects = Array[Resource]([SubResource("combo_arm")])
 priority = 10

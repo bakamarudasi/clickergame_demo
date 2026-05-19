@@ -216,6 +216,19 @@ CATEGORY_COS_PARTS,パーツ,Parts,配件
 CATEGORY_INVITATION,招待状,Invitations,邀请函
 CATEGORY_RULE,規則,Rules,规则
 CATEGORY_SCOPE,紳士枠,Scope,绅士眼镜
+CATEGORY_RECIPE,レシピ,Recipes,配方
+ITEM_RECIPE_ROPE_VIB_NAME,レシピ：拘束と振動,"Recipe: Bondage & Vibration","配方：束缚与振动"
+ITEM_RECIPE_ROPE_VIB_DESC,「レミュアンに『ロープ』と『バイブ』を同時に渡せ」――研究者が遺した走り書き。コンボレシピ図鑑にこの組み合わせが永続開示される。買わなくても入力で発火するが、知ってる方が見栄えする。,"""Give Lemuen the Rope and Vibrator together"" — a scrawled note left by a researcher. Permanently reveals this combination in the recipe browser. The combo fires regardless, but it looks classier when you know it.","「同时把『绳索』和『振动器』递给雷穆安」——某研究员留下的潦草手记。永久解锁配方图鉴中的此组合。即便不知道配方，组合也能触发，但知道了更显内行。"
+ROOM_COMBO_SLOT_HEADER,コンボ,Combo,组合
+ROOM_COMBO_SLOT_EMPTY,（空き）,(empty),（空）
+ROOM_COMBO_EXECUTE_BUTTON,🎁 コンボで渡す,🎁 Give as Combo,🎁 组合赠送
+ROOM_COMBO_RECIPE_CHIP_FMT,📖 既知 %d / %d,📖 Known %d / %d,📖 已知 %d / %d
+ROOM_RECIPE_DIALOG_TITLE,コンボレシピ,Combo Recipes,组合配方
+ROOM_RECIPE_UNKNOWN_LINE,??? + ???,??? + ???,??? + ???
+ROOM_RECIPE_UNKNOWN_HINT,（Shop でレシピを購入すると開示）,(Buy the recipe in Shop to reveal),（在商店购买配方即可解锁）
+ROOM_RECIPE_DIALOG_CLOSE,閉じる,Close,关闭
+TOAST_COMBO_ITEM_MISSING,⛔ アイテム不足,⛔ Items missing,⛔ 物品不足
+TOAST_COMBO_NO_REACTION,⚠ 反応なし。組み合わせが噛み合わなかった,⚠ No reaction. The pairing didn't take,⚠ 没有反应。组合不奏效
 SHOP_PRICE_TAG_FMT,¥%s,¥%s,¥%s
 SHOP_PRICE_OWNED,所持済,Owned,已持有
 SHOP_BUY_BUTTON_OWNED,所持済,Owned,已持有

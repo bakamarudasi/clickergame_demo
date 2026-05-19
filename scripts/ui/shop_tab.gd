@@ -24,6 +24,7 @@ const CATEGORY_ENTRIES := [
 	{ "label_key": "CATEGORY_INVITATION", "value": Enums.ItemCategory.INVITATION },
 	{ "label_key": "CATEGORY_RULE", "value": Enums.ItemCategory.RULE },
 	{ "label_key": "CATEGORY_SCOPE", "value": Enums.ItemCategory.SCOPE },
+	{ "label_key": "CATEGORY_RECIPE", "value": Enums.ItemCategory.RECIPE },
 ]
 
 var _selected_category: int = Enums.ItemCategory.DAILY

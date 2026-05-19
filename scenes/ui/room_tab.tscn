@@ -391,6 +391,38 @@ layout_mode = 2
 theme_type_variation = &"AccentButton"
 text = "ROOM_GIVE_BUTTON"
 
+[node name="ComboHBox" type="HBoxContainer" parent="HBox/CenterPanel/ActionBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="ComboSlot1" type="OptionButton" parent="HBox/CenterPanel/ActionBar/ComboHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ComboSlot2" type="OptionButton" parent="HBox/CenterPanel/ActionBar/ComboHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ComboSlot3" type="OptionButton" parent="HBox/CenterPanel/ActionBar/ComboHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ComboExecuteButton" type="Button" parent="HBox/CenterPanel/ActionBar/ComboHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AccentButton"
+text = "ROOM_COMBO_EXECUTE_BUTTON"
+
+[node name="ComboRecipeChip" type="Button" parent="HBox/CenterPanel/ActionBar/ComboHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PillButton"
+text = "ROOM_COMBO_RECIPE_CHIP_FMT"
+
 [node name="InspectionButton" type="Button" parent="HBox/CenterPanel/ActionBar"]
 unique_name_in_owner = true
 layout_mode = 2

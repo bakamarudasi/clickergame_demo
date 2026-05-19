@@ -24,6 +24,18 @@ extends Resource
 @export var requires_equipped_costume: StringName = &""   # 装備中衣装が一致してないと発火しない
 @export var requires_xray_active: bool = false             # 紳士眼鏡 ON 必須
 
+# --- コンボ（複数アイテム同時使用） -------------------------------------
+# 空でないとき、このルールは「コンボ反応」になる。
+# 入力アイテムIDの sorted/unique 配列がこれと完全一致したときだけ発火対象。
+# 単発ギフトとは別ルートで CombineService から resolve_combo() に流れる。
+# 例: [&"closure_vibrator", &"originium_rope"] （ソート済み）
+@export var combo_item_ids: Array[StringName] = []
+
+# レシピ既知フラグの rule_id。Shopでレシピアイテムを買うと RULE_ACTIVATE で
+# このフラグが永続 ON になる → レシピ閲覧 UI で内容を開示する。
+# 空文字なら「レシピが存在しない隠しコンボ」扱い（モーダルでも常時シルエット）。
+@export var recipe_known_rule: StringName = &""
+
 # --- コンテンツ・コンボゲート（全て AND 評価） ----------------------------
 # requires_active_rules はアイテム使用などで立てた active rule を AND で要求する。
 # 例: ロープ + 目隠し両方使った後にしか発火しない反応 →
